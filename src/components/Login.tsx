@@ -18,6 +18,8 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const heroSrc = `${import.meta.env.BASE_URL}assets/login-hero.png`;
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
+  const isFilled = email.trim().length > 0 && password.trim().length > 0;
+
   return (
     <div className="min-h-screen w-full bg-white flex items-center justify-center">
       {/* Main container matching EVR - 02 (1550 x 1024 proportions) */}
@@ -106,10 +108,14 @@ export const Login: React.FC<LoginProps> = ({ onLogin }) => {
               </label>
             </div>
 
-            {/* Button: Iniciar sesión (452 x 48, Pink/Pink-700 #d50475) */}
+            {/* Button: Iniciar sesión (452 x 48, Pink/Pink-700 when filled, gray #cbd5e1 when empty) */}
             <button
               type="submit"
-              className="w-full h-[48px] bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white text-[16px] leading-[24px] font-bold rounded-[8px] transition-colors flex items-center justify-center mb-[32px] cursor-pointer"
+              className={`w-full h-[48px] text-[16px] leading-[24px] font-bold rounded-[8px] transition-colors flex items-center justify-center mb-[32px] cursor-pointer ${
+                isFilled
+                  ? 'bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white'
+                  : 'bg-[#cbd5e1] hover:bg-[#94a3b8] text-white'
+              }`}
             >
               Iniciar sesión
             </button>

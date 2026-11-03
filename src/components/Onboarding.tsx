@@ -41,6 +41,9 @@ export const Onboarding: React.FC<OnboardingProps> = ({
   const hasNumber = /\d/.test(password);
   const hasSpecial = /[@$!%*?&]/.test(password);
 
+  const isStep2Filled = email.trim().length > 0 && phone.trim().length > 0 && password.trim().length > 0;
+  const isStep3Filled = firstName.trim().length > 0 && lastName.trim().length > 0;
+
   return (
     <div className="min-h-screen w-full bg-white flex flex-col">
       {/* Top Header (height 48px, centered 800px content) */}
@@ -308,7 +311,11 @@ export const Onboarding: React.FC<OnboardingProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="h-[36px] px-[16px] rounded-[6px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] leading-[20px] font-medium transition-colors cursor-pointer"
+                  className={`h-[36px] px-[16px] rounded-[6px] text-white text-[14px] leading-[20px] font-medium transition-colors cursor-pointer ${
+                    isStep2Filled
+                      ? 'bg-[#d50475] hover:bg-[#b80364]'
+                      : 'bg-[#cbd5e1] hover:bg-[#94a3b8]'
+                  }`}
                 >
                   Continuar
                 </button>
@@ -583,7 +590,11 @@ export const Onboarding: React.FC<OnboardingProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="h-[36px] px-[16px] rounded-[6px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] leading-[20px] font-medium transition-colors cursor-pointer"
+                  className={`h-[36px] px-[16px] rounded-[6px] text-white text-[14px] leading-[20px] font-medium transition-colors cursor-pointer ${
+                    isStep3Filled
+                      ? 'bg-[#d50475] hover:bg-[#b80364]'
+                      : 'bg-[#cbd5e1] hover:bg-[#94a3b8]'
+                  }`}
                 >
                   Finalizar
                 </button>
