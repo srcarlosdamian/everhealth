@@ -22,8 +22,8 @@
   --green-700: #15803d;
   --red-700: #b91c1c;
 
-  /* Font Family (Google Fonts substitute for Helvetica with weight 900 support) */
-  --font-sans: 'Inter', 'Arimo', Helvetica, Arial, sans-serif;
+  /* Font Family: Helvetica first (native + CDNFonts API), Arimo/Arial fallback */
+  --font-sans: 'Helvetica Neue', 'Helvetica', 'Arimo', Arial, sans-serif;
 }
 
 body {

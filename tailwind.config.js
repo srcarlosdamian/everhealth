@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['"Arimo"', '"Inter"', 'Helvetica', 'Arial', 'sans-serif'],
+        sans: ['"Helvetica Neue"', 'Helvetica', '"Arimo"', 'Arial', 'sans-serif'],
       },
       colors: {
         ever: {
