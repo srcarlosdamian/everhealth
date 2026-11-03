@@ -22,8 +22,8 @@
   --green-700: #15803d;
   --red-700: #b91c1c;
 
-  /* Font Family: Helvetica first (native + CDNFonts API), Arimo/Arial fallback */
-  --font-sans: 'Helvetica Neue', 'Helvetica', 'Arimo', Arial, sans-serif;
+  /* Font Family: Helvetica (native system font), Arial, Arimo fallback */
+  --font-sans: Helvetica, Arial, 'Arimo', sans-serif;
 }
 
 body {
