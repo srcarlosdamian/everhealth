@@ -182,7 +182,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
                 className="w-[237px] h-[124px] object-contain shrink-0"
               />
               <div className="flex flex-col gap-[6px]">
-                <h1 className="text-[28px] sm:text-[36px] leading-[34px] sm:leading-[40px] font-black text-black">
+                <h1 className="text-[28px] sm:text-[36px] leading-[34px] sm:leading-[40px] font-bold text-black">
                   Bienvenido {displayName}
                 </h1>
                 <p className="text-[18px] sm:text-[20px] leading-[28px] font-normal text-black max-w-[677px]">

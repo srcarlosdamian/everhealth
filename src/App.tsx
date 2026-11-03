@@ -9,7 +9,6 @@ export function App() {
   const [view, setView] = useState<ViewState>('login');
   const [email, setEmail] = useState<string>('');
   const [userName, setUserName] = useState<string>('Carlos Damián');
-  const [customHeroImage, setCustomHeroImage] = useState<string | null>(null);
 
   const handleLogin = (submittedEmail: string) => {
     setEmail(submittedEmail);
@@ -29,11 +28,7 @@ export function App() {
   return (
     <div className="min-h-screen bg-white text-black">
       {view === 'login' && (
-        <Login
-          onLogin={handleLogin}
-          customHeroImage={customHeroImage}
-          onChangeHeroImage={setCustomHeroImage}
-        />
+        <Login onLogin={handleLogin} />
       )}
 
       {view === 'onboarding' && (

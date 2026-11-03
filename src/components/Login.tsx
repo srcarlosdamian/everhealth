@@ -1,21 +1,13 @@
-import React, { useState, useRef } from 'react';
-import { ImagePlus } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface LoginProps {
   onLogin: (email: string) => void;
-  customHeroImage: string | null;
-  onChangeHeroImage: (dataUrl: string) => void;
 }
 
-export const Login: React.FC<LoginProps> = ({
-  onLogin,
-  customHeroImage,
-  onChangeHeroImage,
-}) => {
+export const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,19 +15,7 @@ export const Login: React.FC<LoginProps> = ({
     onLogin(email || 'usuario@everhealth.com');
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        onChangeHeroImage(reader.result);
-      }
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const heroSrc = customHeroImage || `${import.meta.env.BASE_URL}assets/login-hero.png`;
+  const heroSrc = `${import.meta.env.BASE_URL}assets/login-hero.png`;
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
   return (
@@ -44,28 +24,12 @@ export const Login: React.FC<LoginProps> = ({
       <div className="w-full max-w-[1550px] min-h-screen lg:min-h-[1024px] flex flex-col lg:flex-row items-center justify-center lg:justify-between px-6 sm:px-12 lg:px-[124px] py-10 lg:py-[124px] gap-10 lg:gap-[80px]">
         
         {/* Left Image Frame (Frame 6: 722 x 776) */}
-        <div className="relative group w-full max-w-[722px] lg:w-[722px] h-[420px] sm:h-[580px] lg:h-[776px] shrink-0 overflow-hidden bg-[#f8fafc]">
+        <div className="w-full max-w-[722px] lg:w-[722px] h-[420px] sm:h-[580px] lg:h-[776px] shrink-0 overflow-hidden bg-[#f8fafc]">
           <img
             src={heroSrc}
             alt="Bienvenida a Ever Health"
             className="w-full h-full object-cover object-center"
           />
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            className="hidden"
-          />
-          <button
-            type="button"
-            onClick={() => fileInputRef.current?.click()}
-            title="Cambiar imagen (prototipo)"
-            className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-white/90 hover:bg-white text-[#0f172a] text-xs font-bold px-3 py-2 rounded-md shadow-sm border border-[#cbd5e1] flex items-center gap-2"
-          >
-            <ImagePlus className="w-4 h-4 text-[#d50475]" />
-            Cambiar imagen
-          </button>
         </div>
 
         {/* Right Login Form Frame (Frame 5: 500 x 653, internal padding 24px -> 452px content width) */}
@@ -81,10 +45,10 @@ export const Login: React.FC<LoginProps> = ({
 
           {/* Frame 8: Heading Group */}
           <div className="flex flex-col gap-[8px] mb-[32px]">
-            <span className="text-[14px] leading-[20px] font-black tracking-[0px] text-black uppercase">
+            <span className="text-[14px] leading-[20px] font-bold tracking-[0px] text-black uppercase">
               INICIA SESIÓN
             </span>
-            <h1 className="text-[36px] leading-[40px] font-black tracking-[0px] text-black">
+            <h1 className="text-[36px] leading-[40px] font-bold tracking-[0px] text-black">
               Te damos la bienvenida a tu portal de salud
             </h1>
           </div>

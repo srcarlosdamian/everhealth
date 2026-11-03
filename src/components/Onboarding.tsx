@@ -75,14 +75,14 @@ export const Onboarding: React.FC<OnboardingProps> = ({
                   TÉRMINOS Y CONDICIONES DEL CLIENTE
                 </h1>
                 <div className="flex items-center gap-[8px] text-[14px] leading-[20px]">
-                  <span className="font-black text-black">PASO 1/3</span>
+                  <span className="font-bold text-black">PASO 1/3</span>
                   <span className="font-normal text-black">REVISA Y ACEPTA</span>
                 </div>
               </div>
 
               {/* Section 1: AVISO IMPORTANTE */}
               <div className="flex flex-col gap-[8px] mb-[32px]">
-                <h2 className="text-[20px] leading-[28px] font-black text-black">
+                <h2 className="text-[20px] leading-[28px] font-bold text-black">
                   AVISO IMPORTANTE
                 </h2>
                 <div className="text-[16px] leading-[24px] font-normal text-black space-y-1">
@@ -98,7 +98,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({
 
               {/* Section 2: ACEPTACIÓN Y AUTORIZACIÓN */}
               <div className="flex flex-col gap-[8px] mb-[32px]">
-                <h2 className="text-[20px] leading-[28px] font-black text-black">
+                <h2 className="text-[20px] leading-[28px] font-bold text-black">
                   ACEPTACIÓN Y AUTORIZACIÓN
                 </h2>
                 <p className="text-[16px] leading-[24px] font-normal text-black">
@@ -108,7 +108,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({
 
               {/* Section 3: CONTENIDO DEL SITIO WEB */}
               <div className="flex flex-col gap-[8px] mb-[32px]">
-                <h2 className="text-[20px] leading-[28px] font-black text-black">
+                <h2 className="text-[20px] leading-[28px] font-bold text-black">
                   CONTENIDO DEL SITIO WEB
                 </h2>
                 <div className="text-[16px] leading-[24px] font-normal text-black space-y-4">
@@ -163,7 +163,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({
                   Seguridad de la cuenta
                 </h1>
                 <div className="flex items-center gap-[8px] text-[14px] leading-[20px]">
-                  <span className="font-black text-black">PASO 2/3</span>
+                  <span className="font-bold text-black">PASO 2/3</span>
                   <span className="font-normal text-black">COMPLETA TU REGISTRO</span>
                 </div>
               </div>
@@ -218,7 +218,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({
               </div>
 
               {/* Section Subtitle: Contraseña */}
-              <h2 className="text-[20px] leading-[28px] font-black text-black mb-[32px]">
+              <h2 className="text-[20px] leading-[28px] font-bold text-black mb-[32px]">
                 Contraseña
               </h2>
 
@@ -342,13 +342,13 @@ export const Onboarding: React.FC<OnboardingProps> = ({
                   Cuéntanos un poco sobre ti
                 </h1>
                 <div className="flex items-center gap-[8px] text-[14px] leading-[20px]">
-                  <span className="font-black text-black">PASO 3/3</span>
+                  <span className="font-bold text-black">PASO 3/3</span>
                   <span className="font-normal text-black">REVISA TUS DATOS</span>
                 </div>
               </div>
 
               {/* Section: Tus datos personales */}
-              <h2 className="text-[20px] leading-[28px] font-black text-black mb-[32px]">
+              <h2 className="text-[20px] leading-[28px] font-bold text-black mb-[32px]">
                 Tus datos personales
               </h2>
 
@@ -403,7 +403,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({
               </div>
 
               {/* Section: Fecha de nacimiento */}
-              <h2 className="text-[20px] leading-[28px] font-black text-black mb-[32px]">
+              <h2 className="text-[20px] leading-[28px] font-bold text-black mb-[32px]">
                 Fecha de nacimiento
               </h2>
 
@@ -482,7 +482,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({
               </div>
 
               {/* Section: Ubicación y zona horaria */}
-              <h2 className="text-[20px] leading-[28px] font-black text-black mb-[32px]">
+              <h2 className="text-[20px] leading-[28px] font-bold text-black mb-[32px]">
                 Ubicación y zona horaria
               </h2>
 
