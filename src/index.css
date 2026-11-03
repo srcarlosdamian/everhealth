@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Ever Health Design System Tokens (from Figma) */
+  --base-black: #000000;
+  --base-white: #ffffff;
+  --pink-700: #d50475;
+  --pink-500: #ff34b2;
+  --pink-300: #ff9edf;
+  --pink-200: #ffcaef;
+  --bluegray-50: #f8fafc;
+  --bluegray-100: #f1f5f9;
+  --bluegray-200: #e2e8f0;
+  --bluegray-300: #cbd5e1;
+  --bluegray-400: #94a3b8;
+  --bluegray-500: #64748b;
+  --bluegray-600: #475569;
+  --bluegray-700: #334155;
+  --bluegray-900: #0f172a;
+  --green-700: #15803d;
+  --red-700: #b91c1c;
+
+  /* Font Family (Google Fonts substitute for Helvetica with weight 900 support) */
+  --font-sans: 'Inter', 'Arimo', Helvetica, Arial, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--base-black);
+  background-color: var(--base-white);
+  margin: 0;
+  padding: 0;
+}
