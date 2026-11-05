@@ -155,26 +155,23 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
         </div>
       </section>
 
-      {/* Card 3: Escaneo biométrico (En una sola línea, sin cortes) */}
-      <section className="w-full bg-white rounded-[8px] px-6 py-4 sm:py-[18px] border border-[#e2e8f0] flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div className="flex items-center gap-3 min-w-0 flex-1">
-          <ScanFace className="w-[20px] h-[20px] text-[#d50475] shrink-0" />
-          <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 truncate">
-            <h2 className="text-[16px] leading-[22px] font-bold text-black shrink-0">
-              Escaneo biométrico:
-            </h2>
-            <p className="text-[13px] leading-[20px] text-[#475569] truncate">
-              Mide tus signos vitales y pulso en segundos usando la cámara.
-            </p>
-          </div>
+      {/* Card 3: Escaneo biométrico (Título arriba, descripción de una línea abajo, sin icono a la izquierda; icono nativo lucide/scan-face en el botón) */}
+      <section className="w-full bg-white rounded-[8px] p-5 sm:p-[24px] border border-[#e2e8f0] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="flex flex-col gap-[4px] min-w-0 flex-1">
+          <h2 className="text-[20px] leading-[28px] font-bold text-black tracking-tight">
+            Escaneo biométrico
+          </h2>
+          <p className="text-[14px] leading-[22px] text-[#475569]">
+            Mide tus signos vitales y pulso en segundos usando la cámara para complementar tu expediente.
+          </p>
         </div>
 
         <button
           type="button"
-          className="h-[36px] px-[16px] rounded-[6px] border border-[#cbd5e1] hover:border-[#d50475] bg-white hover:bg-[#fdf2f8] text-[#d50475] text-[13px] leading-[20px] font-bold flex items-center gap-[8px] transition-colors cursor-pointer shrink-0"
+          className="h-[38px] px-[14px] rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-white hover:bg-[#fdf2f8] text-[#d50475] text-[14px] leading-[20px] font-bold flex items-center gap-[8px] transition-colors cursor-pointer shrink-0"
         >
-          <ScanFace className="w-[16px] h-[16px]" />
-          <span>INICIAR ESCANEO</span>
+          <ScanFace className="w-[20px] h-[20px] text-[#d50475] stroke-[2]" />
+          <span className="whitespace-nowrap">INICIAR ESCANEO</span>
         </button>
       </section>
 

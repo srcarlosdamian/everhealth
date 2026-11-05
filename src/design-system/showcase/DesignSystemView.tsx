@@ -261,20 +261,26 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
           {activeTab === 'organismos' && (
             <div className="space-y-6">
               <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
-                <h3 className="text-[15px] font-bold text-black mb-1">Organismo: Escaneo Biométrico (Una sola línea)</h3>
+                <h3 className="text-[15px] font-bold text-black mb-1">Organismo: Escaneo Biométrico (Figma EVR - 100)</h3>
                 <p className="text-[12px] text-[#64748b] mb-4">
-                  Diseño condensado y directo para evitar saltos de línea innecesarios.
+                  Título arriba, descripción de una línea abajo sin icono a la izquierda. Botón con icono nativo Lucide (scan-face).
                 </p>
-                <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3">
-                    <ScanFace className="w-5 h-5 text-[#d50475]" />
-                    <span className="text-[14px] font-bold text-black">
-                      Escaneo biométrico · Mide tus signos vitales y pulso en segundos con la cámara
-                    </span>
+                <div className="border border-[#e2e8f0] rounded-[8px] p-5 bg-white flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                  <div className="flex flex-col gap-1">
+                    <h4 className="text-[18px] font-bold text-black">
+                      Escaneo biométrico
+                    </h4>
+                    <p className="text-[14px] text-[#475569]">
+                      Mide tus signos vitales y pulso en segundos usando la cámara para complementar tu expediente.
+                    </p>
                   </div>
-                  <Button variant="secondary" className="shrink-0">
-                    <span>INICIAR ESCANEO</span>
-                  </Button>
+                  <button
+                    type="button"
+                    className="h-[38px] px-3.5 rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-white hover:bg-[#fdf2f8] text-[#d50475] text-[13px] font-bold flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+                  >
+                    <ScanFace className="w-5 h-5 text-[#d50475] stroke-[2]" />
+                    <span className="whitespace-nowrap">INICIAR ESCANEO</span>
+                  </button>
                 </div>
               </div>
 
