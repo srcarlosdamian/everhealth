@@ -22,12 +22,12 @@
   --green-700: #15803d;
   --red-700: #b91c1c;
 
-  /* Font Family: Helvetica (native system font), Arial, Arimo fallback */
-  --font-sans: Helvetica, Arial, 'Arimo', sans-serif;
+  /* Font Family: Exclusivamente Helvetica */
+  --font-sans: 'Helvetica', 'Helvetica Neue', sans-serif;
 }
 
-body {
-  font-family: var(--font-sans);
+body, button, input, textarea, select {
+  font-family: 'Helvetica', 'Helvetica Neue', sans-serif;
   color: var(--base-black);
   background-color: var(--base-white);
   margin: 0;

@@ -63,7 +63,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
             <div
               className={`w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all ${
                 isStep1Done
-                  ? 'bg-[#70083a] text-white shadow-xs'
+                  ? 'bg-[#831843] text-white shadow-xs'
                   : 'border-2 border-[#cbd5e1] bg-[#f8fafc] text-[#94a3b8]'
               }`}
             >
@@ -76,14 +76,14 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
 
             {/* Vertical connector line 1 */}
             <div className={`w-[2px] flex-1 min-h-[140px] my-1 transition-colors ${
-              isStep1Done ? 'bg-[#70083a]/30' : 'bg-[#e2e8f0]'
+              isStep1Done ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
             }`} />
 
             {/* Step 2 Check */}
             <div
               className={`w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all ${
                 isStep2Done
-                  ? 'bg-[#70083a] text-white shadow-xs'
+                  ? 'bg-[#831843] text-white shadow-xs'
                   : 'border-2 border-[#cbd5e1] bg-[#f8fafc] text-[#94a3b8]'
               }`}
             >
@@ -96,14 +96,14 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
 
             {/* Vertical connector line 2 */}
             <div className={`w-[2px] flex-1 min-h-[200px] my-1 transition-colors ${
-              isStep2Done ? 'bg-[#70083a]/30' : 'bg-[#e2e8f0]'
+              isStep2Done ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
             }`} />
 
             {/* Step 3 Check */}
             <div
               className={`w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all ${
                 isStep3Done
-                  ? 'bg-[#70083a] text-white shadow-xs'
+                  ? 'bg-[#831843] text-white shadow-xs'
                   : 'border-2 border-[#cbd5e1] bg-[#f8fafc] text-[#94a3b8]'
               }`}
             >
@@ -129,7 +129,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                 placeholder="Describe tus síntomas o motivo (ej. Consulta general para revisión)..."
                 className={`w-full p-[12px] rounded-[6px] border text-[14px] text-black focus:outline-none transition-colors ${
                   motivo.trim().length > 0
-                    ? 'border-[#cbd5e1] focus:border-[#70083a]'
+                    ? 'border-[#cbd5e1] focus:border-[#831843]'
                     : 'border-[#cbd5e1] focus:border-[#d50475]'
                 }`}
               />
@@ -149,7 +149,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                     onClick={() => setSelectedSpecialty(spec)}
                     className={`p-[10px] rounded-[6px] border flex items-center gap-[10px] cursor-pointer transition-colors ${
                       selectedSpecialty === spec
-                        ? 'border-[#70083a] bg-[#fdf2f8]/50'
+                        ? 'border-[#831843] bg-[#fdf2f8]/50'
                         : 'border-[#cbd5e1] hover:bg-[#f8fafc]'
                     }`}
                   >
@@ -157,7 +157,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                       type="checkbox"
                       checked={selectedSpecialty === spec}
                       onChange={() => setSelectedSpecialty(spec)}
-                      className="w-[16px] h-[16px] accent-[#70083a] rounded-[3px]"
+                      className="w-[16px] h-[16px] accent-[#831843] rounded-[3px]"
                     />
                     <span className="text-[14px] font-normal text-black">{spec}</span>
                   </label>
@@ -202,7 +202,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                     <button
                       type="button"
                       onClick={() => setSelectedDay(17)}
-                      className="w-6 h-6 mx-auto rounded-full bg-[#70083a] text-white font-bold flex items-center justify-center cursor-pointer shadow-xs"
+                      className="w-6 h-6 mx-auto rounded-full bg-[#831843] text-white font-bold flex items-center justify-center cursor-pointer shadow-xs"
                     >
                       17
                     </button>
@@ -220,7 +220,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                       onClick={() => setSelectedTime(time)}
                       className={`h-[36px] rounded-[6px] border text-[13px] font-medium transition-colors cursor-pointer ${
                         selectedTime === time
-                          ? 'border-[#70083a] bg-[#fdf2f8] text-[#70083a] font-bold'
+                          ? 'border-[#831843] bg-[#fdf2f8] text-[#831843] font-bold'
                           : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black'
                       }`}
                     >
@@ -232,7 +232,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
             </div>
 
             {/* Selected appointment banner */}
-            <div className="bg-[#fdf2f8] rounded-[6px] px-[14px] py-[10px] flex items-center justify-between text-[13px] text-[#70083a]">
+            <div className="bg-[#fdf2f8] rounded-[6px] px-[14px] py-[10px] flex items-center justify-between text-[13px] text-[#831843]">
               <div className="flex items-center gap-[8px] font-bold">
                 <CalendarIcon className="w-[16px] h-[16px]" />
                 <span>Cita seleccionada</span>

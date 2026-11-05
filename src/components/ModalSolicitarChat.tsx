@@ -98,24 +98,24 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
           {/* Stepper Track with 900 Magenta Checks and Connecting Lines */}
           <div className="flex flex-col items-center pt-1 shrink-0 w-[28px]">
             {/* Step 1 */}
-            <div className="w-[26px] h-[26px] rounded-full bg-[#70083a] text-white flex items-center justify-center shadow-xs">
+            <div className="w-[26px] h-[26px] rounded-full bg-[#831843] text-white flex items-center justify-center shadow-xs">
               <Check className="w-[14px] h-[14px] stroke-[3]" />
             </div>
-            <div className="w-[2px] flex-1 min-h-[90px] my-1 bg-[#70083a]/30" />
+            <div className="w-[2px] flex-1 min-h-[90px] my-1 bg-[#831843]/30" />
 
             {/* Step 2 */}
-            <div className="w-[26px] h-[26px] rounded-full bg-[#70083a] text-white flex items-center justify-center shadow-xs">
+            <div className="w-[26px] h-[26px] rounded-full bg-[#831843] text-white flex items-center justify-center shadow-xs">
               <Check className="w-[14px] h-[14px] stroke-[3]" />
             </div>
             <div className={`w-[2px] flex-1 min-h-[110px] my-1 transition-colors ${
-              isStep3Done ? 'bg-[#70083a]/30' : 'bg-[#e2e8f0]'
+              isStep3Done ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
             }`} />
 
             {/* Step 3 (Motivo) */}
             <div
               className={`w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all ${
                 isStep3Done
-                  ? 'bg-[#70083a] text-white shadow-xs'
+                  ? 'bg-[#831843] text-white shadow-xs'
                   : 'border-2 border-[#cbd5e1] bg-[#f8fafc] text-[#94a3b8]'
               }`}
             >
@@ -128,7 +128,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
             <div className="w-[2px] flex-1 min-h-[120px] my-1 bg-[#e2e8f0]" />
 
             {/* Step 4 */}
-            <div className="w-[26px] h-[26px] rounded-full bg-[#70083a] text-white flex items-center justify-center shadow-xs">
+            <div className="w-[26px] h-[26px] rounded-full bg-[#831843] text-white flex items-center justify-center shadow-xs">
               <Check className="w-[14px] h-[14px] stroke-[3]" />
             </div>
           </div>
@@ -174,7 +174,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                     onClick={() => setSelectedSpecialty(spec)}
                     className={`p-2.5 rounded-[6px] border flex items-center gap-2.5 cursor-pointer text-[13px] transition-colors ${
                       selectedSpecialty === spec
-                        ? 'border-[#70083a] bg-[#fdf2f8]/50 text-black font-medium'
+                        ? 'border-[#831843] bg-[#fdf2f8]/50 text-black font-medium'
                         : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black'
                     }`}
                   >
@@ -182,7 +182,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                       type="checkbox"
                       checked={selectedSpecialty === spec}
                       onChange={() => setSelectedSpecialty(spec)}
-                      className="w-4 h-4 accent-[#70083a] rounded"
+                      className="w-4 h-4 accent-[#831843] rounded"
                     />
                     <span>{spec}</span>
                   </label>
@@ -199,7 +199,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                 value={motivoChat}
                 onChange={(e) => setMotivoChat(e.target.value)}
                 placeholder="Escribe brevemente tu duda médica..."
-                className="w-full p-2.5 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#70083a] transition-colors"
+                className="w-full p-2.5 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#831843] transition-colors"
               />
             </div>
 
@@ -229,7 +229,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                               onClick={() => setSelectedTime(slot)}
                               className={`h-[28px] rounded-[4px] border text-[11px] font-medium transition-colors cursor-pointer ${
                                 selectedTime === slot && idx === 1
-                                  ? 'border-[#70083a] text-[#70083a] font-bold bg-[#fdf2f8]'
+                                  ? 'border-[#831843] text-[#831843] font-bold bg-[#fdf2f8]'
                                   : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black'
                               }`}
                             >
@@ -247,7 +247,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                   </button>
                 </div>
 
-                <div className="bg-[#fdf2f8] rounded-[6px] px-3 py-2 flex items-center justify-between text-[12px] text-[#70083a] mt-1">
+                <div className="bg-[#fdf2f8] rounded-[6px] px-3 py-2 flex items-center justify-between text-[12px] text-[#831843] mt-1">
                   <div className="flex items-center gap-1.5 font-bold">
                     <CalendarIcon className="w-4 h-4" />
                     <span>Cita seleccionada</span>
@@ -264,13 +264,13 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                   <span className="text-[12px] text-[#64748b]">Canal de atención inmediata</span>
                 </div>
 
-                <div className="bg-[#fdf2f8] rounded-[6px] px-3 py-2.5 flex items-center justify-between text-[13px] text-[#70083a] border border-[#fce7f3]">
+                <div className="bg-[#fdf2f8] rounded-[6px] px-3 py-2.5 flex items-center justify-between text-[13px] text-[#831843] border border-[#fce7f3]">
                   <div className="flex items-center gap-1.5 font-bold">
                     <CalendarIcon className="w-4 h-4" />
                     <span>Atención inmediata</span>
                   </div>
                   <span className="font-medium text-black">
-                    Hoy · <strong className="font-bold text-[#70083a]">En línea ahora mismo</strong>
+                    Hoy · <strong className="font-bold text-[#831843]">En línea ahora mismo</strong>
                   </span>
                 </div>
               </div>

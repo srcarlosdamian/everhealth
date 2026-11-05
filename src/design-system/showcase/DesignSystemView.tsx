@@ -150,7 +150,7 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
               <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
                 <h3 className="text-[15px] font-bold text-black mb-1">Átomo: Stepper Checks (900 Magenta)</h3>
                 <p className="text-[12px] text-[#64748b] mb-4">
-                  Checks circulares en tono oscuro 900 (`#70083a`) con track divisor vertical. Cambian a círculo vacío cuando no están llenos.
+                  Checks circulares en tono oscuro 900 (`#831843`) con track divisor vertical. Cambian a círculo vacío cuando no están llenos.
                 </p>
 
                 <div className="flex items-start gap-8 p-4 bg-[#f8fafc] rounded-[6px] border border-[#f1f5f9]">
@@ -307,39 +307,135 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
           {/* TAB 4: TOKENS */}
           {activeTab === 'tokens' && (
             <div className="space-y-6">
+              {/* Pink Palette from Figma */}
               <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
-                <h3 className="text-[15px] font-bold text-black mb-2">Tokens de Color</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="p-3 rounded-[6px] border border-[#e2e8f0] flex flex-col gap-1">
-                    <div className="w-full h-8 rounded bg-[#d50475]" />
-                    <span className="text-[12px] font-bold">#d50475</span>
-                    <span className="text-[11px] text-[#64748b]">Primary Pink</span>
-                  </div>
-                  <div className="p-3 rounded-[6px] border border-[#e2e8f0] flex flex-col gap-1">
-                    <div className="w-full h-8 rounded bg-[#70083a]" />
-                    <span className="text-[12px] font-bold">#70083a</span>
-                    <span className="text-[11px] text-[#64748b]">Check Magenta 900</span>
-                  </div>
-                  <div className="p-3 rounded-[6px] border border-[#e2e8f0] flex flex-col gap-1">
-                    <div className="w-full h-8 rounded bg-black" />
-                    <span className="text-[12px] font-bold">#000000</span>
-                    <span className="text-[11px] text-[#64748b]">Pure Black</span>
-                  </div>
-                  <div className="p-3 rounded-[6px] border border-[#e2e8f0] flex flex-col gap-1">
-                    <div className="w-full h-8 rounded bg-[#f8fafc] border border-[#cbd5e1]" />
-                    <span className="text-[12px] font-bold">#f8fafc</span>
-                    <span className="text-[11px] text-[#64748b]">Background Gray</span>
-                  </div>
+                <h3 className="text-[15px] font-bold text-black mb-1">Paleta Pink (Figma: colors.pink)</h3>
+                <p className="text-[12px] text-[#64748b] mb-3">
+                  Tokens extraídos del Design System de PrimeNG. Incluye Brand Primary (#d50475) y Stepper Check 900 (#831843).
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
+                  {[
+                    { label: '50', hex: '#fdf2f8' },
+                    { label: '100', hex: '#fce7f3' },
+                    { label: '200', hex: '#fbcfe8' },
+                    { label: '300', hex: '#f9a8d4' },
+                    { label: '400', hex: '#f472b6' },
+                    { label: '500', hex: '#ec4899' },
+                    { label: '600', hex: '#db2777' },
+                    { label: '700', hex: '#be185d' },
+                    { label: 'Brand', hex: '#d50475', isBrand: true },
+                    { label: '800', hex: '#9d174d' },
+                    { label: '900', hex: '#831843', isCheck: true },
+                  ].map((c) => (
+                    <div key={c.label} className="p-2 rounded-[6px] border border-[#e2e8f0] flex flex-col gap-1">
+                      <div className="w-full h-8 rounded" style={{ backgroundColor: c.hex }} />
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-bold text-black">{c.label}</span>
+                        <span className="text-[#64748b] font-mono">{c.hex}</span>
+                      </div>
+                      {c.isBrand && <span className="text-[9px] font-bold text-[#d50475]">Brand Primary</span>}
+                      {c.isCheck && <span className="text-[9px] font-bold text-[#831843]">Stepper 900</span>}
+                    </div>
+                  ))}
                 </div>
               </div>
 
+              {/* Blue Gray Neutrals from Figma */}
               <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
-                <h3 className="text-[15px] font-bold text-black mb-2">Tipografía</h3>
-                <p className="text-[13px] leading-[22px] text-[#475569]">
-                  Familia: <code className="bg-[#f1f5f9] px-2 py-0.5 rounded font-mono text-[12px]">Helvetica, Arial, 'Arimo', sans-serif</code>
-                  <br />
-                  Pesos: <strong>700 (Bold)</strong> para títulos e interactivos principales, 400 (Regular) para texto secundario.
+                <h3 className="text-[15px] font-bold text-black mb-1">Paleta Neutros 1: Blue Gray (Figma: colors.blueGray)</h3>
+                <p className="text-[12px] text-[#64748b] mb-3">
+                  Neutros primarios para fondos, bordes (#e2e8f0, #cbd5e1) y tipografías (#475569, #0f172a).
                 </p>
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                  {[
+                    { label: '50', hex: '#f8fafc' },
+                    { label: '100', hex: '#f1f5f9' },
+                    { label: '200', hex: '#e2e8f0' },
+                    { label: '300', hex: '#cbd5e1' },
+                    { label: '400', hex: '#94a3b8' },
+                    { label: '500', hex: '#64748b' },
+                    { label: '600', hex: '#475569' },
+                    { label: '700', hex: '#334155' },
+                    { label: '800', hex: '#1e293b' },
+                    { label: '900', hex: '#0f172a' },
+                  ].map((c) => (
+                    <div key={c.label} className="p-2 rounded-[6px] border border-[#e2e8f0] flex flex-col gap-1">
+                      <div className="w-full h-7 rounded border border-[#e2e8f0]" style={{ backgroundColor: c.hex }} />
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-bold text-black">{c.label}</span>
+                        <span className="text-[#64748b] font-mono">{c.hex}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Gray Neutrals from Figma */}
+              <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
+                <h3 className="text-[15px] font-bold text-black mb-1">Paleta Neutros 2: Gray (Figma: colors.gray)</h3>
+                <p className="text-[12px] text-[#64748b] mb-3">
+                  Neutros estándar para inputs, placeholders y divisores secundarios.
+                </p>
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                  {[
+                    { label: '50', hex: '#f9fafb' },
+                    { label: '100', hex: '#f3f4f6' },
+                    { label: '200', hex: '#e5e7eb' },
+                    { label: '300', hex: '#d1d5db' },
+                    { label: '400', hex: '#9ca3af' },
+                    { label: '500', hex: '#6b7280' },
+                    { label: '600', hex: '#4b5563' },
+                    { label: '700', hex: '#374151' },
+                    { label: '800', hex: '#1f2937' },
+                    { label: '900', hex: '#111827' },
+                  ].map((c) => (
+                    <div key={c.label} className="p-2 rounded-[6px] border border-[#e2e8f0] flex flex-col gap-1">
+                      <div className="w-full h-7 rounded border border-[#e2e8f0]" style={{ backgroundColor: c.hex }} />
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-bold text-black">{c.label}</span>
+                        <span className="text-[#64748b] font-mono">{c.hex}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Base & Typography */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
+                  <h3 className="text-[15px] font-bold text-black mb-2">Base (Figma colors.base)</h3>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="p-2.5 rounded-[6px] border border-[#e2e8f0] flex flex-col gap-1">
+                      <div className="w-full h-8 rounded bg-black" />
+                      <div className="flex items-center justify-between text-[11px] font-bold">
+                        <span>Black</span>
+                        <span className="font-mono">#000000</span>
+                      </div>
+                    </div>
+                    <div className="p-2.5 rounded-[6px] border border-[#e2e8f0] flex flex-col gap-1">
+                      <div className="w-full h-8 rounded bg-white border border-[#cbd5e1]" />
+                      <div className="flex items-center justify-between text-[11px] font-bold">
+                        <span>White</span>
+                        <span className="font-mono">#ffffff</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
+                  <h3 className="text-[15px] font-bold text-black mb-2">Tipografía Oficial</h3>
+                  <p className="text-[13px] leading-[22px] text-[#475569]">
+                    Familia tipográfica: <strong className="text-black">Helvetica</strong> (únicamente Helvetica).
+                    <br />
+                    <code className="bg-[#f1f5f9] px-2 py-0.5 rounded font-mono text-[12px] mt-1 inline-block">
+                      Helvetica, 'Helvetica Neue', sans-serif
+                    </code>
+                    <br />
+                    <span className="text-[12px] text-[#64748b] mt-1 inline-block">
+                      Pesos oficiales: 700 (Bold) para títulos y llamadas a la acción, 400 (Regular) para textos descriptivos.
+                    </span>
+                  </p>
+                </div>
               </div>
             </div>
           )}
