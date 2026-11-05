@@ -117,12 +117,12 @@ export const LanguageSelector: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         aria-haspopup="true"
         aria-expanded={isOpen}
-        className={`h-[32px] px-[10px] rounded-[6px] border bg-white flex items-center gap-[8px] text-[14px] leading-[20px] font-bold text-black transition-colors cursor-pointer select-none ${
-          isOpen ? 'border-[#d50475] ring-1 ring-[#d50475]' : 'border-[#cbd5e1] hover:bg-[#f8fafc]'
+        className={`h-[32px] px-[10px] rounded-[6px] border bg-white flex items-center gap-[8px] text-[14px] leading-[20px] font-bold text-black transition-colors cursor-pointer select-none focus:outline-none ${
+          isOpen ? 'border-black ring-1 ring-black' : 'border-[#cbd5e1] hover:border-black hover:bg-[#f8fafc]'
         }`}
       >
         <Globe className="w-[18px] h-[18px] text-black shrink-0" />
-        <span>{selected.code}</span>
+        <span className="text-black">{selected.code}</span>
       </button>
 
       {/* Dropdown Menu: Frame "drop" (280x296 matching Figma EVR - 73 / 1986:34059) */}
