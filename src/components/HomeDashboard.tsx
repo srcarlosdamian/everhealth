@@ -7,7 +7,8 @@ import { ModalVideoConsulta } from './ModalVideoConsulta';
 import { ModalSolicitarChat } from './ModalSolicitarChat';
 import { ModalDocumentos } from './ModalDocumentos';
 import { LanguageSelector } from './LanguageSelector';
-import { PlusCircle, Bell, HelpCircle } from 'lucide-react';
+import { DesignSystemView } from '../design-system/showcase/DesignSystemView';
+import { PlusCircle, Bell, HelpCircle, Palette } from 'lucide-react';
 
 interface HomeDashboardProps {
   userName: string;
@@ -20,6 +21,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const [chatModalTab, setChatModalTab] = useState<'agendar' | 'ahora'>('agendar');
   const [isDocsModalOpen, setIsDocsModalOpen] = useState(false);
+  const [isDesignSystemOpen, setIsDesignSystemOpen] = useState(false);
 
   // If in questionnaire mode, render full-screen CuestionarioMedico (EVR - 45 through 107)
   if (currentView === 'cuestionario') {
@@ -65,6 +67,16 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
               title="Ayuda"
             >
               <HelpCircle className="w-[20px] h-[20px]" />
+            </button>
+            {/* Design System Art Button - to the left of ES */}
+            <button
+              type="button"
+              onClick={() => setIsDesignSystemOpen(true)}
+              className="h-[32px] px-2.5 rounded-[6px] border border-[#cbd5e1] hover:border-black bg-white hover:bg-[#f8fafc] text-black flex items-center gap-1.5 text-[12px] font-bold cursor-pointer transition-colors shadow-2xs"
+              title="Sistema de Diseño & Componentes Atómicos"
+            >
+              <Palette className="w-[16px] h-[16px] text-black shrink-0" />
+              <span className="hidden sm:inline">Design System</span>
             </button>
             <LanguageSelector />
           </div>
@@ -127,6 +139,11 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
       <ModalDocumentos
         isOpen={isDocsModalOpen}
         onClose={() => setIsDocsModalOpen(false)}
+      />
+
+      <DesignSystemView
+        isOpen={isDesignSystemOpen}
+        onClose={() => setIsDesignSystemOpen(false)}
       />
     </div>
   );
