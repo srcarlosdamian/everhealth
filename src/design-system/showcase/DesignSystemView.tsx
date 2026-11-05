@@ -27,6 +27,8 @@ import {
   Palette,
   PlusCircle,
   ArrowLeft,
+  SlidersHorizontal,
+  LogOut,
 } from 'lucide-react';
 import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';
@@ -46,6 +48,8 @@ const ICONS_CATALOG = [
   { name: 'lucide/file-spreadsheet', icon: FileSpreadsheet, label: 'Historia clínica', category: 'Navegación' },
   { name: 'lucide/users', icon: Users, label: 'Familiares', category: 'Navegación' },
   { name: 'lucide/cat', icon: Cat, label: 'Mascotas', category: 'Navegación' },
+  { name: 'lucide/sliders-horizontal', icon: SlidersHorizontal, label: 'Configuración de usuario', category: 'Usuario & Perfil' },
+  { name: 'lucide/log-out', icon: LogOut, label: 'Cerrar sesión', category: 'Usuario & Perfil' },
   { name: 'lucide/video', icon: Video, label: 'Video consulta', category: 'Acciones' },
   { name: 'lucide/message-square', icon: MessageSquare, label: 'Chat médico', category: 'Acciones' },
   { name: 'lucide/calendar', icon: Calendar, label: 'Calendario y citas', category: 'Acciones' },

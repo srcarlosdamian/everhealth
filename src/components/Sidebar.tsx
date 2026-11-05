@@ -10,6 +10,8 @@ import {
   ChevronDown,
   MessageSquare,
   Video,
+  SlidersHorizontal,
+  LogOut,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -28,7 +30,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onLogout,
 }) => {
   const [solicitarOpen, setSolicitarOpen] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
   const displayName = userName.trim() || 'Carlos Damián';
@@ -39,20 +43,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
     .map((p) => p[0]?.toUpperCase())
     .join('') || 'CD';
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setSolicitarOpen(false);
       }
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setUserMenuOpen(false);
+      }
     };
-    if (solicitarOpen) {
+    if (solicitarOpen || userMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [solicitarOpen]);
+  }, [solicitarOpen, userMenuOpen]);
 
   return (
     <aside className="w-full lg:w-[244px] lg:min-h-screen border-b lg:border-b-0 lg:border-r border-[#e2e8f0] p-[16px] flex flex-col shrink-0 bg-white">
@@ -67,23 +74,56 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       </div>
 
-      {/* User Selector Dropdown */}
-      <button
-        type="button"
-        onClick={onLogout}
-        title="Cerrar sesión / Volver al inicio"
-        className="w-full h-[40px] px-[10px] rounded-[6px] border border-[#cbd5e1] bg-white hover:bg-[#f8fafc] flex items-center justify-between mb-[16px] cursor-pointer"
-      >
-        <div className="flex items-center gap-[8px] truncate">
-          <span className="w-[24px] h-[24px] rounded-full bg-[#f1f5f9] text-black text-[12px] font-bold flex items-center justify-center shrink-0">
-            {initials}
-          </span>
-          <span className="text-[14px] leading-[20px] font-normal text-black truncate">
-            {displayName}
-          </span>
-        </div>
-        <ChevronDown className="w-[16px] h-[16px] text-[#475569] shrink-0" />
-      </button>
+      {/* User Selector Dropdown with Configuración de usuario & Cerrar sesión */}
+      <div className="relative mb-[16px]" ref={userMenuRef}>
+        <button
+          type="button"
+          onClick={() => setUserMenuOpen(!userMenuOpen)}
+          title={displayName}
+          className="w-full h-[40px] px-[10px] rounded-[8px] border border-[#cbd5e1] bg-white hover:bg-[#f8fafc] flex items-center justify-between cursor-pointer transition-colors"
+        >
+          <div className="flex items-center gap-[10px] min-w-0">
+            <span className="w-[28px] h-[24px] rounded-[4px] bg-[#e2e8f0] text-black text-[12px] font-bold flex items-center justify-center shrink-0">
+              {initials}
+            </span>
+            <span className="text-[14px] leading-[20px] font-normal text-black truncate">
+              {displayName}
+            </span>
+          </div>
+          <ChevronDown
+            className={`w-[16px] h-[16px] text-black shrink-0 transition-transform duration-200 ${
+              userMenuOpen ? 'rotate-180' : ''
+            }`}
+          />
+        </button>
+
+        {/* Dropdown Menu matching exact Figma design */}
+        {userMenuOpen && (
+          <div className="absolute left-0 top-[calc(100%+6px)] z-50 w-full bg-white rounded-[12px] border border-[#cbd5e1] shadow-[0_8px_24px_rgba(0,0,0,0.12)] p-[6px] flex flex-col gap-[2px]">
+            <button
+              type="button"
+              onClick={() => {
+                setUserMenuOpen(false);
+              }}
+              className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
+            >
+              <SlidersHorizontal className="w-[18px] h-[18px] text-black shrink-0" />
+              <span>Configuración de usuario</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setUserMenuOpen(false);
+                onLogout();
+              }}
+              className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
+            >
+              <LogOut className="w-[18px] h-[18px] text-black shrink-0" />
+              <span>Cerrar sesión</span>
+            </button>
+          </div>
+        )}
+      </div>
 
       {/* Navigation */}
       <nav className="flex flex-col gap-[6px]">
@@ -161,7 +201,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         <hr className="border-[#e2e8f0] my-[6px]" />
 
-        {/* Historial consultas */}
+        {/* Historial consultas (No implementado aún, no vinculado a completar perfil) */}
         <button
           type="button"
           className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black cursor-pointer"
@@ -170,10 +210,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <span>Historial consultas</span>
         </button>
 
-        {/* Historia clínica */}
+        {/* Historia clínica (No implementado aún, no vinculado a cuestionario) */}
         <button
           type="button"
-          onClick={() => onNavigate('cuestionario')}
           className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black cursor-pointer"
         >
           <FileSpreadsheet className="w-[18px] h-[18px] text-black" />
@@ -182,7 +221,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         <hr className="border-[#e2e8f0] my-[6px]" />
 
-        {/* Familiares */}
+        {/* Familiares (No implementado aún) */}
         <button
           type="button"
           className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black cursor-pointer"
@@ -191,7 +230,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <span>Familiares</span>
         </button>
 
-        {/* Mascotas */}
+        {/* Mascotas (No implementado aún) */}
         <button
           type="button"
           className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black cursor-pointer"
