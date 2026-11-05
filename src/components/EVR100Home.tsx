@@ -23,7 +23,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
   const displayName = userName.trim() || 'Carlos Damián';
 
   return (
-    <div className="w-full max-w-[1000px] flex flex-col gap-[28px]">
+    <div className="w-full max-w-[800px] mx-auto flex flex-col gap-[24px]">
       {/* Title: Bienvenido Carlos Damián (Helvetica Bold 32px) */}
       <h1 className="text-[32px] sm:text-[36px] leading-[40px] font-bold text-black tracking-tight">
         Bienvenido {displayName}

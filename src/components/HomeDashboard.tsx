@@ -42,8 +42,8 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header */}
-        <header className="w-full h-[56px] px-6 lg:px-[53px] flex items-center justify-end border-b border-[#f1f5f9] lg:border-b-0">
-          <div className="w-full max-w-[1200px] mx-auto flex items-center justify-end gap-[16px]">
+        <header className="w-full h-[56px] px-4 sm:px-8 flex items-center justify-center border-b border-[#f1f5f9] lg:border-b-0">
+          <div className="w-full max-w-[800px] flex items-center justify-end gap-[16px]">
             <button
               type="button"
               onClick={() => setIsDocsModalOpen(true)}
@@ -70,9 +70,9 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
           </div>
         </header>
 
-        {/* Body Content */}
-        <main className="flex-1 px-6 lg:px-[53px] pt-[24px] pb-[48px]">
-          <div className="w-full max-w-[1200px] mx-auto">
+        {/* Body Content - Mathematically centered in the remaining space next to Sidebar (width 800px) */}
+        <main className="flex-1 px-4 sm:px-8 pt-[24px] pb-[48px] flex justify-center items-start">
+          <div className="w-full max-w-[800px] mx-auto">
             {currentView === 'home' && (
               <EVR100Home
                 userName={userName}
