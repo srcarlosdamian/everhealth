@@ -89,8 +89,8 @@ export const TOKENS = {
     },
   },
 
-  // Typography: Strictly Helvetica
+  // Typography: Exclusivamente Helvetica
   typography: {
-    fontFamily: "Helvetica, 'Helvetica Neue', sans-serif",
+    fontFamily: 'Helvetica',
   },
 } as const;

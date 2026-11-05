@@ -1,5 +1,33 @@
 import React, { useState } from 'react';
-import { X, Layers, Sparkles, Check, ChevronRight, Video, MessageSquare, ScanFace, Globe } from 'lucide-react';
+import {
+  X,
+  Layers,
+  Sparkles,
+  Check,
+  ChevronRight,
+  ChevronLeft,
+  ChevronDown,
+  ChevronUp,
+  Video,
+  MessageSquare,
+  ScanFace,
+  Globe,
+  Home,
+  Plus,
+  FileText,
+  FileSpreadsheet,
+  Users,
+  Cat,
+  Calendar,
+  FileUp,
+  Search,
+  Star,
+  Bell,
+  HelpCircle,
+  Palette,
+  PlusCircle,
+  ArrowLeft,
+} from 'lucide-react';
 import { Badge } from '../atoms/Badge';
 import { Button } from '../atoms/Button';
 import { StepperCheck } from '../atoms/StepperCheck';
@@ -10,8 +38,36 @@ interface DesignSystemViewProps {
   onClose: () => void;
 }
 
+const ICONS_CATALOG = [
+  { name: 'lucide/scan-face', icon: ScanFace, label: 'Escaneo biométrico / Biometría', category: 'Biometría & Acciones' },
+  { name: 'lucide/home', icon: Home, label: 'Inicio', category: 'Navegación' },
+  { name: 'lucide/plus', icon: Plus, label: 'Solicitar una cita', category: 'Navegación' },
+  { name: 'lucide/file-text', icon: FileText, label: 'Historial consultas', category: 'Navegación' },
+  { name: 'lucide/file-spreadsheet', icon: FileSpreadsheet, label: 'Historia clínica', category: 'Navegación' },
+  { name: 'lucide/users', icon: Users, label: 'Familiares', category: 'Navegación' },
+  { name: 'lucide/cat', icon: Cat, label: 'Mascotas', category: 'Navegación' },
+  { name: 'lucide/video', icon: Video, label: 'Video consulta', category: 'Acciones' },
+  { name: 'lucide/message-square', icon: MessageSquare, label: 'Chat médico', category: 'Acciones' },
+  { name: 'lucide/calendar', icon: Calendar, label: 'Calendario y citas', category: 'Acciones' },
+  { name: 'lucide/check', icon: Check, label: 'Check 900 de progreso', category: 'Acciones' },
+  { name: 'lucide/file-up', icon: FileUp, label: 'Subir documentos', category: 'Acciones' },
+  { name: 'lucide/search', icon: Search, label: 'Buscador de documentos', category: 'Acciones' },
+  { name: 'lucide/star', icon: Star, label: 'Médicos favoritos', category: 'Acciones' },
+  { name: 'lucide/palette', icon: Palette, label: 'Sistema de diseño', category: 'Header & Sistema' },
+  { name: 'lucide/globe', icon: Globe, label: 'Selector de idioma', category: 'Header & Sistema' },
+  { name: 'lucide/bell', icon: Bell, label: 'Notificaciones', category: 'Header & Sistema' },
+  { name: 'lucide/help-circle', icon: HelpCircle, label: 'Ayuda', category: 'Header & Sistema' },
+  { name: 'lucide/plus-circle', icon: PlusCircle, label: 'Acceso rápido documentos', category: 'Header & Sistema' },
+  { name: 'lucide/chevron-right', icon: ChevronRight, label: 'Navegación siguiente', category: 'Direccionales' },
+  { name: 'lucide/chevron-left', icon: ChevronLeft, label: 'Navegación anterior', category: 'Direccionales' },
+  { name: 'lucide/chevron-down', icon: ChevronDown, label: 'Cargar más / Desplegable', category: 'Direccionales' },
+  { name: 'lucide/chevron-up', icon: ChevronUp, label: 'Mostrar menos / Contraer', category: 'Direccionales' },
+  { name: 'lucide/arrow-left', icon: ArrowLeft, label: 'Volver atrás', category: 'Direccionales' },
+  { name: 'lucide/x', icon: X, label: 'Cerrar modal', category: 'Direccionales' },
+];
+
 export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onClose }) => {
-  const [activeTab, setActiveTab] = useState<'atomos' | 'moleculas' | 'organismos' | 'tokens'>('atomos');
+  const [activeTab, setActiveTab] = useState<'atomos' | 'moleculas' | 'organismos' | 'tokens' | 'iconos'>('atomos');
   const [samplePageIndex, setSamplePageIndex] = useState(0);
 
   if (!isOpen) return null;
@@ -54,11 +110,11 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
         </div>
 
         {/* Tab navigation */}
-        <div className="flex items-center gap-2 px-6 pt-3 border-b border-[#e2e8f0] bg-white">
+        <div className="flex items-center gap-2 px-6 pt-3 border-b border-[#e2e8f0] bg-white overflow-x-auto">
           <button
             type="button"
             onClick={() => setActiveTab('atomos')}
-            className={`pb-2.5 px-3 text-[13px] font-bold border-b-2 transition-all cursor-pointer ${
+            className={`pb-2.5 px-3 text-[13px] font-bold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
               activeTab === 'atomos'
                 ? 'border-black text-black'
                 : 'border-transparent text-[#64748b] hover:text-black'
@@ -69,7 +125,7 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
           <button
             type="button"
             onClick={() => setActiveTab('moleculas')}
-            className={`pb-2.5 px-3 text-[13px] font-bold border-b-2 transition-all cursor-pointer ${
+            className={`pb-2.5 px-3 text-[13px] font-bold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
               activeTab === 'moleculas'
                 ? 'border-black text-black'
                 : 'border-transparent text-[#64748b] hover:text-black'
@@ -80,7 +136,7 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
           <button
             type="button"
             onClick={() => setActiveTab('organismos')}
-            className={`pb-2.5 px-3 text-[13px] font-bold border-b-2 transition-all cursor-pointer ${
+            className={`pb-2.5 px-3 text-[13px] font-bold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
               activeTab === 'organismos'
                 ? 'border-black text-black'
                 : 'border-transparent text-[#64748b] hover:text-black'
@@ -91,13 +147,24 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
           <button
             type="button"
             onClick={() => setActiveTab('tokens')}
-            className={`pb-2.5 px-3 text-[13px] font-bold border-b-2 transition-all cursor-pointer ${
+            className={`pb-2.5 px-3 text-[13px] font-bold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
               activeTab === 'tokens'
                 ? 'border-black text-black'
                 : 'border-transparent text-[#64748b] hover:text-black'
             }`}
           >
-            4. Tokens de Color & Tipografía
+            4. Tokens & Tipografía
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab('iconos')}
+            className={`pb-2.5 px-3 text-[13px] font-bold border-b-2 transition-all cursor-pointer whitespace-nowrap ${
+              activeTab === 'iconos'
+                ? 'border-black text-black'
+                : 'border-transparent text-[#64748b] hover:text-black'
+            }`}
+          >
+            5. Íconos Lucide Nativos
           </button>
         </div>
 
@@ -148,9 +215,9 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
 
               {/* Stepper & Checks Section */}
               <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
-                <h3 className="text-[15px] font-bold text-black mb-1">Átomo: Stepper Checks (900 Magenta)</h3>
+                <h3 className="text-[15px] font-bold text-black mb-1">Átomo: Stepper Checks (900 Magenta #831843)</h3>
                 <p className="text-[12px] text-[#64748b] mb-4">
-                  Checks circulares en tono oscuro 900 (`#831843`) con track divisor vertical. Cambian a círculo vacío cuando no están llenos.
+                  Checks circulares en tono Figma Pink 900 (`#831843`) con track divisor vertical. Cambian a círculo vacío cuando no están llenos.
                 </p>
 
                 <div className="flex items-start gap-8 p-4 bg-[#f8fafc] rounded-[6px] border border-[#f1f5f9]">
@@ -162,11 +229,11 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
                   <div className="flex flex-col justify-between h-[120px] text-[13px]">
                     <div>
                       <strong className="text-black font-bold">Paso 1: Motivo</strong>
-                      <p className="text-[#64748b] text-[12px]">Completado (Check 900)</p>
+                      <p className="text-[#64748b] text-[12px]">Completado (Check Pink 900 #831843)</p>
                     </div>
                     <div>
                       <strong className="text-black font-bold">Paso 2: Especialidad</strong>
-                      <p className="text-[#64748b] text-[12px]">Completado (Check 900)</p>
+                      <p className="text-[#64748b] text-[12px]">Completado (Check Pink 900 #831843)</p>
                     </div>
                     <div>
                       <strong className="text-black font-bold">Paso 3: Horario</strong>
@@ -196,7 +263,7 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
                     <span>ENTRAR A LA SALA</span>
                   </Button>
                   <Button variant="linear">
-                    <span>Siguiente &gt;</span>
+                    <span>Cargar más</span>
                   </Button>
                   <Button variant="primary" isLocked={true}>
                     <span>Confirmar tu cita (Bloqueada)</span>
@@ -237,21 +304,22 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
 
               {/* Pagination Molecule */}
               <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
-                <h3 className="text-[15px] font-bold text-black mb-1">Molécula: Paginación Lineal de Eventos</h3>
+                <h3 className="text-[15px] font-bold text-black mb-1">Molécula: Contador de Eventos & Cargar más</h3>
                 <p className="text-[12px] text-[#64748b] mb-4">
-                  Muestra '1 de 3 eventos' a la izquierda y botones lineales 'Anterior' / 'Siguiente' a la derecha.
+                  Muestra '1 de 5 eventos' a la izquierda y botón de 'Cargar más' a la derecha para ver los restantes.
                 </p>
 
                 <div className="max-w-[600px] bg-[#f8fafc] p-4 rounded-[8px] border border-[#f1f5f9]">
                   <div className="p-3 bg-white rounded-[6px] border border-[#e2e8f0] mb-3 text-[13px] font-bold">
-                    Contenido del evento #{samplePageIndex + 1}
+                    Contenido del evento activo
                   </div>
-                  <PaginationEvents
-                    currentIndex={samplePageIndex}
-                    total={3}
-                    onNext={() => setSamplePageIndex((p) => Math.min(2, p + 1))}
-                    onPrev={() => setSamplePageIndex((p) => Math.max(0, p - 1))}
-                  />
+                  <div className="flex items-center justify-between pt-2 border-t border-[#e2e8f0]">
+                    <span className="text-[13px] font-bold text-[#475569]">1 de 5 eventos</span>
+                    <button className="h-[30px] px-3 rounded-[6px] border border-[#cbd5e1] text-[12px] font-bold flex items-center gap-1 bg-white">
+                      <span>Cargar más</span>
+                      <ChevronDown className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -317,7 +385,7 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
               <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
                 <h3 className="text-[15px] font-bold text-black mb-1">Paleta Pink (Figma: colors.pink)</h3>
                 <p className="text-[12px] text-[#64748b] mb-3">
-                  Tokens extraídos del Design System de PrimeNG. Incluye Brand Primary (#d50475) y Stepper Check 900 (#831843).
+                  Tokens oficiales de Figma: Brand Primary (#d50475) y Stepper Check 900 (#831843).
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
                   {[
@@ -376,36 +444,6 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
                 </div>
               </div>
 
-              {/* Gray Neutrals from Figma */}
-              <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
-                <h3 className="text-[15px] font-bold text-black mb-1">Paleta Neutros 2: Gray (Figma: colors.gray)</h3>
-                <p className="text-[12px] text-[#64748b] mb-3">
-                  Neutros estándar para inputs, placeholders y divisores secundarios.
-                </p>
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-                  {[
-                    { label: '50', hex: '#f9fafb' },
-                    { label: '100', hex: '#f3f4f6' },
-                    { label: '200', hex: '#e5e7eb' },
-                    { label: '300', hex: '#d1d5db' },
-                    { label: '400', hex: '#9ca3af' },
-                    { label: '500', hex: '#6b7280' },
-                    { label: '600', hex: '#4b5563' },
-                    { label: '700', hex: '#374151' },
-                    { label: '800', hex: '#1f2937' },
-                    { label: '900', hex: '#111827' },
-                  ].map((c) => (
-                    <div key={c.label} className="p-2 rounded-[6px] border border-[#e2e8f0] flex flex-col gap-1">
-                      <div className="w-full h-7 rounded border border-[#e2e8f0]" style={{ backgroundColor: c.hex }} />
-                      <div className="flex items-center justify-between text-[11px]">
-                        <span className="font-bold text-black">{c.label}</span>
-                        <span className="text-[#64748b] font-mono">{c.hex}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
               {/* Base & Typography */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
@@ -431,16 +469,58 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
                 <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
                   <h3 className="text-[15px] font-bold text-black mb-2">Tipografía Oficial</h3>
                   <p className="text-[13px] leading-[22px] text-[#475569]">
-                    Familia tipográfica: <strong className="text-black">Helvetica</strong> (únicamente Helvetica).
+                    Familia tipográfica: <strong className="text-black">Helvetica</strong> (estrictamente Helvetica, nada más).
                     <br />
                     <code className="bg-[#f1f5f9] px-2 py-0.5 rounded font-mono text-[12px] mt-1 inline-block">
-                      Helvetica, 'Helvetica Neue', sans-serif
+                      Helvetica
                     </code>
                     <br />
                     <span className="text-[12px] text-[#64748b] mt-1 inline-block">
                       Pesos oficiales: 700 (Bold) para títulos y llamadas a la acción, 400 (Regular) para textos descriptivos.
                     </span>
                   </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 5: ÍCONOS LUCIDE NATIVOS */}
+          {activeTab === 'iconos' && (
+            <div className="space-y-6">
+              <div className="border border-[#e2e8f0] rounded-[8px] p-4 bg-white">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-[15px] font-bold text-black">Catálogo de Íconos Lucide Nativos</h3>
+                  <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#f1f5f9] text-black">
+                    {ICONS_CATALOG.length} íconos activos
+                  </span>
+                </div>
+                <p className="text-[12px] text-[#64748b] mb-4">
+                  Todos los íconos del sistema son Lucide nativos (svg escalables) sin librerías externas adicionales.
+                </p>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                  {ICONS_CATALOG.map((item) => {
+                    const IconComp = item.icon;
+                    return (
+                      <div
+                        key={item.name}
+                        className="p-3 rounded-[6px] border border-[#e2e8f0] hover:border-black bg-white flex items-center justify-between gap-3 transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-9 h-9 rounded-[6px] bg-[#f8fafc] border border-[#e2e8f0] flex items-center justify-center text-black shrink-0">
+                            <IconComp className="w-5 h-5" />
+                          </div>
+                          <div className="flex flex-col min-w-0">
+                            <span className="text-[12px] font-bold text-black truncate">{item.label}</span>
+                            <span className="text-[10px] text-[#64748b] font-mono truncate">{item.name}</span>
+                          </div>
+                        </div>
+                        <div className="text-[#d50475] shrink-0" title="Variante Pink">
+                          <IconComp className="w-4 h-4" />
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

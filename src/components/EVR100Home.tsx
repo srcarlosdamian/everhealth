@@ -4,8 +4,9 @@ import {
   Video,
   MessageSquare,
   ScanFace,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react';
-import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
 
 interface EVR100HomeProps {
   userName: string;
@@ -52,6 +53,24 @@ const CONSULTATIONS: Consultation[] = [
     actionText: 'ENLACE ACTIVO 15 MIN ANTES',
     isActive: false,
   },
+  {
+    id: '4',
+    timeStr: 'Lun 21 · 10:00',
+    timeSub: 'Programada',
+    title: 'Consulta psicológica · Confirmada',
+    details: 'Lic. Roberto Silva · Psicología',
+    actionText: 'ENLACE ACTIVO 15 MIN ANTES',
+    isActive: false,
+  },
+  {
+    id: '5',
+    timeStr: 'Mié 23 · 12:30',
+    timeSub: 'Programada',
+    title: 'Revisión médica · Confirmada',
+    details: 'Dr. Alejandro Fuentes · Medicina interna',
+    actionText: 'ENLACE ACTIVO 15 MIN ANTES',
+    isActive: false,
+  },
 ];
 
 export const EVR100Home: React.FC<EVR100HomeProps> = ({
@@ -60,11 +79,13 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
   onOpenVideoModal,
   onOpenChat,
 }) => {
-  const [consultationIndex, setConsultationIndex] = useState(0);
+  const [showAll, setShowAll] = useState(false);
 
   const doctorsAvatarsSrc = `${import.meta.env.BASE_URL}assets/doctors-avatars.png`;
   const displayName = userName.trim() || 'Carlos Damián';
-  const currentConsultation = CONSULTATIONS[consultationIndex];
+  
+  // Show only 1 initially, or all 5 (max 5) when "Cargar más" is clicked
+  const visibleConsultations = showAll ? CONSULTATIONS.slice(0, 5) : CONSULTATIONS.slice(0, 1);
 
   return (
     <div className="w-full max-w-[800px] mx-auto flex flex-col gap-[24px]">
@@ -108,7 +129,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
         </div>
       </section>
 
-      {/* Card 2: Atención inmediata (Cleaned up, removed saturated text per request) */}
+      {/* Card 2: Atención inmediata */}
       <section className="w-full bg-white rounded-[8px] p-6 sm:p-[24px] border border-[#e2e8f0] flex flex-col gap-[16px]">
         <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
           <h2 className="text-[20px] leading-[26px] font-bold text-black">
@@ -175,54 +196,78 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
         </button>
       </section>
 
-      {/* Card 4: Próximas consultas (Solo muestra la primera, con paginación lineal 1 de 3) */}
+      {/* Card 4: Próximas consultas (Carga más los restantes hasta máximo 5) */}
       <section className="w-full bg-white rounded-[8px] p-6 sm:p-[28px] border border-[#e2e8f0] flex flex-col">
         <h2 className="text-[22px] leading-[30px] font-bold text-black pb-[14px] border-b border-[#e2e8f0]">
           Próximas consultas
         </h2>
 
-        {/* Active Consultation Item */}
-        <div className="py-[16px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex flex-col sm:w-[140px] shrink-0">
-            <span className="text-[15px] leading-[22px] font-bold text-black">
-              {currentConsultation.timeStr}
-            </span>
-            <span className="text-[13px] leading-[18px] text-[#64748b]">
-              {currentConsultation.timeSub}
-            </span>
-          </div>
-
-          <div className="flex flex-col flex-1">
-            <span className="text-[15px] leading-[22px] font-bold text-black">
-              {currentConsultation.title}
-            </span>
-            <span className="text-[13px] leading-[18px] text-[#64748b]">
-              {currentConsultation.details}
-            </span>
-          </div>
-
-          {currentConsultation.isActive ? (
-            <button
-              type="button"
-              onClick={onOpenVideoModal}
-              className="h-[36px] px-[16px] rounded-[6px] border border-[#cbd5e1] bg-white hover:bg-[#f8fafc] text-[13px] font-bold text-black tracking-wide transition-colors cursor-pointer shrink-0"
+        {/* Consultations List (1 initial, up to 5 on "Cargar más") */}
+        <div className="flex flex-col divide-y divide-[#f1f5f9]">
+          {visibleConsultations.map((item) => (
+            <div
+              key={item.id}
+              className="py-[16px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
             >
-              {currentConsultation.actionText}
-            </button>
-          ) : (
-            <span className="h-[36px] px-[14px] rounded-[6px] border border-[#e2e8f0] bg-[#f8fafc] text-[12px] font-medium text-[#94a3b8] tracking-wide inline-flex items-center justify-center shrink-0">
-              {currentConsultation.actionText}
-            </span>
-          )}
+              <div className="flex flex-col sm:w-[140px] shrink-0">
+                <span className="text-[15px] leading-[22px] font-bold text-black">
+                  {item.timeStr}
+                </span>
+                <span className="text-[13px] leading-[18px] text-[#64748b]">
+                  {item.timeSub}
+                </span>
+              </div>
+
+              <div className="flex flex-col flex-1">
+                <span className="text-[15px] leading-[22px] font-bold text-black">
+                  {item.title}
+                </span>
+                <span className="text-[13px] leading-[18px] text-[#64748b]">
+                  {item.details}
+                </span>
+              </div>
+
+              {item.isActive ? (
+                <button
+                  type="button"
+                  onClick={onOpenVideoModal}
+                  className="h-[36px] px-[16px] rounded-[6px] border border-[#cbd5e1] bg-white hover:bg-[#f8fafc] text-[13px] font-bold text-black tracking-wide transition-colors cursor-pointer shrink-0"
+                >
+                  {item.actionText}
+                </button>
+              ) : (
+                <span className="h-[36px] px-[14px] rounded-[6px] border border-[#e2e8f0] bg-[#f8fafc] text-[12px] font-medium text-[#94a3b8] tracking-wide inline-flex items-center justify-center shrink-0">
+                  {item.actionText}
+                </span>
+              )}
+            </div>
+          ))}
         </div>
 
-        {/* Pagination: 1 de 3 eventos & linear Siguiente buttons */}
-        <PaginationEvents
-          currentIndex={consultationIndex}
-          total={CONSULTATIONS.length}
-          onNext={() => setConsultationIndex((prev) => Math.min(CONSULTATIONS.length - 1, prev + 1))}
-          onPrev={() => setConsultationIndex((prev) => Math.max(0, prev - 1))}
-        />
+        {/* Footer: Event Counter + "Cargar más" Button */}
+        <div className="flex items-center justify-between pt-4 border-t border-[#f1f5f9]">
+          <span className="text-[13px] font-bold text-[#475569]">
+            {visibleConsultations.length} de {CONSULTATIONS.length} eventos
+          </span>
+
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            className="h-[32px] px-3.5 rounded-[6px] border border-[#cbd5e1] hover:border-black bg-white hover:bg-[#f8fafc] text-black text-[12px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-2xs"
+          >
+            {showAll ? (
+              <>
+                <span>Mostrar menos</span>
+                <ChevronUp className="w-3.5 h-3.5" />
+              </>
+            ) : (
+              <>
+                <span>Cargar más</span>
+                <ChevronDown className="w-3.5 h-3.5" />
+              </>
+            )}
+          </button>
+        </div>
       </section>
     </div>
   );

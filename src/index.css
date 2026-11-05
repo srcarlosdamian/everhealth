@@ -23,11 +23,14 @@
   --red-700: #b91c1c;
 
   /* Font Family: Exclusivamente Helvetica */
-  --font-sans: 'Helvetica', 'Helvetica Neue', sans-serif;
+  --font-sans: 'Helvetica';
 }
 
 body, button, input, textarea, select {
-  font-family: 'Helvetica', 'Helvetica Neue', sans-serif;
+  font-family: 'Helvetica';
+}
+
+body {
   color: var(--base-black);
   background-color: var(--base-white);
   margin: 0;
