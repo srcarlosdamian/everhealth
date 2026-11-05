@@ -11,7 +11,6 @@ import {
   PlusCircle,
   Bell,
   HelpCircle,
-  Globe,
   ChevronRight,
   ChevronLeft,
   ChevronsLeft,
@@ -19,6 +18,7 @@ import {
   Video,
   MessageSquare,
 } from 'lucide-react';
+import { LanguageSelector } from './LanguageSelector';
 
 interface HomeDashboardProps {
   userName: string;
@@ -160,13 +160,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
             <button type="button" className="text-black hover:opacity-75">
               <HelpCircle className="w-[20px] h-[20px]" />
             </button>
-            <button
-              type="button"
-              className="h-[32px] px-[10px] rounded-[6px] border border-[#cbd5e1] bg-white flex items-center gap-[8px] text-[14px] leading-[20px] font-bold text-black"
-            >
-              <Globe className="w-[18px] h-[18px]" />
-              <span>ES</span>
-            </button>
+            <LanguageSelector />
           </div>
         </header>
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Globe, Circle, CheckCircle2, ArrowLeft, ChevronDown } from 'lucide-react';
+import { Circle, CheckCircle2, ArrowLeft, ChevronDown } from 'lucide-react';
+import { LanguageSelector } from './LanguageSelector';
 
 interface OnboardingProps {
   initialEmail: string;
@@ -55,13 +56,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({
             onClick={onBackToLogin}
             className="w-[178px] h-[20px] object-contain object-left cursor-pointer"
           />
-          <button
-            type="button"
-            className="h-[32px] px-[10px] rounded-[6px] border border-[#cbd5e1] bg-white hover:bg-[#f8fafc] flex items-center gap-[8px] text-[14px] leading-[20px] font-bold text-black transition-colors"
-          >
-            <Globe className="w-[18px] h-[18px] text-black" />
-            <span>ES</span>
-          </button>
+          <LanguageSelector />
         </div>
       </header>
 
