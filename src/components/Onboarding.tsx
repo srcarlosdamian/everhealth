@@ -47,14 +47,14 @@ export const Onboarding: React.FC<OnboardingProps> = ({
 
   return (
     <div className="min-h-screen w-full bg-white flex flex-col">
-      {/* Top Header (height 48px, centered 800px content) */}
-      <header className="w-full h-[48px] border-b border-transparent flex items-center justify-center px-4">
-        <div className="w-full max-w-[800px] h-[32px] flex items-center justify-between">
+      {/* Top Header (height 56px, centered 800px content, 40px logo height) */}
+      <header className="w-full h-[56px] border-b border-transparent flex items-center justify-center px-4">
+        <div className="w-full max-w-[800px] flex items-center justify-between">
           <img
             src={logoSrc}
             alt="EVER HEALTH"
             onClick={onBackToLogin}
-            className="w-[178px] h-[20px] object-contain object-left cursor-pointer"
+            className="h-[40px] w-auto object-contain object-left cursor-pointer"
           />
           <LanguageSelector />
         </div>
