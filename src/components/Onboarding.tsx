@@ -291,10 +291,8 @@ export const Onboarding: React.FC<OnboardingProps> = ({
               <NavigationFooter
                 onBack={() => setStep(1)}
                 onNext={() => {
-                  if (isStep2Filled) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    setStep(3);
-                  }
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setStep(3);
                 }}
                 backText="Atrás"
                 nextText="Continuar"
@@ -563,13 +561,11 @@ export const Onboarding: React.FC<OnboardingProps> = ({
               <NavigationFooter
                 onBack={() => setStep(2)}
                 onNext={() => {
-                  if (isStep3Filled) {
-                    onFinishOnboarding({
-                      name: firstName,
-                      lastName: lastName,
-                      email: email || 'carlos.damian@example.com',
-                    });
-                  }
+                  onFinishOnboarding({
+                    name: firstName || 'Carlos',
+                    lastName: lastName || 'Damián',
+                    email: email || 'carlos.damian@example.com',
+                  });
                 }}
                 backText="Volver"
                 nextText="Finalizar"

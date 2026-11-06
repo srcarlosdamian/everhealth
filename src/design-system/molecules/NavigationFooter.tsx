@@ -34,7 +34,7 @@ export const NavigationFooter: React.FC<NavigationFooterProps> = ({
           <button
             type="button"
             onClick={onBack}
-            className="h-[38px] px-5 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white text-[14px] leading-[20px] font-normal text-black transition-colors cursor-pointer select-none"
+            className="h-[38px] px-5 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-[14px] leading-[20px] font-normal text-black transition-colors cursor-pointer select-none"
           >
             {backText}
           </button>
@@ -48,11 +48,11 @@ export const NavigationFooter: React.FC<NavigationFooterProps> = ({
           <button
             type="button"
             onClick={onNext}
-            disabled={isNextDisabled}
-            className={`h-[38px] px-6 rounded-[8px] text-[14px] leading-[20px] font-medium text-white transition-colors select-none ${
+            // Prototipo: siempre permite continuar, aunque se vea bloqueado
+            className={`h-[38px] px-6 rounded-[8px] text-[14px] leading-[20px] font-medium text-white transition-colors select-none cursor-pointer ${
               isNextDisabled
-                ? 'bg-[#f472b6] cursor-not-allowed opacity-60'
-                : 'bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] cursor-pointer'
+                ? 'bg-[#cbd5e1] hover:bg-[#94a3b8]'
+                : 'bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d]'
             }`}
           >
             {nextText}
