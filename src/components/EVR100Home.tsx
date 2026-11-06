@@ -123,7 +123,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
             Empieza tu historial médica
           </h2>
           <p className="text-[16px] leading-[24px] text-black font-normal truncate">
-            Completa tu cuestionario médico para que conozcamos tu historia médica
+            Completa el formulario para conocer tu historial.
           </p>
 
           <div className="flex flex-col gap-[6px] mt-2 max-w-[340px]">
@@ -135,7 +135,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
         </div>
 
         <div className="flex flex-col items-center gap-[10px] shrink-0 self-center md:self-auto">
-          {/* Botón: Completa tu perfil médico */}
+          {/* Único botón: Completa tu perfil médico */}
           <button
             type="button"
             onClick={onStartQuestionnaire}
@@ -143,15 +143,6 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
           >
             <span>COMPLETA TU PERFIL MÉDICO</span>
             <ChevronRight className="w-[18px] h-[18px] text-black shrink-0" />
-          </button>
-
-          {/* Abajo del botón: Subir documentos (mismo estilo centrado horizontalmente) */}
-          <button
-            type="button"
-            onClick={onStartQuestionnaire}
-            className="w-full px-[14px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-black text-[14px] leading-[20px] font-bold uppercase flex items-center justify-center gap-[8px] transition-colors cursor-pointer whitespace-nowrap"
-          >
-            <span>SUBIR DOCUMENTOS</span>
           </button>
         </div>
       </section>

@@ -178,44 +178,23 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                 <Info className="w-5 h-5 text-black" />
               </button>
 
-              {/* Dropdown con la información de soporte */}
+              {/* Dropdown con la información de soporte - Homologado al estilo de "Solicita una cita" */}
               {isSupportOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[290px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.14)] p-3 border-0 flex flex-col gap-2.5">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-[#f1f5f9]">
-                    <span className="text-[12px] font-bold text-black uppercase tracking-wider">
-                      Soporte Biometría
-                    </span>
-                    <span className="text-[11px] font-medium text-[#64748b]">Ever Health</span>
-                  </div>
-
+                <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[240px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px]">
                   <a
                     href="mailto:biometria@everhealth.es"
-                    className="flex items-center gap-2.5 p-2 rounded-[6px] hover:bg-[#f8fafc] text-black transition-colors text-left group"
+                    className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold text-left transition-colors cursor-pointer group"
                   >
-                    <div className="w-7 h-7 rounded-full bg-[#f1f5f9] group-hover:bg-[#fce7f3] flex items-center justify-center shrink-0">
-                      <Mail className="w-4 h-4 text-black group-hover:text-[#d50475]" />
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-[11px] text-[#64748b] leading-tight">Correo electrónico</span>
-                      <span className="text-[13px] font-bold text-black truncate group-hover:text-[#d50475]">
-                        biometria@everhealth.es
-                      </span>
-                    </div>
+                    <Mail className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
+                    <span className="truncate">biometria@everhealth.es</span>
                   </a>
 
                   <a
                     href="tel:918220518"
-                    className="flex items-center gap-2.5 p-2 rounded-[6px] hover:bg-[#f8fafc] text-black transition-colors text-left group"
+                    className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold text-left transition-colors cursor-pointer group"
                   >
-                    <div className="w-7 h-7 rounded-full bg-[#f1f5f9] group-hover:bg-[#fce7f3] flex items-center justify-center shrink-0">
-                      <Phone className="w-4 h-4 text-black group-hover:text-[#d50475]" />
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-[11px] text-[#64748b] leading-tight">Atención telefónica</span>
-                      <span className="text-[13px] font-bold text-black truncate group-hover:text-[#d50475]">
-                        918 220 518
-                      </span>
-                    </div>
+                    <Phone className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
+                    <span>918 220 518</span>
                   </a>
                 </div>
               )}

@@ -2,13 +2,13 @@ import React from 'react';
 
 export type BadgeVariant =
   | 'disponible'
-  | 'no-disponible'
-  | 'limitada'
-  | 'porcentaje'
-  | 'especialidad'
   | 'confirmada'
   | 'en-espera'
-  | 'programada';
+  | 'programada'
+  | 'no-disponible'
+  | 'limitada'
+  | 'especialidad'
+  | 'porcentaje';
 
 interface BadgeProps {
   variant?: BadgeVariant;
@@ -23,39 +23,50 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
   showDot = false,
 }) => {
+  // Homologated Badge Design System Rules per User Feedback:
+  // - No badge has a background fill (all are bg-transparent).
+  // - Border is light gray: border-[#cbd5e1] (gray 300).
+  // - Typography: text-[12px] leading-[16px] font-bold (same weight across all).
+  // - "Disponible" & "Confirmada" are unified: same component, border-[#cbd5e1], text-[#15803d] (green 700), optional green dot.
+  // - "En espera": border-[#cbd5e1], text-[#2563eb] (blue), optional blue dot.
+  // - "Programada" & "No disponible": border-[#cbd5e1], text-[#475569] (dark gray), optional gray dot.
+  // - "Tiempo limitado": border-[#cbd5e1], text-[#b45309] (amber 700), optional yellow/orange dot.
+
   const getVariantStyles = () => {
     switch (variant) {
       case 'disponible':
-        return 'bg-[#ecfdf5] text-[#065f46] border border-[#a7f3d0]';
+      case 'confirmada':
+        return 'bg-transparent text-[#15803d] border border-[#cbd5e1]';
+      case 'en-espera':
+        return 'bg-transparent text-[#2563eb] border border-[#cbd5e1]';
+      case 'programada':
       case 'no-disponible':
-        return 'bg-[#f1f5f9] text-[#475569] border border-[#cbd5e1]';
+        return 'bg-transparent text-[#475569] border border-[#cbd5e1]';
       case 'limitada':
-        return 'bg-[#fffbeb] text-[#92400e] border border-[#fde68a]';
-      case 'porcentaje':
-        return 'bg-white text-black border border-[#cbd5e1] font-bold text-[12px] px-2 py-0.5';
+        return 'bg-transparent text-[#b45309] border border-[#cbd5e1]';
       case 'especialidad':
         return 'bg-[#f1f5f9] text-[#334155] border border-transparent text-[11px] font-medium';
-      case 'confirmada':
-        return 'bg-[#f0fdf4] text-[#166534] border border-[#bbf7d0]';
-      case 'en-espera':
-        return 'bg-[#eff6ff] text-[#1e40af] border border-[#bfdbfe]';
-      case 'programada':
-        return 'bg-[#f8fafc] text-[#64748b] border border-[#e2e8f0]';
+      case 'porcentaje':
+        return 'bg-transparent text-black border border-[#cbd5e1] font-bold text-[12px] px-2 py-0.5';
       default:
-        return 'bg-[#f1f5f9] text-black border border-[#cbd5e1]';
+        return 'bg-transparent text-[#475569] border border-[#cbd5e1]';
     }
   };
 
   const getDotColor = () => {
     switch (variant) {
       case 'disponible':
-        return 'bg-[#10b981]';
+      case 'confirmada':
+        return 'bg-[#15803d]';
+      case 'en-espera':
+        return 'bg-[#2563eb]';
+      case 'programada':
       case 'no-disponible':
-        return 'bg-[#94a3b8]';
+        return 'bg-[#64748b]';
       case 'limitada':
-        return 'bg-[#f59e0b]';
+        return 'bg-[#b45309]';
       default:
-        return 'bg-transparent';
+        return 'bg-[#64748b]';
     }
   };
 

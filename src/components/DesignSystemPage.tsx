@@ -305,7 +305,9 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
                   <div>
                     <h2 className="text-[18px] font-bold text-black">Badges & Etiquetas</h2>
-                    <p className="text-[13px] text-[#64748b]">Estados clínicos, disponibilidad y etiquetas de eventos.</p>
+                    <p className="text-[13px] text-[#64748b]">
+                      Estados clínicos y disponibilidad homologados: sin fondo de relleno (`bg-transparent`), borde gris claro (`border-[#cbd5e1]`) y tipografía bold homogénea.
+                    </p>
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
                     <Badge variant="disponible" showDot>Disponible</Badge>
@@ -314,7 +316,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     <Badge variant="programada">Programada</Badge>
                     <Badge variant="limitada" showDot>Tiempo limitado</Badge>
                     <Badge variant="no-disponible" showDot>No disponible</Badge>
-                    <Badge variant="porcentaje">10%</Badge>
                     <span className="px-3 py-1 rounded-[6px] bg-[#fef9c3] text-[12px] font-medium text-[#854d0e] border-0 inline-flex items-center gap-1.5">
                       <span>Error de conexión... reintentando</span>
                     </span>
@@ -445,7 +446,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 {/* Molécula: Fila de Médicos disponibles con 3 Avatars Overlapping */}
                 <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
                   <h2 className="text-[18px] font-bold text-black">Fila de Médicos Disponibles & Espera</h2>
-                  <div className="flex items-center gap-[12px] p-4 bg-[#f8fafc] rounded-[8px] border border-[#e2e8f0]">
+                  <div className="flex items-center gap-[12px] p-2 bg-transparent rounded-none">
                     <div className="flex items-center shrink-0">
                       <img
                         src={doctorAvatar1}
@@ -542,22 +543,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     {/* Dropdown 2: Soporte e Información (Biometría / Header) */}
                     <div className="flex flex-col gap-2">
                       <span className="text-[13px] font-bold text-black">2. Dropdown «Info & Soporte Biometría»</span>
-                      <div className="w-[260px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-3 border-0 flex flex-col gap-2">
-                        <div className="flex items-center justify-between pb-1.5 border-b border-[#f1f5f9]">
-                          <span className="text-[11px] font-bold text-black uppercase">Soporte Biometría</span>
-                          <span className="text-[10px] text-[#64748b]">Ever Health</span>
+                      <div className="w-[240px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px]">
+                        <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold transition-colors cursor-pointer">
+                          <Mail className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
+                          <span className="truncate">biometria@everhealth.es</span>
                         </div>
-                        <div className="flex items-center gap-2 p-1.5 rounded-[6px] bg-[#f8fafc]">
-                          <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
-                            <span className="text-[12px]">✉</span>
-                          </div>
-                          <span className="text-[12px] font-bold text-black">biometria@everhealth.es</span>
-                        </div>
-                        <div className="flex items-center gap-2 p-1.5 rounded-[6px] bg-[#f8fafc]">
-                          <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
-                            <span className="text-[12px]">☎</span>
-                          </div>
-                          <span className="text-[12px] font-bold text-black">918 220 518</span>
+                        <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold transition-colors cursor-pointer">
+                          <Phone className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
+                          <span>918 220 518</span>
                         </div>
                       </div>
                     </div>
