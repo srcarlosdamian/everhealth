@@ -79,7 +79,8 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
   onOpenVideoModal,
   onOpenChat,
 }) => {
-  const [showAll, setShowAll] = useState(false);
+  const [isConsultasOpen, setIsConsultasOpen] = useState(false);
+  const [showAll, setShowAll] = useState(true);
   const [solicitaDropdownOpen, setSolicitaDropdownOpen] = useState(false);
   const solicitaDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -257,68 +258,93 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
         </button>
       </section>
 
-      {/* Card 4: Próximas consultas (Carga más los restantes hasta máximo 5) */}
-      <section className="w-full bg-white rounded-[8px] p-6 sm:p-[28px] border border-[#e2e8f0] flex flex-col">
-        <h2 className="text-[22px] leading-[30px] font-bold text-black pb-[14px] border-b border-[#e2e8f0]">
-          Próximas consultas
-        </h2>
-
-        {/* Consultations List (1 initial, up to 5 on "Cargar más") */}
-        <div className="flex flex-col divide-y divide-[#f1f5f9]">
-          {visibleConsultations.map((item) => (
-            <div
-              key={item.id}
-              className="py-[16px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-            >
-              <div className="flex flex-col sm:w-[140px] shrink-0">
-                <span className="text-[15px] leading-[22px] font-bold text-black">
-                  {item.timeStr}
-                </span>
-                <span className="text-[13px] leading-[18px] text-[#64748b]">
-                  {item.timeSub}
-                </span>
-              </div>
-
-              <div className="flex flex-col flex-1">
-                <span className="text-[15px] leading-[22px] font-bold text-black">
-                  {item.title}
-                </span>
-                <span className="text-[13px] leading-[18px] text-[#64748b]">
-                  {item.details}
-                </span>
-              </div>
-
-              {item.isActive ? (
-                <button
-                  type="button"
-                  onClick={onOpenVideoModal}
-                  className="h-[36px] px-[16px] rounded-[6px] border border-[#cbd5e1] bg-white hover:bg-[#f8fafc] text-[13px] font-bold text-black tracking-wide transition-colors cursor-pointer shrink-0"
-                >
-                  {item.actionText}
-                </button>
-              ) : (
-                <span className="h-[36px] px-[14px] rounded-[6px] border border-[#e2e8f0] bg-[#f8fafc] text-[12px] font-medium text-[#94a3b8] tracking-wide inline-flex items-center justify-center shrink-0">
-                  {item.actionText}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-
-        {/* Footer: Event Counter + "Cargar más" plain text */}
-        <div className="flex items-center justify-between pt-4 border-t border-[#f1f5f9]">
-          <span className="text-[13px] font-bold text-[#475569]">
-            {visibleConsultations.length} de {CONSULTATIONS.length} eventos
-          </span>
-
+      {/* Card 4: Próximas consultas (Cerrado por defecto, abre al hacer clic en el chevrón derecho) */}
+      <section className="w-full bg-white rounded-[8px] p-6 sm:p-[28px] border border-[#e2e8f0] flex flex-col transition-all">
+        {/* Header con título y chevrón interactivo a la derecha */}
+        <div
+          onClick={() => setIsConsultasOpen(!isConsultasOpen)}
+          className={`w-full flex items-center justify-between cursor-pointer select-none transition-colors group ${
+            isConsultasOpen ? 'pb-[14px] border-b border-[#e2e8f0]' : ''
+          }`}
+          title={isConsultasOpen ? 'Contraer próximas consultas' : 'Desplegar próximas consultas'}
+        >
+          <h2 className="text-[22px] leading-[30px] font-bold text-black group-hover:text-[#d50475] transition-colors">
+            Próximas consultas
+          </h2>
           <button
             type="button"
-            onClick={() => setShowAll(!showAll)}
-            className="text-[13px] leading-[20px] font-bold text-black hover:underline cursor-pointer transition-colors"
+            className="p-1 text-black group-hover:text-[#d50475] transition-colors cursor-pointer"
+            aria-label={isConsultasOpen ? 'Contraer consultas' : 'Desplegar todas las consultas'}
           >
-            {showAll ? 'Mostrar menos' : 'Cargar más'}
+            <ChevronDown
+              className={`w-[22px] h-[22px] transition-transform duration-200 ${
+                isConsultasOpen ? 'rotate-180' : ''
+              }`}
+            />
           </button>
         </div>
+
+        {/* Contenido desplegable: se muestra todo al abrir */}
+        {isConsultasOpen && (
+          <>
+            {/* Consultations List (Muestra todo) */}
+            <div className="flex flex-col divide-y divide-[#f1f5f9]">
+              {visibleConsultations.map((item) => (
+                <div
+                  key={item.id}
+                  className="py-[16px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+                >
+                  <div className="flex flex-col sm:w-[140px] shrink-0">
+                    <span className="text-[15px] leading-[22px] font-bold text-black">
+                      {item.timeStr}
+                    </span>
+                    <span className="text-[13px] leading-[18px] text-[#64748b]">
+                      {item.timeSub}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col flex-1">
+                    <span className="text-[15px] leading-[22px] font-bold text-black">
+                      {item.title}
+                    </span>
+                    <span className="text-[13px] leading-[18px] text-[#64748b]">
+                      {item.details}
+                    </span>
+                  </div>
+
+                  {item.isActive ? (
+                    <button
+                      type="button"
+                      onClick={onOpenVideoModal}
+                      className="h-[36px] px-[16px] rounded-[6px] border border-[#cbd5e1] bg-white hover:bg-[#f8fafc] text-[13px] font-bold text-black tracking-wide transition-colors cursor-pointer shrink-0"
+                    >
+                      {item.actionText}
+                    </button>
+                  ) : (
+                    <span className="h-[36px] px-[14px] rounded-[6px] border border-[#e2e8f0] bg-[#f8fafc] text-[12px] font-medium text-[#94a3b8] tracking-wide inline-flex items-center justify-center shrink-0">
+                      {item.actionText}
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Footer: Event Counter + "Cargar más / Mostrar menos" plain text */}
+            <div className="flex items-center justify-between pt-4 border-t border-[#f1f5f9]">
+              <span className="text-[13px] font-bold text-[#475569]">
+                {visibleConsultations.length} de {CONSULTATIONS.length} eventos
+              </span>
+
+              <button
+                type="button"
+                onClick={() => setShowAll(!showAll)}
+                className="text-[13px] leading-[20px] font-bold text-black hover:underline cursor-pointer transition-colors"
+              >
+                {showAll ? 'Mostrar menos' : 'Cargar más'}
+              </button>
+            </div>
+          </>
+        )}
       </section>
     </div>
   );
