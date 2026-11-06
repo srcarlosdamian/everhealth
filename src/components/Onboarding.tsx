@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Circle, CheckCircle2, ArrowLeft, ChevronDown } from 'lucide-react';
 import { LanguageSelector } from './LanguageSelector';
+import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 
 interface OnboardingProps {
   initialEmail: string;
@@ -122,26 +123,17 @@ export const Onboarding: React.FC<OnboardingProps> = ({
                 </div>
               </div>
 
-              {/* Sticky/Bottom Action Bar (Frame 9157: #f8fafc surface) */}
-              <div className="sticky bottom-4 w-full h-[68px] bg-[#f8fafc]/95 backdrop-blur-sm rounded-[8px] px-[16px] flex items-center justify-between mt-4">
-                <button
-                  type="button"
-                  onClick={onBackToLogin}
-                  className="h-[36px] px-[12px] rounded-[6px] border border-[#cbd5e1] bg-white text-[#94a3b8] hover:text-[#475569] text-[14px] leading-[20px] font-medium transition-colors cursor-pointer"
-                >
-                  Atrás
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    setStep(2);
-                  }}
-                  className="h-[36px] px-[16px] rounded-[6px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] leading-[20px] font-medium transition-colors cursor-pointer"
-                >
-                  Aceptar y continuar
-                </button>
-              </div>
+              {/* Sticky/Bottom Action Bar Reutilizable */}
+              <NavigationFooter
+                onBack={onBackToLogin}
+                onNext={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  setStep(2);
+                }}
+                backText="Atrás"
+                nextText="Aceptar y continuar"
+                className="sticky bottom-4"
+              />
             </div>
           )}
 
@@ -295,26 +287,19 @@ export const Onboarding: React.FC<OnboardingProps> = ({
                 />
               </div>
 
-              {/* Bottom Action Bar */}
-              <div className="w-full h-[68px] bg-[#f8fafc] rounded-[8px] px-[16px] flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={() => setStep(1)}
-                  className="h-[36px] px-[12px] rounded-[6px] border border-[#cbd5e1] bg-white hover:bg-[#f1f5f9] text-[#0f172a] text-[14px] leading-[20px] font-medium transition-colors cursor-pointer"
-                >
-                  Atrás
-                </button>
-                <button
-                  type="submit"
-                  className={`h-[36px] px-[16px] rounded-[6px] text-white text-[14px] leading-[20px] font-medium transition-colors cursor-pointer ${
-                    isStep2Filled
-                      ? 'bg-[#d50475] hover:bg-[#b80364]'
-                      : 'bg-[#cbd5e1] hover:bg-[#94a3b8]'
-                  }`}
-                >
-                  Continuar
-                </button>
-              </div>
+              {/* Bottom Action Bar Reutilizable */}
+              <NavigationFooter
+                onBack={() => setStep(1)}
+                onNext={() => {
+                  if (isStep2Filled) {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setStep(3);
+                  }
+                }}
+                backText="Atrás"
+                nextText="Continuar"
+                isNextDisabled={!isStep2Filled}
+              />
             </form>
           )}
 
@@ -574,26 +559,22 @@ export const Onboarding: React.FC<OnboardingProps> = ({
                 </div>
               </div>
 
-              {/* Bottom Action Bar */}
-              <div className="w-full h-[68px] bg-[#f8fafc] rounded-[8px] px-[16px] flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={() => setStep(2)}
-                  className="h-[36px] px-[12px] rounded-[6px] border border-[#cbd5e1] bg-white hover:bg-[#f1f5f9] text-[#0f172a] text-[14px] leading-[20px] font-medium transition-colors cursor-pointer"
-                >
-                  Volver
-                </button>
-                <button
-                  type="submit"
-                  className={`h-[36px] px-[16px] rounded-[6px] text-white text-[14px] leading-[20px] font-medium transition-colors cursor-pointer ${
-                    isStep3Filled
-                      ? 'bg-[#d50475] hover:bg-[#b80364]'
-                      : 'bg-[#cbd5e1] hover:bg-[#94a3b8]'
-                  }`}
-                >
-                  Finalizar
-                </button>
-              </div>
+              {/* Bottom Action Bar Reutilizable */}
+              <NavigationFooter
+                onBack={() => setStep(2)}
+                onNext={() => {
+                  if (isStep3Filled) {
+                    onFinishOnboarding({
+                      name: firstName,
+                      lastName: lastName,
+                      email: email || 'carlos.damian@example.com',
+                    });
+                  }
+                }}
+                backText="Volver"
+                nextText="Finalizar"
+                isNextDisabled={!isStep3Filled}
+              />
             </form>
           )}
 

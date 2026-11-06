@@ -97,9 +97,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           />
         </button>
 
-        {/* Dropdown Menu matching exact Figma design */}
+        {/* Dropdown Menu sin borde gris, solo sombra */}
         {userMenuOpen && (
-          <div className="absolute left-0 top-[calc(100%+6px)] z-50 w-full bg-white rounded-[12px] border border-[#cbd5e1] shadow-[0_8px_24px_rgba(0,0,0,0.12)] p-[6px] flex flex-col gap-[2px]">
+          <div className="absolute left-0 top-[calc(100%+6px)] z-50 w-full bg-white rounded-[12px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] flex flex-col gap-[2px]">
             <button
               type="button"
               onClick={() => {
@@ -160,9 +160,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <span>Solicitar una cita</span>
             </button>
 
-            {/* Dropdown Menu matching EVR - 121 */}
+            {/* Dropdown Menu matching EVR - 121 sin borde gris, solo sombra */}
             {solicitarOpen && (
-              <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[6px] border border-[#cbd5e1] shadow-[0_4px_12px_rgba(0,0,0,0.1)] p-[4px] flex flex-col gap-[2px]">
+              <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[8px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] flex flex-col gap-[2px]">
                 <button
                   type="button"
                   onClick={() => {

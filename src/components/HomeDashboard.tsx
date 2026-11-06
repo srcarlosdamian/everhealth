@@ -49,17 +49,9 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Header */}
+        {/* Top Header (max-w-[800px] centrado) */}
         <header className="w-full h-[56px] px-4 sm:px-8 flex items-center justify-center border-b border-[#f1f5f9] lg:border-b-0">
           <div className="w-full max-w-[800px] flex items-center justify-end gap-[16px]">
-            <button
-              type="button"
-              onClick={() => setIsDocsModalOpen(true)}
-              className="text-[#d50475] hover:opacity-80 p-1 cursor-pointer"
-              title="Documentos e informes (EVR-35)"
-            >
-              <PlusCircle className="w-[22px] h-[22px]" />
-            </button>
             <button
               type="button"
               className="text-black hover:opacity-75 p-1 cursor-pointer"

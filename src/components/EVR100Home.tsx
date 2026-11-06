@@ -41,7 +41,7 @@ const CONSULTATIONS: Consultation[] = [
     timeSub: 'Confirmada',
     title: 'Consulta dermatológica · Confirmada',
     details: 'Dra. Carmen Morales · Dermatología',
-    actionText: 'ENLACE ACTIVO 15 MIN ANTES',
+    actionText: 'ACTIVO 15 MINUTOS ANTES',
     isActive: false,
   },
   {
@@ -50,7 +50,7 @@ const CONSULTATIONS: Consultation[] = [
     timeSub: 'Programada',
     title: 'Consulta nutricional · Confirmada',
     details: 'Dra. Carmen Morales · Nutrición',
-    actionText: 'ENLACE ACTIVO 15 MIN ANTES',
+    actionText: 'ACTIVO 15 MINUTOS ANTES',
     isActive: false,
   },
   {
@@ -59,7 +59,7 @@ const CONSULTATIONS: Consultation[] = [
     timeSub: 'Programada',
     title: 'Consulta psicológica · Confirmada',
     details: 'Lic. Roberto Silva · Psicología',
-    actionText: 'ENLACE ACTIVO 15 MIN ANTES',
+    actionText: 'ACTIVO 15 MINUTOS ANTES',
     isActive: false,
   },
   {
@@ -68,7 +68,7 @@ const CONSULTATIONS: Consultation[] = [
     timeSub: 'Programada',
     title: 'Revisión médica · Confirmada',
     details: 'Dr. Alejandro Fuentes · Medicina interna',
-    actionText: 'ENLACE ACTIVO 15 MIN ANTES',
+    actionText: 'ACTIVO 15 MINUTOS ANTES',
     isActive: false,
   },
 ];
@@ -114,40 +114,53 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
         Bienvenido {displayName}
       </h1>
 
-      {/* Card 1: Empieza por tu historia médica */}
-      <section className="w-full bg-[#f8fafc] rounded-[8px] p-6 sm:p-[28px] border border-[#f1f5f9] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div className="flex flex-col gap-[6px] max-w-[420px]">
+      {/* Card 1: Empieza tu historial médica (Sin borde redondeado ni línea exterior) */}
+      <section className="w-full bg-[#f8fafc] p-6 sm:p-[28px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="flex flex-col gap-[8px] flex-1 min-w-0">
           <h2 className="text-[20px] leading-[26px] font-bold text-black">
-            Empieza por tu historia médica
+            Empieza tu historial médica
           </h2>
-          <p className="text-[14px] leading-[20px] text-[#475569]">
+          <p className="text-[13px] leading-[18px] text-[#475569] truncate">
             Completa tu cuestionario médico para que conozcamos tu historia médica
           </p>
+
+          <div className="flex flex-col gap-[6px] mt-2 max-w-[340px]">
+            <span className="text-[13px] leading-[18px] text-black font-normal">
+              Completar cuestionario médico
+            </span>
+            {/* Progress Bar (10% pink, 90% gray) */}
+            <div className="w-full h-[6px] bg-[#e2e8f0] rounded-full overflow-hidden">
+              <div className="h-full bg-[#d50475] rounded-full w-[10%]" />
+            </div>
+          </div>
         </div>
 
-        <div className="w-full md:w-[380px] flex flex-col gap-[12px]">
-          <div className="flex items-center justify-between text-[14px] leading-[20px]">
-            <span className="text-black font-normal">Completar cuestionario médico</span>
-          </div>
-
-          {/* Progress Bar (10% pink, 90% gray) */}
-          <div className="w-full h-[6px] bg-[#e2e8f0] rounded-full overflow-hidden">
-            <div className="h-full bg-[#d50475] rounded-full w-[10%]" />
-          </div>
-
+        <div className="flex flex-col items-stretch sm:items-end gap-[10px] shrink-0">
+          {/* Botón: un poco menos ancho, en mayúsculas, hover oscurece la línea sin fondo */}
           <button
             type="button"
             onClick={onStartQuestionnaire}
-            className="w-full h-[40px] mt-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent hover:bg-black/5 text-[#0f172a] text-[13px] leading-[20px] font-bold tracking-wide flex items-center justify-center gap-[8px] transition-colors cursor-pointer"
+            className="w-auto px-[14px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-black text-[14px] leading-[20px] font-bold uppercase flex items-center justify-center gap-[8px] transition-colors cursor-pointer whitespace-nowrap"
           >
             <span>COMPLETA TU PERFIL MÉDICO</span>
-            <ChevronRight className="w-[16px] h-[16px]" />
+            <ChevronRight className="w-[18px] h-[18px] text-black shrink-0" />
+          </button>
+
+          {/* Abajo del botón: Subir documentos */}
+          <button
+            type="button"
+            onClick={() => {
+              if (onStartQuestionnaire) onStartQuestionnaire();
+            }}
+            className="text-[13px] leading-[18px] font-bold text-[#475569] hover:text-black hover:underline uppercase transition-colors cursor-pointer text-center sm:text-right pr-2"
+          >
+            SUBIR DOCUMENTOS
           </button>
         </div>
       </section>
 
-      {/* Card 2: Atención inmediata */}
-      <section className="w-full bg-white rounded-[8px] p-4 sm:p-[24px] border border-[#e2e8f0] flex flex-col gap-[16px]">
+      {/* Card 2: Atención inmediata (Sin borde redondeado) */}
+      <section className="w-full bg-white p-4 sm:p-[24px] border border-[#e2e8f0] flex flex-col gap-[16px]">
         {/* Title and subtitle */}
         <div className="flex flex-col gap-[2px]">
           <h2 className="text-[20px] leading-[28px] font-bold text-black">
@@ -160,7 +173,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
 
         <div className="w-full border-t border-[#e2e8f0]" />
 
-        {/* Bottom row: Doctors available + Action buttons */}
+        {/* Bottom row: Doctors available + Action CTA Dropdown Button */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Doctors available info */}
           <div className="flex items-center gap-[12px]">
@@ -191,35 +204,30 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
             </div>
           </div>
 
-          {/* Action CTA Dropdown: Solicita una cita en color CTA */}
+          {/* Action CTA Dropdown: SOLICITA UNA CITA en mayúsculas, solo icono plus a la izquierda, dropdown sin borde */}
           <div className="relative shrink-0" ref={solicitaDropdownRef}>
             <button
               type="button"
               onClick={() => setSolicitaDropdownOpen(!solicitaDropdownOpen)}
-              className="h-[40px] px-[16px] rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] leading-[20px] font-bold flex items-center gap-[8px] transition-colors cursor-pointer shadow-xs whitespace-nowrap"
+              className="px-[12px] py-[4px] rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] leading-[20px] font-bold uppercase flex items-center gap-[8px] transition-colors cursor-pointer shadow-xs whitespace-nowrap"
             >
-              <Plus className="w-[18px] h-[18px]" />
-              <span>Solicita una cita</span>
-              <ChevronDown
-                className={`w-[16px] h-[16px] transition-transform duration-200 ${
-                  solicitaDropdownOpen ? 'rotate-180' : ''
-                }`}
-              />
+              <Plus className="w-[20px] h-[20px] text-white shrink-0" />
+              <span>SOLICITA UNA CITA</span>
             </button>
 
-            {/* Dropdown Menu */}
+            {/* Dropdown Menu sin borde gris, solo sombra */}
             {solicitaDropdownOpen && (
-              <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[220px] bg-white rounded-[10px] border border-[#cbd5e1] shadow-[0_8px_24px_rgba(0,0,0,0.12)] p-[6px] flex flex-col gap-[2px]">
+              <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[200px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] flex flex-col gap-[2px]">
                 <button
                   type="button"
                   onClick={() => {
                     setSolicitaDropdownOpen(false);
                     onOpenVideoModal();
                   }}
-                  className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold text-left transition-colors cursor-pointer"
+                  className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold uppercase text-left transition-colors cursor-pointer"
                 >
-                  <Video className="w-[16px] h-[16px] text-[#d50475]" />
-                  <span>Videoconsulta</span>
+                  <Video className="w-[20px] h-[20px] text-[#d50475] shrink-0" />
+                  <span>VIDEOCONSULTA</span>
                 </button>
                 <button
                   type="button"
@@ -227,10 +235,10 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
                     setSolicitaDropdownOpen(false);
                     onOpenChat();
                   }}
-                  className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold text-left transition-colors cursor-pointer"
+                  className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold uppercase text-left transition-colors cursor-pointer"
                 >
-                  <MessageSquare className="w-[16px] h-[16px] text-[#d50475]" />
-                  <span>Chat Médico</span>
+                  <MessageSquare className="w-[20px] h-[20px] text-[#d50475] shrink-0" />
+                  <span>CHAT MÉDICO</span>
                 </button>
               </div>
             )}
@@ -238,8 +246,8 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
         </div>
       </section>
 
-      {/* Card 3: Escaneo biométrico (Título arriba, descripción de una línea abajo, sin icono a la izquierda; icono nativo lucide/scan-face en el botón) */}
-      <section className="w-full bg-white rounded-[8px] p-5 sm:p-[24px] border border-[#e2e8f0] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      {/* Card 3: Escaneo biométrico (Sin borde redondeado, botón px-[12px] py-[4px] en mayúsculas) */}
+      <section className="w-full bg-white p-4 sm:p-[24px] border border-[#e2e8f0] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex flex-col gap-[4px] min-w-0 flex-1">
           <h2 className="text-[20px] leading-[28px] font-bold text-black tracking-tight">
             Escaneo biométrico
@@ -251,15 +259,15 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
 
         <button
           type="button"
-          className="h-[38px] px-[14px] rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-white hover:bg-[#fdf2f8] text-[#d50475] text-[14px] leading-[20px] font-bold flex items-center gap-[8px] transition-colors cursor-pointer shrink-0"
+          className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-transparent text-[#d50475] text-[14px] leading-[20px] font-bold uppercase flex items-center gap-[8px] transition-colors cursor-pointer shrink-0 whitespace-nowrap"
         >
-          <ScanFace className="w-[20px] h-[20px] text-[#d50475] stroke-[2]" />
-          <span className="whitespace-nowrap">INICIAR ESCANEO</span>
+          <ScanFace className="w-[20px] h-[20px] text-[#d50475] shrink-0" />
+          <span>INICIAR ESCANEO</span>
         </button>
       </section>
 
-      {/* Card 4: Próximas consultas (Cerrado por defecto, abre al hacer clic en el chevrón derecho) */}
-      <section className="w-full bg-white rounded-[8px] p-6 sm:p-[28px] border border-[#e2e8f0] flex flex-col transition-all">
+      {/* Card 4: Próximas consultas (Cerrado por defecto, abre al hacer clic en el chevrón derecho, sin bordes redondeados) */}
+      <section className="w-full bg-white p-6 sm:p-[28px] border border-[#e2e8f0] flex flex-col transition-all">
         {/* Header con título y chevrón interactivo a la derecha */}
         <div
           onClick={() => setIsConsultasOpen(!isConsultasOpen)}
@@ -316,12 +324,12 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
                     <button
                       type="button"
                       onClick={onOpenVideoModal}
-                      className="h-[36px] px-[16px] rounded-[6px] border border-[#cbd5e1] bg-white hover:bg-[#f8fafc] text-[13px] font-bold text-black tracking-wide transition-colors cursor-pointer shrink-0"
+                      className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white text-black text-[14px] leading-[20px] font-bold uppercase transition-colors cursor-pointer shrink-0"
                     >
                       {item.actionText}
                     </button>
                   ) : (
-                    <span className="h-[36px] px-[14px] rounded-[6px] border border-[#e2e8f0] bg-[#f8fafc] text-[12px] font-medium text-[#94a3b8] tracking-wide inline-flex items-center justify-center shrink-0">
+                    <span className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[14px] leading-[20px] font-bold uppercase inline-flex items-center justify-center shrink-0">
                       {item.actionText}
                     </span>
                   )}

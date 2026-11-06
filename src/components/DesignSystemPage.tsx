@@ -34,6 +34,10 @@ import {
 import { Button } from '../design-system/atoms/Button';
 import { Badge } from '../design-system/atoms/Badge';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
+import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
+import { ProgressCheckCircle } from '../design-system/atoms/ProgressCheckCircle';
+import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
+import { CompletionMedalIllustration } from '../design-system/atoms/CompletionMedalIllustration';
 
 interface DesignSystemPageProps {
   onBackToHome: () => void;
@@ -71,6 +75,7 @@ const ICONS_CATALOG = [
 export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome }) => {
   const [activeSection, setActiveSection] = useState<'tokens' | 'atomos' | 'moleculas' | 'organismos' | 'iconos'>('tokens');
   const [demoDropdownOpen, setDemoDropdownOpen] = useState(false);
+  const [demoToggle, setDemoToggle] = useState('si');
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
   const doctorAvatar1 = `${import.meta.env.BASE_URL}assets/doctor-avatar-1.png`;
@@ -292,33 +297,105 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 <div>
                   <h1 className="text-[28px] font-bold text-black">Átomos del Sistema</h1>
                   <p className="text-[14px] text-[#64748b] mt-1">
-                    Componentes atómicos indivisibles: Botones, Checks 900, Badges e Inputs.
+                    Componentes atómicos indivisibles: Badges oficiales, Toggles segmentados, Anillos de progreso, Botones e Inputs.
                   </p>
                 </div>
 
-                {/* Botones */}
+                {/* 1. Badges oficiales de Figma */}
                 <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
-                  <h2 className="text-[18px] font-bold text-black">Botones</h2>
-                  <div className="flex flex-wrap items-center gap-4">
-                    <button className="h-[40px] px-[16px] rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold flex items-center gap-2 cursor-pointer shadow-xs">
-                      <Plus className="w-4 h-4" />
-                      <span>Solicita una cita (CTA)</span>
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">Badges & Etiquetas</h2>
+                    <p className="text-[13px] text-[#64748b]">Estados clínicos, disponibilidad y etiquetas de eventos.</p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <Badge variant="disponible" showDot>Disponible</Badge>
+                    <Badge variant="en-espera">En espera</Badge>
+                    <Badge variant="confirmada">Confirmada</Badge>
+                    <Badge variant="programada">Programada</Badge>
+                    <Badge variant="limitada" showDot>Tiempo limitado</Badge>
+                    <Badge variant="no-disponible" showDot>No disponible</Badge>
+                    <Badge variant="porcentaje">10%</Badge>
+                    <span className="px-3 py-1 rounded-[6px] bg-[#fef9c3] text-[12px] font-medium text-[#854d0e] border-0 inline-flex items-center gap-1.5">
+                      <span>Error de conexión... reintentando</span>
+                    </span>
+                    <span className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[14px] leading-[20px] font-bold uppercase inline-flex items-center justify-center">
+                      ACTIVO 15 MINUTOS ANTES
+                    </span>
+                  </div>
+                </div>
+
+                {/* 2. Segmented Toggle (Sí / No) */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">Segmented Toggle (Sí / No)</h2>
+                    <p className="text-[13px] text-[#64748b]">Campo estilo píldora segmentada con fondo gris claro y selector activo blanco con elevación sutil.</p>
+                  </div>
+                  <div className="flex items-center gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                    <SegmentedToggle
+                      value={demoToggle}
+                      onChange={(v) => setDemoToggle(v)}
+                    />
+                    <span className="text-[14px] text-black">
+                      Valor seleccionado: <strong className="uppercase font-bold">{demoToggle}</strong>
+                    </span>
+                  </div>
+                </div>
+
+                {/* 3. Anillos de Progreso y Check Neutral */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">Progress Check Circle (Anillos de Progreso)</h2>
+                    <p className="text-[13px] text-[#64748b]">Indicadores circulares SVG: trazo gris con arco negro en progreso y check neutral al completarse.</p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                    <div className="flex items-center gap-2">
+                      <ProgressCheckCircle progress={25} size={24} />
+                      <span className="text-[13px] text-black">25% (Inicio)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <ProgressCheckCircle progress={50} size={24} />
+                      <span className="text-[13px] text-black">50% (Medio)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <ProgressCheckCircle progress={80} size={24} />
+                      <span className="text-[13px] text-black">80% (Avanzado)</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <ProgressCheckCircle isCompleted size={24} />
+                      <span className="text-[13px] font-bold text-black">Completado (Check)</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 4. Botones Oficiales Figma */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">Botones Estándar Figma (`px-[12px] py-[4px]`, Mayúsculas)</h2>
+                    <p className="text-[13px] text-[#64748b]">Altura estándar compacta de 28-30px, texto 14px en mayúsculas, iconos Lucide de 20px.</p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button className="px-[12px] py-[4px] rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] leading-[20px] font-bold uppercase flex items-center gap-[8px] shadow-xs cursor-pointer">
+                      <Plus className="w-[20px] h-[20px] text-white" />
+                      <span>SOLICITA UNA CITA</span>
                     </button>
-                    <button className="h-[38px] px-[16px] rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-white hover:bg-[#fdf2f8] text-[#d50475] text-[13px] font-bold flex items-center gap-2 cursor-pointer">
-                      <MessageSquare className="w-4 h-4" />
-                      <span>CHAT MÉDICO (Outline)</span>
+                    <button className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-transparent text-[#d50475] text-[14px] leading-[20px] font-bold uppercase flex items-center gap-[8px] cursor-pointer">
+                      <ScanFace className="w-[20px] h-[20px] text-[#d50475]" />
+                      <span>INICIAR ESCANEO</span>
                     </button>
-                    <button className="h-[40px] px-[16px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#0f172a] text-[13px] font-bold flex items-center gap-2 cursor-pointer">
+                    <button className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-black text-[14px] leading-[20px] font-bold uppercase flex items-center gap-[8px] cursor-pointer">
                       <span>COMPLETA TU PERFIL MÉDICO</span>
-                      <ChevronRight className="w-4 h-4" />
+                      <ChevronRight className="w-[18px] h-[18px] text-black" />
                     </button>
+                    <span className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[14px] leading-[20px] font-bold uppercase">
+                      INACTIVO
+                    </span>
                     <button className="text-[13px] font-bold text-black hover:underline cursor-pointer">
-                      Cargar más (Texto puro)
+                      Cargar más
                     </button>
                   </div>
                 </div>
 
-                {/* Stepper Checks 900 */}
+                {/* 5. Stepper Checks 900 */}
                 <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
                   <h2 className="text-[18px] font-bold text-black">Stepper con Check Pink 900 (`#831843`)</h2>
                   <p className="text-[13px] text-[#64748b]">
@@ -414,6 +491,29 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       Disponible ahora
                     </span>
                   </div>
+                </div>
+
+                {/* Molécula: NavigationFooter (Componente de navegación estandarizado) */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">Barra de Navegación (`NavigationFooter`)</h2>
+                    <p className="text-[13px] text-[#64748b]">Componente reutilizable en Onboarding, Cuestionario y Documentos. Superficie #f8fafc con botones en minúsculas/normales (Atrás outline blanco y Continuar rosa).</p>
+                  </div>
+                  <NavigationFooter
+                    onBack={() => {}}
+                    onNext={() => {}}
+                    backText="Atrás"
+                    nextText="Continuar"
+                  />
+                </div>
+
+                {/* Molécula: Ilustración de Finalización / Medalla con Podio */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4 items-center">
+                  <div className="w-full">
+                    <h2 className="text-[18px] font-bold text-black">Ilustración de Cuestionario Completado (EVR - 116 / 118)</h2>
+                    <p className="text-[13px] text-[#64748b]">Medalla circular con check rosa sobre podio lineal.</p>
+                  </div>
+                  <CompletionMedalIllustration size={160} />
                 </div>
               </div>
             )}

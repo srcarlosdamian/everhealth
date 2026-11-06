@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Check } from 'lucide-react';
+import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 
 interface ModalGinecologiaProps {
   isOpen: boolean;
@@ -13,9 +14,9 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
   onConfirm,
 }) => {
   const [selectedPatologias, setSelectedPatologias] = useState<string[]>([]);
-  const [embarazada, setEmbarazada] = useState<'si' | 'no' | null>(null);
-  const [aborto, setAborto] = useState<'si' | 'no' | null>(null);
-  const [hijos, setHijos] = useState<'si' | 'no' | null>(null);
+  const [embarazada, setEmbarazada] = useState<'si' | 'no'>('no');
+  const [aborto, setAborto] = useState<'si' | 'no'>('no');
+  const [hijos, setHijos] = useState<'si' | 'no'>('si');
 
   if (!isOpen) return null;
 
@@ -58,7 +59,7 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
           </button>
         </div>
 
-        {/* Patologías Section */}
+        {/* Patologías Section - Check neutral, hover sin cambiar fondo */}
         <div className="flex flex-col gap-3">
           <h3 className="text-[17px] font-bold text-black">Patologías</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -68,16 +69,16 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
                 <div
                   key={item.title}
                   onClick={() => togglePatologia(item.title)}
-                  className={`p-3 rounded-[8px] border flex items-start gap-3 cursor-pointer transition-colors ${
+                  className={`p-3 rounded-[8px] border flex items-start gap-3 cursor-pointer transition-colors bg-white ${
                     isChecked
-                      ? 'border-[#d50475] bg-[#fdf2f8]/40'
-                      : 'border-[#e2e8f0] hover:bg-[#f8fafc]'
+                      ? 'border-[#0f172a]'
+                      : 'border-[#cbd5e1] hover:border-[#475569]'
                   }`}
                 >
                   <div
                     className={`w-4 h-4 rounded-[3px] border mt-0.5 flex items-center justify-center shrink-0 ${
                       isChecked
-                        ? 'bg-[#d50475] border-[#d50475] text-white'
+                        ? 'bg-[#0f172a] border-[#0f172a] text-white'
                         : 'border-[#cbd5e1] bg-white'
                     }`}
                   >
@@ -93,93 +94,45 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
           </div>
         </div>
 
-        {/* Antecedentes Section */}
+        {/* Antecedentes Section - Con SegmentedToggle gris reutilizable */}
         <div className="flex flex-col gap-3">
           <h3 className="text-[17px] font-bold text-black">Antecedentes</h3>
           <div className="flex flex-col gap-3">
             
             {/* Pregunta 1 */}
-            <div className="p-3.5 rounded-[8px] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="p-3.5 rounded-[8px] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
               <div className="flex flex-col">
                 <span className="text-[14px] font-bold text-black">¿Has estado embarazada alguna vez?</span>
                 <span className="text-[12px] text-[#64748b]">Incluye partos a término, prematuros y abortos</span>
               </div>
-              <div className="flex items-center gap-1.5 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setEmbarazada('si')}
-                  className={`h-7 px-3 rounded-[4px] border text-[12px] font-bold cursor-pointer ${
-                    embarazada === 'si' ? 'bg-[#d50475] text-white border-[#d50475]' : 'border-[#cbd5e1] text-black hover:bg-[#f8fafc]'
-                  }`}
-                >
-                  Sí
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setEmbarazada('no')}
-                  className={`h-7 px-3 rounded-[4px] border text-[12px] font-bold cursor-pointer ${
-                    embarazada === 'no' ? 'bg-[#d50475] text-white border-[#d50475]' : 'border-[#cbd5e1] text-black hover:bg-[#f8fafc]'
-                  }`}
-                >
-                  No
-                </button>
-              </div>
+              <SegmentedToggle
+                value={embarazada}
+                onChange={(val) => setEmbarazada(val as 'si' | 'no')}
+              />
             </div>
 
             {/* Pregunta 2 */}
-            <div className="p-3.5 rounded-[8px] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="p-3.5 rounded-[8px] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
               <div className="flex flex-col">
                 <span className="text-[14px] font-bold text-black">¿Has tenido algún aborto?</span>
                 <span className="text-[12px] text-[#64748b]">Ya sea de carácter espontáneo, retenido o terapéutico</span>
               </div>
-              <div className="flex items-center gap-1.5 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setAborto('si')}
-                  className={`h-7 px-3 rounded-[4px] border text-[12px] font-bold cursor-pointer ${
-                    aborto === 'si' ? 'bg-[#d50475] text-white border-[#d50475]' : 'border-[#cbd5e1] text-black hover:bg-[#f8fafc]'
-                  }`}
-                >
-                  Sí
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setAborto('no')}
-                  className={`h-7 px-3 rounded-[4px] border text-[12px] font-bold cursor-pointer ${
-                    aborto === 'no' ? 'bg-[#d50475] text-white border-[#d50475]' : 'border-[#cbd5e1] text-black hover:bg-[#f8fafc]'
-                  }`}
-                >
-                  No
-                </button>
-              </div>
+              <SegmentedToggle
+                value={aborto}
+                onChange={(val) => setAborto(val as 'si' | 'no')}
+              />
             </div>
 
             {/* Pregunta 3 */}
-            <div className="p-3.5 rounded-[8px] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="p-3.5 rounded-[8px] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
               <div className="flex flex-col">
                 <span className="text-[14px] font-bold text-black">¿Tienes hijos vivos actualmente?</span>
                 <span className="text-[12px] text-[#64748b]">Partos vaginales y/o cesáreas.</span>
               </div>
-              <div className="flex items-center gap-1.5 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setHijos('si')}
-                  className={`h-7 px-3 rounded-[4px] border text-[12px] font-bold cursor-pointer ${
-                    hijos === 'si' ? 'bg-[#d50475] text-white border-[#d50475]' : 'border-[#cbd5e1] text-black hover:bg-[#f8fafc]'
-                  }`}
-                >
-                  Sí
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setHijos('no')}
-                  className={`h-7 px-3 rounded-[4px] border text-[12px] font-bold cursor-pointer ${
-                    hijos === 'no' ? 'bg-[#d50475] text-white border-[#d50475]' : 'border-[#cbd5e1] text-black hover:bg-[#f8fafc]'
-                  }`}
-                >
-                  No
-                </button>
-              </div>
+              <SegmentedToggle
+                value={hijos}
+                onChange={(val) => setHijos(val as 'si' | 'no')}
+              />
             </div>
 
           </div>
@@ -190,7 +143,7 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="h-[38px] px-4 rounded-[6px] border border-[#d50475] text-[#d50475] hover:bg-[#fdf2f8] text-[13px] font-bold transition-colors cursor-pointer"
+            className="h-[38px] px-4 rounded-[6px] border border-[#cbd5e1] hover:border-[#475569] text-black text-[13px] font-bold transition-colors cursor-pointer"
           >
             Descartar
           </button>
