@@ -7,6 +7,7 @@ import { DesignSystemPage } from './DesignSystemPage';
 import { ModalVideoConsulta } from './ModalVideoConsulta';
 import { ModalSolicitarChat } from './ModalSolicitarChat';
 import { ModalDocumentos } from './ModalDocumentos';
+import { Biometria } from './Biometria';
 import { LanguageSelector } from './LanguageSelector';
 import { PlusCircle, Bell, HelpCircle, Palette } from 'lucide-react';
 
@@ -21,6 +22,13 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const [chatModalTab, setChatModalTab] = useState<'agendar' | 'ahora'>('agendar');
   const [isDocsModalOpen, setIsDocsModalOpen] = useState(false);
+
+  // If in biometria mode, render full-page Biometria
+  if (currentView === 'biometria') {
+    return (
+      <Biometria onBackToHome={() => setCurrentView('home')} userName={userName} />
+    );
+  }
 
   // If in questionnaire mode, render full-screen CuestionarioMedico (EVR - 45 through 107)
   if (currentView === 'cuestionario') {
@@ -86,6 +94,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
               <EVR100Home
                 userName={userName}
                 onStartQuestionnaire={() => setCurrentView('cuestionario')}
+                onStartBiometria={() => setCurrentView('biometria')}
                 onOpenVideoModal={() => setIsVideoModalOpen(true)}
                 onOpenChat={() => setCurrentView('solicitar-chat')}
               />

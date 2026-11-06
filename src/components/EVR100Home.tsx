@@ -11,6 +11,7 @@ import {
 interface EVR100HomeProps {
   userName: string;
   onStartQuestionnaire: () => void;
+  onStartBiometria?: () => void;
   onOpenVideoModal: () => void;
   onOpenChat: () => void;
 }
@@ -76,6 +77,7 @@ const CONSULTATIONS: Consultation[] = [
 export const EVR100Home: React.FC<EVR100HomeProps> = ({
   userName,
   onStartQuestionnaire,
+  onStartBiometria,
   onOpenVideoModal,
   onOpenChat,
 }) => {
@@ -254,6 +256,9 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
 
         <button
           type="button"
+          onClick={() => {
+            if (onStartBiometria) onStartBiometria();
+          }}
           className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-transparent text-[#d50475] text-[14px] leading-[20px] font-bold uppercase flex items-center gap-[8px] transition-colors cursor-pointer shrink-0 whitespace-nowrap"
         >
           <ScanFace className="w-[20px] h-[20px] text-[#d50475] shrink-0" />

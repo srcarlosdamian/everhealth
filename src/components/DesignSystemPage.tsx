@@ -515,6 +515,54 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </div>
                   <CompletionMedalIllustration size={160} />
                 </div>
+
+                {/* Molécula: Catálogo de Dropdowns y Menús Desplegables */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">Catálogo de Dropdowns (Sin bordes grises, con sombra flotante)</h2>
+                    <p className="text-[13px] text-[#64748b]">Menús desplegables con sombra suave `shadow-[0_12px_32px_rgba(0,0,0,0.12)]` y esquinas de 10px.</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                    {/* Dropdown 1: Solicitar cita */}
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[13px] font-bold text-black">1. Dropdown «Solicita una cita»</span>
+                      <div className="w-[200px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] flex flex-col gap-[2px] border-0">
+                        <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] font-bold uppercase transition-colors cursor-pointer">
+                          <Video className="w-[18px] h-[18px] text-[#d50475]" />
+                          <span>Videoconsulta</span>
+                        </div>
+                        <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] font-bold uppercase transition-colors cursor-pointer">
+                          <MessageSquare className="w-[18px] h-[18px] text-[#d50475]" />
+                          <span>Chat médico</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Dropdown 2: Soporte e Información (Biometría / Header) */}
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[13px] font-bold text-black">2. Dropdown «Info & Soporte Biometría»</span>
+                      <div className="w-[260px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-3 border-0 flex flex-col gap-2">
+                        <div className="flex items-center justify-between pb-1.5 border-b border-[#f1f5f9]">
+                          <span className="text-[11px] font-bold text-black uppercase">Soporte Biometría</span>
+                          <span className="text-[10px] text-[#64748b]">Ever Health</span>
+                        </div>
+                        <div className="flex items-center gap-2 p-1.5 rounded-[6px] bg-[#f8fafc]">
+                          <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
+                            <span className="text-[12px]">✉</span>
+                          </div>
+                          <span className="text-[12px] font-bold text-black">biometria@everhealth.es</span>
+                        </div>
+                        <div className="flex items-center gap-2 p-1.5 rounded-[6px] bg-[#f8fafc]">
+                          <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shrink-0">
+                            <span className="text-[12px]">☎</span>
+                          </div>
+                          <span className="text-[12px] font-bold text-black">918 220 518</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
