@@ -117,17 +117,14 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
       {/* Card 1: Empieza tu historial médica (Sin borde redondeado ni línea exterior) */}
       <section className="w-full bg-[#f8fafc] p-6 sm:p-[28px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex flex-col gap-[8px] flex-1 min-w-0">
-          <h2 className="text-[20px] leading-[26px] font-bold text-black">
+          <h2 className="text-[20px] leading-[28px] font-bold text-black">
             Empieza tu historial médica
           </h2>
-          <p className="text-[13px] leading-[18px] text-[#475569] truncate">
+          <p className="text-[16px] leading-[24px] text-black font-normal truncate">
             Completa tu cuestionario médico para que conozcamos tu historia médica
           </p>
 
           <div className="flex flex-col gap-[6px] mt-2 max-w-[340px]">
-            <span className="text-[13px] leading-[18px] text-black font-normal">
-              Completar cuestionario médico
-            </span>
             {/* Progress Bar (10% pink, 90% gray) */}
             <div className="w-full h-[6px] bg-[#e2e8f0] rounded-full overflow-hidden">
               <div className="h-full bg-[#d50475] rounded-full w-[10%]" />
@@ -135,26 +132,24 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
           </div>
         </div>
 
-        <div className="flex flex-col items-stretch sm:items-end gap-[10px] shrink-0">
-          {/* Botón: un poco menos ancho, en mayúsculas, hover oscurece la línea sin fondo */}
+        <div className="flex flex-col items-center gap-[10px] shrink-0 self-center md:self-auto">
+          {/* Botón: Completa tu perfil médico */}
           <button
             type="button"
             onClick={onStartQuestionnaire}
-            className="w-auto px-[14px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-black text-[14px] leading-[20px] font-bold uppercase flex items-center justify-center gap-[8px] transition-colors cursor-pointer whitespace-nowrap"
+            className="w-full px-[14px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-black text-[14px] leading-[20px] font-bold uppercase flex items-center justify-center gap-[8px] transition-colors cursor-pointer whitespace-nowrap"
           >
             <span>COMPLETA TU PERFIL MÉDICO</span>
             <ChevronRight className="w-[18px] h-[18px] text-black shrink-0" />
           </button>
 
-          {/* Abajo del botón: Subir documentos */}
+          {/* Abajo del botón: Subir documentos (mismo estilo centrado horizontalmente) */}
           <button
             type="button"
-            onClick={() => {
-              if (onStartQuestionnaire) onStartQuestionnaire();
-            }}
-            className="text-[13px] leading-[18px] font-bold text-[#475569] hover:text-black hover:underline uppercase transition-colors cursor-pointer text-center sm:text-right pr-2"
+            onClick={onStartQuestionnaire}
+            className="w-full px-[14px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-black text-[14px] leading-[20px] font-bold uppercase flex items-center justify-center gap-[8px] transition-colors cursor-pointer whitespace-nowrap"
           >
-            SUBIR DOCUMENTOS
+            <span>SUBIR DOCUMENTOS</span>
           </button>
         </div>
       </section>
@@ -166,7 +161,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
           <h2 className="text-[20px] leading-[28px] font-bold text-black">
             Atención inmediata
           </h2>
-          <p className="text-[14px] leading-[20px] text-[#64748b]">
+          <p className="text-[16px] leading-[24px] text-black font-normal truncate">
             Nuestros doctores están en línea y listos para resolver tus dudas de salud en este momento.
           </p>
         </div>
@@ -252,8 +247,8 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
           <h2 className="text-[20px] leading-[28px] font-bold text-black tracking-tight">
             Escaneo biométrico
           </h2>
-          <p className="text-[14px] leading-[22px] text-[#475569]">
-            Mide tus signos vitales y pulso en segundos usando la cámara para complementar tu expediente.
+          <p className="text-[16px] leading-[24px] text-black font-normal truncate">
+            Mide tus signos vitales y pulso en segundos usando la cámara.
           </p>
         </div>
 
@@ -266,93 +261,71 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
         </button>
       </section>
 
-      {/* Card 4: Próximas consultas (Cerrado por defecto, abre al hacer clic en el chevrón derecho, sin bordes redondeados) */}
+      {/* Card 4: Próximas consultas (Siempre visible 1 elemento, Cargar más para ver el resto) */}
       <section className="w-full bg-white p-6 sm:p-[28px] border border-[#e2e8f0] flex flex-col transition-all">
-        {/* Header con título y chevrón interactivo a la derecha */}
-        <div
-          onClick={() => setIsConsultasOpen(!isConsultasOpen)}
-          className={`w-full flex items-center justify-between cursor-pointer select-none transition-colors group ${
-            isConsultasOpen ? 'pb-[14px] border-b border-[#e2e8f0]' : ''
-          }`}
-          title={isConsultasOpen ? 'Contraer próximas consultas' : 'Desplegar próximas consultas'}
-        >
-          <h2 className="text-[22px] leading-[30px] font-bold text-black group-hover:text-[#d50475] transition-colors">
+        {/* Header con título */}
+        <div className="w-full flex items-center justify-between pb-[14px] border-b border-[#e2e8f0]">
+          <h2 className="text-[20px] leading-[28px] font-bold text-black">
             Próximas consultas
           </h2>
-          <button
-            type="button"
-            className="p-1 text-black group-hover:text-[#d50475] transition-colors cursor-pointer"
-            aria-label={isConsultasOpen ? 'Contraer consultas' : 'Desplegar todas las consultas'}
-          >
-            <ChevronDown
-              className={`w-[22px] h-[22px] transition-transform duration-200 ${
-                isConsultasOpen ? 'rotate-180' : ''
-              }`}
-            />
-          </button>
         </div>
 
-        {/* Contenido desplegable: se muestra todo al abrir */}
-        {isConsultasOpen && (
-          <>
-            {/* Consultations List (Muestra todo) */}
-            <div className="flex flex-col divide-y divide-[#f1f5f9]">
-              {visibleConsultations.map((item) => (
-                <div
-                  key={item.id}
-                  className="py-[16px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+        {/* Consultations List */}
+        <div className="flex flex-col divide-y divide-[#f1f5f9]">
+          {visibleConsultations.map((item) => (
+            <div
+              key={item.id}
+              className="py-[16px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            >
+              <div className="flex flex-col sm:w-[140px] shrink-0">
+                <span className="text-[15px] leading-[22px] font-bold text-black">
+                  {item.timeStr}
+                </span>
+                <span className="text-[13px] leading-[18px] text-[#64748b]">
+                  {item.timeSub}
+                </span>
+              </div>
+
+              <div className="flex flex-col flex-1">
+                <span className="text-[15px] leading-[22px] font-bold text-black">
+                  {item.title}
+                </span>
+                <span className="text-[13px] leading-[18px] text-[#64748b]">
+                  {item.details}
+                </span>
+              </div>
+
+              {item.isActive ? (
+                <button
+                  type="button"
+                  onClick={onOpenVideoModal}
+                  className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white text-black text-[14px] leading-[20px] font-bold uppercase transition-colors cursor-pointer shrink-0"
                 >
-                  <div className="flex flex-col sm:w-[140px] shrink-0">
-                    <span className="text-[15px] leading-[22px] font-bold text-black">
-                      {item.timeStr}
-                    </span>
-                    <span className="text-[13px] leading-[18px] text-[#64748b]">
-                      {item.timeSub}
-                    </span>
-                  </div>
-
-                  <div className="flex flex-col flex-1">
-                    <span className="text-[15px] leading-[22px] font-bold text-black">
-                      {item.title}
-                    </span>
-                    <span className="text-[13px] leading-[18px] text-[#64748b]">
-                      {item.details}
-                    </span>
-                  </div>
-
-                  {item.isActive ? (
-                    <button
-                      type="button"
-                      onClick={onOpenVideoModal}
-                      className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white text-black text-[14px] leading-[20px] font-bold uppercase transition-colors cursor-pointer shrink-0"
-                    >
-                      {item.actionText}
-                    </button>
-                  ) : (
-                    <span className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[14px] leading-[20px] font-bold uppercase inline-flex items-center justify-center shrink-0">
-                      {item.actionText}
-                    </span>
-                  )}
-                </div>
-              ))}
+                  {item.actionText}
+                </button>
+              ) : (
+                <span className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[14px] leading-[20px] font-bold uppercase inline-flex items-center justify-center shrink-0">
+                  {item.actionText}
+                </span>
+              )}
             </div>
+          ))}
+        </div>
 
-            {/* Footer: Event Counter + "Cargar más / Mostrar menos" plain text */}
-            <div className="flex items-center justify-between pt-4 border-t border-[#f1f5f9]">
-              <span className="text-[13px] font-bold text-[#475569]">
-                {visibleConsultations.length} de {CONSULTATIONS.length} eventos
-              </span>
+        {/* Footer: Event Counter + "Cargar más / Mostrar menos" plain text */}
+        <div className="flex items-center justify-between pt-4 border-t border-[#f1f5f9]">
+          <span className="text-[13px] font-bold text-[#475569]">
+            {visibleConsultations.length} de {CONSULTATIONS.length} eventos
+          </span>
 
-              <button
-                type="button"
-                onClick={() => setShowAll(!showAll)}
-                className="text-[13px] leading-[20px] font-bold text-black hover:underline cursor-pointer transition-colors"
-              >
-                {showAll ? 'Mostrar menos' : 'Cargar más'}
-              </button>
-            </div>
-          </>
-        )}
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            className="text-[13px] leading-[20px] font-bold text-black hover:underline cursor-pointer transition-colors"
+          >
+            {showAll ? 'Mostrar menos' : 'Cargar más'}
+          </button>
+        </div>
       </section>
     </div>
   );
