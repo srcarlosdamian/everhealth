@@ -7,6 +7,8 @@ import {
   Layout,
   Sparkles,
   Check,
+  CheckCircle2,
+  AlertCircle,
   Video,
   MessageSquare,
   ScanFace,
@@ -78,9 +80,13 @@ const ICONS_CATALOG = [
 ];
 
 export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome }) => {
-  const [activeSection, setActiveSection] = useState<'tokens' | 'atomos' | 'moleculas' | 'organismos' | 'iconos'>('tokens');
+  const [activeSection, setActiveSection] = useState<'tokens' | 'atomos' | 'inputs' | 'moleculas' | 'organismos' | 'modales' | 'iconos'>('tokens');
   const [demoDropdownOpen, setDemoDropdownOpen] = useState(false);
   const [demoToggle, setDemoToggle] = useState('si');
+  const [demoConfirmModalOpen, setDemoConfirmModalOpen] = useState(false);
+  const [demoFormModalOpen, setDemoFormModalOpen] = useState(false);
+  const [demoColor, setDemoColor] = useState('#d4a373');
+  const [demoColorOpen, setDemoColorOpen] = useState(false);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
   const doctorAvatar1 = `${import.meta.env.BASE_URL}assets/doctor-avatar-1.png`;
@@ -145,7 +151,20 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
             }`}
           >
             <Layers className="w-[18px] h-[18px] text-black" />
-            <span>2. Átomos</span>
+            <span>2. Átomos (Badges/Btns)</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveSection('inputs')}
+            className={`w-full h-[40px] px-[12px] rounded-[6px] flex items-center gap-[10px] text-[14px] leading-[20px] transition-colors cursor-pointer ${
+              activeSection === 'inputs'
+                ? 'bg-[#f1f5f9] text-black font-bold'
+                : 'text-black hover:bg-[#f8fafc] font-normal'
+            }`}
+          >
+            <Edit2 className="w-[18px] h-[18px] text-black" />
+            <span>3. Inputs & Forms</span>
           </button>
 
           <button
@@ -158,7 +177,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
             }`}
           >
             <Component className="w-[18px] h-[18px] text-black" />
-            <span>3. Moléculas</span>
+            <span>4. Moléculas (Dropdowns)</span>
           </button>
 
           <button
@@ -171,7 +190,20 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
             }`}
           >
             <Layout className="w-[18px] h-[18px] text-black" />
-            <span>4. Organismos</span>
+            <span>5. Organismos & Tablas</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveSection('modales')}
+            className={`w-full h-[40px] px-[12px] rounded-[6px] flex items-center gap-[10px] text-[14px] leading-[20px] transition-colors cursor-pointer ${
+              activeSection === 'modales'
+                ? 'bg-[#f1f5f9] text-black font-bold'
+                : 'text-black hover:bg-[#f8fafc] font-normal'
+            }`}
+          >
+            <X className="w-[18px] h-[18px] text-black" />
+            <span>6. Modales & Diálogos</span>
           </button>
 
           <hr className="border-[#e2e8f0] my-[6px]" />
@@ -186,7 +218,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
             }`}
           >
             <Sparkles className="w-[18px] h-[18px] text-black" />
-            <span>5. Íconos Lucide</span>
+            <span>7. Íconos Lucide</span>
           </button>
         </nav>
       </aside>
@@ -317,20 +349,38 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   <div className="flex flex-wrap items-center gap-3">
                     <Badge variant="disponible">Disponible</Badge>
                     <Badge variant="en-espera">En espera</Badge>
-                    <Badge variant="confirmada">Confirmada</Badge>
                     <Badge variant="programada">Programada</Badge>
                     <Badge variant="limitada">Tiempo limitado</Badge>
                     <Badge variant="no-disponible">No disponible</Badge>
-                    <span className="px-3 py-1 rounded-[6px] bg-[#fef9c3] text-[12px] font-medium text-[#854d0e] border-0 inline-flex items-center gap-1.5">
-                      <span>Error de conexión... reintentando</span>
-                    </span>
-                    <span className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[14px] leading-[20px] font-bold uppercase inline-flex items-center justify-center">
-                      ACTIVO 15 MINUTOS ANTES
-                    </span>
+                    <Badge variant="error-conexion">Error de conexión... reintentando</Badge>
                   </div>
                 </div>
 
-                {/* 2. Segmented Toggle (Sí / No) */}
+                {/* 2. Indicador de Autoguardado (Guardado) */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">Indicador de Autoguardado (`Guardado`)</h2>
+                    <p className="text-[13px] text-[#64748b]">
+                      Píldora con fondo gris claro (`bg-[#f1f5f9]`), esquinas de 6px y el icono de check en círculo de Lucide (`CheckCircle2`). Presente en steppers y formularios para feedback instantáneo de persistencia.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-4 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-1.5 px-3 py-1 rounded-[6px] bg-[#f1f5f9] text-[12px] font-medium text-[#1e293b]">
+                        <span>Guardado</span>
+                        <CheckCircle2 className="w-4 h-4 text-[#1e293b] stroke-[2]" />
+                      </div>
+                      <span className="text-[12px] text-[#64748b]">Estado activo / normal</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <Badge variant="error-conexion">Error de conexión... reintentando</Badge>
+                      <span className="text-[12px] text-[#64748b]">Estado de reconexión</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 3. Segmented Toggle (Sí / No) */}
                 <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
                   <div>
                     <h2 className="text-[18px] font-bold text-black">Segmented Toggle (Sí / No)</h2>
@@ -392,11 +442,56 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       <span>COMPLETA TU PERFIL MÉDICO</span>
                       <ChevronRight className="w-[18px] h-[18px] text-black" />
                     </button>
-                    <span className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[14px] leading-[20px] font-bold uppercase">
-                      INACTIVO
-                    </span>
+                    {/* Botón inactivo homologado: NO DISPONIBLE con tooltip 'Activo 15 minutos antes' */}
+                    <div className="relative group inline-block">
+                      <button
+                        type="button"
+                        disabled
+                        title="Activo 15 minutos antes"
+                        className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[14px] leading-[20px] font-bold uppercase cursor-not-allowed select-none"
+                      >
+                        NO DISPONIBLE
+                      </button>
+                      <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black text-white text-[11px] font-medium px-2 py-0.5 rounded shadow-xs whitespace-nowrap z-30">
+                        Activo 15 minutos antes
+                      </span>
+                    </div>
                     <button className="text-[13px] font-bold text-black hover:underline cursor-pointer">
                       Cargar más
+                    </button>
+                  </div>
+
+                  <div className="w-full h-[1px] bg-[#f1f5f9] my-2" />
+
+                  {/* Botones de acción en tablas y detalles clínicos */}
+                  <div>
+                    <h3 className="text-[15px] font-bold text-black">Botones de Acción en Tablas (Consultas, Familiares, etc.)</h3>
+                    <p className="text-[12px] text-[#64748b]">Acciones clínicas (píldoras rellenas y contorneadas) y acciones neutras o destructivas.</p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3">
+                    <button className="px-5 py-1.5 rounded-full bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold transition-colors cursor-pointer">
+                      Acceder
+                    </button>
+                    <button className="px-4 py-1.5 rounded-full border border-[#ff34b2] text-[#ff34b2] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer">
+                      Historial
+                    </button>
+                    <button className="px-4 py-1.5 rounded-full border border-[#ff34b2] text-[#ff34b2] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer">
+                      Notas internas
+                    </button>
+                    <button className="px-4 py-1.5 rounded-full border border-[#ff34b2] text-[#ff34b2] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer">
+                      Tip de contrato
+                    </button>
+                    <button className="px-3.5 py-1.5 rounded-[6px] border border-[#cbd5e1] hover:border-black bg-white text-black text-[13px] font-medium transition-colors cursor-pointer">
+                      Crear nuevo
+                    </button>
+                    <button className="px-3.5 py-1.5 rounded-[6px] border border-[#cbd5e1] hover:border-black bg-white text-black text-[13px] font-medium transition-colors cursor-pointer">
+                      Reasignar
+                    </button>
+                    <button className="px-3.5 py-1.5 rounded-[6px] border border-[#d50475] text-[#d50475] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer">
+                      Cancelar cita
+                    </button>
+                    <button className="px-3.5 py-1.5 rounded-[6px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold uppercase transition-colors cursor-pointer shadow-xs">
+                      Dar de baja
                     </button>
                   </div>
                 </div>
@@ -438,7 +533,165 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
               </div>
             )}
 
-            {/* SECCIÓN 3: MOLÉCULAS */}
+            {/* SECCIÓN 3: INPUTS & FORMULARIOS (Catálogo completo solicitado por el usuario) */}
+            {activeSection === 'inputs' && (
+              <div className="flex flex-col gap-6">
+                <div>
+                  <h1 className="text-[28px] font-bold text-black">Catálogo Completo de Inputs</h1>
+                  <p className="text-[14px] text-[#64748b] mt-1">
+                    Regla de oro: <strong>Todos los inputs del sistema tienen fondo blanco (`bg-white`) o transparente</strong>, borde neutro `#cbd5e1`, altura de 40-44px y bordes redondeados de 8px. Queda estrictamente prohibido aplicar fondos grises (`#f8fafc`) a los campos de entrada.
+                  </p>
+                </div>
+
+                {/* 1. Inputs de Texto Estándar */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">1. Inputs de Texto Estándar</h2>
+                    <p className="text-[13px] text-[#64748b]">Fondo blanco puro, altura 44px, placeholder `#94a3b8` y focus en rosa de marca `#d50475`.</p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[12px] font-bold text-[#64748b]">Nombre y apellidos*</span>
+                      <input
+                        type="text"
+                        placeholder="Ej. Carlos Damián"
+                        defaultValue="Carlos Damián"
+                        className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[12px] font-bold text-[#64748b]">Número de chip / identificador</span>
+                      <input
+                        type="text"
+                        placeholder="Ej. 985141002345678"
+                        defaultValue="985141002345678"
+                        className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] font-mono text-black focus:outline-none focus:border-[#d50475]"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Input de Búsqueda con Icono Lucide */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">2. Input de Búsqueda con Icono Lucide</h2>
+                    <p className="text-[13px] text-[#64748b]">Icono `Search` neutro de 16px alineado a la izquierda, padding izquierdo de 40px.</p>
+                  </div>
+                  <div className="relative max-w-[480px]">
+                    <Search className="w-4 h-4 text-[#94a3b8] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <input
+                      type="text"
+                      placeholder="Buscar por paciente, médico, especialidad..."
+                      className="w-full h-[40px] pl-10 pr-4 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-white focus:outline-none focus:border-[#d50475]"
+                    />
+                  </div>
+                </div>
+
+                {/* 3. Selector Desplegable Personalizado (Custom Select) */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">3. Selector Desplegable Flotante (Custom Select)</h2>
+                    <p className="text-[13px] text-[#64748b]">Sustituye a los selects nativos del navegador para garantizar sombra suave, esquinas redondeadas y tipografía Helvetica homogénea.</p>
+                  </div>
+                  <div className="relative max-w-[280px]">
+                    <button
+                      type="button"
+                      onClick={() => setDemoDropdownOpen(!demoDropdownOpen)}
+                      className="w-full h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
+                    >
+                      <span>Perro (Especie seleccionada)</span>
+                      <ChevronDown className="w-4 h-4 text-black shrink-0" />
+                    </button>
+                    {demoDropdownOpen && (
+                      <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border border-[#e2e8f0] flex flex-col gap-[1px]">
+                        {['Perro', 'Gato', 'Aves', 'Roedores', 'Otros'].map((opt, i) => (
+                          <div
+                            key={opt}
+                            className={`px-3 py-2 rounded-[4px] text-[13px] cursor-pointer ${
+                              i === 0 ? 'bg-[#fdf2f8] text-[#d50475] font-bold' : 'hover:bg-[#f1f5f9] text-[#475569]'
+                            }`}
+                          >
+                            {opt}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* 4. Selector de Color con Popover Dropdown */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">4. Selector de Color con Popover Dropdown</h2>
+                    <p className="text-[13px] text-[#64748b]">
+                      Despliega el menú justo debajo del campo (nunca en la esquina superior izquierda a 0,0). Ofrece paleta de colores habituales, input HEX en tiempo real y selector de color nativo.
+                    </p>
+                  </div>
+                  <div className="relative max-w-[280px]">
+                    <button
+                      type="button"
+                      onClick={() => setDemoColorOpen(!demoColorOpen)}
+                      className="w-full h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white flex items-center justify-between cursor-pointer transition-colors"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <div
+                          className="w-6 h-6 rounded-[4px] border border-[#cbd5e1] shrink-0 shadow-xs"
+                          style={{ backgroundColor: demoColor }}
+                        />
+                        <span className="text-[13px] font-mono font-medium text-black">
+                          {demoColor}
+                        </span>
+                      </div>
+                      <ChevronDown className="w-4 h-4 text-black shrink-0" />
+                    </button>
+
+                    {demoColorOpen && (
+                      <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-[260px] bg-white rounded-[10px] shadow-[0_16px_36px_rgba(0,0,0,0.16)] p-3 border border-[#e2e8f0] flex flex-col gap-2.5">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
+                          Colores habituales
+                        </span>
+                        <div className="grid grid-cols-4 gap-2">
+                          {['#000000', '#ffffff', '#4a2c11', '#8b4513', '#d4a373', '#f4a261', '#94a3b8', '#334155'].map((hex) => (
+                            <button
+                              key={hex}
+                              type="button"
+                              onClick={() => {
+                                setDemoColor(hex);
+                                setDemoColorOpen(false);
+                              }}
+                              className={`w-9 h-9 rounded-[6px] border transition-all cursor-pointer flex items-center justify-center ${
+                                demoColor.toLowerCase() === hex.toLowerCase()
+                                  ? 'border-[#d50475] ring-2 ring-[#d50475]/30 scale-105'
+                                  : 'border-[#cbd5e1] hover:scale-105'
+                              }`}
+                              style={{ backgroundColor: hex }}
+                            />
+                          ))}
+                        </div>
+                        <div className="w-full h-[1px] bg-[#f1f5f9] my-0.5" />
+                        <div className="flex items-center gap-2">
+                          <label className="text-[12px] text-[#64748b]">Personalizado:</label>
+                          <input
+                            type="color"
+                            value={demoColor}
+                            onChange={(e) => setDemoColor(e.target.value)}
+                            className="w-7 h-7 rounded border border-[#cbd5e1] cursor-pointer p-0 bg-transparent"
+                          />
+                          <input
+                            type="text"
+                            value={demoColor}
+                            onChange={(e) => setDemoColor(e.target.value)}
+                            className="flex-1 h-[32px] px-2 text-[12px] font-mono border border-[#cbd5e1] rounded bg-white text-black uppercase"
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* SECCIÓN 4: MOLÉCULAS */}
             {activeSection === 'moleculas' && (
               <div className="flex flex-col gap-6">
                 <div>
@@ -643,26 +896,26 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
                       
-                      {/* Dropdown 6: Acciones de Tabla con Iconos */}
+                      {/* Dropdown 6: Acciones de Tabla con Iconos Neutros */}
                       <div className="flex flex-col gap-2">
-                        <span className="text-[13px] font-bold text-black">3.1 «Acciones de Tabla (con Iconos)»</span>
-                        <div className="w-[210px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
+                        <span className="text-[13px] font-bold text-black">3.1 «Acciones de Tabla (Iconos Neutros)»</span>
+                        <div className="w-[210px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border border-[#e2e8f0] flex flex-col text-left">
                           <div className="w-full h-[34px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] text-black flex items-center gap-2 cursor-pointer">
-                            <FileText className="w-4 h-4 text-[#d50475]" />
+                            <FileText className="w-4 h-4 text-[#64748b]" />
                             <span>Ver historial</span>
                           </div>
                           <div className="w-full h-[34px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] text-black flex items-center gap-2 cursor-pointer">
-                            <Calendar className="w-4 h-4 text-[#2563eb]" />
+                            <Calendar className="w-4 h-4 text-[#64748b]" />
                             <span>Pedir cita médica</span>
                           </div>
                           <div className="w-full h-[1px] bg-[#f1f5f9] my-1" />
                           <div className="w-full h-[34px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] text-black flex items-center gap-2 cursor-pointer">
-                            <Edit2 className="w-4 h-4 text-[#475569]" />
+                            <Edit2 className="w-4 h-4 text-[#64748b]" />
                             <span>Editar datos</span>
                           </div>
                           <div className="w-full h-[34px] px-[10px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] text-[#ef4444] flex items-center gap-2 cursor-pointer">
-                            <Trash2 className="w-4 h-4 text-[#ef4444]" />
-                            <span>Eliminar registro</span>
+                            <Trash2 className="w-4 h-4 text-[#64748b]" />
+                            <span>Dar de baja registro</span>
                           </div>
                         </div>
                       </div>
@@ -793,7 +1046,107 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
               </div>
             )}
 
-            {/* SECCIÓN 5: ÍCONOS LUCIDE */}
+            {/* SECCIÓN 6: MODALES & DIÁLOGOS (Documentación oficial solicitada) */}
+            {activeSection === 'modales' && (
+              <div className="flex flex-col gap-6">
+                <div>
+                  <h1 className="text-[28px] font-bold text-black">Modales del Sistema</h1>
+                  <p className="text-[14px] text-[#64748b] mt-1">
+                    Patrones oficiales para ventanas modales superpuestas: fondo desenfocado (`bg-black/40 backdrop-blur-xs`), contenedor blanco con bordes de 12-14px, sombra suave `shadow-[0_20px_60px_rgba(0,0,0,0.2)]`, encabezado con botón de cierre neutro, sin scroll interno innecesario (`overflow-visible`), y botonera inferior alineada a la derecha.
+                  </p>
+                </div>
+
+                {/* 1. Modal de Confirmación / Acción Destructiva */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h2 className="text-[18px] font-bold text-black">1. Modal de Confirmación («Dar de baja»)</h2>
+                      <p className="text-[13px] text-[#64748b]">Utilizado al eliminar o dar de baja a un familiar o mascota para evitar acciones accidentales.</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setDemoConfirmModalOpen(true)}
+                      className="px-3.5 py-1.5 rounded-[6px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold uppercase cursor-pointer self-start sm:self-auto shadow-xs"
+                    >
+                      Probar en vivo
+                    </button>
+                  </div>
+
+                  {/* Preview embebida */}
+                  <div className="w-full max-w-[460px] mx-auto bg-white rounded-[12px] shadow-[0_16px_40px_rgba(0,0,0,0.12)] p-6 border border-[#e2e8f0] flex flex-col gap-4">
+                    <div className="flex items-center justify-between pb-2.5 border-b border-[#f1f5f9]">
+                      <h3 className="text-[17px] font-bold text-black">¿Estás seguro que quieres dar de baja?</h3>
+                      <button className="w-7 h-7 rounded-full bg-[#f1f5f9] flex items-center justify-center text-[#64748b]">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <p className="text-[13px] leading-[20px] text-[#475569]">
+                      Esta acción dará de baja a <strong className="text-black font-bold">Elena Ruiz Morales</strong> de tu unidad familiar.
+                    </p>
+                    <div className="p-3 bg-[#f8fafc] border border-[#e2e8f0] rounded-[6px] text-[12px] text-[#64748b]">
+                      Ya no podrás solicitar consultas, gestionar tutores ni acceder a su historial médico compartido.
+                    </div>
+                    <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[#f1f5f9]">
+                      <button className="px-3.5 h-[36px] rounded-[6px] border border-[#cbd5e1] text-black text-[12px] font-bold uppercase">
+                        Cancelar
+                      </button>
+                      <button className="px-3.5 h-[36px] rounded-[6px] bg-[#ef4444] text-white text-[12px] font-bold uppercase shadow-xs">
+                        Dar de baja
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 2. Modal de Formulario Complejo («Añadir Familiar / Mascota») */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                      <h2 className="text-[18px] font-bold text-black">2. Modal de Formulario («Añadir Familiar / Mascota»)</h2>
+                      <p className="text-[13px] text-[#64748b]">
+                        Inputs 100% de fondo blanco (`bg-white`), selectores popover flotantes que no generan scrollbars internos ni se cortan en la parte inferior.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setDemoFormModalOpen(true)}
+                      className="px-3.5 py-1.5 rounded-[6px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold uppercase cursor-pointer self-start sm:self-auto shadow-xs"
+                    >
+                      Probar en vivo
+                    </button>
+                  </div>
+                </div>
+
+                {/* 3. Arquitectura Mobile: Header Hamburguesa + Drawer */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                  <h2 className="text-[18px] font-bold text-black">3. Arquitectura Mobile: Header & Acciones Rápidas</h2>
+                  <p className="text-[13px] text-[#64748b]">
+                    En pantallas móviles (`&lt; 1024px`), el sidebar desaparece y se transforma en un <strong>menú hamburguesa</strong> a la izquierda junto al logo de Ever Health. A la derecha se ubican Notificaciones, Información y el Avatar de Usuario.
+                  </p>
+                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col gap-2">
+                    <span className="text-[13px] font-bold text-black">Regla Mobile de Acciones Rápidas:</span>
+                    <p className="text-[13px] text-[#475569] leading-relaxed">
+                      En vez de menús desplegables que se salgan de pantalla en móviles, se muestran directamente los 3 botones principales juntos con iconos neutros:
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mt-1">
+                      <div className="p-2.5 rounded-[6px] bg-white border border-[#cbd5e1] flex items-center gap-2 text-[12px] font-bold text-black">
+                        <Video className="w-4 h-4 text-[#64748b]" />
+                        <span>Solicitar videoconsulta</span>
+                      </div>
+                      <div className="p-2.5 rounded-[6px] bg-white border border-[#cbd5e1] flex items-center gap-2 text-[12px] font-bold text-black">
+                        <MessageSquare className="w-4 h-4 text-[#64748b]" />
+                        <span>Solicitar chat</span>
+                      </div>
+                      <div className="p-2.5 rounded-[6px] bg-white border border-[#cbd5e1] flex items-center gap-2 text-[12px] font-bold text-black">
+                        <ScanFace className="w-4 h-4 text-[#64748b]" />
+                        <span>Biometría facial</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* SECCIÓN 7: ÍCONOS LUCIDE */}
             {activeSection === 'iconos' && (
               <div className="flex flex-col gap-6">
                 <div className="flex items-center justify-between">
@@ -838,6 +1191,121 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
           </div>
         </main>
       </div>
+
+      {/* Modal Interactivo de Demostración: Confirmación 'Dar de baja' */}
+      {demoConfirmModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
+          <div className="w-full max-w-[460px] bg-white rounded-[12px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-7 flex flex-col gap-5 animate-scaleUp">
+            <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
+              <h2 className="text-[18px] font-bold text-black">
+                ¿Estás seguro que quieres dar de baja?
+              </h2>
+              <button
+                type="button"
+                onClick={() => setDemoConfirmModalOpen(false)}
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-3">
+              <p className="text-[14px] leading-[22px] text-[#475569]">
+                Esta acción dará de baja a <strong className="text-black font-bold">Elena Ruiz Morales</strong> de tu unidad familiar.
+              </p>
+              <div className="p-3 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] text-[13px] text-[#64748b] leading-[18px]">
+                Ya no podrás solicitar consultas, gestionar tutores ni acceder a su historial médico compartido.
+              </div>
+            </div>
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setDemoConfirmModalOpen(false)}
+                className="px-4 h-[38px] rounded-[6px] border border-[#cbd5e1] hover:bg-[#f8fafc] text-black text-[13px] font-bold uppercase transition-colors cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  alert('Familiar dado de baja (demostración)');
+                  setDemoConfirmModalOpen(false);
+                }}
+                className="px-4 h-[38px] rounded-[6px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold uppercase transition-colors cursor-pointer shadow-xs"
+              >
+                Dar de baja
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Interactivo de Demostración: Formulario 'Añadir Familiar' */}
+      {demoFormModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
+          <div className="w-full max-w-[640px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-7 flex flex-col gap-5 animate-scaleUp">
+            <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
+              <h2 className="text-[20px] font-bold text-black">Añadir familiar</h2>
+              <button
+                type="button"
+                onClick={() => setDemoFormModalOpen(false)}
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black cursor-pointer transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex flex-col gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1">
+                  <span className="text-[12px] font-bold text-[#64748b]">Nombre*</span>
+                  <input
+                    type="text"
+                    placeholder="Nombre"
+                    defaultValue="Mateo"
+                    className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                  />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <span className="text-[12px] font-bold text-[#64748b]">Apellidos*</span>
+                  <input
+                    type="text"
+                    placeholder="Apellidos"
+                    defaultValue="Damián Ruiz"
+                    className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="text-[12px] font-bold text-[#64748b]">Parentesco*</span>
+                <select className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475]">
+                  <option>Hijo/a</option>
+                  <option>Cónyuge</option>
+                  <option>Madre / Padre</option>
+                  <option>Otro</option>
+                </select>
+              </div>
+            </div>
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#f1f5f9]">
+              <button
+                type="button"
+                onClick={() => setDemoFormModalOpen(false)}
+                className="px-4 h-[38px] rounded-[6px] border border-[#cbd5e1] hover:bg-[#f8fafc] text-black text-[13px] font-bold uppercase cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  alert('Guardado (demostración)');
+                  setDemoFormModalOpen(false);
+                }}
+                className="px-5 h-[38px] rounded-[6px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold uppercase cursor-pointer shadow-xs"
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

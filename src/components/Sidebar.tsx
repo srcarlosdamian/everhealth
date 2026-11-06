@@ -62,7 +62,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   }, [solicitarOpen, userMenuOpen]);
 
   return (
-    <aside className="w-full lg:w-[244px] lg:min-h-screen border-b lg:border-b-0 lg:border-r border-[#e2e8f0] p-[16px] flex flex-col shrink-0 bg-white">
+    <aside className="hidden lg:flex w-[244px] min-h-screen border-r border-[#e2e8f0] p-[16px] flex-col shrink-0 bg-white">
       {/* Brand Logo - 40px height as requested */}
       <div className="pt-[12px] pb-[24px] px-[4px]">
         <img

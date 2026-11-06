@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Check, ChevronDown, AlertCircle, Info, Maximize2 } from 'lucide-react';
+import { ArrowLeft, Check, CheckCircle2, ChevronDown, AlertCircle, Info, Maximize2 } from 'lucide-react';
 import { LanguageSelector } from './LanguageSelector';
 import { ModalGinecologia } from './ModalGinecologia';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
@@ -166,82 +166,87 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
       <main className="flex-1 w-full flex justify-center px-4 pt-8 pb-16">
         <div className="w-full max-w-[800px] flex flex-col gap-6">
           
-          {/* Top navigation row */}
-          <div className="flex items-center justify-between">
-            <button
-              type="button"
-              onClick={() => {
-                if (step > 1) setStep(step - 1);
-                else onBackToHome();
-              }}
-              className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-
-            {/* Status indicator: Guardado sin línea, check no verde, texto más oscuro. Error de conexión sin borde */}
-            {step === 4 ? (
-              <span className="px-3 py-1 rounded-[6px] bg-[#fef9c3] text-[12px] font-medium text-[#854d0e] flex items-center gap-1.5 border-0">
-                <span>Error de conexión... reintentando</span>
-                <AlertCircle className="w-3.5 h-3.5" />
-              </span>
-            ) : (
-              <div className="flex items-center gap-1.5 text-[12px] font-medium text-[#1e293b]">
-                <span>Guardado</span>
-                <Check className="w-4 h-4 text-[#1e293b] stroke-[2.5]" />
-              </div>
-            )}
-          </div>
-
-          {/* Step Pill Dropdown con navegación no lineal y círculos de progreso a la derecha */}
-          <div className="relative inline-block">
-            <div className="flex items-center gap-2">
-              <span className="text-[13px] font-bold text-black">PASO {step}/8</span>
+          {/* Top navigation row con botón atrás y fila con Paso a la izquierda y Autoguardado a la derecha exacto a Bienestar emocional */}
+          <div className="flex flex-col gap-3">
+            <div>
               <button
                 type="button"
-                onClick={() => setIsStepsDropdownOpen(!isStepsDropdownOpen)}
-                className="inline-flex items-center gap-1.5 px-[10px] py-[3px] rounded-[6px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-black text-[12px] font-bold uppercase transition-colors cursor-pointer select-none"
+                onClick={() => {
+                  if (step > 1) setStep(step - 1);
+                  else onBackToHome();
+                }}
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer bg-transparent -ml-2"
+                title="Atrás"
               >
-                <span>{stepsInfo[step - 1]}</span>
-                <ChevronDown className={`w-3.5 h-3.5 text-black transition-transform duration-200 ${isStepsDropdownOpen ? 'rotate-180' : ''}`} />
+                <ArrowLeft className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Menú desplegable con todas las 8 secciones para navegar libremente */}
-            {isStepsDropdownOpen && (
-              <div className="absolute left-0 top-[calc(100%+8px)] z-50 w-[300px] sm:w-[350px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.14)] p-2 flex flex-col gap-1 border border-[#f1f5f9]">
-                <div className="px-3 py-1.5 border-b border-[#f1f5f9] flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-[#64748b] uppercase tracking-wider">Secciones del cuestionario</span>
-                  <span className="text-[11px] text-[#94a3b8]">Opcional</span>
-                </div>
-                {stepsList.map((item) => (
+            {/* Fila: PASO X/8 [ SECCIÓN ] a la izquierda, y en la misma hilera a la derecha: Guardado */}
+            <div className="flex items-center justify-between">
+              {/* Step Pill Dropdown con navegación no lineal */}
+              <div className="relative inline-block">
+                <div className="flex items-center gap-2">
+                  <span className="text-[13px] font-bold text-black uppercase tracking-wider">PASO {step}/8</span>
                   <button
-                    key={item.id}
                     type="button"
-                    onClick={() => {
-                      setStep(item.id);
-                      setIsStepsDropdownOpen(false);
-                    }}
-                    className={`w-full px-3 py-2 rounded-[6px] flex items-center justify-between text-left transition-colors cursor-pointer ${
-                      step === item.id
-                        ? 'bg-[#f8fafc] text-black font-bold'
-                        : 'hover:bg-[#f8fafc] text-[#334155]'
-                    }`}
+                    onClick={() => setIsStepsDropdownOpen(!isStepsDropdownOpen)}
+                    className="inline-flex items-center gap-1.5 px-[10px] py-[3px] rounded-[6px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-black text-[12px] font-bold uppercase transition-colors cursor-pointer select-none"
                   >
-                    <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-[12px] font-bold text-[#94a3b8]">{item.id}.</span>
-                      <span className="text-[13px] leading-tight truncate">{item.name}</span>
-                    </div>
-                    <ProgressCheckCircle
-                      isCompleted={item.isCompleted}
-                      progress={item.progress}
-                      size={18}
-                      className="shrink-0 ml-2"
-                    />
+                    <span>{stepsInfo[step - 1]}</span>
+                    <ChevronDown className={`w-3.5 h-3.5 text-black transition-transform duration-200 ${isStepsDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
-                ))}
+                </div>
+
+                {/* Menú desplegable con todas las 8 secciones para navegar libremente */}
+                {isStepsDropdownOpen && (
+                  <div className="absolute left-0 top-[calc(100%+8px)] z-50 w-[300px] sm:w-[350px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.14)] p-2 flex flex-col gap-1 border border-[#f1f5f9]">
+                    <div className="px-3 py-1.5 border-b border-[#f1f5f9] flex items-center justify-between">
+                      <span className="text-[11px] font-bold text-[#64748b] uppercase tracking-wider">Secciones del cuestionario</span>
+                      <span className="text-[11px] text-[#94a3b8]">Opcional</span>
+                    </div>
+                    {stepsList.map((item) => (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => {
+                          setStep(item.id);
+                          setIsStepsDropdownOpen(false);
+                        }}
+                        className={`w-full px-3 py-2 rounded-[6px] flex items-center justify-between text-left text-[13px] transition-colors cursor-pointer ${
+                          step === item.id
+                            ? 'bg-[#fdf2f8] text-[#d50475] font-bold'
+                            : 'hover:bg-[#f8fafc] text-black font-medium'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="w-5 text-[11px] text-[#64748b]">#{item.id}</span>
+                          <span>{item.name}</span>
+                        </div>
+                        <ProgressCheckCircle
+                          progress={item.progress}
+                          isCompleted={item.isCompleted}
+                          size={18}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
+
+              {/* Status indicator: Autoguardado con fondo gris claro y check Lucide exacto a Bienestar emocional */}
+              {step === 4 ? (
+                <span className="px-3 py-1 rounded-[6px] bg-[#fef9c3] text-[12px] font-medium text-[#854d0e] flex items-center gap-1.5 border-0">
+                  <span>Error de conexión... reintentando</span>
+                  <AlertCircle className="w-3.5 h-3.5" />
+                </span>
+              ) : (
+                <div className="flex items-center gap-1.5 px-3 py-1 rounded-[6px] bg-[#f1f5f9] text-[12px] font-medium text-[#1e293b]">
+                  <span>Guardado</span>
+                  <CheckCircle2 className="w-4 h-4 text-[#1e293b] stroke-[2]" />
+                </div>
+              )}
+            </div>
           </div>
 
           {/* ================= PASO 1/8: DATOS GENERALES (EVR - 45) ================= */}

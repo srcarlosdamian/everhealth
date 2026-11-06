@@ -88,10 +88,14 @@ export const Familiares: React.FC = () => {
   const [familiares, setFamiliares] = useState<Familiar[]>(INITIAL_FAMILIARES);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterParentesco, setFilterParentesco] = useState('todos');
+  const [filterMenuOpen, setFilterMenuOpen] = useState(false);
 
   // Modal Añadir Familiar
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showWarningAlert, setShowWarningAlert] = useState(true);
+
+  // Modal Confirmación Dar de baja
+  const [familiarToDelete, setFamiliarToDelete] = useState<Familiar | null>(null);
 
   // Form states matching media_1793946349811_4eeea051.png
   const [formNombre, setFormNombre] = useState('');
@@ -146,9 +150,11 @@ export const Familiares: React.FC = () => {
     return 10;
   };
 
-  const handleDelete = (id: string) => {
-    setFamiliares(familiares.filter((f) => f.id !== id));
-    setActiveMenuId(null);
+  const handleConfirmDelete = () => {
+    if (familiarToDelete) {
+      setFamiliares(familiares.filter((f) => f.id !== familiarToDelete.id));
+      setFamiliarToDelete(null);
+    }
   };
 
   const filtered = familiares.filter((f) => {
@@ -205,201 +211,216 @@ export const Familiares: React.FC = () => {
           />
         </div>
 
-        {/* Filter parentesco */}
-        <div className="flex items-center gap-3">
-          <select
-            value={filterParentesco}
-            onChange={(e) => setFilterParentesco(e.target.value)}
-            className="h-[40px] px-3.5 pr-8 rounded-[8px] border border-[#cbd5e1] text-[13px] font-bold text-black bg-white cursor-pointer focus:outline-none focus:border-[#d50475]"
+        {/* Filter parentesco con dropdown flotante homologado */}
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setFilterMenuOpen(!filterMenuOpen)}
+            className="h-[40px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[13px] font-medium text-black bg-white hover:bg-[#f8fafc] flex items-center gap-2 cursor-pointer transition-colors"
           >
-            <option value="todos">Todos los parentescos</option>
-            <option value="Cónyuge">Cónyuge</option>
-            <option value="Hijo/a">Hijo/a</option>
-            <option value="Madre / Padre">Madre / Padre</option>
-            <option value="Hermano/a">Hermano/a</option>
-          </select>
+            <span>{filterParentesco === 'todos' ? 'Todos los parentescos' : filterParentesco}</span>
+            <ChevronDown className="w-4 h-4 text-black" />
+          </button>
+
+          {filterMenuOpen && (
+            <div className="absolute right-0 top-[calc(100%+4px)] z-50 w-[200px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border-0 flex flex-col gap-1">
+              {['todos', 'Cónyuge', 'Hijo/a', 'Madre / Padre', 'Hermano/a'].map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => {
+                    setFilterParentesco(p);
+                    setFilterMenuOpen(false);
+                  }}
+                  className={`w-full text-left px-3 py-1.5 rounded-[4px] text-[13px] transition-colors cursor-pointer ${
+                    filterParentesco === p ? 'bg-[#fdf2f8] text-[#d50475] font-bold' : 'hover:bg-[#f1f5f9] text-black'
+                  }`}
+                >
+                  {p === 'todos' ? 'Todos los parentescos' : p}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Tabla de familiares estilo Ever Health */}
-      <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-[#f8fafc] border-b border-[#e2e8f0] text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
-                <th className="py-3 px-4">Familiar</th>
-                <th className="py-3 px-4">Parentesco</th>
-                <th className="py-3 px-4">Fecha de Nacimiento</th>
-                <th className="py-3 px-4">Edad</th>
-                <th className="py-3 px-4">Sexo al nacer</th>
-                <th className="py-3 px-4">Tutor / Estado</th>
-                <th className="py-3 px-4 text-right">Acciones</th>
+      {/* Tabla de familiares: SIN BORDES REDONDEADOS (rounded-none), SIN FONDO GRIS, CON LÍNEAS DIVISORIAS VERTICALES exacto a media_1793983844153_dad569fa.png */}
+      <div className="w-full bg-white border border-[#e2e8f0] rounded-none shadow-none overflow-x-auto">
+        <table className="w-full text-left border-collapse bg-white">
+          <thead>
+            <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">Nombre y Apellidos</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">Parentesco</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">Fecha de Nacimiento</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">Edad</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">Sexo al nacer</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">Tutor / Estado</th>
+              <th className="py-3 px-4 text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black bg-white">
+            {filtered.length === 0 ? (
+              <tr>
+                <td colSpan={7} className="py-12 text-center text-[#64748b] bg-white">
+                  No se encontraron familiares registrados.
+                </td>
               </tr>
-            </thead>
-            <tbody className="divide-y divide-[#f1f5f9] text-[14px] text-black">
-              {filtered.length === 0 ? (
-                <tr>
-                  <td colSpan={7} className="py-12 text-center text-[#64748b]">
-                    No se encontraron familiares registrados.
+            ) : (
+              filtered.map((item) => (
+                <tr key={item.id} className="hover:bg-[#fafafa] bg-white transition-colors">
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
+                        {item.nombre[0]}
+                        {item.apellidos[0]}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-black">
+                          {item.nombre} {item.apellidos}
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-[#475569]">
+                    {item.parentesco}
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#64748b]">
+                    {item.fechaNacimiento}
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-bold text-black">
+                    {item.edad} años
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
+                    {item.sexo}
+                  </td>
+
+                  {/* Tutor / Estado con badge en auto / w-fit sin estirarse */}
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                    {item.esTutor ? (
+                      <Badge variant="disponible" className="w-fit">Tutor legal</Badge>
+                    ) : item.edad < 18 ? (
+                      <div className="flex flex-col items-start gap-1">
+                        <Badge variant="confirmada" className="w-fit">Menor a cargo</Badge>
+                        <span className="text-[11px] text-[#64748b]">
+                          {item.tutorAsignado || 'Tutor: Titular'}
+                        </span>
+                      </div>
+                    ) : (
+                      <Badge variant="programada" className="w-fit">Adulto</Badge>
+                    )}
+                  </td>
+
+                  {/* Acciones Dropdown con iconos y separadores */}
+                  <td className="py-3.5 px-4 text-right relative">
+                    <div className="inline-block relative">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setActiveMenuId(activeMenuId === item.id ? null : item.id)
+                        }
+                        className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                        title="Acciones"
+                      >
+                        <MoreVertical className="w-4 h-4" />
+                      </button>
+
+                      {/* Dropdown de Acciones con iconos y separadores */}
+                      {activeMenuId === item.id && (
+                        <div className="absolute right-0 top-[calc(100%+4px)] z-50 w-[210px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              alert(`Consultar historial de ${item.nombre}`);
+                              setActiveMenuId(null);
+                            }}
+                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
+                          >
+                            <FileText className="w-4 h-4 text-[#64748b] shrink-0" />
+                            <span>Ver historial clínico</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              alert(`Solicitar cita para ${item.nombre}`);
+                              setActiveMenuId(null);
+                            }}
+                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
+                          >
+                            <Calendar className="w-4 h-4 text-[#64748b] shrink-0" />
+                            <span>Pedir cita médica</span>
+                          </button>
+
+                          {/* Separador */}
+                          <div className="w-full h-[1px] bg-[#f1f5f9] my-1" />
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              alert(`Editar datos de ${item.nombre}`);
+                              setActiveMenuId(null);
+                            }}
+                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
+                          >
+                            <Edit2 className="w-4 h-4 text-[#64748b] shrink-0" />
+                            <span>Editar datos</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFamiliarToDelete(item);
+                              setActiveMenuId(null);
+                            }}
+                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] flex items-center gap-[10px] text-left transition-colors cursor-pointer"
+                          >
+                            <Trash2 className="w-4 h-4 text-[#64748b] shrink-0" />
+                            <span>Dar de baja familiar</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </td>
                 </tr>
-              ) : (
-                filtered.map((item) => (
-                  <tr key={item.id} className="hover:bg-[#fafafa] transition-colors">
-                    <td className="py-3.5 px-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
-                          {item.nombre[0]}
-                          {item.apellidos[0]}
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="font-bold text-black">
-                            {item.nombre} {item.apellidos}
-                          </span>
-                        </div>
-                      </div>
-                    </td>
+              ))
+            )}
+          </tbody>
+        </table>
 
-                    <td className="py-3.5 px-4 font-medium text-[#475569]">
-                      {item.parentesco}
-                    </td>
-
-                    <td className="py-3.5 px-4 text-[#64748b]">
-                      {item.fechaNacimiento}
-                    </td>
-
-                    <td className="py-3.5 px-4 font-bold text-black">
-                      {item.edad} años
-                    </td>
-
-                    <td className="py-3.5 px-4 text-[#475569]">
-                      {item.sexo}
-                    </td>
-
-                    <td className="py-3.5 px-4">
-                      {item.esTutor ? (
-                        <Badge variant="disponible">Tutor legal</Badge>
-                      ) : item.edad < 18 ? (
-                        <div className="flex flex-col">
-                          <Badge variant="confirmada">Menor a cargo</Badge>
-                          <span className="text-[11px] text-[#64748b] mt-0.5">
-                            {item.tutorAsignado || 'Tutor: Titular'}
-                          </span>
-                        </div>
-                      ) : (
-                        <Badge variant="programada">Adulto</Badge>
-                      )}
-                    </td>
-
-                    {/* Acciones Dropdown con iconos y separadores */}
-                    <td className="py-3.5 px-4 text-right relative">
-                      <div className="inline-block relative">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setActiveMenuId(activeMenuId === item.id ? null : item.id)
-                          }
-                          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
-                          title="Acciones"
-                        >
-                          <MoreVertical className="w-4 h-4" />
-                        </button>
-
-                        {/* Dropdown de Acciones con iconos y separadores */}
-                        {activeMenuId === item.id && (
-                          <div className="absolute right-0 top-[calc(100%+4px)] z-50 w-[210px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                alert(`Consultar historial de ${item.nombre}`);
-                                setActiveMenuId(null);
-                              }}
-                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
-                            >
-                              <FileText className="w-4 h-4 text-[#d50475] shrink-0" />
-                              <span>Ver historial clínico</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                alert(`Solicitar cita para ${item.nombre}`);
-                                setActiveMenuId(null);
-                              }}
-                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
-                            >
-                              <Calendar className="w-4 h-4 text-[#2563eb] shrink-0" />
-                              <span>Pedir cita médica</span>
-                            </button>
-
-                            {/* Separador */}
-                            <div className="w-full h-[1px] bg-[#f1f5f9] my-1" />
-
-                            <button
-                              type="button"
-                              onClick={() => {
-                                alert(`Editar datos de ${item.nombre}`);
-                                setActiveMenuId(null);
-                              }}
-                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
-                            >
-                              <Edit2 className="w-4 h-4 text-[#475569] shrink-0" />
-                              <span>Editar datos</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleDelete(item.id)}
-                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] flex items-center gap-[10px] text-left transition-colors cursor-pointer"
-                            >
-                              <Trash2 className="w-4 h-4 text-[#ef4444] shrink-0" />
-                              <span>Eliminar familiar</span>
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Paginación */}
+        {/* Paginación exacta con bordes cuadrados */}
         <div className="p-4 bg-white border-t border-[#e2e8f0] flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-[#64748b]">
-          <span>Mostrando {filtered.length} de {familiares.length} familiares</span>
+          <span>Mostrando de 1 a {filtered.length} de {familiares.length} familiares</span>
 
-          <div className="flex items-center gap-1.5">
+          <div className="inline-flex items-center border border-[#cbd5e1] rounded-[4px] overflow-hidden bg-white">
             <button
               type="button"
-              disabled
-              className="w-8 h-8 rounded-[6px] border border-[#cbd5e1] bg-white flex items-center justify-center text-black disabled:opacity-40"
+              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
             >
               <ChevronsLeft className="w-4 h-4" />
             </button>
             <button
               type="button"
-              disabled
-              className="w-8 h-8 rounded-[6px] border border-[#cbd5e1] bg-white flex items-center justify-center text-black disabled:opacity-40"
+              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               type="button"
-              className="w-8 h-8 rounded-[6px] bg-[#d50475] text-white font-bold text-[13px] flex items-center justify-center shadow-xs"
+              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#d50475] font-bold text-[13px] bg-[#fdf2f8]"
             >
               1
             </button>
             <button
               type="button"
-              disabled
-              className="w-8 h-8 rounded-[6px] border border-[#cbd5e1] bg-white flex items-center justify-center text-black disabled:opacity-40"
+              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
             <button
               type="button"
-              disabled
-              className="w-8 h-8 rounded-[6px] border border-[#cbd5e1] bg-white flex items-center justify-center text-black disabled:opacity-40"
+              className="w-8 h-8 flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
             >
               <ChevronsRight className="w-4 h-4" />
             </button>
@@ -501,7 +522,7 @@ export const Familiares: React.FC = () => {
                       setSexoDropdownOpen(!sexoDropdownOpen);
                       setParentescoDropdownOpen(false);
                     }}
-                    className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-[#f8fafc] hover:bg-white flex items-center justify-between cursor-pointer transition-colors"
+                    className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-white hover:border-black flex items-center justify-between cursor-pointer transition-colors"
                   >
                     <span className={formSexo ? 'text-black' : 'text-[#94a3b8]'}>
                       {formSexo || 'Selecciona una opción'}
@@ -541,7 +562,7 @@ export const Familiares: React.FC = () => {
                     setParentescoDropdownOpen(!parentescoDropdownOpen);
                     setSexoDropdownOpen(false);
                   }}
-                  className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-[#f8fafc] hover:bg-white flex items-center justify-between cursor-pointer transition-colors"
+                  className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-white hover:border-black flex items-center justify-between cursor-pointer transition-colors"
                 >
                   <span className={formParentesco ? 'text-black' : 'text-[#94a3b8]'}>
                     {formParentesco || 'Selecciona el parentesco'}
@@ -585,6 +606,56 @@ export const Familiares: React.FC = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL DAR DE BAJA FAMILIAR ================= */}
+      {familiarToDelete && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
+          <div className="w-full max-w-[460px] bg-white rounded-[12px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-7 flex flex-col gap-5 animate-scaleUp">
+            {/* Modal Title & Close */}
+            <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
+              <h2 className="text-[18px] font-bold text-black">
+                ¿Estás seguro que quieres dar de baja?
+              </h2>
+              <button
+                type="button"
+                onClick={() => setFamiliarToDelete(null)}
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                title="Cerrar"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="flex flex-col gap-3">
+              <p className="text-[14px] leading-[22px] text-[#475569]">
+                Esta acción dará de baja a <strong className="text-black font-bold">{familiarToDelete.nombre} {familiarToDelete.apellidos}</strong> de tu unidad familiar.
+              </p>
+              <div className="p-3 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] text-[13px] text-[#64748b] leading-[18px]">
+                Ya no podrás solicitar consultas, gestionar tutores ni acceder a su historial clínico compartido.
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setFamiliarToDelete(null)}
+                className="px-4 h-[38px] rounded-[6px] border border-[#cbd5e1] hover:bg-[#f8fafc] text-black text-[13px] font-bold uppercase transition-colors cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                className="px-4 h-[38px] rounded-[6px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold uppercase transition-colors cursor-pointer shadow-xs"
+              >
+                Dar de baja
+              </button>
+            </div>
           </div>
         </div>
       )}

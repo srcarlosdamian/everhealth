@@ -7,6 +7,7 @@ export type BadgeVariant =
   | 'programada'
   | 'no-disponible'
   | 'limitada'
+  | 'error-conexion'
   | 'especialidad'
   | 'porcentaje';
 
@@ -22,14 +23,15 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
 }) => {
   // Homologated Badge Design System Rules per User Feedback:
-  // - No badge has a background fill (all are bg-transparent).
-  // - Border is light gray: border-[#cbd5e1].
+  // - No badge has a background fill by default (all are bg-transparent, except error-conexion).
+  // - Border is light gray: border-[#cbd5e1] (gray 300).
   // - Typography: text-[12px] leading-[16px] font-bold across all.
-  // - NO green dots or status dots (eliminados en Consultas y en el Sistema de Diseño per user request).
-  // - "Disponible" & "Confirmada": text-[#15803d] (green 700).
+  // - NO green dots or status dots (eliminados en Consultas y en el Sistema de Diseño).
+  // - "Disponible" & "Confirmada" son el mismo componente y estilo: text-[#15803d] (green 700).
   // - "En espera": text-[#2563eb] (blue).
   // - "Programada" & "No disponible": text-[#475569] (dark gray).
   // - "Tiempo limitado": text-[#b45309] (amber 700).
+  // - "Error de conexión": bg-[#fef9c3] (amarillo 100), text-[#a16207] (amarillo 700), border-[#fef08a], mismo peso y tamaño.
 
   const getVariantStyles = () => {
     switch (variant) {
@@ -43,6 +45,8 @@ export const Badge: React.FC<BadgeProps> = ({
         return 'bg-transparent text-[#475569] border border-[#cbd5e1]';
       case 'limitada':
         return 'bg-transparent text-[#b45309] border border-[#cbd5e1]';
+      case 'error-conexion':
+        return 'bg-[#fef9c3] text-[#a16207] border border-[#fef08a]';
       case 'especialidad':
         return 'bg-[#f1f5f9] text-[#334155] border border-transparent text-[11px] font-medium';
       case 'porcentaje':

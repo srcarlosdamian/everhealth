@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Check, ChevronRight, Info } from 'lucide-react';
+import { ArrowLeft, Check, CheckCircle2, ChevronRight, Info } from 'lucide-react';
 import { LanguageSelector } from './LanguageSelector';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 
@@ -86,15 +86,16 @@ export const MisDocumentosMedicos: React.FC<MisDocumentosMedicosProps> = ({
             <button
               type="button"
               onClick={onBack}
-              className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+              className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer bg-transparent -ml-2"
+              title="Atrás"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
 
-            {/* Status indicator: Guardado */}
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-[6px] bg-[#f8fafc] text-[12px] font-medium text-[#1e293b]">
+            {/* Status indicator: Guardado con fondo gris claro y check Lucide */}
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-[6px] bg-[#f1f5f9] text-[12px] font-medium text-[#1e293b]">
               <span>Guardado</span>
-              <Check className="w-4 h-4 text-[#1e293b] stroke-[2.5]" />
+              <CheckCircle2 className="w-4 h-4 text-[#1e293b] stroke-[2]" />
             </div>
           </div>
 

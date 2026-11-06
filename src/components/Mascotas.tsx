@@ -14,6 +14,7 @@ import {
   FileSpreadsheet,
   Edit2,
   Trash2,
+  Check,
 } from 'lucide-react';
 import { Badge } from '../design-system/atoms/Badge';
 
@@ -121,13 +122,28 @@ const FAMILIARES_RESPONSABLES = [
   'Sin asignar',
 ];
 
+const PET_COLOR_SWATCHES = [
+  { name: 'Negro', hex: '#000000' },
+  { name: 'Blanco', hex: '#ffffff' },
+  { name: 'Marrón chocolate', hex: '#4a2c11' },
+  { name: 'Castaño / Rojizo', hex: '#8b4513' },
+  { name: 'Dorado / Canela', hex: '#d4a373' },
+  { name: 'Crema / Arena', hex: '#f4a261' },
+  { name: 'Gris plata', hex: '#94a3b8' },
+  { name: 'Gris carbón', hex: '#334155' },
+];
+
 export const Mascotas: React.FC = () => {
   const [mascotas, setMascotas] = useState<Mascota[]>(INITIAL_MASCOTAS);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterEspecie, setFilterEspecie] = useState('todas');
+  const [filterMenuOpen, setFilterMenuOpen] = useState(false);
 
   // Modal Añadir Mascota
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Modal Confirmación Dar de baja
+  const [mascotaToDelete, setMascotaToDelete] = useState<Mascota | null>(null);
 
   // Form states based on images media_1793946441958_7cbf8a05.png - media_1793946482916_2a382c0e.png
   const [formNombre, setFormNombre] = useState('');
@@ -149,6 +165,8 @@ export const Mascotas: React.FC = () => {
   const [sexoMenuOpen, setSexoMenuOpen] = useState(false);
   const [condicionMenuOpen, setCondicionMenuOpen] = useState(false);
   const [familiarMenuOpen, setFamiliarMenuOpen] = useState(false);
+  const [colorPrimarioMenuOpen, setColorPrimarioMenuOpen] = useState(false);
+  const [colorSecundarioMenuOpen, setColorSecundarioMenuOpen] = useState(false);
 
   // Table action row open
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
@@ -203,9 +221,11 @@ export const Mascotas: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const handleDelete = (id: string) => {
-    setMascotas(mascotas.filter((m) => m.id !== id));
-    setActiveMenuId(null);
+  const handleConfirmDelete = () => {
+    if (mascotaToDelete) {
+      setMascotas(mascotas.filter((m) => m.id !== mascotaToDelete.id));
+      setMascotaToDelete(null);
+    }
   };
 
   const filtered = mascotas.filter((m) => {
@@ -266,208 +286,215 @@ export const Mascotas: React.FC = () => {
           />
         </div>
 
-        {/* Filter especie */}
-        <div className="flex items-center gap-3">
-          <select
-            value={filterEspecie}
-            onChange={(e) => setFilterEspecie(e.target.value)}
-            className="h-[40px] px-3.5 pr-8 rounded-[8px] border border-[#cbd5e1] text-[13px] font-bold text-black bg-white cursor-pointer focus:outline-none focus:border-[#d50475]"
+        {/* Filter especie custom popover */}
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => setFilterMenuOpen(!filterMenuOpen)}
+            className="h-[40px] px-3.5 rounded-[8px] border border-[#cbd5e1] hover:border-black text-[13px] font-bold text-black bg-white flex items-center gap-2 cursor-pointer transition-colors"
           >
-            <option value="todas">Todas las especies</option>
-            {ESPECIES_OPTIONS.map((esp) => (
-              <option key={esp} value={esp}>{esp}</option>
-            ))}
-          </select>
+            <span>{filterEspecie === 'todas' ? 'Todas las especies' : filterEspecie}</span>
+            <ChevronDown className="w-4 h-4 text-black" />
+          </button>
+
+          {filterMenuOpen && (
+            <div className="absolute right-0 sm:right-auto sm:left-0 top-[calc(100%+4px)] z-50 w-[220px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col gap-[2px] max-h-[240px] overflow-y-auto">
+              <button
+                type="button"
+                onClick={() => {
+                  setFilterEspecie('todas');
+                  setFilterMenuOpen(false);
+                }}
+                className={`w-full h-[36px] px-[12px] rounded-[6px] text-[13px] text-left cursor-pointer transition-colors flex items-center ${
+                  filterEspecie === 'todas'
+                    ? 'bg-[#fdf2f8] text-[#d50475] font-bold'
+                    : 'hover:bg-[#f1f5f9] text-[#475569]'
+                }`}
+              >
+                Todas las especies
+              </button>
+              {ESPECIES_OPTIONS.map((esp) => (
+                <button
+                  key={esp}
+                  type="button"
+                  onClick={() => {
+                    setFilterEspecie(esp);
+                    setFilterMenuOpen(false);
+                  }}
+                  className={`w-full h-[36px] px-[12px] rounded-[6px] text-[13px] text-left cursor-pointer transition-colors flex items-center ${
+                    filterEspecie === esp
+                      ? 'bg-[#fdf2f8] text-[#d50475] font-bold'
+                      : 'hover:bg-[#f1f5f9] text-[#475569]'
+                  }`}
+                >
+                  {esp}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Tabla de mascotas estilo Ever Health */}
-      <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
-            <thead>
-              <tr className="bg-[#f8fafc] border-b border-[#e2e8f0] text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
-                <th className="py-3 px-5">Mascota</th>
-                <th className="py-3 px-5">Especie y Raza</th>
-                <th className="py-3 px-5">Edad</th>
-                <th className="py-3 px-5">Sexo</th>
-                <th className="py-3 px-5">Condición Corporal</th>
-                <th className="py-3 px-5">Familiar Asignado</th>
-                <th className="py-3 px-5">Nº Chip</th>
-                <th className="py-3 px-5 text-right">Acciones</th>
+      {/* Tabla de mascotas estilo Ever Health: bordes cuadrados, fondo blanco y líneas divisorias */}
+      <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-visible">
+        <table className="w-full text-left border-collapse table-auto">
+          <thead>
+            <tr className="bg-white border-b border-[#e2e8f0] text-[12px] font-bold uppercase tracking-wider text-black">
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Mascota</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Especie y Raza</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Edad</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Sexo</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Condición Corporal</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Familiar Asignado</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Nº Chip</th>
+              <th className="py-3.5 px-4 text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black">
+            {filtered.length === 0 ? (
+              <tr>
+                <td colSpan={8} className="py-12 text-center text-[#64748b]">
+                  No se encontraron mascotas registradas.
+                </td>
               </tr>
-            </thead>
-            <tbody className="divide-y divide-[#f1f5f9] text-[14px] text-black">
-              {filtered.length === 0 ? (
-                <tr>
-                  <td colSpan={8} className="py-12 text-center text-[#64748b]">
-                    No se encontraron mascotas registradas.
+            ) : (
+              filtered.map((item) => (
+                <tr key={item.id} className="hover:bg-[#f8fafc] transition-colors">
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
+                        {item.nombre.slice(0, 2).toUpperCase()}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-black">{item.nombre}</span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                    <div className="flex flex-col">
+                      <span className="font-bold text-black">{item.especie}</span>
+                      <span className="text-[12px] text-[#64748b]">{item.raza}</span>
+                    </div>
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                    <div className="flex flex-col">
+                      <span className="font-medium text-black">{item.edad}</span>
+                      <span className="text-[12px] text-[#64748b]">{item.fechaNacimiento}</span>
+                    </div>
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
+                    {item.sexo}
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                    <Badge
+                      variant={
+                        item.condicionCorporal === 'Peso Ideal'
+                          ? 'disponible'
+                          : item.condicionCorporal === 'Sobrepeso'
+                          ? 'limitada'
+                          : item.condicionCorporal === 'Obesidad'
+                          ? 'no-disponible'
+                          : 'programada'
+                      }
+                      className="w-fit"
+                    >
+                      {item.condicionCorporal}
+                    </Badge>
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569] font-medium">
+                    {item.familiarRelacionado}
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[12px] text-[#64748b] font-mono">
+                    {item.numeroChip}
+                  </td>
+
+                  {/* Acciones Dropdown con iconos neutros: Solo Editar datos y Dar de baja mascota */}
+                  <td className="py-3.5 px-4 text-right relative">
+                    <div className="inline-block relative">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setActiveMenuId(activeMenuId === item.id ? null : item.id)
+                        }
+                        className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                        title="Acciones"
+                      >
+                        <MoreVertical className="w-4 h-4" />
+                      </button>
+
+                      {/* Dropdown de Acciones con iconos neutros */}
+                      {activeMenuId === item.id && (
+                        <div className="absolute right-0 top-[calc(100%+2px)] z-30 w-[190px] bg-white rounded-[10px] shadow-[0_8px_24px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              alert(`Editar datos de ${item.nombre}`);
+                              setActiveMenuId(null);
+                            }}
+                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
+                          >
+                            <Edit2 className="w-4 h-4 text-[#64748b] shrink-0" />
+                            <span>Editar datos</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setMascotaToDelete(item);
+                              setActiveMenuId(null);
+                            }}
+                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] flex items-center gap-[10px] text-left transition-colors cursor-pointer"
+                          >
+                            <Trash2 className="w-4 h-4 text-[#64748b] shrink-0" />
+                            <span>Dar de baja mascota</span>
+                          </button>
+                        </div>
+                      )}
+                    </div>
                   </td>
                 </tr>
-              ) : (
-                filtered.map((item) => (
-                  <tr key={item.id} className="hover:bg-[#fafafa] transition-colors">
-                    <td className="py-3.5 px-5">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-[#fce7f3] text-[#d50475] flex items-center justify-center shrink-0">
-                          <PawPrint className="w-4 h-4" />
-                        </div>
-                        <div className="flex flex-col">
-                          <span className="font-bold text-black">{item.nombre}</span>
-                        </div>
-                      </div>
-                    </td>
+              ))
+            )}
+          </tbody>
+        </table>
 
-                    <td className="py-3.5 px-5">
-                      <div className="flex flex-col">
-                        <span className="font-bold text-black">{item.especie}</span>
-                        <span className="text-[12px] text-[#64748b]">{item.raza}</span>
-                      </div>
-                    </td>
-
-                    <td className="py-3.5 px-5">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-black">{item.edad}</span>
-                        <span className="text-[12px] text-[#64748b]">{item.fechaNacimiento}</span>
-                      </div>
-                    </td>
-
-                    <td className="py-3.5 px-5 text-[#475569]">
-                      {item.sexo}
-                    </td>
-
-                    <td className="py-3.5 px-5">
-                      <Badge
-                        variant={
-                          item.condicionCorporal === 'Peso Ideal'
-                            ? 'disponible'
-                            : item.condicionCorporal === 'Sobrepeso'
-                            ? 'limitada'
-                            : item.condicionCorporal === 'Obesidad'
-                            ? 'no-disponible'
-                            : 'programada'
-                        }
-                      >
-                        {item.condicionCorporal}
-                      </Badge>
-                    </td>
-
-                    <td className="py-3.5 px-5 text-[#475569] font-medium">
-                      {item.familiarRelacionado}
-                    </td>
-
-                    <td className="py-3.5 px-5 text-[12px] text-[#64748b] font-mono">
-                      {item.numeroChip}
-                    </td>
-
-                    {/* Acciones Dropdown con iconos y separador */}
-                    <td className="py-3.5 px-5 text-right relative">
-                      <div className="inline-block relative">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setActiveMenuId(activeMenuId === item.id ? null : item.id)
-                          }
-                          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
-                          title="Acciones"
-                        >
-                          <MoreVertical className="w-4 h-4" />
-                        </button>
-
-                        {/* Dropdown de Acciones con iconos y separadores */}
-                        {activeMenuId === item.id && (
-                          <div className="absolute right-0 top-[calc(100%+4px)] z-50 w-[220px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                alert(`Consultar cartilla de ${item.nombre}`);
-                                setActiveMenuId(null);
-                              }}
-                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
-                            >
-                              <FileSpreadsheet className="w-4 h-4 text-[#d50475] shrink-0" />
-                              <span>Ver cartilla veterinaria</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                alert(`Solicitar consulta veterinaria para ${item.nombre}`);
-                                setActiveMenuId(null);
-                              }}
-                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
-                            >
-                              <Calendar className="w-4 h-4 text-[#2563eb] shrink-0" />
-                              <span>Pedir consulta veterinaria</span>
-                            </button>
-
-                            <div className="w-full h-[1px] bg-[#f1f5f9] my-1" />
-
-                            <button
-                              type="button"
-                              onClick={() => {
-                                alert(`Editar datos de ${item.nombre}`);
-                                setActiveMenuId(null);
-                              }}
-                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
-                            >
-                              <Edit2 className="w-4 h-4 text-[#475569] shrink-0" />
-                              <span>Editar datos</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleDelete(item.id)}
-                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] flex items-center gap-[10px] text-left transition-colors cursor-pointer"
-                            >
-                              <Trash2 className="w-4 h-4 text-[#ef4444] shrink-0" />
-                              <span>Eliminar mascota</span>
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Paginación */}
-        <div className="p-4 sm:px-6 bg-white border-t border-[#e2e8f0] flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-[#64748b]">
+        {/* Paginación exacta con bordes cuadrados */}
+        <div className="p-4 bg-white border-t border-[#e2e8f0] flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-[#64748b]">
           <span>Mostrando {filtered.length} de {mascotas.length} mascotas</span>
 
-          <div className="flex items-center gap-1.5">
+          <div className="inline-flex items-center border border-[#cbd5e1] rounded-[4px] overflow-hidden bg-white">
             <button
               type="button"
-              disabled
-              className="w-8 h-8 rounded-[6px] border border-[#cbd5e1] bg-white flex items-center justify-center text-black disabled:opacity-40"
+              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
             >
               <ChevronsLeft className="w-4 h-4" />
             </button>
             <button
               type="button"
-              disabled
-              className="w-8 h-8 rounded-[6px] border border-[#cbd5e1] bg-white flex items-center justify-center text-black disabled:opacity-40"
+              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               type="button"
-              className="w-8 h-8 rounded-[6px] bg-[#d50475] text-white font-bold text-[13px] flex items-center justify-center shadow-xs"
+              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#d50475] font-bold text-[13px] bg-[#fdf2f8]"
             >
               1
             </button>
             <button
               type="button"
-              disabled
-              className="w-8 h-8 rounded-[6px] border border-[#cbd5e1] bg-white flex items-center justify-center text-black disabled:opacity-40"
+              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
             <button
               type="button"
-              disabled
-              className="w-8 h-8 rounded-[6px] border border-[#cbd5e1] bg-white flex items-center justify-center text-black disabled:opacity-40"
+              className="w-8 h-8 flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
             >
               <ChevronsRight className="w-4 h-4" />
             </button>
@@ -476,10 +503,10 @@ export const Mascotas: React.FC = () => {
       </div>
 
       {/* ================= MODAL AÑADIR MASCOTA ================= */}
-      {/* Construido según las capturas media_1793946441958_7cbf8a05.png hasta media_1793946482916_2a382c0e.png */}
+      {/* Construido según las capturas con fondo blanco limpio en inputs y sin scroll interno */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="w-full max-w-[860px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
+          <div className="w-full max-w-[820px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 overflow-visible relative animate-scaleUp">
             {/* Modal Title */}
             <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
               <div className="flex items-center gap-2">
@@ -496,7 +523,7 @@ export const Mascotas: React.FC = () => {
             </div>
 
             <form onSubmit={handleSaveMascota} className="flex flex-col gap-5">
-              {/* Fila 1: Nombre* y Especie* (según media_1793946461597_60028448.png) */}
+              {/* Fila 1: Nombre* y Especie* (Inputs sin fondo gris, fondo blanco estándar) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
                   <input
@@ -505,7 +532,7 @@ export const Mascotas: React.FC = () => {
                     value={formNombre}
                     onChange={(e) => setFormNombre(e.target.value)}
                     placeholder="Nombre*"
-                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] text-[14px] text-black focus:outline-none focus:border-[#d50475] focus:bg-white transition-colors"
+                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475] transition-colors"
                   />
                 </div>
 
@@ -519,8 +546,10 @@ export const Mascotas: React.FC = () => {
                       setSexoMenuOpen(false);
                       setCondicionMenuOpen(false);
                       setFamiliarMenuOpen(false);
+                      setColorPrimarioMenuOpen(false);
+                      setColorSecundarioMenuOpen(false);
                     }}
-                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] hover:bg-white text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
+                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white hover:border-black text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
                   >
                     <span className={formEspecie ? 'text-black' : 'text-[#64748b]'}>
                       {formEspecie || 'Especie*'}
@@ -528,9 +557,9 @@ export const Mascotas: React.FC = () => {
                     <ChevronDown className="w-4 h-4 text-black shrink-0" />
                   </button>
 
-                  {/* Dropdown menu exacto a media_1793946461597_60028448.png */}
+                  {/* Dropdown menu */}
                   {especieMenuOpen && (
-                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 max-h-[260px] overflow-y-auto flex flex-col gap-[1px]">
+                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border border-[#e2e8f0] max-h-[220px] overflow-y-auto flex flex-col gap-[1px]">
                       {ESPECIES_OPTIONS.map((esp) => (
                         <button
                           key={esp}
@@ -553,7 +582,7 @@ export const Mascotas: React.FC = () => {
                 </div>
               </div>
 
-              {/* Fila 2: Fecha de nacimiento (Día*, Mes*, Año*) y Sexo* (según media_1793946467703_53fff81a.png) */}
+              {/* Fila 2: Fecha de nacimiento (Día*, Mes*, Año*) y Sexo* */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
                   <span className="text-[12px] font-bold text-[#64748b]">Fecha de nacimiento</span>
@@ -565,7 +594,7 @@ export const Mascotas: React.FC = () => {
                       value={formDia}
                       onChange={(e) => setFormDia(e.target.value)}
                       placeholder="Día*"
-                      className="h-[44px] px-3 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] text-[14px] text-black focus:outline-none focus:border-[#d50475] focus:bg-white"
+                      className="h-[44px] px-3 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475]"
                     />
                     
                     {/* Dropdown Mes */}
@@ -578,8 +607,10 @@ export const Mascotas: React.FC = () => {
                           setSexoMenuOpen(false);
                           setCondicionMenuOpen(false);
                           setFamiliarMenuOpen(false);
+                          setColorPrimarioMenuOpen(false);
+                          setColorSecundarioMenuOpen(false);
                         }}
-                        className="w-full h-[44px] px-2 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] hover:bg-white text-[13px] text-black flex items-center justify-between cursor-pointer"
+                        className="w-full h-[44px] px-2 rounded-[8px] border border-[#cbd5e1] bg-white hover:border-black text-[13px] text-black flex items-center justify-between cursor-pointer"
                       >
                         <span className={formMes ? 'text-black' : 'text-[#64748b] truncate'}>
                           {formMes ? MESES_OPTIONS.find((m) => m.val === formMes)?.label : 'Mes*'}
@@ -588,7 +619,7 @@ export const Mascotas: React.FC = () => {
                       </button>
 
                       {mesMenuOpen && (
-                        <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-[140px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 max-h-[220px] overflow-y-auto flex flex-col gap-[1px]">
+                        <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-[140px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border border-[#e2e8f0] max-h-[220px] overflow-y-auto flex flex-col gap-[1px]">
                           {MESES_OPTIONS.map((m) => (
                             <button
                               key={m.val}
@@ -613,12 +644,12 @@ export const Mascotas: React.FC = () => {
                       value={formAno}
                       onChange={(e) => setFormAno(e.target.value)}
                       placeholder="Año*"
-                      className="h-[44px] px-3 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] text-[14px] text-black focus:outline-none focus:border-[#d50475] focus:bg-white"
+                      className="h-[44px] px-3 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475]"
                     />
                   </div>
                 </div>
 
-                {/* Dropdown Sexo* matching media_1793946467703_53fff81a.png */}
+                {/* Dropdown Sexo* */}
                 <div className="flex flex-col gap-1 justify-end relative">
                   <button
                     type="button"
@@ -628,8 +659,10 @@ export const Mascotas: React.FC = () => {
                       setMesMenuOpen(false);
                       setCondicionMenuOpen(false);
                       setFamiliarMenuOpen(false);
+                      setColorPrimarioMenuOpen(false);
+                      setColorSecundarioMenuOpen(false);
                     }}
-                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] hover:bg-white text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
+                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white hover:border-black text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
                   >
                     <span className={formSexo ? 'text-black' : 'text-[#64748b]'}>
                       {formSexo || 'Sexo*'}
@@ -639,7 +672,7 @@ export const Mascotas: React.FC = () => {
 
                   {/* Dropdown exacto: Femenino / Masculino */}
                   {sexoMenuOpen && (
-                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col gap-[2px]">
+                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border border-[#e2e8f0] flex flex-col gap-[2px]">
                       {['Femenino', 'Masculino'].map((s) => (
                         <button
                           key={s}
@@ -670,7 +703,7 @@ export const Mascotas: React.FC = () => {
                     value={formRaza}
                     onChange={(e) => setFormRaza(e.target.value)}
                     placeholder="Raza"
-                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] text-[14px] text-black focus:outline-none focus:border-[#d50475] focus:bg-white"
+                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475]"
                   />
                 </div>
 
@@ -684,8 +717,10 @@ export const Mascotas: React.FC = () => {
                       setMesMenuOpen(false);
                       setSexoMenuOpen(false);
                       setFamiliarMenuOpen(false);
+                      setColorPrimarioMenuOpen(false);
+                      setColorSecundarioMenuOpen(false);
                     }}
-                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] hover:bg-white text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
+                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white hover:border-black text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
                   >
                     <span className={formCondicion ? 'text-black' : 'text-[#64748b]'}>
                       {formCondicion || 'Condición corporal*'}
@@ -694,7 +729,7 @@ export const Mascotas: React.FC = () => {
                   </button>
 
                   {condicionMenuOpen && (
-                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col gap-[2px]">
+                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border border-[#e2e8f0] flex flex-col gap-[2px]">
                       {CONDICION_OPTIONS.map((c) => (
                         <button
                           key={c}
@@ -717,64 +752,190 @@ export const Mascotas: React.FC = () => {
                 </div>
               </div>
 
-              {/* Fila 4: Color primario (#000000) y Color secundario (#000000) según imagen 1 */}
+              {/* Fila 4: Color primario y Color secundario con Picker en Dropdown elegante justo debajo */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1">
+                {/* Color Primario */}
+                <div className="flex flex-col gap-1 relative">
                   <span className="text-[12px] font-bold text-[#64748b]">Color primario</span>
-                  <div className="flex items-center gap-3 h-[44px] px-3 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc]">
-                    <div
-                      className="flex-1 h-7 rounded-[4px] border border-black/10 cursor-pointer"
-                      style={{ backgroundColor: formColorPrimario }}
-                      onClick={() => {
-                        const input = document.getElementById('color-p-picker') as HTMLInputElement;
-                        input?.click();
-                      }}
-                    />
-                    <input
-                      id="color-p-picker"
-                      type="color"
-                      value={formColorPrimario}
-                      onChange={(e) => setFormColorPrimario(e.target.value)}
-                      className="hidden"
-                    />
-                    <input
-                      type="text"
-                      value={formColorPrimario}
-                      onChange={(e) => setFormColorPrimario(e.target.value)}
-                      className="w-[80px] text-[13px] font-mono text-black bg-transparent focus:outline-none text-right font-medium"
-                    />
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setColorPrimarioMenuOpen(!colorPrimarioMenuOpen);
+                      setColorSecundarioMenuOpen(false);
+                      setEspecieMenuOpen(false);
+                      setMesMenuOpen(false);
+                      setSexoMenuOpen(false);
+                      setCondicionMenuOpen(false);
+                      setFamiliarMenuOpen(false);
+                    }}
+                    className="w-full h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white flex items-center justify-between cursor-pointer transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div
+                        className="w-6 h-6 rounded-[4px] border border-[#cbd5e1] shrink-0 shadow-xs"
+                        style={{ backgroundColor: formColorPrimario }}
+                      />
+                      <span className="text-[13px] font-mono font-medium text-black">
+                        {formColorPrimario}
+                      </span>
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-black shrink-0" />
+                  </button>
+
+                  {colorPrimarioMenuOpen && (
+                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-[260px] bg-white rounded-[10px] shadow-[0_16px_36px_rgba(0,0,0,0.16)] p-3 border border-[#e2e8f0] flex flex-col gap-2.5 animate-fadeIn">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
+                        Colores habituales
+                      </span>
+                      <div className="grid grid-cols-4 gap-2">
+                        {PET_COLOR_SWATCHES.map((swatch) => (
+                          <button
+                            key={swatch.hex}
+                            type="button"
+                            onClick={() => {
+                              setFormColorPrimario(swatch.hex);
+                              setColorPrimarioMenuOpen(false);
+                            }}
+                            title={swatch.name}
+                            className={`w-9 h-9 rounded-[6px] border transition-all cursor-pointer flex items-center justify-center ${
+                              formColorPrimario.toLowerCase() === swatch.hex.toLowerCase()
+                                ? 'border-[#d50475] ring-2 ring-[#d50475]/30 scale-105'
+                                : 'border-[#cbd5e1] hover:scale-105'
+                            }`}
+                            style={{ backgroundColor: swatch.hex }}
+                          >
+                            {formColorPrimario.toLowerCase() === swatch.hex.toLowerCase() && (
+                              <Check
+                                className={`w-4 h-4 ${
+                                  swatch.hex === '#ffffff' || swatch.hex === '#f4a261'
+                                    ? 'text-black'
+                                    : 'text-white'
+                                }`}
+                              />
+                            )}
+                          </button>
+                        ))}
+                      </div>
+
+                      <div className="w-full h-[1px] bg-[#f1f5f9] my-0.5" />
+
+                      <div className="flex items-center gap-2">
+                        <label
+                          htmlFor="custom-p-color"
+                          className="text-[12px] text-[#64748b] cursor-pointer"
+                        >
+                          Personalizado:
+                        </label>
+                        <input
+                          id="custom-p-color"
+                          type="color"
+                          value={formColorPrimario}
+                          onChange={(e) => setFormColorPrimario(e.target.value)}
+                          className="w-7 h-7 rounded border border-[#cbd5e1] cursor-pointer p-0 bg-transparent"
+                        />
+                        <input
+                          type="text"
+                          value={formColorPrimario}
+                          onChange={(e) => setFormColorPrimario(e.target.value)}
+                          className="flex-1 h-[32px] px-2 text-[12px] font-mono border border-[#cbd5e1] rounded bg-white text-black uppercase"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                <div className="flex flex-col gap-1">
+                {/* Color Secundario */}
+                <div className="flex flex-col gap-1 relative">
                   <span className="text-[12px] font-bold text-[#64748b]">Color secundario</span>
-                  <div className="flex items-center gap-3 h-[44px] px-3 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc]">
-                    <div
-                      className="flex-1 h-7 rounded-[4px] border border-black/10 cursor-pointer"
-                      style={{ backgroundColor: formColorSecundario }}
-                      onClick={() => {
-                        const input = document.getElementById('color-s-picker') as HTMLInputElement;
-                        input?.click();
-                      }}
-                    />
-                    <input
-                      id="color-s-picker"
-                      type="color"
-                      value={formColorSecundario}
-                      onChange={(e) => setFormColorSecundario(e.target.value)}
-                      className="hidden"
-                    />
-                    <input
-                      type="text"
-                      value={formColorSecundario}
-                      onChange={(e) => setFormColorSecundario(e.target.value)}
-                      className="w-[80px] text-[13px] font-mono text-black bg-transparent focus:outline-none text-right font-medium"
-                    />
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setColorSecundarioMenuOpen(!colorSecundarioMenuOpen);
+                      setColorPrimarioMenuOpen(false);
+                      setEspecieMenuOpen(false);
+                      setMesMenuOpen(false);
+                      setSexoMenuOpen(false);
+                      setCondicionMenuOpen(false);
+                      setFamiliarMenuOpen(false);
+                    }}
+                    className="w-full h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white flex items-center justify-between cursor-pointer transition-colors"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div
+                        className="w-6 h-6 rounded-[4px] border border-[#cbd5e1] shrink-0 shadow-xs"
+                        style={{ backgroundColor: formColorSecundario }}
+                      />
+                      <span className="text-[13px] font-mono font-medium text-black">
+                        {formColorSecundario}
+                      </span>
+                    </div>
+                    <ChevronDown className="w-4 h-4 text-black shrink-0" />
+                  </button>
+
+                  {colorSecundarioMenuOpen && (
+                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-260px bg-white rounded-[10px] shadow-[0_16px_36px_rgba(0,0,0,0.16)] p-3 border border-[#e2e8f0] flex flex-col gap-2.5 animate-fadeIn">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
+                        Colores habituales
+                      </span>
+                      <div className="grid grid-cols-4 gap-2">
+                        {PET_COLOR_SWATCHES.map((swatch) => (
+                          <button
+                            key={swatch.hex}
+                            type="button"
+                            onClick={() => {
+                              setFormColorSecundario(swatch.hex);
+                              setColorSecundarioMenuOpen(false);
+                            }}
+                            title={swatch.name}
+                            className={`w-9 h-9 rounded-[6px] border transition-all cursor-pointer flex items-center justify-center ${
+                              formColorSecundario.toLowerCase() === swatch.hex.toLowerCase()
+                                ? 'border-[#d50475] ring-2 ring-[#d50475]/30 scale-105'
+                                : 'border-[#cbd5e1] hover:scale-105'
+                            }`}
+                            style={{ backgroundColor: swatch.hex }}
+                          >
+                            {formColorSecundario.toLowerCase() === swatch.hex.toLowerCase() && (
+                              <Check
+                                className={`w-4 h-4 ${
+                                  swatch.hex === '#ffffff' || swatch.hex === '#f4a261'
+                                    ? 'text-black'
+                                    : 'text-white'
+                                }`}
+                              />
+                            )}
+                          </button>
+                        ))}
+                      </div>
+
+                      <div className="w-full h-[1px] bg-[#f1f5f9] my-0.5" />
+
+                      <div className="flex items-center gap-2">
+                        <label
+                          htmlFor="custom-s-color"
+                          className="text-[12px] text-[#64748b] cursor-pointer"
+                        >
+                          Personalizado:
+                        </label>
+                        <input
+                          id="custom-s-color"
+                          type="color"
+                          value={formColorSecundario}
+                          onChange={(e) => setFormColorSecundario(e.target.value)}
+                          className="w-7 h-7 rounded border border-[#cbd5e1] cursor-pointer p-0 bg-transparent"
+                        />
+                        <input
+                          type="text"
+                          value={formColorSecundario}
+                          onChange={(e) => setFormColorSecundario(e.target.value)}
+                          className="flex-1 h-[32px] px-2 text-[12px] font-mono border border-[#cbd5e1] rounded bg-white text-black uppercase"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Fila 5: Relacionar con familiares y Número de chip */}
+              {/* Fila 5: Relacionar con familiares (despliega hacia arriba para no cortar ni provocar scroll) y Número de chip */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1 relative">
                   <button
@@ -785,8 +946,10 @@ export const Mascotas: React.FC = () => {
                       setMesMenuOpen(false);
                       setSexoMenuOpen(false);
                       setCondicionMenuOpen(false);
+                      setColorPrimarioMenuOpen(false);
+                      setColorSecundarioMenuOpen(false);
                     }}
-                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] hover:bg-white text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
+                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white hover:border-black text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
                   >
                     <span className={formFamiliar ? 'text-black' : 'text-[#64748b]'}>
                       {formFamiliar || 'Relacionar con familiares'}
@@ -794,8 +957,9 @@ export const Mascotas: React.FC = () => {
                     <ChevronDown className="w-4 h-4 text-black shrink-0" />
                   </button>
 
+                  {/* Popover desplegándose hacia arriba de forma natural */}
                   {familiarMenuOpen && (
-                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col gap-[2px]">
+                    <div className="absolute left-0 bottom-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_16px_36px_rgba(0,0,0,0.16)] p-[4px] border border-[#e2e8f0] flex flex-col gap-[2px] max-h-[220px] overflow-y-auto animate-fadeIn">
                       {FAMILIARES_RESPONSABLES.map((f) => (
                         <button
                           key={f}
@@ -823,12 +987,12 @@ export const Mascotas: React.FC = () => {
                     value={formChip}
                     onChange={(e) => setFormChip(e.target.value)}
                     placeholder="Número de chip"
-                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] text-[14px] text-black focus:outline-none focus:border-[#d50475] focus:bg-white"
+                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475]"
                   />
                 </div>
               </div>
 
-              {/* Botón Guardar en forma de píldora magenta al 100% de ancho en la parte inferior */}
+              {/* Botón Guardar en forma de píldora magenta en la parte inferior */}
               <div className="pt-2 flex justify-end">
                 <button
                   type="submit"
@@ -838,6 +1002,56 @@ export const Mascotas: React.FC = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ================= MODAL DAR DE BAJA MASCOTA ================= */}
+      {mascotaToDelete && (
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
+          <div className="w-full max-w-[460px] bg-white rounded-[12px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-7 flex flex-col gap-5 animate-scaleUp">
+            {/* Modal Title & Close */}
+            <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
+              <h2 className="text-[18px] font-bold text-black">
+                ¿Estás seguro que quieres dar de baja?
+              </h2>
+              <button
+                type="button"
+                onClick={() => setMascotaToDelete(null)}
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                title="Cerrar"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="flex flex-col gap-3">
+              <p className="text-[14px] leading-[22px] text-[#475569]">
+                Esta acción dará de baja a <strong className="text-black font-bold">{mascotaToDelete.nombre}</strong> ({mascotaToDelete.especie}) de tu lista de mascotas.
+              </p>
+              <div className="p-3 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] text-[13px] text-[#64748b] leading-[18px]">
+                Ya no podrás solicitar consultas veterinarias ni consultar su historial médico y chip registrado ({mascotaToDelete.numeroChip}).
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setMascotaToDelete(null)}
+                className="px-4 h-[38px] rounded-[6px] border border-[#cbd5e1] hover:bg-[#f8fafc] text-black text-[13px] font-bold uppercase transition-colors cursor-pointer"
+              >
+                Cancelar
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDelete}
+                className="px-4 h-[38px] rounded-[6px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold uppercase transition-colors cursor-pointer shadow-xs"
+              >
+                Dar de baja
+              </button>
+            </div>
           </div>
         </div>
       )}
