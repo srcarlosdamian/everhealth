@@ -3,11 +3,11 @@ import { Sidebar } from './Sidebar';
 import { EVR100Home } from './EVR100Home';
 import { SolicitarChat } from './SolicitarChat';
 import { CuestionarioMedico } from './CuestionarioMedico';
+import { DesignSystemPage } from './DesignSystemPage';
 import { ModalVideoConsulta } from './ModalVideoConsulta';
 import { ModalSolicitarChat } from './ModalSolicitarChat';
 import { ModalDocumentos } from './ModalDocumentos';
 import { LanguageSelector } from './LanguageSelector';
-import { DesignSystemView } from '../design-system/showcase/DesignSystemView';
 import { PlusCircle, Bell, HelpCircle, Palette } from 'lucide-react';
 
 interface HomeDashboardProps {
@@ -16,17 +16,23 @@ interface HomeDashboardProps {
 }
 
 export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout }) => {
-  const [currentView, setCurrentView] = useState<'home' | 'solicitar-chat' | 'cuestionario' | string>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'solicitar-chat' | 'cuestionario' | 'design-system' | string>('home');
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const [chatModalTab, setChatModalTab] = useState<'agendar' | 'ahora'>('agendar');
   const [isDocsModalOpen, setIsDocsModalOpen] = useState(false);
-  const [isDesignSystemOpen, setIsDesignSystemOpen] = useState(false);
 
   // If in questionnaire mode, render full-screen CuestionarioMedico (EVR - 45 through 107)
   if (currentView === 'cuestionario') {
     return (
       <CuestionarioMedico onBackToHome={() => setCurrentView('home')} />
+    );
+  }
+
+  // If in design-system mode, render full-page DesignSystemPage (no modal, same 800px max-width & sidebar)
+  if (currentView === 'design-system') {
+    return (
+      <DesignSystemPage onBackToHome={() => setCurrentView('home')} />
     );
   }
 
@@ -68,12 +74,12 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
             >
               <HelpCircle className="w-[20px] h-[20px]" />
             </button>
-            {/* Design System Art Icon - solo ícono a la izquierda de ES */}
+            {/* Design System Art Icon - abre la página completa de sistema de diseño (no modal) */}
             <button
               type="button"
-              onClick={() => setIsDesignSystemOpen(true)}
+              onClick={() => setCurrentView('design-system')}
               className="text-black hover:opacity-75 p-1 cursor-pointer transition-opacity"
-              title="Sistema de Diseño (Tokens, Componentes e Íconos)"
+              title="Sistema de Diseño (Página completa)"
             >
               <Palette className="w-[20px] h-[20px]" />
             </button>
@@ -138,11 +144,6 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
       <ModalDocumentos
         isOpen={isDocsModalOpen}
         onClose={() => setIsDocsModalOpen(false)}
-      />
-
-      <DesignSystemView
-        isOpen={isDesignSystemOpen}
-        onClose={() => setIsDesignSystemOpen(false)}
       />
     </div>
   );
