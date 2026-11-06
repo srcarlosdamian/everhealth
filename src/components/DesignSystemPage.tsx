@@ -524,7 +524,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     <p className="text-[13px] text-[#64748b]">Menús desplegables con sombra suave `shadow-[0_12px_32px_rgba(0,0,0,0.12)]` y esquinas de 10px.</p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
                     {/* Dropdown 1: Solicitar cita */}
                     <div className="flex flex-col gap-2">
                       <span className="text-[13px] font-bold text-black">1. Dropdown «Solicita una cita»</span>
@@ -551,6 +551,26 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold transition-colors cursor-pointer">
                           <Phone className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
                           <span>918 220 518</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Dropdown 3: Acciones en Tablas (Sin iconos, con separadores) */}
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[13px] font-bold text-black">3. Dropdown «Acciones de Tabla» (Sin iconos)</span>
+                      <div className="w-[210px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
+                        <div className="w-full h-[34px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center transition-colors cursor-pointer">
+                          Ver historial clínico
+                        </div>
+                        <div className="w-full h-[34px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center transition-colors cursor-pointer">
+                          Pedir cita médica
+                        </div>
+                        <div className="w-full h-[1px] bg-[#f1f5f9] my-1" />
+                        <div className="w-full h-[34px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center transition-colors cursor-pointer">
+                          Editar datos
+                        </div>
+                        <div className="w-full h-[34px] px-[12px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] flex items-center transition-colors cursor-pointer">
+                          Eliminar registro
                         </div>
                       </div>
                     </div>

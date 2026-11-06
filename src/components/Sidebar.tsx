@@ -192,7 +192,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Biometría facial (placed directly next to Solicitar una cita without hr) */}
           <button
             type="button"
-            className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black cursor-pointer"
+            onClick={() => onNavigate('biometria')}
+            className={`w-full h-[40px] px-[12px] rounded-[6px] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal transition-colors cursor-pointer ${
+              currentView === 'biometria'
+                ? 'bg-[#f1f5f9] text-black font-medium'
+                : 'text-black hover:bg-[#f8fafc]'
+            }`}
           >
             <ScanFace className="w-[18px] h-[18px] text-black" />
             <span>Biometría facial</span>
@@ -201,19 +206,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         <hr className="border-[#e2e8f0] my-[6px]" />
 
-        {/* Historial consultas (No implementado aún, no vinculado a completar perfil) */}
+        {/* Historial consultas */}
         <button
           type="button"
-          className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black cursor-pointer"
+          onClick={() => onNavigate('historial-consultas')}
+          className={`w-full h-[40px] px-[12px] rounded-[6px] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal transition-colors cursor-pointer ${
+            currentView === 'historial-consultas'
+              ? 'bg-[#f1f5f9] text-black font-medium'
+              : 'text-black hover:bg-[#f8fafc]'
+          }`}
         >
           <FileText className="w-[18px] h-[18px] text-black" />
           <span>Historial consultas</span>
         </button>
 
-        {/* Historia clínica (No implementado aún, no vinculado a cuestionario) */}
+        {/* Historia clínica */}
         <button
           type="button"
-          className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black cursor-pointer"
+          onClick={() => onNavigate('historia-clinica')}
+          className={`w-full h-[40px] px-[12px] rounded-[6px] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal transition-colors cursor-pointer ${
+            currentView === 'historia-clinica'
+              ? 'bg-[#f1f5f9] text-black font-medium'
+              : 'text-black hover:bg-[#f8fafc]'
+          }`}
         >
           <FileSpreadsheet className="w-[18px] h-[18px] text-black" />
           <span>Historia clínica</span>
@@ -221,10 +236,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         <hr className="border-[#e2e8f0] my-[6px]" />
 
-        {/* Familiares (No implementado aún) */}
+        {/* Familiares */}
         <button
           type="button"
-          className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black cursor-pointer"
+          onClick={() => onNavigate('familiares')}
+          className={`w-full h-[40px] px-[12px] rounded-[6px] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal transition-colors cursor-pointer ${
+            currentView === 'familiares'
+              ? 'bg-[#f1f5f9] text-black font-medium'
+              : 'text-black hover:bg-[#f8fafc]'
+          }`}
         >
           <Users className="w-[18px] h-[18px] text-black" />
           <span>Familiares</span>

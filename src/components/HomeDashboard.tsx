@@ -8,6 +8,9 @@ import { ModalVideoConsulta } from './ModalVideoConsulta';
 import { ModalSolicitarChat } from './ModalSolicitarChat';
 import { ModalDocumentos } from './ModalDocumentos';
 import { Biometria } from './Biometria';
+import { HistorialConsultas } from './HistorialConsultas';
+import { HistoriaClinica } from './HistoriaClinica';
+import { Familiares } from './Familiares';
 import { LanguageSelector } from './LanguageSelector';
 import { PlusCircle, Bell, HelpCircle, Palette } from 'lucide-react';
 
@@ -113,7 +116,39 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
               />
             )}
 
-            {currentView !== 'home' && currentView !== 'solicitar-chat' && (
+            {currentView === 'historial-consultas' && (
+              <HistorialConsultas
+                onOpenVideoModal={() => setIsVideoModalOpen(true)}
+                onOpenChatModal={() => {
+                  setChatModalTab('ahora');
+                  setIsChatModalOpen(true);
+                }}
+                onOpenDocumentsModal={() => setIsDocsModalOpen(true)}
+                defaultTab="consultas"
+              />
+            )}
+
+            {currentView === 'historia-clinica' && (
+              <HistorialConsultas
+                onOpenVideoModal={() => setIsVideoModalOpen(true)}
+                onOpenChatModal={() => {
+                  setChatModalTab('ahora');
+                  setIsChatModalOpen(true);
+                }}
+                onOpenDocumentsModal={() => setIsDocsModalOpen(true)}
+                defaultTab="historia-clinica"
+              />
+            )}
+
+            {currentView === 'familiares' && (
+              <Familiares />
+            )}
+
+            {currentView !== 'home' &&
+              currentView !== 'solicitar-chat' &&
+              currentView !== 'historial-consultas' &&
+              currentView !== 'historia-clinica' &&
+              currentView !== 'familiares' && (
               <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-4">
                 <p className="text-xl font-bold text-black">Sección: {currentView}</p>
                 <p className="text-[14px]">Esta sección está conectada al flujo principal.</p>
