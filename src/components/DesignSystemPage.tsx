@@ -18,7 +18,7 @@ import {
   FileText,
   FileSpreadsheet,
   Users,
-  Cat,
+  PawPrint,
   Calendar,
   FileUp,
   Search,
@@ -32,6 +32,9 @@ import {
   Phone,
   X,
   Globe,
+  Trash2,
+  Edit2,
+  MapPin,
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { Badge } from '../design-system/atoms/Badge';
@@ -52,7 +55,7 @@ const ICONS_CATALOG = [
   { name: 'lucide/file-text', icon: FileText, label: 'Historial consultas', category: 'Navegación' },
   { name: 'lucide/file-spreadsheet', icon: FileSpreadsheet, label: 'Historia clínica', category: 'Navegación' },
   { name: 'lucide/users', icon: Users, label: 'Familiares', category: 'Navegación' },
-  { name: 'lucide/cat', icon: Cat, label: 'Mascotas', category: 'Navegación' },
+  { name: 'lucide/paw-print', icon: PawPrint, label: 'Mascotas', category: 'Navegación' },
   { name: 'lucide/sliders-horizontal', icon: SlidersHorizontal, label: 'Configuración de usuario', category: 'Usuario & Perfil' },
   { name: 'lucide/log-out', icon: LogOut, label: 'Cerrar sesión', category: 'Usuario & Perfil' },
   { name: 'lucide/video', icon: Video, label: 'Video consulta', category: 'Acciones' },
@@ -308,16 +311,16 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   <div>
                     <h2 className="text-[18px] font-bold text-black">Badges & Etiquetas</h2>
                     <p className="text-[13px] text-[#64748b]">
-                      Estados clínicos y disponibilidad homologados: sin fondo de relleno (`bg-transparent`), borde gris claro (`border-[#cbd5e1]`) y tipografía bold homogénea.
+                      Estados clínicos y disponibilidad homologados: sin fondo de relleno (`bg-transparent`), borde gris claro (`border-[#cbd5e1]`), sin puntos verdes ni indicadores circulares, y tipografía bold homogénea.
                     </p>
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
-                    <Badge variant="disponible" showDot>Disponible</Badge>
+                    <Badge variant="disponible">Disponible</Badge>
                     <Badge variant="en-espera">En espera</Badge>
                     <Badge variant="confirmada">Confirmada</Badge>
                     <Badge variant="programada">Programada</Badge>
-                    <Badge variant="limitada" showDot>Tiempo limitado</Badge>
-                    <Badge variant="no-disponible" showDot>No disponible</Badge>
+                    <Badge variant="limitada">Tiempo limitado</Badge>
+                    <Badge variant="no-disponible">No disponible</Badge>
                     <span className="px-3 py-1 rounded-[6px] bg-[#fef9c3] text-[12px] font-medium text-[#854d0e] border-0 inline-flex items-center gap-1.5">
                       <span>Error de conexión... reintentando</span>
                     </span>
@@ -519,75 +522,185 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   <CompletionMedalIllustration size={160} />
                 </div>
 
-                {/* Molécula: Catálogo de Dropdowns y Menús Desplegables */}
-                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
+                {/* Molécula: Catálogo Completo de Dropdowns y Menús Desplegables */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-6">
                   <div>
-                    <h2 className="text-[18px] font-bold text-black">Catálogo de Dropdowns (Sin bordes grises, con sombra flotante)</h2>
-                    <p className="text-[13px] text-[#64748b]">Menús desplegables con sombra suave `shadow-[0_12px_32px_rgba(0,0,0,0.12)]` y esquinas de 10px.</p>
+                    <h2 className="text-[20px] font-bold text-black">Catálogo Completo de Dropdowns (Unificación & Documentación)</h2>
+                    <p className="text-[13px] text-[#64748b] mt-1">
+                      Todos los menús desplegables del prototipo comparten la misma regla de diseño para futura homologación: sin bordes grises (`border-0`), sombra suave `shadow-[0_12px_32px_rgba(0,0,0,0.12)]`, esquinas redondeadas de 10-12px, y tipografía homogénea Helvetica.
+                    </p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
-                    {/* Dropdown 1: Solicitar cita */}
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[13px] font-bold text-black">1. Dropdown «Solicita una cita»</span>
-                      <div className="w-[200px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] flex flex-col gap-[2px] border-0">
-                        <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] font-bold uppercase transition-colors cursor-pointer">
-                          <Video className="w-[18px] h-[18px] text-[#d50475]" />
-                          <span>Videoconsulta</span>
+                  {/* Fila 1: Menús Principales de Navegación y Cabecera */}
+                  <div className="flex flex-col gap-3">
+                    <h3 className="text-[15px] font-bold text-black border-b border-[#f1f5f9] pb-1.5">
+                      1. Menús de Cabecera y Navegación
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                      
+                      {/* Dropdown 1: Solicitar cita */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[13px] font-bold text-black">1.1 «Solicita una cita»</span>
+                        <div className="w-[200px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] flex flex-col gap-[2px] border-0">
+                          <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] font-bold uppercase transition-colors cursor-pointer">
+                            <Video className="w-[18px] h-[18px] text-[#d50475]" />
+                            <span>Videoconsulta</span>
+                          </div>
+                          <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] font-bold uppercase transition-colors cursor-pointer">
+                            <MessageSquare className="w-[18px] h-[18px] text-[#d50475]" />
+                            <span>Chat médico</span>
+                          </div>
                         </div>
-                        <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] font-bold uppercase transition-colors cursor-pointer">
-                          <MessageSquare className="w-[18px] h-[18px] text-[#d50475]" />
-                          <span>Chat médico</span>
+                      </div>
+
+                      {/* Dropdown 2: Usuario / Sidebar */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[13px] font-bold text-black">1.2 «Usuario / Sidebar»</span>
+                        <div className="w-[220px] bg-white rounded-[12px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px] text-left">
+                          <div className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black transition-colors cursor-pointer">
+                            <SlidersHorizontal className="w-[18px] h-[18px] text-black shrink-0" />
+                            <span>Configuración de usuario</span>
+                          </div>
+                          <div className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black transition-colors cursor-pointer">
+                            <LogOut className="w-[18px] h-[18px] text-black shrink-0" />
+                            <span>Cerrar sesión</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Dropdown 3: Info Soporte Biometría */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[13px] font-bold text-black">1.3 «Info & Soporte Biometría»</span>
+                        <div className="w-[220px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px]">
+                          <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold transition-colors cursor-pointer">
+                            <Mail className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
+                            <span className="truncate">biometria@everhealth.es</span>
+                          </div>
+                          <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold transition-colors cursor-pointer">
+                            <Phone className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
+                            <span>918 220 518</span>
+                          </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    {/* Dropdown 2: Soporte e Información (Biometría / Header) */}
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[13px] font-bold text-black">2. Dropdown «Info & Soporte Biometría»</span>
-                      <div className="w-[220px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px]">
-                        <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold transition-colors cursor-pointer">
-                          <Mail className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
-                          <span className="truncate">biometria@everhealth.es</span>
+                  {/* Fila 2: Cabecera Notificaciones y Soporte General */}
+                  <div className="flex flex-col gap-3">
+                    <h3 className="text-[15px] font-bold text-black border-b border-[#f1f5f9] pb-1.5">
+                      2. Menús de Notificaciones y Soporte Ever Health
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                      
+                      {/* Dropdown 4: Notificaciones Header */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[13px] font-bold text-black">2.1 «Header Notificaciones»</span>
+                        <div className="w-[300px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(0,0,0,0.14)] p-4 border-0 flex flex-col gap-3">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-[15px] font-bold text-black">Notificaciones</h4>
+                            <span className="text-[11px] text-[#64748b]">1 pendiente</span>
+                          </div>
+                          <div className="p-2.5 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col gap-1">
+                            <span className="text-[13px] font-bold text-black">Videoconsulta en 10 min</span>
+                            <span className="text-[11px] text-[#64748b]">Dr. Pérez te espera en la sala virtual.</span>
+                          </div>
+                          <div className="pt-2 border-t border-[#f1f5f9] flex items-center justify-between text-[12px]">
+                            <span className="text-[#64748b]">Sonido notificaciones</span>
+                            <span className="font-bold text-[#d50475]">Activado</span>
+                          </div>
                         </div>
-                        <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold transition-colors cursor-pointer">
-                          <Phone className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
-                          <span>918 220 518</span>
+                      </div>
+
+                      {/* Dropdown 5: Header Soporte General */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[13px] font-bold text-black">2.2 «Header Soporte Ever Health»</span>
+                        <div className="w-[300px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(0,0,0,0.14)] p-3 border-0 flex flex-col gap-2">
+                          <div className="flex items-center justify-between pb-1.5 border-b border-[#f1f5f9]">
+                            <span className="text-[12px] font-bold text-black uppercase tracking-wider">Ever Health</span>
+                            <span className="text-[11px] text-[#64748b]">Atención directa</span>
+                          </div>
+                          <div className="flex items-center gap-2 p-1.5 text-[12px] font-bold text-black">
+                            <Mail className="w-4 h-4 text-[#d50475]" />
+                            <span>soporte@everhealth.es</span>
+                          </div>
+                          <div className="flex items-center gap-2 p-1.5 text-[12px] font-bold text-black">
+                            <Phone className="w-4 h-4 text-[#d50475]" />
+                            <span>911 23 12 14</span>
+                          </div>
+                          <div className="flex items-center gap-2 p-1.5 text-[12px] text-[#475569]">
+                            <MapPin className="w-4 h-4 text-black" />
+                            <span>C/ Naciones 10, 28006 Madrid</span>
+                          </div>
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    {/* Dropdown 3: Acciones en Tablas (Sin iconos, con separadores) */}
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[13px] font-bold text-black">3. Dropdown «Acciones de Tabla»</span>
-                      <div className="w-[210px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
-                        <div className="w-full h-[34px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center transition-colors cursor-pointer">
-                          Ver historial clínico
-                        </div>
-                        <div className="w-full h-[34px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center transition-colors cursor-pointer">
-                          Pedir cita médica
-                        </div>
-                        <div className="w-full h-[1px] bg-[#f1f5f9] my-1" />
-                        <div className="w-full h-[34px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center transition-colors cursor-pointer">
-                          Editar datos
-                        </div>
-                        <div className="w-full h-[34px] px-[12px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] flex items-center transition-colors cursor-pointer">
-                          Eliminar registro
+                  {/* Fila 3: Menús de Acciones en Tablas y Formularios */}
+                  <div className="flex flex-col gap-3">
+                    <h3 className="text-[15px] font-bold text-black border-b border-[#f1f5f9] pb-1.5">
+                      3. Menús de Acciones en Tablas y Selects de Formularios
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                      
+                      {/* Dropdown 6: Acciones de Tabla con Iconos */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[13px] font-bold text-black">3.1 «Acciones de Tabla (con Iconos)»</span>
+                        <div className="w-[210px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
+                          <div className="w-full h-[34px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] text-black flex items-center gap-2 cursor-pointer">
+                            <FileText className="w-4 h-4 text-[#d50475]" />
+                            <span>Ver historial</span>
+                          </div>
+                          <div className="w-full h-[34px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] text-black flex items-center gap-2 cursor-pointer">
+                            <Calendar className="w-4 h-4 text-[#2563eb]" />
+                            <span>Pedir cita médica</span>
+                          </div>
+                          <div className="w-full h-[1px] bg-[#f1f5f9] my-1" />
+                          <div className="w-full h-[34px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] text-black flex items-center gap-2 cursor-pointer">
+                            <Edit2 className="w-4 h-4 text-[#475569]" />
+                            <span>Editar datos</span>
+                          </div>
+                          <div className="w-full h-[34px] px-[10px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] text-[#ef4444] flex items-center gap-2 cursor-pointer">
+                            <Trash2 className="w-4 h-4 text-[#ef4444]" />
+                            <span>Eliminar registro</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Dropdown 4: Configuración de usuario & Cerrar sesión (media_1793946549334_0f96c0e9.png) */}
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[13px] font-bold text-black">4. Dropdown «Usuario / Sidebar»</span>
-                      <div className="w-[210px] bg-white rounded-[12px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px] text-left">
-                        <div className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black transition-colors cursor-pointer">
-                          <SlidersHorizontal className="w-[18px] h-[18px] text-black shrink-0" />
-                          <span>Configuración de usuario</span>
+                      {/* Dropdown 7: Select Especie Mascota */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[13px] font-bold text-black">3.2 «Select Especie Mascota»</span>
+                        <div className="w-[200px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col max-h-[160px] overflow-y-auto">
+                          {['Perro', 'Gato', 'Roedores/Conejos', 'Aves', 'Peces...', 'Equino', 'Otros'].map((esp, idx) => (
+                            <div key={esp} className={`px-3 py-1.5 rounded-[4px] text-[13px] cursor-pointer ${idx === 0 ? 'bg-[#fdf2f8] text-[#d50475] font-bold' : 'hover:bg-[#f1f5f9] text-[#475569]'}`}>
+                              {esp}
+                            </div>
+                          ))}
                         </div>
-                        <div className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black transition-colors cursor-pointer">
-                          <LogOut className="w-[18px] h-[18px] text-black shrink-0" />
-                          <span>Cerrar sesión</span>
+                      </div>
+
+                      {/* Dropdown 8: Select Sexo */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[13px] font-bold text-black">3.3 «Select Sexo»</span>
+                        <div className="w-[180px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col">
+                          <div className="px-3 py-2 rounded-[4px] text-[13px] font-bold text-[#d50475] bg-[#fdf2f8] cursor-pointer">
+                            Femenino
+                          </div>
+                          <div className="px-3 py-2 rounded-[4px] text-[13px] text-[#475569] hover:bg-[#f1f5f9] cursor-pointer">
+                            Masculino
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Dropdown 9: Select Condición Corporal */}
+                      <div className="flex flex-col gap-2">
+                        <span className="text-[13px] font-bold text-black">3.4 «Condición Corporal»</span>
+                        <div className="w-[180px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col">
+                          {['Peso Ideal', 'Delgado', 'Sobrepeso', 'Obesidad'].map((c, idx) => (
+                            <div key={c} className={`px-3 py-1.5 rounded-[4px] text-[13px] cursor-pointer ${idx === 0 ? 'bg-[#fdf2f8] text-[#d50475] font-bold' : 'hover:bg-[#f1f5f9] text-[#475569]'}`}>
+                              {c}
+                            </div>
+                          ))}
                         </div>
                       </div>
                     </div>

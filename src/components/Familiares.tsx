@@ -14,6 +14,8 @@ import {
   Trash2,
   Edit2,
   Calendar,
+  ChevronDown,
+  FileText,
 } from 'lucide-react';
 import { Badge } from '../design-system/atoms/Badge';
 
@@ -97,6 +99,8 @@ export const Familiares: React.FC = () => {
   const [formFechaNac, setFormFechaNac] = useState('');
   const [formSexo, setFormSexo] = useState('');
   const [formParentesco, setFormParentesco] = useState('');
+  const [sexoDropdownOpen, setSexoDropdownOpen] = useState(false);
+  const [parentescoDropdownOpen, setParentescoDropdownOpen] = useState(false);
 
   // Dropdown action row open
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
@@ -273,7 +277,9 @@ export const Familiares: React.FC = () => {
                     </td>
 
                     <td className="py-3.5 px-4">
-                      {item.edad < 18 ? (
+                      {item.esTutor ? (
+                        <Badge variant="disponible">Tutor legal</Badge>
+                      ) : item.edad < 18 ? (
                         <div className="flex flex-col">
                           <Badge variant="confirmada">Menor a cargo</Badge>
                           <span className="text-[11px] text-[#64748b] mt-0.5">
@@ -281,11 +287,11 @@ export const Familiares: React.FC = () => {
                           </span>
                         </div>
                       ) : (
-                        <Badge variant="disponible">Adulto</Badge>
+                        <Badge variant="programada">Adulto</Badge>
                       )}
                     </td>
 
-                    {/* Acciones Dropdown */}
+                    {/* Acciones Dropdown con iconos y separadores */}
                     <td className="py-3.5 px-4 text-right relative">
                       <div className="inline-block relative">
                         <button
@@ -299,18 +305,19 @@ export const Familiares: React.FC = () => {
                           <MoreVertical className="w-4 h-4" />
                         </button>
 
-                        {/* Dropdown de Acciones sin iconos pero con separadores */}
+                        {/* Dropdown de Acciones con iconos y separadores */}
                         {activeMenuId === item.id && (
-                          <div className="absolute right-0 top-[calc(100%+4px)] z-50 w-[200px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
+                          <div className="absolute right-0 top-[calc(100%+4px)] z-50 w-[210px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
                             <button
                               type="button"
                               onClick={() => {
                                 alert(`Consultar historial de ${item.nombre}`);
                                 setActiveMenuId(null);
                               }}
-                              className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black text-left transition-colors cursor-pointer"
+                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
                             >
-                              Ver historial clínico
+                              <FileText className="w-4 h-4 text-[#d50475] shrink-0" />
+                              <span>Ver historial clínico</span>
                             </button>
                             <button
                               type="button"
@@ -318,9 +325,10 @@ export const Familiares: React.FC = () => {
                                 alert(`Solicitar cita para ${item.nombre}`);
                                 setActiveMenuId(null);
                               }}
-                              className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black text-left transition-colors cursor-pointer"
+                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
                             >
-                              Pedir cita para este familiar
+                              <Calendar className="w-4 h-4 text-[#2563eb] shrink-0" />
+                              <span>Pedir cita médica</span>
                             </button>
 
                             {/* Separador */}
@@ -332,16 +340,18 @@ export const Familiares: React.FC = () => {
                                 alert(`Editar datos de ${item.nombre}`);
                                 setActiveMenuId(null);
                               }}
-                              className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black text-left transition-colors cursor-pointer"
+                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
                             >
-                              Editar datos
+                              <Edit2 className="w-4 h-4 text-[#475569] shrink-0" />
+                              <span>Editar datos</span>
                             </button>
                             <button
                               type="button"
                               onClick={() => handleDelete(item.id)}
-                              className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] text-left transition-colors cursor-pointer"
+                              className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] flex items-center gap-[10px] text-left transition-colors cursor-pointer"
                             >
-                              Eliminar familiar
+                              <Trash2 className="w-4 h-4 text-[#ef4444] shrink-0" />
+                              <span>Eliminar familiar</span>
                             </button>
                           </div>
                         )}
@@ -481,40 +491,81 @@ export const Familiares: React.FC = () => {
                   />
                 </div>
 
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 relative">
                   <label className="text-[14px] font-medium text-black">
                     ¿Qué sexo te asignaron al nacer?
                   </label>
-                  <select
-                    value={formSexo}
-                    onChange={(e) => setFormSexo(e.target.value)}
-                    className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black bg-white focus:outline-none focus:border-[#d50475] cursor-pointer"
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSexoDropdownOpen(!sexoDropdownOpen);
+                      setParentescoDropdownOpen(false);
+                    }}
+                    className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-[#f8fafc] hover:bg-white flex items-center justify-between cursor-pointer transition-colors"
                   >
-                    <option value="">Selecciona una opción</option>
-                    <option value="Femenino">Femenino</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="No especificado">No especificado</option>
-                  </select>
+                    <span className={formSexo ? 'text-black' : 'text-[#94a3b8]'}>
+                      {formSexo || 'Selecciona una opción'}
+                    </span>
+                    <ChevronDown className="w-4 h-4 text-black shrink-0" />
+                  </button>
+
+                  {/* Dropdown de opciones con sombra flotante sin borde gris */}
+                  {sexoDropdownOpen && (
+                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col gap-[2px]">
+                      {['Femenino', 'Masculino', 'No especificado'].map((opt) => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => {
+                            setFormSexo(opt);
+                            setSexoDropdownOpen(false);
+                          }}
+                          className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] text-[14px] text-black text-left cursor-pointer transition-colors"
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
 
-              {/* Fila 3: Parentesco */}
-              <div className="flex flex-col gap-1">
+              {/* Fila 3: Parentesco con dropdown homologado */}
+              <div className="flex flex-col gap-1 relative">
                 <label className="text-[14px] font-medium text-black">
                   Parentesco
                 </label>
-                <select
-                  value={formParentesco}
-                  onChange={(e) => setFormParentesco(e.target.value)}
-                  className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black bg-white focus:outline-none focus:border-[#d50475] cursor-pointer"
+                <button
+                  type="button"
+                  onClick={() => {
+                    setParentescoDropdownOpen(!parentescoDropdownOpen);
+                    setSexoDropdownOpen(false);
+                  }}
+                  className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-[#f8fafc] hover:bg-white flex items-center justify-between cursor-pointer transition-colors"
                 >
-                  <option value="">Selecciona el parentesco</option>
-                  <option value="Cónyuge">Cónyuge</option>
-                  <option value="Hijo/a">Hijo/a</option>
-                  <option value="Madre / Padre">Madre / Padre</option>
-                  <option value="Hermano/a">Hermano/a</option>
-                  <option value="Otro">Otro</option>
-                </select>
+                  <span className={formParentesco ? 'text-black' : 'text-[#94a3b8]'}>
+                    {formParentesco || 'Selecciona el parentesco'}
+                  </span>
+                  <ChevronDown className="w-4 h-4 text-black shrink-0" />
+                </button>
+
+                {parentescoDropdownOpen && (
+                  <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col gap-[2px]">
+                    {['Cónyuge', 'Hijo/a', 'Madre / Padre', 'Hermano/a', 'Otro'].map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => {
+                          setFormParentesco(opt);
+                          setParentescoDropdownOpen(false);
+                        }}
+                        className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] text-[14px] text-black text-left cursor-pointer transition-colors"
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Action Buttons: Guardar (Botón rosa centrado o a la derecha como en la captura) */}

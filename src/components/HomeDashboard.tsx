@@ -19,10 +19,26 @@ import { PlusCircle, Bell, HelpCircle, Palette, Info, Mail, Phone, MapPin, FileT
 interface HomeDashboardProps {
   userName: string;
   onLogout: () => void;
+  currentView?: string;
+  onNavigate?: (view: string) => void;
 }
 
-export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout }) => {
-  const [currentView, setCurrentView] = useState<'home' | 'solicitar-chat' | 'cuestionario' | 'design-system' | string>('home');
+export const HomeDashboard: React.FC<HomeDashboardProps> = ({
+  userName,
+  onLogout,
+  currentView: externalCurrentView,
+  onNavigate: externalOnNavigate,
+}) => {
+  const [internalView, setInternalView] = useState<string>('home');
+  const currentView = externalCurrentView || internalView;
+
+  const setCurrentView = (view: string) => {
+    if (externalOnNavigate) {
+      externalOnNavigate(view);
+    } else {
+      setInternalView(view);
+    }
+  };
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const [chatModalTab, setChatModalTab] = useState<'agendar' | 'ahora'>('agendar');
@@ -91,7 +107,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
       <div className="flex-1 flex flex-col min-w-0">
         {/* Top Header */}
         <header className="w-full h-[56px] px-4 sm:px-8 flex items-center justify-center border-b border-[#f1f5f9] lg:border-b-0">
-          <div className={`w-full ${currentView === 'home' ? 'max-w-[800px]' : 'max-w-[1200px]'} flex items-center justify-end gap-[16px] transition-all relative`}>
+          <div className="w-full max-w-[1200px] flex items-center justify-end gap-[16px] relative">
             
             {/* Botón de Notificaciones con puntito verde arriba a la derecha */}
             <div className="relative">
@@ -297,9 +313,9 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({ userName, onLogout
           </div>
         </header>
 
-        {/* Body Content - Home a 800px; resto de vistas a 1200px */}
+        {/* Body Content - Ancho unificado sin saltos ni animaciones de crecimiento */}
         <main className="flex-1 px-4 sm:px-8 pt-[24px] pb-[48px] flex justify-center items-start">
-          <div className={`w-full ${currentView === 'home' ? 'max-w-[800px]' : 'max-w-[1200px]'} mx-auto transition-all`}>
+          <div className="w-full max-w-[1200px] mx-auto subtle-fade">
             {currentView === 'home' && (
               <EVR100Home
                 userName={userName}

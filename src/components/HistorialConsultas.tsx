@@ -5,7 +5,7 @@ import {
   ChevronDown,
   ChevronUp,
   Video,
-  Phone,
+  MessageSquare,
   FileText,
   SlidersHorizontal,
   ChevronLeft,
@@ -28,7 +28,7 @@ interface ConsultaItem {
   id: string;
   time: string;
   dateStr: string;
-  type: 'Videoconsulta' | 'Consulta telefónica' | 'Consulta presencial' | 'Chat médico';
+  type: 'Videoconsulta' | 'Chat médico';
   language: string;
   patientName: string;
   patientMeta: string;
@@ -53,7 +53,7 @@ const INITIAL_CONSULTAS: ConsultaItem[] = [
     doctorSpecialty: 'Medicina General · Urgencias',
     statusText: 'Pendiente de recomendación',
     statusVariant: 'limitada',
-    reason: 'Videollamada para discutir detalles y dudas de mi última consulta médica general.',
+    reason: 'Videoconsulta para discutir detalles y dudas de mi última consulta médica general.',
     canAccess: true,
   },
   {
@@ -90,7 +90,7 @@ const INITIAL_CONSULTAS: ConsultaItem[] = [
     id: '4',
     time: '16:00',
     dateStr: '15/09/2026',
-    type: 'Consulta telefónica',
+    type: 'Chat médico',
     language: 'Español · Ever Health',
     patientName: 'Carlos Damian',
     patientMeta: 'Paciente principal · Titular',
@@ -98,7 +98,7 @@ const INITIAL_CONSULTAS: ConsultaItem[] = [
     doctorSpecialty: 'Dermatología · Lesiones cutáneas',
     statusText: 'Terminado',
     statusVariant: 'programada',
-    reason: 'Seguimiento de reacción alérgica en el antebrazo e indicación de pomada tópica.',
+    reason: 'Consulta por chat médico para seguimiento de reacción alérgica en el antebrazo e indicación de pomada tópica.',
     canAccess: false,
   },
   {
@@ -331,6 +331,15 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
 
           {/* Consultations Table / List Container */}
           <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] divide-y divide-[#e2e8f0] overflow-hidden shadow-xs">
+            {/* Header de la cuadrícula para alinear perfectamente todas las columnas */}
+            <div className="hidden lg:grid grid-cols-12 gap-4 px-5 py-3 bg-[#f8fafc] text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
+              <div className="col-span-2">Hora y Fecha</div>
+              <div className="col-span-3">Tipo de Consulta</div>
+              <div className="col-span-2">Paciente</div>
+              <div className="col-span-3">Profesional Asignado</div>
+              <div className="col-span-2 text-right">Estado</div>
+            </div>
+
             {filteredConsultas.length === 0 ? (
               <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2">
                 <FileText className="w-10 h-10 text-[#cbd5e1]" />
@@ -342,14 +351,14 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                 const isExpanded = expandedId === item.id;
                 return (
                   <div key={item.id} className="flex flex-col transition-colors">
-                    {/* Header row de la consulta */}
+                    {/* Header row de la consulta con CSS Grid estricto de 12 columnas */}
                     <div
                       onClick={() => toggleExpand(item.id)}
-                      className="p-4 sm:p-5 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 cursor-pointer hover:bg-[#fafafa]"
+                      className="p-4 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4 items-start lg:items-center cursor-pointer hover:bg-[#fafafa]"
                     >
-                      {/* Columna 1: Hora y Fecha */}
-                      <div className="flex flex-col sm:w-[130px] shrink-0">
-                        <span className="text-[17px] leading-[22px] font-bold text-black">
+                      {/* Columna 1: Hora y Fecha (2 cols) */}
+                      <div className="lg:col-span-2 flex flex-col">
+                        <span className="text-[16px] leading-[22px] font-bold text-black">
                           {item.time}
                         </span>
                         <span className="text-[12px] font-medium text-[#64748b] uppercase tracking-wider">
@@ -357,34 +366,34 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                         </span>
                       </div>
 
-                      {/* Columna 2: Tipo de consulta e idioma */}
-                      <div className="flex flex-col sm:w-[200px] shrink-0">
+                      {/* Columna 2: Tipo de consulta e idioma (3 cols) */}
+                      <div className="lg:col-span-3 flex flex-col">
                         <div className="flex items-center gap-2">
                           {item.type === 'Videoconsulta' ? (
                             <Video className="w-4 h-4 text-[#d50475] shrink-0" />
                           ) : (
-                            <Phone className="w-4 h-4 text-[#2563eb] shrink-0" />
+                            <MessageSquare className="w-4 h-4 text-[#2563eb] shrink-0" />
                           )}
                           <span className="text-[14px] font-bold text-black">{item.type}</span>
                         </div>
                         <span className="text-[12px] text-[#64748b] mt-0.5">{item.language}</span>
                       </div>
 
-                      {/* Columna 3: Paciente */}
-                      <div className="flex flex-col flex-1 min-w-[180px]">
+                      {/* Columna 3: Paciente (2 cols) */}
+                      <div className="lg:col-span-2 flex flex-col">
                         <span className="text-[14px] font-bold text-black">{item.patientName}</span>
                         <span className="text-[12px] text-[#64748b] mt-0.5">{item.patientMeta}</span>
                       </div>
 
-                      {/* Columna 4: Profesional asignado */}
-                      <div className="flex flex-col flex-1 min-w-[200px]">
+                      {/* Columna 4: Profesional asignado (3 cols - Bruno Peñas perfectamente alineado) */}
+                      <div className="lg:col-span-3 flex flex-col">
                         <span className="text-[14px] font-bold text-black">{item.doctorName}</span>
                         <span className="text-[12px] text-[#64748b] mt-0.5">{item.doctorSpecialty}</span>
                       </div>
 
-                      {/* Columna 5: Estado Badge + Chevron toggle */}
-                      <div className="flex items-center gap-3 shrink-0 self-end lg:self-center">
-                        <Badge variant={item.statusVariant} showDot={item.statusVariant === 'disponible' || item.statusVariant === 'limitada'}>
+                      {/* Columna 5: Estado Badge + Chevron toggle (2 cols) */}
+                      <div className="lg:col-span-2 flex items-center justify-start lg:justify-end gap-3 shrink-0">
+                        <Badge variant={item.statusVariant}>
                           {item.statusText}
                         </Badge>
 

@@ -36,3 +36,16 @@ body {
   margin: 0;
   padding: 0;
 }
+
+@keyframes subtleFadeIn {
+  from {
+    opacity: 0.35;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.subtle-fade {
+  animation: subtleFadeIn 0.16s ease-out;
+}

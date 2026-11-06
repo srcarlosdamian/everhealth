@@ -14,23 +14,22 @@ interface BadgeProps {
   variant?: BadgeVariant;
   children: React.ReactNode;
   className?: string;
-  showDot?: boolean;
 }
 
 export const Badge: React.FC<BadgeProps> = ({
   variant = 'disponible',
   children,
   className = '',
-  showDot = false,
 }) => {
   // Homologated Badge Design System Rules per User Feedback:
   // - No badge has a background fill (all are bg-transparent).
-  // - Border is light gray: border-[#cbd5e1] (gray 300).
-  // - Typography: text-[12px] leading-[16px] font-bold (same weight across all).
-  // - "Disponible" & "Confirmada" are unified: same component, border-[#cbd5e1], text-[#15803d] (green 700), optional green dot.
-  // - "En espera": border-[#cbd5e1], text-[#2563eb] (blue), optional blue dot.
-  // - "Programada" & "No disponible": border-[#cbd5e1], text-[#475569] (dark gray), optional gray dot.
-  // - "Tiempo limitado": border-[#cbd5e1], text-[#b45309] (amber 700), optional yellow/orange dot.
+  // - Border is light gray: border-[#cbd5e1].
+  // - Typography: text-[12px] leading-[16px] font-bold across all.
+  // - NO green dots or status dots (eliminados en Consultas y en el Sistema de Diseño per user request).
+  // - "Disponible" & "Confirmada": text-[#15803d] (green 700).
+  // - "En espera": text-[#2563eb] (blue).
+  // - "Programada" & "No disponible": text-[#475569] (dark gray).
+  // - "Tiempo limitado": text-[#b45309] (amber 700).
 
   const getVariantStyles = () => {
     switch (variant) {
@@ -53,30 +52,10 @@ export const Badge: React.FC<BadgeProps> = ({
     }
   };
 
-  const getDotColor = () => {
-    switch (variant) {
-      case 'disponible':
-      case 'confirmada':
-        return 'bg-[#15803d]';
-      case 'en-espera':
-        return 'bg-[#2563eb]';
-      case 'programada':
-      case 'no-disponible':
-        return 'bg-[#64748b]';
-      case 'limitada':
-        return 'bg-[#b45309]';
-      default:
-        return 'bg-[#64748b]';
-    }
-  };
-
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[6px] text-[12px] leading-[16px] font-bold transition-all ${getVariantStyles()} ${className}`}
+      className={`inline-flex items-center justify-center px-2.5 py-1 rounded-[6px] text-[12px] leading-[16px] font-bold ${getVariantStyles()} ${className}`}
     >
-      {showDot && (
-        <span className={`w-2 h-2 rounded-full ${getDotColor()} shrink-0`} />
-      )}
       {children}
     </span>
   );

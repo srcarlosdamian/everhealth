@@ -17,7 +17,7 @@ import {
   FileText,
   FileSpreadsheet,
   Users,
-  Cat,
+  PawPrint,
   Calendar,
   FileUp,
   Search,
@@ -47,7 +47,7 @@ const ICONS_CATALOG = [
   { name: 'lucide/file-text', icon: FileText, label: 'Historial consultas', category: 'Navegación' },
   { name: 'lucide/file-spreadsheet', icon: FileSpreadsheet, label: 'Historia clínica', category: 'Navegación' },
   { name: 'lucide/users', icon: Users, label: 'Familiares', category: 'Navegación' },
-  { name: 'lucide/cat', icon: Cat, label: 'Mascotas', category: 'Navegación' },
+  { name: 'lucide/paw-print', icon: PawPrint, label: 'Mascotas', category: 'Navegación' },
   { name: 'lucide/sliders-horizontal', icon: SlidersHorizontal, label: 'Configuración de usuario', category: 'Usuario & Perfil' },
   { name: 'lucide/log-out', icon: LogOut, label: 'Cerrar sesión', category: 'Usuario & Perfil' },
   { name: 'lucide/video', icon: Video, label: 'Video consulta', category: 'Acciones' },
@@ -190,9 +190,9 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
                   <div className="p-3 rounded-[6px] border border-[#f1f5f9] bg-[#f8fafc] flex flex-col gap-2">
                     <span className="text-[11px] font-bold text-[#64748b]">Disponibilidad</span>
                     <div className="flex flex-wrap gap-2">
-                      <Badge variant="disponible" showDot>Disponible ahora</Badge>
-                      <Badge variant="limitada" showDot>Disponibilidad limitada</Badge>
-                      <Badge variant="no-disponible" showDot>No disponible</Badge>
+                      <Badge variant="disponible">Disponible ahora</Badge>
+                      <Badge variant="limitada">Disponibilidad limitada</Badge>
+                      <Badge variant="no-disponible">No disponible</Badge>
                     </div>
                   </div>
 
@@ -302,7 +302,7 @@ export const DesignSystemView: React.FC<DesignSystemViewProps> = ({ isOpen, onCl
                       </div>
                     </div>
                   </div>
-                  <Badge variant="disponible" showDot>Disponible ahora</Badge>
+                  <Badge variant="disponible">Disponible ahora</Badge>
                 </div>
               </div>
 
