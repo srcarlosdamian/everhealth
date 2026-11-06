@@ -209,50 +209,46 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
       <main className="flex-1 w-full flex justify-center px-4 pt-8 pb-16">
         <div className="w-full max-w-[800px] flex flex-col gap-6">
 
-          {/* Top navigation row */}
-          <div className="flex items-center justify-between">
+          {/* Top navigation row con botón atrás transparente y PASO a la izquierda exacto al stepper */}
+          <div className="flex flex-col gap-2">
             <button
               type="button"
               onClick={() => {
                 if (stage === 2) setStage(1);
                 else onBackToHome();
               }}
-              className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+              className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer bg-transparent -ml-2"
+              title="Atrás"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
 
-            {/* Stepper Pill indicator */}
-            <div className="flex items-center gap-2">
-              <span className="text-[13px] font-bold text-black uppercase">
-                {stage === 1 ? 'PASO 1/2 · REGISTRO' : stage === 'loading' ? 'CARGANDO' : 'PASO 2/2 · MEDICIÓN EN VIVO'}
-              </span>
-            </div>
+            {/* Stepper text indicator alineado a la izquierda */}
+            <span className="text-[12px] font-bold text-black uppercase tracking-wider">
+              {stage === 1 ? 'PASO 1/2' : stage === 'loading' ? 'CARGANDO' : 'PASO 2/2'}
+            </span>
           </div>
 
           {/* ================= FASE 1: FORMULARIO BIOMETRÍA ================= */}
           {stage === 1 && (
             <div className="flex flex-col gap-8">
-              <div className="flex flex-col gap-2">
-                <span className="text-[13px] font-bold uppercase tracking-wider text-[#d50475]">
+              {/* Encabezado exacto a la estructura del stepper */}
+              <div className="flex flex-col gap-1.5">
+                <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
                   Biometría
-                </span>
-                <h1 className="text-[26px] sm:text-[30px] leading-[36px] font-bold text-black">
-                  Bienvenido al sistema inteligente de diagnosis por imagen.
                 </h1>
-                <h2 className="text-[20px] leading-[28px] font-bold text-black mt-1">
-                  Completa tus datos y empezamos
-                </h2>
-                <p className="text-[14px] leading-[22px] text-black font-normal">
-                  Estimación digital de constantes biométricas en tiempo real a través de análisis de video facial y fotopletismografía sin contacto.
+                <p className="text-[15px] leading-[22px] text-[#475569] font-normal">
+                  Bienvenido al sistema inteligente de diagnosis por imagen. Completa tus datos para estimar tus constantes biométricas en tiempo real.
                 </p>
               </div>
 
-              {/* Formulario */}
+              {/* Formulario de datos personales */}
               <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">Nombre</label>
+                    <label className="text-[14px] font-medium text-black">
+                      Nombre<span className="text-[#d50475]">*</span>
+                    </label>
                     <input
                       type="text"
                       value={nombre}
@@ -262,7 +258,9 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">Apellidos</label>
+                    <label className="text-[14px] font-medium text-black">
+                      Apellidos<span className="text-[#d50475]">*</span>
+                    </label>
                     <input
                       type="text"
                       value={apellidos}
@@ -275,7 +273,9 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">Email</label>
+                    <label className="text-[14px] font-medium text-black">
+                      Email<span className="text-[#d50475]">*</span>
+                    </label>
                     <input
                       type="email"
                       value={email}
@@ -285,7 +285,9 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">Edad</label>
+                    <label className="text-[14px] font-medium text-black">
+                      Edad<span className="text-[#d50475]">*</span>
+                    </label>
                     <input
                       type="number"
                       value={edad}
@@ -347,50 +349,114 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                 </div>
               </div>
 
-              {/* Preguntas clínicas con Toggles */}
+              {/* Preguntas clínicas con tarjetas cuadradas con checks radiales (estilo Bienestar emocional) */}
               <div className="flex flex-col gap-6 pt-2">
-                <div className="flex flex-col gap-2">
-                  <span className="text-[16px] font-bold text-black">¿Tiene diabetes?</span>
-                  <div>
-                    <SegmentedToggle
-                      value={diabetes}
-                      onChange={(val) => setDiabetes(val)}
-                      options={[
-                        { label: 'No', value: 'no' },
-                        { label: 'Tipo 1', value: 'tipo1' },
-                        { label: 'Tipo 2', value: 'tipo2' },
-                      ]}
-                    />
+                
+                {/* 1. ¿Tiene diabetes? (3 opciones en tarjetas cuadradas con check radial único) */}
+                <div className="flex flex-col gap-2.5">
+                  <span className="text-[15px] font-bold text-black">¿Tiene diabetes?</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {[
+                      { id: 'no', label: 'No' },
+                      { id: 'tipo1', label: 'Tipo 1' },
+                      { id: 'tipo2', label: 'Tipo 2' },
+                    ].map((opt) => {
+                      const isSelected = diabetes === opt.id;
+                      return (
+                        <div
+                          key={opt.id}
+                          onClick={() => setDiabetes(opt.id)}
+                          className={`p-4 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
+                            isSelected
+                              ? 'border-[#d50475] bg-[#fdf2f8]/40 shadow-xs'
+                              : 'border-[#cbd5e1] hover:border-black bg-white'
+                          }`}
+                        >
+                          <div
+                            className={`w-5 h-5 rounded-[4px] border flex items-center justify-center transition-all ${
+                              isSelected
+                                ? 'border-[#d50475] bg-[#d50475] text-white'
+                                : 'border-[#94a3b8] bg-white'
+                            }`}
+                          >
+                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                          </div>
+                          <span className="text-[14px] font-bold text-black">{opt.label}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <span className="text-[16px] font-bold text-black">¿Fuma?</span>
-                  <div>
-                    <SegmentedToggle
-                      value={fuma}
-                      onChange={(val) => setFuma(val)}
-                      options={[
-                        { label: 'Sí', value: 'si' },
-                        { label: 'No', value: 'no' },
-                      ]}
-                    />
+                {/* 2. ¿Fuma? (2 opciones en tarjetas cuadradas) */}
+                <div className="flex flex-col gap-2.5">
+                  <span className="text-[15px] font-bold text-black">¿Fuma?</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {[
+                      { id: 'si', label: 'Sí' },
+                      { id: 'no', label: 'No' },
+                    ].map((opt) => {
+                      const isSelected = fuma === opt.id;
+                      return (
+                        <div
+                          key={opt.id}
+                          onClick={() => setFuma(opt.id)}
+                          className={`p-4 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
+                            isSelected
+                              ? 'border-[#d50475] bg-[#fdf2f8]/40 shadow-xs'
+                              : 'border-[#cbd5e1] hover:border-black bg-white'
+                          }`}
+                        >
+                          <div
+                            className={`w-5 h-5 rounded-[4px] border flex items-center justify-center transition-all ${
+                              isSelected
+                                ? 'border-[#d50475] bg-[#d50475] text-white'
+                                : 'border-[#94a3b8] bg-white'
+                            }`}
+                          >
+                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                          </div>
+                          <span className="text-[14px] font-bold text-black">{opt.label}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
-                <div className="flex flex-col gap-2">
-                  <span className="text-[16px] font-bold text-black">
+                {/* 3. ¿Está tomando medicación para la presión arterial? (2 opciones en tarjetas cuadradas) */}
+                <div className="flex flex-col gap-2.5">
+                  <span className="text-[15px] font-bold text-black">
                     ¿Está tomando medicación para la presión arterial?
                   </span>
-                  <div>
-                    <SegmentedToggle
-                      value={medicacionPresion}
-                      onChange={(val) => setMedicacionPresion(val)}
-                      options={[
-                        { label: 'Sí', value: 'si' },
-                        { label: 'No', value: 'no' },
-                      ]}
-                    />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {[
+                      { id: 'si', label: 'Sí' },
+                      { id: 'no', label: 'No' },
+                    ].map((opt) => {
+                      const isSelected = medicacionPresion === opt.id;
+                      return (
+                        <div
+                          key={opt.id}
+                          onClick={() => setMedicacionPresion(opt.id)}
+                          className={`p-4 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
+                            isSelected
+                              ? 'border-[#d50475] bg-[#fdf2f8]/40 shadow-xs'
+                              : 'border-[#cbd5e1] hover:border-black bg-white'
+                          }`}
+                        >
+                          <div
+                            className={`w-5 h-5 rounded-[4px] border flex items-center justify-center transition-all ${
+                              isSelected
+                                ? 'border-[#d50475] bg-[#d50475] text-white'
+                                : 'border-[#94a3b8] bg-white'
+                            }`}
+                          >
+                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                          </div>
+                          <span className="text-[14px] font-bold text-black">{opt.label}</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
