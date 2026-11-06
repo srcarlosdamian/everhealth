@@ -28,6 +28,8 @@ import {
   PlusCircle,
   SlidersHorizontal,
   LogOut,
+  Mail,
+  Phone,
   X,
   Globe,
 } from 'lucide-react';

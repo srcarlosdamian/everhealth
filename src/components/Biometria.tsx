@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Info, Mail, Phone, ChevronDown, HelpCircle, AlertCircle, Camera, VideoOff, Heart, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Info, Mail, Phone, ChevronDown, HelpCircle, AlertCircle, Camera, VideoOff, Heart, RefreshCw, Check } from 'lucide-react';
 import { LanguageSelector } from './LanguageSelector';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
@@ -114,7 +114,7 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
 
   // Handle measurement progress during 'measuring'
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
+    let interval: ReturnType<typeof setInterval> | null = null;
     if (stage === 2 && measureStatus === 'measuring') {
       interval = setInterval(() => {
         setScanProgress((prev) => {
@@ -225,7 +225,7 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
 
             {/* Stepper text indicator alineado a la izquierda */}
             <span className="text-[12px] font-bold text-black uppercase tracking-wider">
-              {stage === 1 ? 'PASO 1/2' : stage === 'loading' ? 'CARGANDO' : 'PASO 2/2'}
+              {stage === 1 ? 'PASO 1 DE 2' : stage === 'loading' ? 'CARGANDO' : 'PASO 2 DE 2'}
             </span>
           </div>
 
