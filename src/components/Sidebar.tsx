@@ -6,7 +6,7 @@ import {
   FileText,
   FileSpreadsheet,
   Users,
-  Cat,
+  PawPrint,
   ChevronDown,
   MessageSquare,
   Video,
@@ -97,15 +97,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
           />
         </button>
 
-        {/* Dropdown Menu sin borde gris, solo sombra */}
+        {/* Dropdown Menu sin borde gris, solo sombra - matching media_1793946549334_0f96c0e9.png */}
         {userMenuOpen && (
-          <div className="absolute left-0 top-[calc(100%+6px)] z-50 w-full bg-white rounded-[12px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] flex flex-col gap-[2px]">
+          <div className="absolute left-0 top-[calc(100%+6px)] z-50 w-full bg-white rounded-[12px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px]">
             <button
               type="button"
               onClick={() => {
                 setUserMenuOpen(false);
+                onNavigate('mi-perfil');
               }}
-              className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
+              className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
             >
               <SlidersHorizontal className="w-[18px] h-[18px] text-black shrink-0" />
               <span>Configuración de usuario</span>
@@ -116,7 +117,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 setUserMenuOpen(false);
                 onLogout();
               }}
-              className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
+              className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
             >
               <LogOut className="w-[18px] h-[18px] text-black shrink-0" />
               <span>Cerrar sesión</span>
@@ -250,12 +251,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <span>Familiares</span>
         </button>
 
-        {/* Mascotas (No implementado aún) */}
+        {/* Mascotas */}
         <button
           type="button"
-          className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black cursor-pointer"
+          onClick={() => onNavigate('mascotas')}
+          className={`w-full h-[40px] px-[12px] rounded-[6px] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal transition-colors cursor-pointer ${
+            currentView === 'mascotas'
+              ? 'bg-[#f1f5f9] text-black font-medium'
+              : 'text-black hover:bg-[#f8fafc]'
+          }`}
         >
-          <Cat className="w-[18px] h-[18px] text-black" />
+          <PawPrint className="w-[18px] h-[18px] text-black" />
           <span>Mascotas</span>
         </button>
       </nav>

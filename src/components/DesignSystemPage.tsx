@@ -524,7 +524,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     <p className="text-[13px] text-[#64748b]">Menús desplegables con sombra suave `shadow-[0_12px_32px_rgba(0,0,0,0.12)]` y esquinas de 10px.</p>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
                     {/* Dropdown 1: Solicitar cita */}
                     <div className="flex flex-col gap-2">
                       <span className="text-[13px] font-bold text-black">1. Dropdown «Solicita una cita»</span>
@@ -543,7 +543,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     {/* Dropdown 2: Soporte e Información (Biometría / Header) */}
                     <div className="flex flex-col gap-2">
                       <span className="text-[13px] font-bold text-black">2. Dropdown «Info & Soporte Biometría»</span>
-                      <div className="w-[240px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px]">
+                      <div className="w-[220px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px]">
                         <div className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold transition-colors cursor-pointer">
                           <Mail className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
                           <span className="truncate">biometria@everhealth.es</span>
@@ -557,7 +557,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                     {/* Dropdown 3: Acciones en Tablas (Sin iconos, con separadores) */}
                     <div className="flex flex-col gap-2">
-                      <span className="text-[13px] font-bold text-black">3. Dropdown «Acciones de Tabla» (Sin iconos)</span>
+                      <span className="text-[13px] font-bold text-black">3. Dropdown «Acciones de Tabla»</span>
                       <div className="w-[210px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
                         <div className="w-full h-[34px] px-[12px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center transition-colors cursor-pointer">
                           Ver historial clínico
@@ -571,6 +571,21 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         </div>
                         <div className="w-full h-[34px] px-[12px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] flex items-center transition-colors cursor-pointer">
                           Eliminar registro
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Dropdown 4: Configuración de usuario & Cerrar sesión (media_1793946549334_0f96c0e9.png) */}
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[13px] font-bold text-black">4. Dropdown «Usuario / Sidebar»</span>
+                      <div className="w-[210px] bg-white rounded-[12px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px] text-left">
+                        <div className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black transition-colors cursor-pointer">
+                          <SlidersHorizontal className="w-[18px] h-[18px] text-black shrink-0" />
+                          <span>Configuración de usuario</span>
+                        </div>
+                        <div className="w-full h-[38px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black transition-colors cursor-pointer">
+                          <LogOut className="w-[18px] h-[18px] text-black shrink-0" />
+                          <span>Cerrar sesión</span>
                         </div>
                       </div>
                     </div>
