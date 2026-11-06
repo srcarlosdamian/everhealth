@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Check, Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Check, Calendar as CalendarIcon, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
 
 interface ModalSolicitarChatProps {
   isOpen: boolean;
@@ -12,51 +12,59 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
   onClose,
   defaultTab = 'agendar',
 }) => {
-  const [tab, setTab] = useState<'agendar' | 'ahora'>(defaultTab);
+  // Solicitado por el usuario:
+  // En vez de un toggle poco obvio, el modal cuenta con un Paso 1 que es un dropdown
+  // para seleccionar la modalidad: 'Agendar cita' o 'Hablar ahora'.
+  const [modalidad, setModalidad] = useState<'agendar' | 'ahora'>(defaultTab);
+
+  // Campos obligatorios solicitados con asterisco (*)
   const [selectedSpecialty, setSelectedSpecialty] = useState<string>('Medicina General');
-  const [selectedTime, setSelectedTime] = useState<string>('09:30');
   const [motivoChat, setMotivoChat] = useState<string>('');
+  const [selectedDay, setSelectedDay] = useState<string>('MAÑANA 23 Oct');
+  const [selectedTime, setSelectedTime] = useState<string>('09:30');
 
   useEffect(() => {
     if (isOpen) {
-      setTab(defaultTab);
+      setModalidad(defaultTab);
     }
   }, [isOpen, defaultTab]);
 
   if (!isOpen) return null;
 
-  const isStep1Done = true; // Assigned doctor
-  const isStep2Done = Boolean(selectedSpecialty);
-  const isStep3Done = motivoChat.trim().length > 0;
-  const isStep4Done = Boolean(selectedTime);
-  const isFullyComplete = isStep1Done && isStep2Done && isStep3Done && isStep4Done;
+  // Validación de obligatoriedad: especialidad*, motivo* y día*
+  const isSpecialtyDone = Boolean(selectedSpecialty);
+  const isMotivoDone = motivoChat.trim().length > 0;
+  const isDayDone = modalidad === 'ahora' ? true : Boolean(selectedDay && selectedTime);
+  const isFullyComplete = isSpecialtyDone && isMotivoDone && isDayDone;
 
-  const specialties = ['Medicina General', 'Psicología', 'Medicina', 'Nutrición'];
+  const specialties = ['Medicina General', 'Psicología', 'Nutrición', 'Pediatría'];
 
   const daysSchedule = [
-    { day: 'HOY', date: '22 Oct', slots: ['09:30', '11:00', '12:30', '1:30'] },
-    { day: 'MAÑANA', date: '23 Oct', slots: ['09:30', '11:00', '12:30', '1:30'] },
-    { day: 'MIÉRCOLES', date: '25 Oct', slots: ['09:30', '11:00', '12:30', '1:30'] },
-    { day: 'VIERNES', date: '25 Oct', slots: ['09:30', '', '', ''] },
-    { day: 'DOMINGO', date: '27 Oct', slots: ['09:30', '11:00', '', '1:30'] },
-    { day: 'DOMINGO', date: '27 Oct', slots: ['09:30', '11:00', '12:30', '1:30'] },
+    { day: 'HOY', date: '22 Oct', slots: ['09:30', '11:00', '12:30', '13:30'] },
+    { day: 'MAÑANA', date: '23 Oct', slots: ['09:30', '11:00', '12:30', '13:30'] },
+    { day: 'MIÉRCOLES', date: '25 Oct', slots: ['09:30', '11:00', '12:30', '13:30'] },
+    { day: 'VIERNES', date: '27 Oct', slots: ['09:30', '11:00', '', ''] },
   ];
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto animate-fadeIn font-[family-name:Helvetica]"
       onClick={(e) => {
-        // Closes on clicking outside modal container
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="relative w-full max-w-[640px] bg-white rounded-[12px] shadow-2xl p-6 sm:p-[28px] my-8 flex flex-col gap-[20px] max-h-[90vh] overflow-y-auto">
+      <div className="relative w-full max-w-[660px] bg-white rounded-[14px] shadow-2xl p-6 sm:p-[28px] my-8 flex flex-col gap-[20px] max-h-[92vh] overflow-y-auto animate-scaleUp">
         
         {/* Header */}
         <div className="flex items-center justify-between pb-[16px] border-b border-[#e2e8f0]">
-          <h2 className="text-[22px] leading-[28px] font-bold text-black">
-            Solicitar chat
-          </h2>
+          <div>
+            <h2 className="text-[22px] leading-[28px] font-bold text-black">
+              Solicitar chat
+            </h2>
+            <p className="text-[13px] text-[#64748b] mt-0.5">
+              Completa los datos requeridos para conectar con el especialista médico
+            </p>
+          </div>
           <button
             type="button"
             onClick={onClose}
@@ -66,237 +74,237 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
           </button>
         </div>
 
-        {/* Tab switch matching EVR - 9 and EVR - 120 */}
-        <div className="inline-flex rounded-[8px] bg-[#f1f5f9] p-[3px] w-fit">
-          <button
-            type="button"
-            onClick={() => setTab('agendar')}
-            className={`px-[16px] py-[6px] rounded-[6px] text-[13px] font-bold transition-all cursor-pointer ${
-              tab === 'agendar'
-                ? 'bg-white text-black shadow-xs'
-                : 'text-[#64748b] hover:text-black'
-            }`}
-          >
-            Agendar cita
-          </button>
-          <button
-            type="button"
-            onClick={() => setTab('ahora')}
-            className={`px-[16px] py-[6px] rounded-[6px] text-[13px] font-bold transition-all cursor-pointer ${
-              tab === 'ahora'
-                ? 'bg-white text-black shadow-xs'
-                : 'text-[#64748b] hover:text-black'
-            }`}
-          >
-            Hablar ahora
-          </button>
-        </div>
-
-        {/* Stepper track + Content */}
+        {/* Stepper Track + Formulario */}
         <div className="flex gap-[16px]">
           
-          {/* Stepper Track with 900 Magenta Checks and Connecting Lines */}
+          {/* Stepper Track con viñetas conectadas */}
           <div className="flex flex-col items-center pt-1 shrink-0 w-[28px]">
-            {/* Step 1 */}
-            <div className="w-[26px] h-[26px] rounded-full bg-[#831843] text-white flex items-center justify-center shadow-xs">
+            {/* Paso 1: Modalidad */}
+            <div className="w-[26px] h-[26px] rounded-full bg-[#d50475] text-white flex items-center justify-center shadow-xs">
               <Check className="w-[14px] h-[14px] stroke-[3]" />
             </div>
-            <div className="w-[2px] flex-1 min-h-[90px] my-1 bg-[#831843]/30" />
+            <div className="w-[2px] flex-1 min-h-[64px] my-1 bg-[#d50475]/30" />
 
-            {/* Step 2 */}
-            <div className="w-[26px] h-[26px] rounded-full bg-[#831843] text-white flex items-center justify-center shadow-xs">
+            {/* Paso 2: Médico asignado */}
+            <div className="w-[26px] h-[26px] rounded-full bg-[#d50475] text-white flex items-center justify-center shadow-xs">
               <Check className="w-[14px] h-[14px] stroke-[3]" />
             </div>
-            <div className={`w-[2px] flex-1 min-h-[110px] my-1 transition-colors ${
-              isStep3Done ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
+            <div className="w-[2px] flex-1 min-h-[85px] my-1 bg-[#d50475]/30" />
+
+            {/* Paso 3: Especialidad */}
+            <div className="w-[26px] h-[26px] rounded-full bg-[#d50475] text-white flex items-center justify-center shadow-xs">
+              <Check className="w-[14px] h-[14px] stroke-[3]" />
+            </div>
+            <div className={`w-[2px] flex-1 min-h-[90px] my-1 transition-colors ${
+              isMotivoDone ? 'bg-[#d50475]/30' : 'bg-[#e2e8f0]'
             }`} />
 
-            {/* Step 3 (Motivo) */}
+            {/* Paso 4: Motivo */}
             <div
               className={`w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all ${
-                isStep3Done
-                  ? 'bg-[#831843] text-white shadow-xs'
+                isMotivoDone
+                  ? 'bg-[#d50475] text-white shadow-xs'
                   : 'border-2 border-[#cbd5e1] bg-[#f8fafc] text-[#94a3b8]'
               }`}
             >
-              {isStep3Done ? (
+              {isMotivoDone ? (
                 <Check className="w-[14px] h-[14px] stroke-[3]" />
               ) : (
                 <span className="w-2 h-2 rounded-full bg-[#cbd5e1]" />
               )}
             </div>
-            <div className="w-[2px] flex-1 min-h-[120px] my-1 bg-[#e2e8f0]" />
+            <div className="w-[2px] flex-1 min-h-[95px] my-1 bg-[#e2e8f0]" />
 
-            {/* Step 4 */}
-            <div className="w-[26px] h-[26px] rounded-full bg-[#831843] text-white flex items-center justify-center shadow-xs">
+            {/* Paso 5: Horario / Día */}
+            <div className="w-[26px] h-[26px] rounded-full bg-[#d50475] text-white flex items-center justify-center shadow-xs">
               <Check className="w-[14px] h-[14px] stroke-[3]" />
             </div>
           </div>
 
           {/* Form Fields */}
-          <div className="flex-1 flex flex-col gap-[24px]">
+          <div className="flex-1 flex flex-col gap-[22px]">
             
-            {/* 1. Médico asignado (Con borde prominente garantizado en Hablar ahora y Agendar) */}
-            <div className="flex flex-col gap-[8px]">
+            {/* PASO 1 (NUEVO DROPDOWN): Modalidad de atención */}
+            <div className="flex flex-col gap-[6px]">
               <div className="flex flex-col">
-                <span className="text-[14px] font-bold text-black">Médico asignado</span>
-                <span className="text-[12px] text-[#64748b]">Especialista asignado para tu atención</span>
+                <label className="text-[14px] font-bold text-black">
+                  1. Modalidad de atención<span className="text-[#d50475]">*</span>
+                </label>
+                <span className="text-[12px] text-[#64748b]">
+                  Elige si deseas agendar tu cita con anticipación o ser atendido en este momento
+                </span>
               </div>
 
-              {/* Doctor Card with clean visible border */}
-              <div className="p-3.5 rounded-[8px] border-2 border-[#e2e8f0] hover:border-[#cbd5e1] flex items-center justify-between gap-3 bg-white shadow-2xs transition-colors">
+              <div className="relative">
+                <select
+                  value={modalidad}
+                  onChange={(e) => setModalidad(e.target.value as any)}
+                  className="w-full h-[42px] px-3.5 pr-8 rounded-[8px] border border-[#cbd5e1] text-[14px] font-bold text-black bg-white focus:outline-none focus:border-[#d50475] appearance-none cursor-pointer"
+                >
+                  <option value="agendar">Agendar cita (Elegir fecha y horario)</option>
+                  <option value="ahora">Hablar ahora (Atención médica inmediata)</option>
+                </select>
+                <ChevronDown className="w-4 h-4 text-black absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+              </div>
+            </div>
+
+            {/* PASO 2: Médico asignado */}
+            <div className="flex flex-col gap-[6px]">
+              <div className="flex flex-col">
+                <span className="text-[14px] font-bold text-black">2. Médico asignado</span>
+                <span className="text-[12px] text-[#64748b]">Especialista disponible para tu consulta</span>
+              </div>
+
+              <div className="p-3.5 rounded-[8px] border-2 border-[#e2e8f0] bg-white flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-[#f1f5f9] border border-[#e2e8f0] flex items-center justify-center font-bold text-sm text-black shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-[#f1f5f9] border border-[#cbd5e1] flex items-center justify-center font-bold text-black text-sm shrink-0">
                     MF
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-black">María Fernández</span>
-                    <span className="text-[12px] text-[#64748b]">Medicina General · Nutrición · Psicología</span>
+                    <span className="text-[14px] font-bold text-black">Dra. María Fernández</span>
+                    <span className="text-[12px] text-[#64748b]">Medicina General · Nutrición</span>
                   </div>
                 </div>
-                <span className="px-2 py-0.5 rounded-[4px] bg-[#ecfdf5] border border-[#a7f3d0] text-[#065f46] text-[11px] font-bold shrink-0">
+                <span className="px-2.5 py-0.5 rounded-[4px] border border-[#cbd5e1] text-[#15803d] text-[11px] font-bold shrink-0">
                   Disponible
                 </span>
               </div>
             </div>
 
-            {/* 2. Especialidad requerida */}
-            <div className="flex flex-col gap-[10px]">
+            {/* PASO 3: Especialidad requerida* (Obligatorio) */}
+            <div className="flex flex-col gap-[6px]">
               <div className="flex flex-col">
-                <span className="text-[14px] font-bold text-black">Especialidad requerida</span>
-                <span className="text-[12px] text-[#64748b]">Selecciona una especialidad</span>
+                <label className="text-[14px] font-bold text-black">
+                  3. Especialidad requerida<span className="text-[#d50475]">*</span>
+                </label>
+                <span className="text-[12px] text-[#64748b]">Selecciona la rama de salud para tu consulta</span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-2">
                 {specialties.map((spec) => (
-                  <label
+                  <button
                     key={spec}
+                    type="button"
                     onClick={() => setSelectedSpecialty(spec)}
-                    className={`p-2.5 rounded-[6px] border flex items-center gap-2.5 cursor-pointer text-[13px] transition-colors ${
+                    className={`h-[38px] px-3 rounded-[6px] border text-[13px] font-medium flex items-center justify-between transition-colors cursor-pointer ${
                       selectedSpecialty === spec
-                        ? 'border-[#831843] bg-[#fdf2f8]/50 text-black font-medium'
+                        ? 'border-[#d50475] bg-[#fdf2f8] text-black font-bold'
                         : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black'
                     }`}
                   >
-                    <input
-                      type="checkbox"
-                      checked={selectedSpecialty === spec}
-                      onChange={() => setSelectedSpecialty(spec)}
-                      className="w-4 h-4 accent-[#831843] rounded"
-                    />
                     <span>{spec}</span>
-                  </label>
+                    {selectedSpecialty === spec && (
+                      <Check className="w-4 h-4 text-[#d50475]" />
+                    )}
+                  </button>
                 ))}
               </div>
             </div>
 
-            {/* 3. Motivo de la consulta */}
+            {/* PASO 4: Motivo de la consulta* (Obligatorio) */}
             <div className="flex flex-col gap-[6px]">
-              <span className="text-[14px] font-bold text-black">Motivo de la consulta</span>
-              <span className="text-[12px] text-[#64748b]">Describe el motivo de la consulta</span>
+              <label className="text-[14px] font-bold text-black">
+                4. Motivo de la consulta<span className="text-[#d50475]">*</span>
+              </label>
+              <span className="text-[12px] text-[#64748b]">Describe brevemente el síntoma o motivo</span>
               <textarea
+                required
                 rows={3}
                 value={motivoChat}
                 onChange={(e) => setMotivoChat(e.target.value)}
-                placeholder="Escribe brevemente tu duda médica..."
-                className="w-full p-2.5 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#831843] transition-colors"
+                placeholder="Escribe brevemente tu motivo de consulta (ej. dudas sobre medicación o dolor de garganta)..."
+                className="w-full p-2.5 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#d50475] transition-colors"
               />
             </div>
 
-            {/* 4. Horario */}
-            {tab === 'agendar' ? (
-              <div className="flex flex-col gap-[10px]">
+            {/* PASO 5: Día y Horario disponible* (Obligatorio) */}
+            {modalidad === 'agendar' ? (
+              <div className="flex flex-col gap-[8px]">
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-bold text-black">Horario disponible</span>
-                  <span className="text-[12px] text-[#64748b]">Selecciona día y horario disponible</span>
+                  <label className="text-[14px] font-bold text-black">
+                    5. Día y horario disponible<span className="text-[#d50475]">*</span>
+                  </label>
+                  <span className="text-[12px] text-[#64748b]">Elige la fecha y hora que mejor te acomode</span>
                 </div>
 
-                {/* Schedule cards */}
-                <div className="relative flex items-center gap-1 overflow-x-auto py-1">
-                  <button type="button" className="w-6 h-6 rounded-full border border-[#cbd5e1] flex items-center justify-center shrink-0 hover:bg-[#f8fafc]">
-                    <ChevronLeft className="w-3.5 h-3.5" />
-                  </button>
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 w-full text-center">
-                    {daysSchedule.map((col, idx) => (
-                      <div key={idx} className="flex flex-col gap-1.5">
-                        <div className="text-[10px] font-bold text-[#64748b]">{col.day}</div>
-                        <div className="text-[12px] font-bold text-black">{col.date}</div>
-                        {col.slots.map((slot, sIdx) => (
-                          slot ? (
-                            <button
-                              key={sIdx}
-                              type="button"
-                              onClick={() => setSelectedTime(slot)}
-                              className={`h-[28px] rounded-[4px] border text-[11px] font-medium transition-colors cursor-pointer ${
-                                selectedTime === slot && idx === 1
-                                  ? 'border-[#831843] text-[#831843] font-bold bg-[#fdf2f8]'
-                                  : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black'
-                              }`}
-                            >
-                              {slot}
-                            </button>
-                          ) : (
-                            <div key={sIdx} className="h-[28px] rounded-[4px] border border-[#f1f5f9] bg-[#f8fafc]" />
-                          )
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {daysSchedule.map((col, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => setSelectedDay(`${col.day} ${col.date}`)}
+                      className={`p-2 rounded-[6px] border flex flex-col gap-1 text-center cursor-pointer transition-colors ${
+                        selectedDay === `${col.day} ${col.date}`
+                          ? 'border-[#d50475] bg-[#fdf2f8]'
+                          : 'border-[#cbd5e1] hover:bg-[#f8fafc]'
+                      }`}
+                    >
+                      <span className="text-[10px] font-bold text-[#64748b]">{col.day}</span>
+                      <span className="text-[12px] font-bold text-black">{col.date}</span>
+                      <div className="flex flex-col gap-1 mt-1">
+                        {col.slots.slice(0, 2).map((slot, sIdx) => (
+                          <button
+                            key={sIdx}
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedDay(`${col.day} ${col.date}`);
+                              setSelectedTime(slot);
+                            }}
+                            className={`h-[26px] rounded-[4px] border text-[11px] font-bold transition-colors cursor-pointer ${
+                              selectedTime === slot && selectedDay === `${col.day} ${col.date}`
+                                ? 'bg-[#d50475] text-white border-[#d50475]'
+                                : 'bg-white text-black border-[#cbd5e1]'
+                            }`}
+                          >
+                            {slot}
+                          </button>
                         ))}
                       </div>
-                    ))}
-                  </div>
-                  <button type="button" className="w-6 h-6 rounded-full border border-[#cbd5e1] flex items-center justify-center shrink-0 hover:bg-[#f8fafc]">
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="bg-[#fdf2f8] rounded-[6px] px-3 py-2 flex items-center justify-between text-[12px] text-[#831843] mt-1">
+                <div className="bg-[#fdf2f8] rounded-[6px] px-3 py-2 flex items-center justify-between text-[12px] text-[#d50475]">
                   <div className="flex items-center gap-1.5 font-bold">
                     <CalendarIcon className="w-4 h-4" />
-                    <span>Cita seleccionada</span>
+                    <span>Cita seleccionada:</span>
                   </div>
-                  <span className="font-medium text-black">
-                    Mañana 23 de Octubre a las <strong className="font-bold">{selectedTime} hrs</strong>
+                  <span className="font-bold text-black">
+                    {selectedDay} a las {selectedTime} hrs
                   </span>
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col gap-[10px]">
+              <div className="flex flex-col gap-[8px]">
                 <div className="flex flex-col">
-                  <span className="text-[14px] font-bold text-black">Horario</span>
-                  <span className="text-[12px] text-[#64748b]">Canal de atención inmediata</span>
+                  <label className="text-[14px] font-bold text-black">
+                    5. Canal de atención inmediata<span className="text-[#d50475]">*</span>
+                  </label>
+                  <span className="text-[12px] text-[#64748b]">Atención médica prioritaria en tiempo real</span>
                 </div>
 
-                <div className="bg-[#fdf2f8] rounded-[6px] px-3 py-2.5 flex items-center justify-between text-[13px] text-[#831843] border border-[#fce7f3]">
-                  <div className="flex items-center gap-1.5 font-bold">
+                <div className="bg-[#fdf2f8] rounded-[6px] px-3.5 py-2.5 flex items-center justify-between text-[13px] text-[#d50475] border border-[#fce7f3]">
+                  <div className="flex items-center gap-2 font-bold">
                     <CalendarIcon className="w-4 h-4" />
-                    <span>Atención inmediata</span>
+                    <span>Conexión inmediata</span>
                   </div>
-                  <span className="font-medium text-black">
-                    Hoy · <strong className="font-bold text-[#831843]">En línea ahora mismo</strong>
+                  <span className="font-bold text-black">
+                    Médicos listos · Espera estimada 5 min
                   </span>
                 </div>
               </div>
             )}
 
-            {/* Confirm button */}
-            <div className="flex items-center justify-between pt-2 border-t border-[#f1f5f9]">
-              {!isFullyComplete ? (
-                <span className="text-[12px] text-[#94a3b8] italic">
-                  * Describe el motivo para habilitar tu cita
-                </span>
-              ) : (
-                <span className="text-[12px] text-[#166534] font-medium flex items-center gap-1">
-                  <Check className="w-3.5 h-3.5" /> Todo listo
-                </span>
-              )}
+            {/* Botón de Confirmación */}
+            <div className="flex items-center justify-between pt-3 border-t border-[#f1f5f9]">
+              <span className="text-[12px] text-[#64748b]">
+                <span className="text-[#d50475] font-bold">*</span> Campos obligatorios
+              </span>
 
               <button
                 type="button"
                 onClick={onClose}
-                className={`h-[38px] px-5 rounded-[6px] text-[13px] font-bold transition-all cursor-pointer ${
-                  isFullyComplete
-                    ? 'bg-[#d50475] hover:bg-[#b80364] text-white shadow-xs'
-                    : 'bg-[#cbd5e1] text-[#64748b] hover:bg-[#94a3b8] hover:text-white'
-                }`}
-                title={!isFullyComplete ? 'Prototipo: Puedes pulsar para confirmar' : 'Confirmar cita'}
+                className="h-[40px] px-6 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white font-bold text-[14px] uppercase transition-colors cursor-pointer shadow-xs"
               >
                 Confirmar cita
               </button>
