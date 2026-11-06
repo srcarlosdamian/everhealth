@@ -28,7 +28,13 @@ export function App() {
   return (
     <div className="min-h-screen bg-white text-black">
       {view === 'login' && (
-        <Login onLogin={handleLogin} />
+        <Login
+          onLogin={handleLogin}
+          onBypassToHome={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setView('home');
+          }}
+        />
       )}
 
       {view === 'onboarding' && (

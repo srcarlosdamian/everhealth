@@ -82,7 +82,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
   onOpenChat,
 }) => {
   const [isConsultasOpen, setIsConsultasOpen] = useState(false);
-  const [showAll, setShowAll] = useState(true);
+  const [showAll, setShowAll] = useState(false);
   const [solicitaDropdownOpen, setSolicitaDropdownOpen] = useState(false);
   const solicitaDropdownRef = useRef<HTMLDivElement>(null);
 

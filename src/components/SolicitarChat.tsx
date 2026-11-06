@@ -102,7 +102,7 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
   };
 
   return (
-    <div className="w-full max-w-[800px] mx-auto flex flex-col gap-[24px]">
+    <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-[24px]">
       {/* Page Header matching EVR - 119 */}
       <div className="flex flex-col gap-[8px]">
         <h1 className="text-[32px] sm:text-[36px] font-bold text-black tracking-tight">
