@@ -28,24 +28,27 @@ const getRouteFromHash = (): string => {
 };
 
 export function App() {
-  const [route, setRoute] = useState<string>(getRouteFromHash());
+  // Siempre arrancar en 'login' para que desarrolladores y usuarios vean primero el login y el stepper
+  const [route, setRoute] = useState<string>('login');
   const [email, setEmail] = useState<string>('contact@carlosdamian.com');
   const [userName, setUserName] = useState<string>('Carlos Damián');
 
-  // Synchronize route with window.location.hash
+  // Al abrir o recargar la página, forzar siempre la entrada en login
   useEffect(() => {
+    window.location.hash = '#/login';
+    setRoute('login');
+
     const handleHashChange = () => {
-      const newRoute = getRouteFromHash();
-      setRoute(newRoute);
+      const hash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase();
+      if (!hash || hash === '' || hash === 'login') {
+        setRoute('login');
+      } else if (VALID_ROUTES.includes(hash)) {
+        setRoute(hash === 'inicio' ? 'home' : hash);
+      }
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     window.addEventListener('hashchange', handleHashChange);
-    // If no initial hash in URL, set hash to current route
-    if (!window.location.hash) {
-      window.location.hash = `#/${route}`;
-    }
-
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
