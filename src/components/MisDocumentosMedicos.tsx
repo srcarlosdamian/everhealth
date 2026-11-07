@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { ArrowLeft, Check, CheckCircle2, ChevronRight, Info } from 'lucide-react';
+import { ArrowLeft, Check, ChevronRight, Info } from 'lucide-react';
 import { LanguageSelector } from './LanguageSelector';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
+import { AutosaveIndicator } from '../design-system/atoms/AutosaveIndicator';
 
 interface MisDocumentosMedicosProps {
   onBack: () => void;
@@ -93,10 +94,7 @@ export const MisDocumentosMedicos: React.FC<MisDocumentosMedicosProps> = ({
             </button>
 
             {/* Status indicator: Guardado con fondo gris claro y check Lucide */}
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-[6px] bg-[#f1f5f9] text-[12px] font-medium text-[#1e293b]">
-              <span>Guardado</span>
-              <CheckCircle2 className="w-4 h-4 text-[#1e293b] stroke-[2]" />
-            </div>
+            <AutosaveIndicator />
           </div>
 
           {/* PASO EXTRA */}

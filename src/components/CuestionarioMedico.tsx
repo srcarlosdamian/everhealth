@@ -4,6 +4,7 @@ import { LanguageSelector } from './LanguageSelector';
 import { ModalGinecologia } from './ModalGinecologia';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { ProgressCheckCircle } from '../design-system/atoms/ProgressCheckCircle';
+import { AutosaveIndicator } from '../design-system/atoms/AutosaveIndicator';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 import { CompletionMedalIllustration } from '../design-system/atoms/CompletionMedalIllustration';
 import { MisDocumentosMedicos } from './MisDocumentosMedicos';
@@ -241,10 +242,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                   <AlertCircle className="w-3.5 h-3.5" />
                 </span>
               ) : (
-                <div className="flex items-center gap-1.5 px-3 py-1 rounded-[6px] bg-[#f1f5f9] text-[12px] font-medium text-[#1e293b]">
-                  <span>Guardado</span>
-                  <CheckCircle2 className="w-4 h-4 text-[#1e293b] stroke-[2]" />
-                </div>
+                <AutosaveIndicator />
               )}
             </div>
           </div>

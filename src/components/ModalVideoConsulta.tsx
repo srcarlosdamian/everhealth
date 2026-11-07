@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Dropdown } from '../design-system/atoms/Dropdown';
+import { StepperCheck } from '../design-system/atoms/StepperCheck';
 
 interface ModalVideoConsultaProps {
   isOpen: boolean;
@@ -63,19 +64,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
           {/* Stepper Track */}
           <div className="flex flex-col items-center pt-1 shrink-0 w-[28px]">
             {/* Step 1 Check */}
-            <div
-              className={`w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all ${
-                isStep1Done
-                  ? 'bg-[#831843] text-white shadow-xs'
-                  : 'border-2 border-[#cbd5e1] bg-[#f8fafc] text-[#94a3b8]'
-              }`}
-            >
-              {isStep1Done ? (
-                <Check className="w-[14px] h-[14px] stroke-[3]" />
-              ) : (
-                <span className="w-2 h-2 rounded-full bg-[#cbd5e1]" />
-              )}
-            </div>
+            <StepperCheck isCompleted={isStep1Done} />
 
             {/* Vertical connector line 1 */}
             <div className={`w-[2px] flex-1 min-h-[140px] my-1 transition-colors ${
@@ -83,19 +72,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
             }`} />
 
             {/* Step 2 Check */}
-            <div
-              className={`w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all ${
-                isStep2Done
-                  ? 'bg-[#831843] text-white shadow-xs'
-                  : 'border-2 border-[#cbd5e1] bg-[#f8fafc] text-[#94a3b8]'
-              }`}
-            >
-              {isStep2Done ? (
-                <Check className="w-[14px] h-[14px] stroke-[3]" />
-              ) : (
-                <span className="w-2 h-2 rounded-full bg-[#cbd5e1]" />
-              )}
-            </div>
+            <StepperCheck isCompleted={isStep2Done} />
 
             {/* Vertical connector line 2 */}
             <div className={`w-[2px] flex-1 min-h-[200px] my-1 transition-colors ${
@@ -103,19 +80,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
             }`} />
 
             {/* Step 3 Check */}
-            <div
-              className={`w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all ${
-                isStep3Done
-                  ? 'bg-[#831843] text-white shadow-xs'
-                  : 'border-2 border-[#cbd5e1] bg-[#f8fafc] text-[#94a3b8]'
-              }`}
-            >
-              {isStep3Done ? (
-                <Check className="w-[14px] h-[14px] stroke-[3]" />
-              ) : (
-                <span className="w-2 h-2 rounded-full bg-[#cbd5e1]" />
-              )}
-            </div>
+            <StepperCheck isCompleted={isStep3Done} />
           </div>
 
           {/* Steps Content */}

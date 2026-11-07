@@ -12,8 +12,11 @@ import {
   ChevronsRight,
   X,
   Trash2,
-  AlertTriangle,
 } from 'lucide-react';
+import { Button } from '../design-system/atoms/Button';
+import { SwitchToggle } from '../design-system/atoms/SwitchToggle';
+import { StatusDotBadge } from '../design-system/atoms/StatusDotBadge';
+import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
 
 interface HistorialConsultasProps {
   onOpenVideoModal?: () => void;
@@ -129,27 +132,6 @@ const ALL_STATUS_OPTIONS: { col1: ConsultaStatus[]; col2: ConsultaStatus[] } = {
   ],
 };
 
-const getStatusDotColor = (status: ConsultaStatus): string => {
-  switch (status) {
-    case 'En proceso':
-      return 'bg-[#22c55e]'; // Verde
-    case 'Pendiente de recomendación':
-      return 'bg-[#f59e0b]'; // Naranja
-    case 'Cancelada':
-      return 'bg-[#8b5cf6]'; // Morado
-    case 'Pendiente de informe':
-    case 'Pendiente':
-      return 'bg-[#eab308]'; // Amarillo
-    case 'Terminada':
-      return 'bg-[#64748b]'; // Gris
-    case 'No asistida':
-    case 'Terminada (inactividad)':
-      return 'bg-[#ef4444]'; // Rojo
-    default:
-      return 'bg-[#0ea5e9]'; // Azul
-  }
-};
-
 export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
   onOpenVideoModal,
   onOpenChatModal,
@@ -247,23 +229,11 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
       {/* ================= BARRA DE ACCIÓN: VER SOLO INFORMES + FILTRAR ================= */}
       <div className="w-full flex items-center justify-between pt-2 pb-1 border-b border-[#f1f5f9]">
         {/* Toggle "Ver solo informes" */}
-        <label className="flex items-center gap-3 cursor-pointer select-none group">
-          <div
-            onClick={() => setSoloInformes(!soloInformes)}
-            className={`w-[42px] h-[22px] rounded-full p-[2px] transition-colors duration-200 ease-in-out cursor-pointer ${
-              soloInformes ? 'bg-[#d50475]' : 'bg-[#cbd5e1]'
-            }`}
-          >
-            <div
-              className={`w-[18px] h-[18px] rounded-full bg-white shadow-xs transition-transform duration-200 ease-in-out ${
-                soloInformes ? 'translate-x-[20px]' : 'translate-x-0'
-              }`}
-            />
-          </div>
-          <span className="text-[14px] text-[#334155] font-medium group-hover:text-black transition-colors">
-            Ver solo informes
-          </span>
-        </label>
+        <SwitchToggle
+          checked={soloInformes}
+          onChange={setSoloInformes}
+          label="Ver solo informes"
+        />
 
         {/* Botón Filtrar con embudo (exacto a la captura) */}
         <button
@@ -315,12 +285,7 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                 </div>
 
                 {/* Dot coloreado + Estado (exacto a la captura) */}
-                <div className="flex items-center gap-2 text-[13px] text-[#475569] font-medium">
-                  <span
-                    className={`w-2.5 h-2.5 rounded-full shrink-0 ${getStatusDotColor(c.status)}`}
-                  />
-                  <span>{c.status}</span>
-                </div>
+                <StatusDotBadge status={c.status} />
               </div>
 
               {/* Línea divisoria muy sutil */}
@@ -374,23 +339,21 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                   - Cancelada: sin botones */}
               {c.status === 'En proceso' && (
                 <div className="flex items-center justify-end gap-3 pt-2">
-                  <button
-                    type="button"
+                  <Button
+                    variant="pill-outline"
                     onClick={() => setCancellingConsultaId(c.id)}
-                    className="h-[38px] px-6 rounded-full border border-black hover:bg-[#f8fafc] text-black text-[13px] font-bold cursor-pointer transition-colors"
                   >
                     Cancelar consulta
-                  </button>
-                  <button
-                    type="button"
+                  </Button>
+                  <Button
+                    variant="pill-primary"
                     onClick={() => {
                       if (c.type === 'video') onOpenVideoModal?.();
                       else onOpenChatModal?.();
                     }}
-                    className="h-[38px] px-6 rounded-full bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold shadow-xs cursor-pointer transition-colors"
                   >
                     Acceder a la consulta
-                  </button>
+                  </Button>
                 </div>
               )}
 
@@ -398,13 +361,12 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                 c.status === 'Terminada' ||
                 c.status === 'Pendiente de informe') && (
                 <div className="flex items-center justify-end pt-2">
-                  <button
-                    type="button"
+                  <Button
+                    variant="pill-purple"
                     onClick={() => onOpenChatModal?.()}
-                    className="h-[38px] px-6 rounded-full border border-[#4a154b] text-[#4a154b] hover:bg-[#faf5ff] text-[13px] font-bold cursor-pointer transition-colors"
                   >
                     Ver conversación
-                  </button>
+                  </Button>
                 </div>
               )}
             </div>
@@ -605,44 +567,18 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
 
       {/* ================= MODAL DE CONFIRMACIÓN PARA CANCELAR CONSULTA ================= */}
       {cancellingConsultaId && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) setCancellingConsultaId(null);
-          }}
-        >
-          <div className="w-full max-w-[420px] bg-white rounded-[12px] p-6 shadow-2xl flex flex-col gap-4 animate-scaleUp">
-            <div className="w-10 h-10 rounded-full bg-[#fef2f2] text-[#ef4444] flex items-center justify-center">
-              <AlertTriangle className="w-5 h-5" />
-            </div>
-
-            <div className="flex flex-col gap-1">
-              <h3 className="text-[17px] font-bold text-black">
-                ¿Estás seguro de que quieres cancelar esta consulta?
-              </h3>
-              <p className="text-[13px] text-[#64748b]">
-                Esta acción cancelará tu cita programada. El estado pasará a Cancelada.
-              </p>
-            </div>
-
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setCancellingConsultaId(null)}
-                className="h-[38px] px-5 rounded-full border border-[#cbd5e1] hover:bg-[#f8fafc] text-black text-[13px] font-bold cursor-pointer transition-colors"
-              >
-                Volver
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmCancel}
-                className="h-[38px] px-5 rounded-full bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold cursor-pointer transition-colors shadow-xs"
-              >
-                Sí, cancelar consulta
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmDeactivateModal
+          isOpen={!!cancellingConsultaId}
+          title="¿Estás seguro de que quieres cancelar esta consulta?"
+          entityName="esta consulta programada"
+          descriptionPrefix="Esta acción cancelará"
+          descriptionSuffix="y su estado pasará a Cancelada."
+          consequenceNote="Podrás volver a solicitar una nueva consulta o chat médico cuando lo necesites."
+          cancelText="Volver"
+          confirmText="Sí, cancelar consulta"
+          onCancel={() => setCancellingConsultaId(null)}
+          onConfirm={handleConfirmCancel}
+        />
       )}
     </div>
   );

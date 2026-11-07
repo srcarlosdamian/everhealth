@@ -9,15 +9,17 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  UserCheck,
-  User,
   Trash2,
   Edit2,
   Calendar,
-  ChevronDown,
   FileText,
 } from 'lucide-react';
 import { Badge } from '../design-system/atoms/Badge';
+import { Button } from '../design-system/atoms/Button';
+import { TextInput } from '../design-system/atoms/TextInput';
+import { Dropdown } from '../design-system/atoms/Dropdown';
+import { ActionMenu } from '../design-system/molecules/ActionMenu';
+import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
 
 export interface Familiar {
   id: string;
@@ -88,7 +90,6 @@ export const Familiares: React.FC = () => {
   const [familiares, setFamiliares] = useState<Familiar[]>(INITIAL_FAMILIARES);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterParentesco, setFilterParentesco] = useState('todos');
-  const [filterMenuOpen, setFilterMenuOpen] = useState(false);
 
   // Modal Añadir Familiar
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -97,14 +98,12 @@ export const Familiares: React.FC = () => {
   // Modal Confirmación Dar de baja
   const [familiarToDelete, setFamiliarToDelete] = useState<Familiar | null>(null);
 
-  // Form states matching media_1793946349811_4eeea051.png
+  // Form states
   const [formNombre, setFormNombre] = useState('');
   const [formApellidos, setFormApellidos] = useState('');
   const [formFechaNac, setFormFechaNac] = useState('');
   const [formSexo, setFormSexo] = useState('');
   const [formParentesco, setFormParentesco] = useState('');
-  const [sexoDropdownOpen, setSexoDropdownOpen] = useState(false);
-  const [parentescoDropdownOpen, setParentescoDropdownOpen] = useState(false);
 
   // Dropdown action row open
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
@@ -174,7 +173,6 @@ export const Familiares: React.FC = () => {
 
   return (
     <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-6 animate-fadeIn font-[family-name:Helvetica]">
-      
       {/* Header Row: Title, Description & Action Button */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
@@ -186,65 +184,42 @@ export const Familiares: React.FC = () => {
           </p>
         </div>
 
-        {/* Botón: Agregar un nuevo familiar */}
-        <button
-          type="button"
+        <Button
+          variant="primary"
           onClick={handleOpenModal}
-          className="h-[40px] px-[14px] rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shadow-xs whitespace-nowrap self-start sm:self-auto"
+          className="h-[40px] px-[14px] self-start sm:self-auto"
         >
           <Plus className="w-[18px] h-[18px] text-white stroke-[2.5]" />
           <span>Añadir familiar</span>
-        </button>
+        </Button>
       </div>
 
       {/* Filter Row: Search Input + Parentesco filter dropdown */}
       <div className="w-full flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-        {/* Search */}
-        <div className="relative flex-1 max-w-[480px]">
-          <Search className="w-4 h-4 text-[#94a3b8] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar por nombre, apellidos, parentesco..."
-            className="w-full h-[40px] pl-10 pr-4 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-white focus:outline-none focus:border-[#d50475] transition-colors"
+        <TextInput
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Buscar por nombre, apellidos, parentesco..."
+          leftIcon={<Search className="w-5 h-5" />}
+          containerClassName="flex-1 max-w-[480px]"
+        />
+
+        <div className="w-full sm:w-[240px]">
+          <Dropdown
+            value={filterParentesco}
+            onChange={setFilterParentesco}
+            options={[
+              { value: 'todos', label: 'Todos los parentescos' },
+              { value: 'Cónyuge', label: 'Cónyuge' },
+              { value: 'Hijo/a', label: 'Hijo/a' },
+              { value: 'Madre / Padre', label: 'Madre / Padre' },
+              { value: 'Hermano/a', label: 'Hermano/a' },
+            ]}
           />
-        </div>
-
-        {/* Filter parentesco con dropdown flotante homologado */}
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setFilterMenuOpen(!filterMenuOpen)}
-            className="h-[40px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[13px] font-medium text-black bg-white hover:bg-[#f8fafc] flex items-center gap-2 cursor-pointer transition-colors"
-          >
-            <span>{filterParentesco === 'todos' ? 'Todos los parentescos' : filterParentesco}</span>
-            <ChevronDown className="w-4 h-4 text-black" />
-          </button>
-
-          {filterMenuOpen && (
-            <div className="absolute right-0 top-[calc(100%+4px)] z-50 w-[200px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border-0 flex flex-col gap-1">
-              {['todos', 'Cónyuge', 'Hijo/a', 'Madre / Padre', 'Hermano/a'].map((p) => (
-                <button
-                  key={p}
-                  type="button"
-                  onClick={() => {
-                    setFilterParentesco(p);
-                    setFilterMenuOpen(false);
-                  }}
-                  className={`w-full text-left px-3 py-1.5 rounded-[4px] text-[13px] transition-colors cursor-pointer ${
-                    filterParentesco === p ? 'bg-[#fdf2f8] text-[#d50475] font-bold' : 'hover:bg-[#f1f5f9] text-black'
-                  }`}
-                >
-                  {p === 'todos' ? 'Todos los parentescos' : p}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
       </div>
 
-      {/* Tabla de familiares: SIN BORDES REDONDEADOS (rounded-none), SIN FONDO GRIS, CON LÍNEAS DIVISORIAS VERTICALES exacto a media_1793983844153_dad569fa.png */}
+      {/* Tabla de familiares */}
       <div className="w-full bg-white border border-[#e2e8f0] rounded-none shadow-none overflow-x-auto">
         <table className="w-full text-left border-collapse bg-white">
           <thead>
@@ -274,11 +249,9 @@ export const Familiares: React.FC = () => {
                         {item.nombre[0]}
                         {item.apellidos[0]}
                       </div>
-                      <div className="flex flex-col">
-                        <span className="font-bold text-black">
-                          {item.nombre} {item.apellidos}
-                        </span>
-                      </div>
+                      <span className="font-bold text-black">
+                        {item.nombre} {item.apellidos}
+                      </span>
                     </div>
                   </td>
 
@@ -298,7 +271,6 @@ export const Familiares: React.FC = () => {
                     {item.sexo}
                   </td>
 
-                  {/* Tutor / Estado con badge en auto / w-fit sin estirarse */}
                   <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
                     {item.esTutor ? (
                       <Badge variant="disponible" className="w-fit">Tutor legal</Badge>
@@ -314,7 +286,6 @@ export const Familiares: React.FC = () => {
                     )}
                   </td>
 
-                  {/* Acciones Dropdown con iconos y separadores */}
                   <td className="py-3.5 px-4 text-right relative">
                     <div className="inline-block relative">
                       <button
@@ -328,58 +299,49 @@ export const Familiares: React.FC = () => {
                         <MoreVertical className="w-4 h-4" />
                       </button>
 
-                      {/* Dropdown de Acciones con iconos y separadores */}
                       {activeMenuId === item.id && (
-                        <div className="absolute right-0 top-[calc(100%+4px)] z-50 w-[210px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              alert(`Consultar historial de ${item.nombre}`);
-                              setActiveMenuId(null);
-                            }}
-                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
-                          >
-                            <FileText className="w-4 h-4 text-[#64748b] shrink-0" />
-                            <span>Ver historial clínico</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              alert(`Solicitar cita para ${item.nombre}`);
-                              setActiveMenuId(null);
-                            }}
-                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
-                          >
-                            <Calendar className="w-4 h-4 text-[#64748b] shrink-0" />
-                            <span>Pedir cita médica</span>
-                          </button>
-
-                          {/* Separador */}
-                          <div className="w-full h-[1px] bg-[#f1f5f9] my-1" />
-
-                          <button
-                            type="button"
-                            onClick={() => {
-                              alert(`Editar datos de ${item.nombre}`);
-                              setActiveMenuId(null);
-                            }}
-                            className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-[16px] font-normal text-black flex items-center gap-3 text-left transition-colors cursor-pointer"
-                          >
-                            <Edit2 className="w-5 h-5 text-[#64748b] shrink-0" />
-                            <span>Editar datos</span>
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setFamiliarToDelete(item);
-                              setActiveMenuId(null);
-                            }}
-                            className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-[16px] font-normal text-black flex items-center gap-3 text-left transition-colors cursor-pointer"
-                          >
-                            <Trash2 className="w-5 h-5 text-[#64748b] shrink-0" />
-                            <span>Dar de baja familiar</span>
-                          </button>
-                        </div>
+                        <ActionMenu
+                          variant="standard"
+                          className="absolute right-0 top-[calc(100%+4px)] z-50 w-[235px]"
+                          items={[
+                            {
+                              id: 'historial',
+                              label: 'Ver historial clínico',
+                              icon: <FileText className="w-5 h-5" />,
+                              onClick: () => {
+                                alert(`Consultar historial de ${item.nombre}`);
+                                setActiveMenuId(null);
+                              },
+                            },
+                            {
+                              id: 'cita',
+                              label: 'Pedir cita médica',
+                              icon: <Calendar className="w-5 h-5" />,
+                              onClick: () => {
+                                alert(`Solicitar cita para ${item.nombre}`);
+                                setActiveMenuId(null);
+                              },
+                            },
+                            {
+                              id: 'editar',
+                              label: 'Editar datos',
+                              icon: <Edit2 className="w-5 h-5" />,
+                              onClick: () => {
+                                alert(`Editar datos de ${item.nombre}`);
+                                setActiveMenuId(null);
+                              },
+                            },
+                            {
+                              id: 'baja',
+                              label: 'Dar de baja familiar',
+                              icon: <Trash2 className="w-5 h-5" />,
+                              onClick: () => {
+                                setFamiliarToDelete(item);
+                                setActiveMenuId(null);
+                              },
+                            },
+                          ]}
+                        />
                       )}
                     </div>
                   </td>
@@ -389,7 +351,7 @@ export const Familiares: React.FC = () => {
           </tbody>
         </table>
 
-        {/* Paginación exacta con bordes cuadrados */}
+        {/* Paginación */}
         <div className="p-4 bg-white border-t border-[#e2e8f0] flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-[#64748b]">
           <span>Mostrando de 1 a {filtered.length} de {familiares.length} familiares</span>
 
@@ -408,7 +370,7 @@ export const Familiares: React.FC = () => {
             </button>
             <button
               type="button"
-              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#d50475] font-bold text-[13px] bg-[#fdf2f8]"
+              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-black font-bold text-[13px] bg-[#f1f5f9]"
             >
               1
             </button>
@@ -429,11 +391,9 @@ export const Familiares: React.FC = () => {
       </div>
 
       {/* ================= MODAL AÑADIR FAMILIAR ================= */}
-      {/* Basado exactamente en la captura media_1793946349811_4eeea051.png */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
           <div className="w-full max-w-[800px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 animate-scaleUp max-h-[90vh] overflow-y-auto">
-            {/* Modal Title */}
             <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
               <h2 className="text-[20px] font-bold text-black">Añadir familiar</h2>
               <button
@@ -445,7 +405,6 @@ export const Familiares: React.FC = () => {
               </button>
             </div>
 
-            {/* Aviso amarillo de tutores (exacto a la imagen 2) */}
             {showWarningAlert && (
               <div className="w-full bg-[#fef9c3] border border-[#fef08a] rounded-[8px] p-3.5 flex items-start justify-between gap-3 text-[#854d0e]">
                 <div className="flex items-start gap-2.5">
@@ -466,144 +425,64 @@ export const Familiares: React.FC = () => {
               </div>
             )}
 
-            {/* Formulario con campos exactos: Nombre*, Apellidos*, Fecha Nacimiento, Sexo asignado al nacer, Parentesco */}
             <form onSubmit={handleSaveFamiliar} className="flex flex-col gap-5">
-              {/* Fila 1: Nombre* y Apellidos* */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1">
-                  <label className="text-[14px] font-medium text-black">
-                    Nombre<span className="text-[#d50475]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formNombre}
-                    onChange={(e) => setFormNombre(e.target.value)}
-                    placeholder="Nombre del familiar"
-                    className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <label className="text-[14px] font-medium text-black">
-                    Apellidos<span className="text-[#d50475]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formApellidos}
-                    onChange={(e) => setFormApellidos(e.target.value)}
-                    placeholder="Apellidos del familiar"
-                    className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
-                  />
-                </div>
+                <TextInput
+                  label="Nombre*"
+                  required
+                  value={formNombre}
+                  onChange={(e) => setFormNombre(e.target.value)}
+                  placeholder="Nombre del familiar"
+                />
+                <TextInput
+                  label="Apellidos*"
+                  required
+                  value={formApellidos}
+                  onChange={(e) => setFormApellidos(e.target.value)}
+                  placeholder="Apellidos del familiar"
+                />
               </div>
 
-              {/* Fila 2: Fecha de nacimiento (--/--/----) y Sexo asignado al nacer */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1">
-                  <label className="text-[14px] font-medium text-black">
-                    Fecha de nacimiento
-                  </label>
-                  <input
-                    type="date"
-                    value={formFechaNac}
-                    onChange={(e) => setFormFechaNac(e.target.value)}
-                    className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
-                  />
-                </div>
+                <TextInput
+                  label="Fecha de nacimiento"
+                  type="date"
+                  value={formFechaNac}
+                  onChange={(e) => setFormFechaNac(e.target.value)}
+                />
 
-                <div className="flex flex-col gap-1 relative">
-                  <label className="text-[14px] font-medium text-black">
-                    ¿Qué sexo te asignaron al nacer?
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSexoDropdownOpen(!sexoDropdownOpen);
-                      setParentescoDropdownOpen(false);
-                    }}
-                    className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-white hover:border-black flex items-center justify-between cursor-pointer transition-colors"
-                  >
-                    <span className={formSexo ? 'text-black' : 'text-[#94a3b8]'}>
-                      {formSexo || 'Selecciona una opción'}
-                    </span>
-                    <ChevronDown className="w-4 h-4 text-black shrink-0" />
-                  </button>
-
-                  {/* Dropdown de opciones con sombra flotante sin borde gris */}
-                  {sexoDropdownOpen && (
-                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col gap-[2px]">
-                      {['Femenino', 'Masculino', 'No especificado'].map((opt) => (
-                        <button
-                          key={opt}
-                          type="button"
-                          onClick={() => {
-                            setFormSexo(opt);
-                            setSexoDropdownOpen(false);
-                          }}
-                          className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] text-[14px] text-black text-left cursor-pointer transition-colors"
-                        >
-                          {opt}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                <Dropdown
+                  label="¿Qué sexo te asignaron al nacer?"
+                  value={formSexo}
+                  onChange={setFormSexo}
+                  placeholder="Selecciona una opción"
+                  options={['Femenino', 'Masculino', 'No especificado']}
+                />
               </div>
 
-              {/* Fila 3: Parentesco con dropdown homologado */}
-              <div className="flex flex-col gap-1 relative">
-                <label className="text-[14px] font-medium text-black">
-                  Parentesco
-                </label>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setParentescoDropdownOpen(!parentescoDropdownOpen);
-                    setSexoDropdownOpen(false);
-                  }}
-                  className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-white hover:border-black flex items-center justify-between cursor-pointer transition-colors"
-                >
-                  <span className={formParentesco ? 'text-black' : 'text-[#94a3b8]'}>
-                    {formParentesco || 'Selecciona el parentesco'}
-                  </span>
-                  <ChevronDown className="w-4 h-4 text-black shrink-0" />
-                </button>
+              <Dropdown
+                label="Parentesco"
+                value={formParentesco}
+                onChange={setFormParentesco}
+                placeholder="Selecciona el parentesco"
+                options={['Cónyuge', 'Hijo/a', 'Madre / Padre', 'Hermano/a', 'Otro']}
+              />
 
-                {parentescoDropdownOpen && (
-                  <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border-0 flex flex-col gap-[2px]">
-                    {['Cónyuge', 'Hijo/a', 'Madre / Padre', 'Hermano/a', 'Otro'].map((opt) => (
-                      <button
-                        key={opt}
-                        type="button"
-                        onClick={() => {
-                          setFormParentesco(opt);
-                          setParentescoDropdownOpen(false);
-                        }}
-                        className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] text-[14px] text-black text-left cursor-pointer transition-colors"
-                      >
-                        {opt}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Action Buttons: Guardar (Botón rosa centrado o a la derecha como en la captura) */}
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#f1f5f9]">
-                <button
-                  type="button"
+                <Button
+                  variant="outline"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-5 h-[42px] rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white text-black text-[14px] font-bold uppercase cursor-pointer transition-colors"
+                  className="h-[42px] px-5"
                 >
                   Cancelar
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
-                  className="px-7 h-[42px] rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] font-bold uppercase cursor-pointer transition-colors shadow-xs"
+                  variant="primary"
+                  className="h-[42px] px-7"
                 >
                   Guardar
-                </button>
+                </Button>
               </div>
             </form>
           </div>
@@ -612,54 +491,13 @@ export const Familiares: React.FC = () => {
 
       {/* ================= MODAL DAR DE BAJA FAMILIAR ================= */}
       {familiarToDelete && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
-          <div className="w-full max-w-[460px] bg-white rounded-[12px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-7 flex flex-col gap-5 animate-scaleUp">
-            {/* Modal Title & Close */}
-            <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
-              <h2 className="text-[18px] font-bold text-black">
-                ¿Estás seguro que quieres dar de baja?
-              </h2>
-              <button
-                type="button"
-                onClick={() => setFamiliarToDelete(null)}
-                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
-                title="Cerrar"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Modal Body */}
-            <div className="flex flex-col gap-3">
-              <p className="text-[14px] leading-[22px] text-[#475569]">
-                Esta acción dará de baja a <strong className="text-black font-bold">{familiarToDelete.nombre} {familiarToDelete.apellidos}</strong> de tu unidad familiar.
-              </p>
-              <div className="p-3 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] text-[13px] text-[#64748b] leading-[18px]">
-                Ya no podrás solicitar consultas, gestionar tutores ni acceder a su historial clínico compartido.
-              </div>
-            </div>
-
-            {/* Modal Actions */}
-            <div className="flex items-center justify-end gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => setFamiliarToDelete(null)}
-                className="px-4 h-[38px] rounded-[6px] border border-[#cbd5e1] hover:bg-[#f8fafc] text-black text-[13px] font-bold uppercase transition-colors cursor-pointer"
-              >
-                Cancelar
-              </button>
-              <button
-                type="button"
-                onClick={handleConfirmDelete}
-                className="px-4 h-[38px] rounded-[6px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold uppercase transition-colors cursor-pointer shadow-xs"
-              >
-                Dar de baja
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmDeactivateModal
+          isOpen={!!familiarToDelete}
+          entityName={`${familiarToDelete.nombre} ${familiarToDelete.apellidos}`}
+          onCancel={() => setFamiliarToDelete(null)}
+          onConfirm={handleConfirmDelete}
+        />
       )}
-
     </div>
   );
 };

@@ -4,9 +4,12 @@ import {
   Video,
   MessageSquare,
   ScanFace,
-  ChevronDown,
   Plus,
 } from 'lucide-react';
+import { Button } from '../design-system/atoms/Button';
+import { AvailableDoctorsRow } from '../design-system/molecules/AvailableDoctorsRow';
+import { ActionMenu } from '../design-system/molecules/ActionMenu';
+import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
 
 interface EVR100HomeProps {
   userName: string;
@@ -81,14 +84,10 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
   onOpenVideoModal,
   onOpenChat,
 }) => {
-  const [isConsultasOpen, setIsConsultasOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [solicitaDropdownOpen, setSolicitaDropdownOpen] = useState(false);
   const solicitaDropdownRef = useRef<HTMLDivElement>(null);
 
-  const doctorAvatar1 = `${import.meta.env.BASE_URL}assets/doctor-avatar-1.png`;
-  const doctorAvatar2 = `${import.meta.env.BASE_URL}assets/doctor-avatar-2.png`;
-  const doctorAvatar3 = `${import.meta.env.BASE_URL}assets/doctor-avatar-3.png`;
   const displayName = userName.trim() || 'Carlos Damián';
   
   // Close dropdown when clicking outside
@@ -136,14 +135,14 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
 
         <div className="flex flex-col items-center gap-[10px] shrink-0 self-center md:self-auto">
           {/* Único botón: Completa tu perfil médico */}
-          <button
-            type="button"
+          <Button
+            variant="outline"
             onClick={onStartQuestionnaire}
-            className="w-full px-[14px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-black text-[14px] leading-[20px] font-bold uppercase flex items-center justify-center gap-[8px] transition-colors cursor-pointer whitespace-nowrap"
+            className="w-full px-[14px] bg-transparent"
           >
             <span>COMPLETA TU PERFIL MÉDICO</span>
             <ChevronRight className="w-[18px] h-[18px] text-black shrink-0" />
-          </button>
+          </Button>
         </div>
       </section>
 
@@ -164,71 +163,44 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
         {/* Bottom row: Doctors available + Action CTA Dropdown Button */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {/* Doctors available info */}
-          <div className="flex items-center gap-[12px]">
-            <div className="flex items-center shrink-0">
-              <img
-                src={doctorAvatar1}
-                alt="Doctor 1"
-                className="w-[40px] h-[40px] rounded-full object-cover mr-[-8px] relative z-10 shrink-0 border-2 border-white"
-              />
-              <img
-                src={doctorAvatar2}
-                alt="Doctor 2"
-                className="w-[40px] h-[40px] rounded-full object-cover mr-[-8px] relative z-20 shrink-0 border-2 border-white"
-              />
-              <img
-                src={doctorAvatar3}
-                alt="Doctor 3"
-                className="w-[40px] h-[40px] rounded-full object-cover relative z-30 shrink-0 border-2 border-white"
-              />
-            </div>
-            <div className="flex flex-col justify-center">
-              <p className="text-[12px] leading-[16px] font-bold text-black">
-                Hay médicos disponibles
-              </p>
-              <p className="text-[12px] leading-[16px] font-normal text-black">
-                Tiempo de espera estimado 12 min
-              </p>
-            </div>
-          </div>
+          <AvailableDoctorsRow />
 
           {/* Action CTA Dropdown (Visible solo en Desktop / md:flex) */}
           <div className="hidden md:block relative shrink-0" ref={solicitaDropdownRef}>
-            <button
-              type="button"
+            <Button
+              variant="primary"
               onClick={() => setSolicitaDropdownOpen(!solicitaDropdownOpen)}
-              className="px-[12px] py-[4px] rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] leading-[20px] font-bold uppercase flex items-center gap-[8px] transition-colors cursor-pointer shadow-xs whitespace-nowrap"
             >
               <Plus className="w-[20px] h-[20px] text-white shrink-0" />
               <span>SOLICITA UNA CITA</span>
-            </button>
+            </Button>
 
             {/* Dropdown Menu sin borde gris, solo sombra */}
             {solicitaDropdownOpen && (
-              <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[200px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] flex flex-col gap-[2px]">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSolicitaDropdownOpen(false);
-                    onOpenVideoModal();
-                  }}
-                  className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold uppercase text-left transition-colors cursor-pointer"
-                >
-                  <Video className="w-[20px] h-[20px] text-[#d50475] shrink-0" />
-                  <span>VIDEOCONSULTA</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSolicitaDropdownOpen(false);
-                    onOpenChat();
-                  }}
-                  className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold uppercase text-left transition-colors cursor-pointer"
-                >
-                  <MessageSquare className="w-[20px] h-[20px] text-[#d50475] shrink-0" />
-                  <span>CHAT MÉDICO</span>
-                </button>
-              </div>
+              <ActionMenu
+                variant="solicitar-cita"
+                className="absolute right-0 top-[calc(100%+6px)] z-50 w-[200px]"
+                items={[
+                  {
+                    id: 'video',
+                    label: 'VIDEOCONSULTA',
+                    icon: <Video className="w-[20px] h-[20px]" />,
+                    onClick: () => {
+                      setSolicitaDropdownOpen(false);
+                      onOpenVideoModal();
+                    },
+                  },
+                  {
+                    id: 'chat',
+                    label: 'CHAT MÉDICO',
+                    icon: <MessageSquare className="w-[20px] h-[20px]" />,
+                    onClick: () => {
+                      setSolicitaDropdownOpen(false);
+                      onOpenChat();
+                    },
+                  },
+                ]}
+              />
             )}
           </div>
         </div>
@@ -275,16 +247,15 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
           </p>
         </div>
 
-        <button
-          type="button"
+        <Button
+          variant="secondary"
           onClick={() => {
             if (onStartBiometria) onStartBiometria();
           }}
-          className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-transparent text-[#d50475] text-[14px] leading-[20px] font-bold uppercase flex items-center gap-[8px] transition-colors cursor-pointer shrink-0 whitespace-nowrap"
         >
           <ScanFace className="w-[20px] h-[20px] text-[#d50475] shrink-0" />
           <span>INICIAR ESCANEO</span>
-        </button>
+        </Button>
       </section>
 
       {/* Card 4: Próximas consultas (Siempre visible 1 elemento, Cargar más para ver el resto) */}
@@ -322,46 +293,25 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
               </div>
 
               {item.isActive ? (
-                <button
-                  type="button"
-                  onClick={onOpenVideoModal}
-                  className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white text-black text-[14px] leading-[20px] font-bold uppercase transition-colors cursor-pointer shrink-0"
-                >
+                <Button variant="outline" onClick={onOpenVideoModal}>
                   {item.actionText}
-                </button>
+                </Button>
               ) : (
-                <div className="relative group shrink-0">
-                  <button
-                    type="button"
-                    disabled
-                    title="Activo 15 minutos antes"
-                    className="px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[14px] leading-[20px] font-bold uppercase inline-flex items-center justify-center cursor-not-allowed select-none transition-colors"
-                  >
-                    {item.actionText}
-                  </button>
-                  <span className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-150 bg-[#0f172a] text-white text-[13px] font-medium px-3 py-1.5 rounded-[6px] shadow-lg whitespace-nowrap z-30 select-none">
-                    Activo 15 minutos antes
-                  </span>
-                </div>
+                <Button variant="inactive" tooltipText="Activo 15 minutos antes">
+                  {item.actionText}
+                </Button>
               )}
             </div>
           ))}
         </div>
 
         {/* Footer: Event Counter + "Cargar más / Mostrar menos" plain text */}
-        <div className="flex items-center justify-between pt-4 border-t border-[#f1f5f9]">
-          <span className="text-[13px] font-bold text-[#475569]">
-            {visibleConsultations.length} de {CONSULTATIONS.length} eventos
-          </span>
-
-          <button
-            type="button"
-            onClick={() => setShowAll(!showAll)}
-            className="text-[13px] leading-[20px] font-bold text-black hover:underline cursor-pointer transition-colors"
-          >
-            {showAll ? 'Mostrar menos' : 'Cargar más'}
-          </button>
-        </div>
+        <PaginationEvents
+          visibleCount={visibleConsultations.length}
+          totalCount={CONSULTATIONS.length}
+          isExpanded={showAll}
+          onToggle={() => setShowAll(!showAll)}
+        />
       </section>
     </div>
   );

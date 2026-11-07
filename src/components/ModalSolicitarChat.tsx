@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { X, Check, Calendar as CalendarIcon, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
-import { Badge } from '../design-system/atoms/Badge';
+import { X, Check, Calendar as CalendarIcon } from 'lucide-react';
 import { Dropdown } from '../design-system/atoms/Dropdown';
+import { StepperCheck } from '../design-system/atoms/StepperCheck';
+import { AssignedDoctorCard } from '../design-system/molecules/AssignedDoctorCard';
 
 interface ModalSolicitarChatProps {
   isOpen: boolean;
@@ -82,45 +83,25 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
           {/* Stepper Track con viñetas conectadas */}
           <div className="flex flex-col items-center pt-1 shrink-0 w-[28px]">
             {/* Paso 1: Modalidad */}
-            <div className="w-[26px] h-[26px] rounded-full bg-[#d50475] text-white flex items-center justify-center shadow-xs">
-              <Check className="w-[14px] h-[14px] stroke-[3]" />
-            </div>
-            <div className="w-[2px] flex-1 min-h-[64px] my-1 bg-[#d50475]/30" />
+            <StepperCheck isCompleted />
+            <div className="w-[2px] flex-1 min-h-[64px] my-1 bg-[#831843]/30" />
 
             {/* Paso 2: Médico asignado */}
-            <div className="w-[26px] h-[26px] rounded-full bg-[#d50475] text-white flex items-center justify-center shadow-xs">
-              <Check className="w-[14px] h-[14px] stroke-[3]" />
-            </div>
-            <div className="w-[2px] flex-1 min-h-[85px] my-1 bg-[#d50475]/30" />
+            <StepperCheck isCompleted />
+            <div className="w-[2px] flex-1 min-h-[85px] my-1 bg-[#831843]/30" />
 
             {/* Paso 3: Especialidad */}
-            <div className="w-[26px] h-[26px] rounded-full bg-[#d50475] text-white flex items-center justify-center shadow-xs">
-              <Check className="w-[14px] h-[14px] stroke-[3]" />
-            </div>
+            <StepperCheck isCompleted />
             <div className={`w-[2px] flex-1 min-h-[90px] my-1 transition-colors ${
-              isMotivoDone ? 'bg-[#d50475]/30' : 'bg-[#e2e8f0]'
+              isMotivoDone ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
             }`} />
 
             {/* Paso 4: Motivo */}
-            <div
-              className={`w-[26px] h-[26px] rounded-full flex items-center justify-center transition-all ${
-                isMotivoDone
-                  ? 'bg-[#d50475] text-white shadow-xs'
-                  : 'border-2 border-[#cbd5e1] bg-[#f8fafc] text-[#94a3b8]'
-              }`}
-            >
-              {isMotivoDone ? (
-                <Check className="w-[14px] h-[14px] stroke-[3]" />
-              ) : (
-                <span className="w-2 h-2 rounded-full bg-[#cbd5e1]" />
-              )}
-            </div>
+            <StepperCheck isCompleted={isMotivoDone} />
             <div className="w-[2px] flex-1 min-h-[95px] my-1 bg-[#e2e8f0]" />
 
             {/* Paso 5: Horario / Día */}
-            <div className="w-[26px] h-[26px] rounded-full bg-[#d50475] text-white flex items-center justify-center shadow-xs">
-              <Check className="w-[14px] h-[14px] stroke-[3]" />
-            </div>
+            <StepperCheck isCompleted={isDayDone} />
           </div>
 
           {/* Form Fields */}
@@ -148,18 +129,13 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                 <span className="text-[12px] text-[#64748b] mt-0.5">Especialista disponible para tu consulta</span>
               </div>
 
-              <div className="p-3.5 rounded-[8px] border-2 border-[#e2e8f0] bg-white flex items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#f1f5f9] border border-[#cbd5e1] flex items-center justify-center font-bold text-black text-sm shrink-0">
-                    MF
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[15px] font-bold text-black">Dra. María Fernández</span>
-                    <span className="text-[13px] text-[#64748b]">Medicina General · Nutrición</span>
-                  </div>
-                </div>
-                <Badge variant="disponible">Disponible</Badge>
-              </div>
+              <AssignedDoctorCard
+                initials="MF"
+                name="Dra. María Fernández"
+                specialty="Medicina General · Nutrición"
+                badgeText="Disponible ahora"
+                badgeVariant="disponible-ahora"
+              />
             </div>
 
             {/* PASO 3: Especialidad requerida* (Obligatorio) */}

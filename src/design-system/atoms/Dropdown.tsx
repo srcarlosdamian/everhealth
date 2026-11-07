@@ -19,6 +19,7 @@ interface DropdownProps {
   disabled?: boolean;
   helperText?: string;
   dropUp?: boolean;
+  openUpward?: boolean;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -32,7 +33,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
   disabled = false,
   helperText,
   dropUp = false,
+  openUpward = false,
 }) => {
+  const isUp = dropUp || openUpward;
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -110,7 +113,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       {isOpen && (
         <div
           className={`absolute left-0 z-50 w-full bg-white rounded-[8px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1 border border-[#e2e8f0] max-h-[240px] overflow-y-auto flex flex-col gap-[2px] animate-fadeIn ${
-            dropUp ? 'bottom-[calc(100%+6px)]' : 'top-[calc(100%+6px)]'
+            isUp ? 'bottom-[calc(100%+6px)]' : 'top-[calc(100%+6px)]'
           }`}
         >
           {normalizedOptions.map((opt) => {
