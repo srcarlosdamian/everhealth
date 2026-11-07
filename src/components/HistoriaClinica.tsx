@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  FileText,
   FileSpreadsheet,
   ArrowRight,
   User,
@@ -13,9 +12,6 @@ import {
   Brain,
   ScanFace,
   ChevronRight,
-  CheckCircle2,
-  Calendar,
-  Lock,
 } from 'lucide-react';
 
 interface HistoriaClinicaProps {
@@ -38,12 +34,13 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
 }) => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
 
+  // Todos los iconos 100% neutros (#64748b) solicitados por el usuario
   const sections: ClinicalSection[] = [
     {
       id: 'documentos',
       title: 'Mis documentos médicos',
       lastEdited: '3 documentos adjuntos',
-      icon: <FileSpreadsheet className="w-5 h-5 text-[#d50475]" />,
+      icon: <FileSpreadsheet className="w-5 h-5 text-[#64748b]" />,
       summary: 'Analíticas de sangre, ecografía tiroidea y electro de control.',
       status: 'Completado',
     },
@@ -51,7 +48,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       id: 'general',
       title: 'Datos generales',
       lastEdited: 'Última edición el 12/10/2026',
-      icon: <User className="w-5 h-5 text-[#2563eb]" />,
+      icon: <User className="w-5 h-5 text-[#64748b]" />,
       summary: 'Estatura: 175 cm, Peso: 70 kg, IMC: 22.9 (Normopeso). Sin hipertensión.',
       status: 'Actualizado',
     },
@@ -59,7 +56,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       id: 'alergias',
       title: 'Alergias',
       lastEdited: 'Última edición el 13/10/2026',
-      icon: <HeartPulse className="w-5 h-5 text-[#d50475]" />,
+      icon: <HeartPulse className="w-5 h-5 text-[#64748b]" />,
       summary: 'Sin alergias medicamentosas conocidas. Alergia primaveral a gramíneas.',
       status: 'Revisado',
     },
@@ -67,7 +64,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       id: 'enfermedades',
       title: 'Enfermedades',
       lastEdited: 'Última edición el 13/10/2026',
-      icon: <Activity className="w-5 h-5 text-[#059669]" />,
+      icon: <Activity className="w-5 h-5 text-[#64748b]" />,
       summary: 'Sin enfermedades crónicas ni antecedentes familiares relevantes.',
       status: 'Revisado',
     },
@@ -75,7 +72,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       id: 'quirurgicas',
       title: 'Quirúrgicas',
       lastEdited: 'Última edición el 13/10/2026',
-      icon: <Scissors className="w-5 h-5 text-[#d97706]" />,
+      icon: <Scissors className="w-5 h-5 text-[#64748b]" />,
       summary: 'Apendicectomía laparoscópica en 2018 sin complicaciones.',
       status: 'Completado',
     },
@@ -83,7 +80,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       id: 'medicamentos',
       title: 'Medicamentos',
       lastEdited: 'Última edición el 13/10/2026',
-      icon: <Pill className="w-5 h-5 text-[#7c3aed]" />,
+      icon: <Pill className="w-5 h-5 text-[#64748b]" />,
       summary: 'Sin tratamiento farmacológico habitual activo.',
       status: 'Completado',
     },
@@ -91,7 +88,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       id: 'sustancias',
       title: 'Sustancias tóxicas',
       lastEdited: 'Última edición el 13/10/2026',
-      icon: <Wine className="w-5 h-5 text-[#475569]" />,
+      icon: <Wine className="w-5 h-5 text-[#64748b]" />,
       summary: 'No fumador. Consumo ocasional moderado.',
       status: 'Revisado',
     },
@@ -99,7 +96,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       id: 'alimentacion',
       title: 'Alimentación',
       lastEdited: 'Última edición el 13/10/2026',
-      icon: <Apple className="w-5 h-5 text-[#16a34a]" />,
+      icon: <Apple className="w-5 h-5 text-[#64748b]" />,
       summary: 'Dieta mediterránea equilibrada, 3-4 comidas al día.',
       status: 'Completado',
     },
@@ -107,7 +104,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       id: 'psicologia',
       title: 'Psicología',
       lastEdited: 'Última edición el 13/10/2026',
-      icon: <Brain className="w-5 h-5 text-[#d50475]" />,
+      icon: <Brain className="w-5 h-5 text-[#64748b]" />,
       summary: 'Cuestionario de bienestar emocional completado. Nivel de estrés: bajo.',
       status: 'Completado',
     },
@@ -115,38 +112,28 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       id: 'biometria',
       title: 'Análisis Biométricos',
       lastEdited: 'Último escaneo el 27/10/2026',
-      icon: <ScanFace className="w-5 h-5 text-[#0284c7]" />,
+      icon: <ScanFace className="w-5 h-5 text-[#64748b]" />,
       summary: 'PPG facial: 71 LPM regular. Estimación de constantes en rango óptimo.',
       status: 'Actualizado',
     },
   ];
 
   return (
-    <div className="w-full flex flex-col gap-6 animate-fadeIn font-[family-name:Helvetica]">
-      {/* Informative notice card (sin barra de porcentaje ni stepper) */}
-      <div className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-[10px] p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#fce7f3] flex items-center justify-center text-[#d50475] shrink-0">
-            <CheckCircle2 className="w-5 h-5 text-[#d50475]" />
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-[15px] font-bold text-black">
-              Tu historia clínica está disponible y sincronizada
-            </h3>
-            <p className="text-[13px] text-[#64748b] leading-tight mt-0.5">
-              Puedes consultar y editar tus antecedentes de salud cuando tu equipo médico lo requiera.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 self-end sm:self-center">
-          <span className="text-[12px] font-bold text-[#15803d] px-2.5 py-1 rounded-[6px] border border-[#cbd5e1] bg-white">
-            100% REGISTRADO
-          </span>
-        </div>
+    <div className="w-full max-w-[1000px] mx-auto flex flex-col gap-6 animate-fadeIn font-[family-name:Helvetica] px-4 sm:px-6 py-4">
+      {/* Encabezado limpio sin tabs (solicitado: tabs solo en sidebar) */}
+      <div className="flex flex-col gap-1">
+        <span className="text-[13px] text-[#64748b] font-medium tracking-wide">
+          Historial
+        </span>
+        <h1 className="text-[22px] sm:text-[26px] leading-[32px] font-bold text-black tracking-tight">
+          Historia clínica
+        </h1>
+        <p className="text-[14px] leading-[22px] text-[#64748b]">
+          Consulta y edita tus antecedentes médicos, alergias, medicación y documentación clínica.
+        </p>
       </div>
 
-      {/* Grid of clinical categories matching the design card format */}
+      {/* Grid de categorías clínicas con iconos 100% neutros */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
         {sections.map((sec) => (
           <div
@@ -163,11 +150,11 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
           >
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-10 h-10 rounded-[8px] bg-[#f8fafc] group-hover:bg-[#fce7f3] flex items-center justify-center shrink-0 transition-colors">
+                <div className="w-10 h-10 rounded-[8px] bg-[#f8fafc] group-hover:bg-[#f1f5f9] flex items-center justify-center shrink-0 transition-colors">
                   {sec.icon}
                 </div>
                 <div className="flex flex-col min-w-0">
-                  <span className="text-[15px] font-bold text-black truncate group-hover:text-[#d50475] transition-colors">
+                  <span className="text-[15px] font-bold text-black truncate transition-colors">
                     {sec.title}
                   </span>
                   <span className="text-[12px] text-[#64748b] leading-tight">
@@ -189,7 +176,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
         ))}
       </div>
 
-      {/* Bottom Button: Ver historia clínica completa */}
+      {/* Botón inferior: Ver historia clínica completa */}
       <div className="pt-2 flex justify-center">
         <button
           type="button"
