@@ -21,10 +21,10 @@ const VALID_ROUTES = [
 
 const getRouteFromHash = (): string => {
   const hash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase();
-  if (!hash || hash === '') return 'home'; // Default to home for direct prototype review
+  if (!hash || hash === '') return 'login'; // Ruta inicial: Pantalla de Login
   if (hash === 'inicio') return 'home';
   if (VALID_ROUTES.includes(hash)) return hash;
-  return 'home';
+  return 'login';
 };
 
 export function App() {
