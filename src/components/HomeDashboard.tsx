@@ -680,19 +680,12 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                   setIsChatModalOpen(true);
                 }}
                 onOpenDocumentsModal={() => setIsDocsModalOpen(true)}
-                defaultTab="consultas"
               />
             )}
 
             {currentView === 'historia-clinica' && (
-              <HistorialConsultas
-                onOpenVideoModal={() => setIsVideoModalOpen(true)}
-                onOpenChatModal={() => {
-                  setChatModalTab('ahora');
-                  setIsChatModalOpen(true);
-                }}
+              <HistoriaClinica
                 onOpenDocumentsModal={() => setIsDocsModalOpen(true)}
-                defaultTab="historia-clinica"
               />
             )}
 

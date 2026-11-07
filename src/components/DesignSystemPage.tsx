@@ -463,32 +463,30 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                   <div className="w-full h-[1px] bg-[#f1f5f9] my-2" />
 
-                  {/* Botones de acción en tablas y detalles clínicos */}
+                  {/* Botones oficiales de acción clínica y formularios */}
                   <div>
-                    <h3 className="text-[15px] font-bold text-black">Botones de Acción en Tablas (Consultas, Familiares, etc.)</h3>
-                    <p className="text-[12px] text-[#64748b]">Acciones clínicas (píldoras rellenas y contorneadas) y acciones neutras o destructivas.</p>
+                    <h3 className="text-[15px] font-bold text-black">Botones Oficiales de Consulta y Modales</h3>
+                    <p className="text-[12px] text-[#64748b]">Píldoras redondeadas (`rounded-full`) oficiales usadas en el Historial de Consultas y Modales de Filtros.</p>
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
-                    <button className="px-5 py-1.5 rounded-full bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold transition-colors cursor-pointer">
-                      Acceder
+                    <button className="h-[38px] px-6 rounded-full bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold transition-colors cursor-pointer shadow-xs">
+                      Acceder a la consulta
                     </button>
-                    <button className="px-4 py-1.5 rounded-full border border-[#ff34b2] text-[#ff34b2] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer">
-                      Historial
+                    <button className="h-[38px] px-6 rounded-full border border-black hover:bg-[#f8fafc] text-black text-[13px] font-bold transition-colors cursor-pointer">
+                      Cancelar consulta
                     </button>
-                    <button className="px-4 py-1.5 rounded-full border border-[#ff34b2] text-[#ff34b2] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer">
-                      Notas internas
+                    <button className="h-[38px] px-6 rounded-full border border-[#4a154b] text-[#4a154b] hover:bg-[#faf5ff] text-[13px] font-bold transition-colors cursor-pointer">
+                      Ver conversación
                     </button>
-                    <button className="px-4 py-1.5 rounded-full border border-[#ff34b2] text-[#ff34b2] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer">
-                      Tip de contrato
+                    <button className="h-[40px] px-6 rounded-full bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] font-bold transition-colors cursor-pointer">
+                      Aplicar
                     </button>
-                    <button className="px-3.5 py-1.5 rounded-[6px] border border-[#cbd5e1] hover:border-black bg-white text-black text-[13px] font-medium transition-colors cursor-pointer">
-                      Crear nuevo
+                    <button className="h-[40px] px-6 rounded-full border border-black hover:bg-[#f8fafc] text-black text-[14px] font-bold transition-colors cursor-pointer">
+                      Cerrar
                     </button>
-                    <button className="px-3.5 py-1.5 rounded-[6px] border border-[#cbd5e1] hover:border-black bg-white text-black text-[13px] font-medium transition-colors cursor-pointer">
-                      Reasignar
-                    </button>
-                    <button className="px-3.5 py-1.5 rounded-[6px] border border-[#d50475] text-[#d50475] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer">
-                      Cancelar cita
+                    <button className="flex items-center gap-1.5 text-[13px] font-medium text-black hover:text-[#d50475] px-2 py-1 cursor-pointer transition-colors">
+                      <Trash2 className="w-4 h-4 text-black" />
+                      <span>Limpiar filtros</span>
                     </button>
                     <button className="px-3.5 py-1.5 rounded-[6px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold uppercase transition-colors cursor-pointer shadow-xs">
                       Dar de baja

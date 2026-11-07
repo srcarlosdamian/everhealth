@@ -1,628 +1,649 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
-  Search,
-  Plus,
-  ChevronDown,
-  ChevronUp,
-  FileText,
+  MessageSquare,
+  Video,
+  Calendar,
+  Clock,
+  Filter,
+  RotateCw,
+  ChevronsLeft,
   ChevronLeft,
   ChevronRight,
-  ChevronsLeft,
   ChevronsRight,
-  Filter,
+  X,
+  Trash2,
+  AlertTriangle,
 } from 'lucide-react';
-import { Badge } from '../design-system/atoms/Badge';
-import { HistoriaClinica } from './HistoriaClinica';
 
 interface HistorialConsultasProps {
   onOpenVideoModal?: () => void;
   onOpenChatModal?: () => void;
   onOpenDocumentsModal?: () => void;
-  defaultTab?: 'consultas' | 'historia-clinica';
 }
 
-interface ConsultaItem {
+export type ConsultaStatus =
+  | 'Pendiente'
+  | 'En proceso'
+  | 'Terminada'
+  | 'Cancelada'
+  | 'No asistida'
+  | 'Pendiente de informe'
+  | 'Esperando en chat'
+  | 'Pendiente de recomendación'
+  | 'Terminada (inactividad)'
+  | 'Pendiente de receta electrónica'
+  | 'Resuelta con médico a domicilio'
+  | 'Resuelta con envío a centro médico'
+  | 'Médico a domicilio (pendiente informe)'
+  | 'Envío a centro médico (pendiente informe)';
+
+export interface ConsultaCardItem {
   id: string;
+  type: 'chat' | 'video';
+  specialty: string;
+  status: ConsultaStatus;
+  date: string;
   time: string;
-  dateStr: string;
-  type: string;
-  language: string;
-  patientName: string;
-  patientMeta: string;
-  doctorName: string;
-  doctorSpecialty: string;
-  statusText: string;
-  statusVariant: 'disponible' | 'confirmada' | 'en-espera' | 'programada' | 'no-disponible' | 'limitada';
   reason: string;
-  canAccess?: boolean;
+  doctor: string;
+  hasInforme?: boolean;
 }
 
-// Datos exactos a la captura oficial media_1793983781902_1c877755.png
-const INITIAL_CONSULTAS: ConsultaItem[] = [
+// Datos basados exactamente en la captura oficial media_1794026161936_1c2a4eb3.jpg
+const INITIAL_CONSULTAS: ConsultaCardItem[] = [
   {
-    id: '1',
-    time: '7:50',
-    dateStr: 'SAB 23',
-    type: 'Videollamada',
-    language: 'Español · Ever Health Test',
-    patientName: 'Carlos Ruíz Reina',
-    patientMeta: '24 años · +34 1597490 · carlos@mail.com',
-    doctorName: 'Dr. Alejandro Gómez',
-    doctorSpecialty: 'Medicina general · Ever Health Doctor',
-    statusText: 'Pendiente',
-    statusVariant: 'disponible',
-    reason: 'Videollamada para discutir detalles de mi última consulta',
-    canAccess: true,
+    id: 'c1',
+    type: 'chat',
+    specialty: 'Medicina General',
+    status: 'Pendiente de recomendación',
+    date: '27/10/2026',
+    time: '10:40',
+    reason: 'test',
+    doctor: 'Bruno Peñas',
+    hasInforme: true,
   },
   {
-    id: '2',
-    time: '9:00',
-    dateStr: 'VIE 22',
-    type: 'Videollamada',
-    language: 'Francés · Health Care Clinic',
-    patientName: 'Sophie Dupont',
-    patientMeta: '27 años · +34 1234567',
-    doctorName: 'Dr. Jean-Claude',
-    doctorSpecialty: 'Dermatología · Health Care Clinic',
-    statusText: 'Pendiente informe',
-    statusVariant: 'limitada',
-    reason: 'Revisión y seguimiento dermatológico en curso.',
-    canAccess: false,
+    id: 'c2',
+    type: 'video',
+    specialty: 'Psicología',
+    status: 'En proceso',
+    date: '27/10/2026',
+    time: '10:10',
+    reason: 'Primera consulta - Test',
+    doctor: 'Bruno Peñas',
+    hasInforme: false,
   },
   {
-    id: '3',
-    time: '10:15',
-    dateStr: 'JUE 21',
-    type: 'Consulta telefónica',
-    language: 'Alemán · Global Health',
-    patientName: 'Hans Müller',
-    patientMeta: '45 años · +34 7654321',
-    doctorName: 'Dr. Klaus Schmidt',
-    doctorSpecialty: 'Cardiología · Global Health',
-    statusText: 'Terminado',
-    statusVariant: 'programada',
-    reason: 'Consulta médica de seguimiento cardiológico basal.',
-    canAccess: false,
+    id: 'c3',
+    type: 'video',
+    specialty: 'Medicina General',
+    status: 'Cancelada',
+    date: '30/09/2026',
+    time: '19:37',
+    reason: 'test',
+    doctor: 'JOSE LUIS ROJANO TORRECILLA',
+    hasInforme: false,
   },
   {
-    id: '4',
-    time: '11:00',
-    dateStr: 'MIE 20',
-    type: 'Videollamada',
-    language: 'Italiano · Family Health',
-    patientName: 'Giovanni Rossi',
-    patientMeta: '38 años · +34 3216548',
-    doctorName: 'Dr. Lucia Bianchi',
-    doctorSpecialty: 'Ginecología · Family Health',
-    statusText: 'Terminado',
-    statusVariant: 'programada',
-    reason: 'Chequeo rutinario de salud general.',
-    canAccess: false,
+    id: 'c4',
+    type: 'chat',
+    specialty: 'Nutrición',
+    status: 'Terminada',
+    date: '15/09/2026',
+    time: '11:30',
+    reason: 'Revisión y seguimiento nutricional de rutina',
+    doctor: 'Dra. Elena Ruiz',
+    hasInforme: true,
   },
   {
-    id: '5',
-    time: '15:00',
-    dateStr: 'MAR',
-    type: 'Consulta presencial',
-    language: 'Portugués · Wellness Center',
-    patientName: 'Ana Costa',
-    patientMeta: '22 años · +34 4567890',
-    doctorName: 'Dr. Pedro Silva',
-    doctorSpecialty: 'Nutrición · Wellness Center',
-    statusText: 'Terminado',
-    statusVariant: 'programada',
-    reason: 'Plan nutricional y revisión de objetivos clínicos.',
-    canAccess: false,
-  },
-  {
-    id: '6',
-    time: '16:30',
-    dateStr: 'LUN 18',
-    type: 'Videollamada',
-    language: 'Español · Healthcare Solutions',
-    patientName: 'Luis Pérez',
-    patientMeta: '50 años · +34 9876543',
-    doctorName: 'Dr. María López',
-    doctorSpecialty: 'Oftalmología · Healthcare Solutions',
-    statusText: 'Terminado',
-    statusVariant: 'programada',
-    reason: 'Valoración oftalmológica preventiva.',
-    canAccess: false,
-  },
-  {
-    id: '7',
-    time: '10:00',
-    dateStr: 'MAR 19',
-    type: 'Reunión presencial',
-    language: 'Inglés · Tech Innovations',
-    patientName: 'Ana García',
-    patientMeta: '35 años · +34 9123456',
-    doctorName: 'Dr. John Smith',
-    doctorSpecialty: 'Cardiología · Tech Innovations',
-    statusText: 'Terminado',
-    statusVariant: 'programada',
-    reason: 'Reunión de valoración clínica empresarial.',
-    canAccess: false,
+    id: 'c5',
+    type: 'video',
+    specialty: 'Pediatría',
+    status: 'Pendiente de informe',
+    date: '10/09/2026',
+    time: '09:15',
+    reason: 'Consulta de control general de salud infantil',
+    doctor: 'Dr. Alejandro Gómez',
+    hasInforme: true,
   },
 ];
+
+const ALL_STATUS_OPTIONS: { col1: ConsultaStatus[]; col2: ConsultaStatus[] } = {
+  col1: [
+    'Pendiente',
+    'Terminada',
+    'No asistida',
+    'Esperando en chat',
+    'Terminada (inactividad)',
+    'Resuelta con médico a domicilio',
+    'Médico a domicilio (pendiente informe)',
+  ],
+  col2: [
+    'En proceso',
+    'Cancelada',
+    'Pendiente de informe',
+    'Pendiente de recomendación',
+    'Pendiente de receta electrónica',
+    'Resuelta con envío a centro médico',
+    'Envío a centro médico (pendiente informe)',
+  ],
+};
+
+const getStatusDotColor = (status: ConsultaStatus): string => {
+  switch (status) {
+    case 'En proceso':
+      return 'bg-[#22c55e]'; // Verde
+    case 'Pendiente de recomendación':
+      return 'bg-[#f59e0b]'; // Naranja
+    case 'Cancelada':
+      return 'bg-[#8b5cf6]'; // Morado
+    case 'Pendiente de informe':
+    case 'Pendiente':
+      return 'bg-[#eab308]'; // Amarillo
+    case 'Terminada':
+      return 'bg-[#64748b]'; // Gris
+    case 'No asistida':
+    case 'Terminada (inactividad)':
+      return 'bg-[#ef4444]'; // Rojo
+    default:
+      return 'bg-[#0ea5e9]'; // Azul
+  }
+};
 
 export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
   onOpenVideoModal,
   onOpenChatModal,
-  onOpenDocumentsModal,
-  defaultTab = 'consultas',
 }) => {
-  const [activeTab, setActiveTab] = useState<'consultas' | 'historia-clinica'>(defaultTab);
-  const [subTab, setSubTab] = useState<'activos' | 'historial'>('historial');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortOrder, setSortOrder] = useState<'recientes' | 'antiguos'>('recientes');
-  const [sortMenuOpen, setSortMenuOpen] = useState(false);
-  const [filterMenuOpen, setFilterMenuOpen] = useState(false);
-  const [expandedId, setExpandedId] = useState<string | null>('1'); // Por defecto la fila 1 expandida como en la captura
-  const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [consultas, setConsultas] = useState<ConsultaCardItem[]>(INITIAL_CONSULTAS);
+  const [soloInformes, setSoloInformes] = useState(false);
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [selectedStatuses, setSelectedStatuses] = useState<ConsultaStatus[]>([]);
+  const [tempSelectedStatuses, setTempSelectedStatuses] = useState<ConsultaStatus[]>([]);
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [tempDateFrom, setTempDateFrom] = useState('');
+  const [tempDateTo, setTempDateTo] = useState('');
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const toggleExpand = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
+  // Modal para confirmar cancelación
+  const [cancellingConsultaId, setCancellingConsultaId] = useState<string | null>(null);
+
+  // Abrir modal de filtros inicializando los temporales
+  const handleOpenFilters = () => {
+    setTempSelectedStatuses([...selectedStatuses]);
+    setTempDateFrom(dateFrom);
+    setTempDateTo(dateTo);
+    setIsFilterModalOpen(true);
   };
 
-  const filteredConsultas = INITIAL_CONSULTAS.filter((c) => {
-    if (!searchQuery.trim()) return true;
-    const q = searchQuery.toLowerCase();
-    return (
-      c.doctorName.toLowerCase().includes(q) ||
-      c.patientName.toLowerCase().includes(q) ||
-      c.type.toLowerCase().includes(q) ||
-      c.doctorSpecialty.toLowerCase().includes(q)
+  // Aplicar filtros
+  const handleApplyFilters = () => {
+    setSelectedStatuses([...tempSelectedStatuses]);
+    setDateFrom(tempDateFrom);
+    setDateTo(tempDateTo);
+    setIsFilterModalOpen(false);
+  };
+
+  // Limpiar filtros
+  const handleClearFilters = () => {
+    setTempSelectedStatuses([]);
+    setTempDateFrom('');
+    setTempDateTo('');
+    setSelectedStatuses([]);
+    setDateFrom('');
+    setDateTo('');
+  };
+
+  const handleToggleTempStatus = (status: ConsultaStatus) => {
+    if (tempSelectedStatuses.includes(status)) {
+      setTempSelectedStatuses(tempSelectedStatuses.filter((s) => s !== status));
+    } else {
+      setTempSelectedStatuses([...tempSelectedStatuses, status]);
+    }
+  };
+
+  // Confirmar cancelación de consulta
+  const handleConfirmCancel = () => {
+    if (!cancellingConsultaId) return;
+    setConsultas((prev) =>
+      prev.map((c) =>
+        c.id === cancellingConsultaId ? { ...c, status: 'Cancelada' } : c
+      )
     );
-  });
+    setCancellingConsultaId(null);
+  };
+
+  // Simular refresco
+  const handleRefresh = () => {
+    setIsRefreshing(true);
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 500);
+  };
+
+  // Filtrado de consultas
+  const filteredConsultas = useMemo(() => {
+    return consultas.filter((c) => {
+      if (soloInformes && !c.hasInforme) return false;
+      if (selectedStatuses.length > 0 && !selectedStatuses.includes(c.status)) {
+        return false;
+      }
+      return true;
+    });
+  }, [consultas, soloInformes, selectedStatuses]);
 
   return (
-    <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-6 font-[family-name:Helvetica]">
-      
-      {/* Top Header Row */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
-            Consultas
-          </h1>
-          <p className="text-[14px] leading-[22px] text-[#475569]">
-            Historial clínico integral, informes diagnósticos y gestión de citas pasadas y programadas.
-          </p>
-        </div>
-
-        {/* Botón: Crear nueva consulta */}
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setIsCreateOpen(!isCreateOpen)}
-            className="h-[40px] px-[14px] rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shadow-xs whitespace-nowrap"
-          >
-            <Plus className="w-[18px] h-[18px] text-white stroke-[2.5]" />
-            <span>Crea nueva consulta</span>
-          </button>
-
-          {isCreateOpen && (
-            <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[220px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px]">
-              <button
-                type="button"
-                onClick={() => {
-                  setIsCreateOpen(false);
-                  onOpenVideoModal?.();
-                }}
-                className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold uppercase text-left transition-colors cursor-pointer"
-              >
-                <span>Videoconsulta</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setIsCreateOpen(false);
-                  onOpenChatModal?.();
-                }}
-                className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold uppercase text-left transition-colors cursor-pointer"
-              >
-                <span>Chat médico</span>
-              </button>
-            </div>
-          )}
-        </div>
+    <div className="w-full max-w-[1000px] mx-auto flex flex-col gap-6 font-[family-name:Helvetica] px-4 sm:px-6 py-4 animate-fadeIn">
+      {/* ================= ENCABEZADO OFICIAL (media_1794026161936_1c2a4eb3.jpg) ================= */}
+      <div className="flex flex-col gap-1">
+        <span className="text-[13px] text-[#64748b] font-medium tracking-wide">
+          Historial
+        </span>
+        <h1 className="text-[22px] sm:text-[26px] leading-[32px] font-bold text-black tracking-tight">
+          Aquí puedes consultar o editar tu historial médico
+        </h1>
       </div>
 
-      {/* Main Top Navigation Tabs */}
-      <div className="w-full flex items-center justify-between border-b border-[#e2e8f0]">
-        <div className="flex items-center gap-8">
-          <button
-            type="button"
-            onClick={() => setActiveTab('consultas')}
-            className={`pb-3 text-[15px] font-bold transition-all relative cursor-pointer ${
-              activeTab === 'consultas' ? 'text-black' : 'text-[#64748b] hover:text-black'
+      {/* ================= BARRA DE ACCIÓN: VER SOLO INFORMES + FILTRAR ================= */}
+      <div className="w-full flex items-center justify-between pt-2 pb-1 border-b border-[#f1f5f9]">
+        {/* Toggle "Ver solo informes" */}
+        <label className="flex items-center gap-3 cursor-pointer select-none group">
+          <div
+            onClick={() => setSoloInformes(!soloInformes)}
+            className={`w-[42px] h-[22px] rounded-full p-[2px] transition-colors duration-200 ease-in-out cursor-pointer ${
+              soloInformes ? 'bg-[#d50475]' : 'bg-[#cbd5e1]'
             }`}
           >
-            Historial consultas
-            {activeTab === 'consultas' && (
-              <span className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#d50475] rounded-full" />
-            )}
-          </button>
+            <div
+              className={`w-[18px] h-[18px] rounded-full bg-white shadow-xs transition-transform duration-200 ease-in-out ${
+                soloInformes ? 'translate-x-[20px]' : 'translate-x-0'
+              }`}
+            />
+          </div>
+          <span className="text-[14px] text-[#334155] font-medium group-hover:text-black transition-colors">
+            Ver solo informes
+          </span>
+        </label>
 
-          <button
-            type="button"
-            onClick={() => setActiveTab('historia-clinica')}
-            className={`pb-3 text-[15px] font-bold transition-all relative cursor-pointer ${
-              activeTab === 'historia-clinica' ? 'text-black' : 'text-[#64748b] hover:text-black'
-            }`}
-          >
-            Historia clínica
-            {activeTab === 'historia-clinica' && (
-              <span className="absolute bottom-0 left-0 right-0 h-[2.5px] bg-[#d50475] rounded-full" />
-            )}
-          </button>
-        </div>
+        {/* Botón Filtrar con embudo (exacto a la captura) */}
+        <button
+          type="button"
+          onClick={handleOpenFilters}
+          className="flex items-center gap-2 text-[14px] font-bold text-[#4a154b] hover:text-[#d50475] transition-colors cursor-pointer select-none"
+        >
+          <Filter className="w-[18px] h-[18px] fill-[#4a154b] stroke-[#4a154b]" />
+          <span>Filtrar</span>
+          {selectedStatuses.length > 0 && (
+            <span className="w-2 h-2 rounded-full bg-[#d50475]" />
+          )}
+        </button>
+      </div>
 
-        {activeTab === 'consultas' && (
-          <div className="hidden sm:inline-flex rounded-[8px] bg-[#f1f5f9] p-[3px] mb-2">
+      {/* ================= LISTA DE TARJETAS DE CONSULTAS ================= */}
+      <div className="flex flex-col gap-4">
+        {filteredConsultas.length === 0 ? (
+          <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2 bg-white border border-[#e2e8f0] rounded-[6px]">
+            <p className="text-[15px] font-bold text-black">No se encontraron consultas</p>
+            <p className="text-[13px] text-[#64748b]">
+              Prueba a restablecer los filtros para ver todas tus citas.
+            </p>
             <button
               type="button"
-              onClick={() => setSubTab('activos')}
-              className={`px-[14px] py-[4px] rounded-[6px] text-[12px] font-bold transition-all cursor-pointer ${
-                subTab === 'activos' ? 'bg-white text-black shadow-xs' : 'text-[#64748b] hover:text-black'
-              }`}
+              onClick={handleClearFilters}
+              className="mt-2 text-[13px] font-bold text-[#d50475] hover:underline cursor-pointer"
             >
-              Activos
-            </button>
-            <button
-              type="button"
-              onClick={() => setSubTab('historial')}
-              className={`px-[14px] py-[4px] rounded-[6px] text-[12px] font-bold transition-all cursor-pointer ${
-                subTab === 'historial' ? 'bg-white text-black shadow-xs' : 'text-[#64748b] hover:text-black'
-              }`}
-            >
-              Historial
+              Limpiar filtros
             </button>
           </div>
+        ) : (
+          filteredConsultas.map((c) => (
+            <div
+              key={c.id}
+              className="w-full bg-white border border-[#e2e8f0] rounded-[6px] p-5 sm:p-6 flex flex-col gap-4 shadow-none transition-shadow hover:shadow-xs"
+            >
+              {/* Fila Superior: Icono de tipo + Especialidad a la izquierda; Dot + Estado a la derecha */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-black">
+                  {c.type === 'chat' ? (
+                    <MessageSquare className="w-[18px] h-[18px] text-[#475569] stroke-[2]" />
+                  ) : (
+                    <Video className="w-[18px] h-[18px] text-[#475569] stroke-[2]" />
+                  )}
+                  <span className="text-[15px] font-bold text-black leading-none">
+                    {c.specialty}
+                  </span>
+                </div>
+
+                {/* Dot coloreado + Estado (exacto a la captura) */}
+                <div className="flex items-center gap-2 text-[13px] text-[#475569] font-medium">
+                  <span
+                    className={`w-2.5 h-2.5 rounded-full shrink-0 ${getStatusDotColor(c.status)}`}
+                  />
+                  <span>{c.status}</span>
+                </div>
+              </div>
+
+              {/* Línea divisoria muy sutil */}
+              <div className="w-full h-[1px] bg-[#f8fafc]" />
+
+              {/* Grid de 4 columnas de datos: Fecha, Hora, Motivo de la consulta, Profesional */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-[13px]">
+                {/* Columna Fecha */}
+                <div className="flex flex-col gap-1">
+                  <span className="text-[12px] text-[#64748b] font-normal">Fecha:</span>
+                  <div className="flex items-center gap-2 font-bold text-black text-[14px]">
+                    <Calendar className="w-4 h-4 text-[#94a3b8] shrink-0" />
+                    <span>{c.date}</span>
+                  </div>
+                </div>
+
+                {/* Columna Hora */}
+                <div className="flex flex-col gap-1">
+                  <span className="text-[12px] text-[#64748b] font-normal">Hora:</span>
+                  <div className="flex items-center gap-2 font-bold text-black text-[14px]">
+                    <Clock className="w-4 h-4 text-[#94a3b8] shrink-0" />
+                    <span>{c.time}</span>
+                  </div>
+                </div>
+
+                {/* Columna Motivo */}
+                <div className="flex flex-col gap-1">
+                  <span className="text-[12px] text-[#64748b] font-normal">
+                    Motivo de la consulta:
+                  </span>
+                  <span className="text-black text-[14px] font-normal break-words">
+                    {c.reason}
+                  </span>
+                </div>
+
+                {/* Columna Profesional */}
+                <div className="flex flex-col gap-1">
+                  <span className="text-[12px] text-[#64748b] font-normal">
+                    Profesional:
+                  </span>
+                  <span className="font-bold text-black text-[14px]">
+                    {c.doctor}
+                  </span>
+                </div>
+              </div>
+
+              {/* ================= BOTONES DE ACCIÓN OFICIALES ================= */}
+              {/* Dependiendo del estado exacto a media_1794026161936_1c2a4eb3.jpg:
+                  - En proceso: [ Cancelar consulta ] (píldora contorno negro) y [ Acceder a la consulta ] (píldora magenta sólido)
+                  - Pendiente de recomendación / Terminada: [ Ver conversación ] (píldora contorno morado #4a154b)
+                  - Cancelada: sin botones */}
+              {c.status === 'En proceso' && (
+                <div className="flex items-center justify-end gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setCancellingConsultaId(c.id)}
+                    className="h-[38px] px-6 rounded-full border border-black hover:bg-[#f8fafc] text-black text-[13px] font-bold cursor-pointer transition-colors"
+                  >
+                    Cancelar consulta
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (c.type === 'video') onOpenVideoModal?.();
+                      else onOpenChatModal?.();
+                    }}
+                    className="h-[38px] px-6 rounded-full bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold shadow-xs cursor-pointer transition-colors"
+                  >
+                    Acceder a la consulta
+                  </button>
+                </div>
+              )}
+
+              {(c.status === 'Pendiente de recomendación' ||
+                c.status === 'Terminada' ||
+                c.status === 'Pendiente de informe') && (
+                <div className="flex items-center justify-end pt-2">
+                  <button
+                    type="button"
+                    onClick={() => onOpenChatModal?.()}
+                    className="h-[38px] px-6 rounded-full border border-[#4a154b] text-[#4a154b] hover:bg-[#faf5ff] text-[13px] font-bold cursor-pointer transition-colors"
+                  >
+                    Ver conversación
+                  </button>
+                </div>
+              )}
+            </div>
+          ))
         )}
       </div>
 
-      {/* ================= PESTAÑA 1: HISTORIAL CONSULTAS ================= */}
-      {activeTab === 'consultas' && (
-        <div className="flex flex-col gap-5">
-          {/* Filter Row: Buscador a la izquierda + Recientes y Filtros a la derecha exacto a media_1793983781902_1c877755.png */}
-          <div className="w-full flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3">
-            <div className="relative flex-1">
-              <Search className="w-4 h-4 text-[#94a3b8] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Buscar por paciente, médico, etc."
-                className="w-full h-[40px] pl-10 pr-4 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black bg-white focus:outline-none focus:border-[#d50475] transition-colors"
-              />
+      {/* ================= BARRA INFERIOR: REFRESCO + PAGINACIÓN + CONTADOR ================= */}
+      <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 pb-8">
+        {/* Botón Refresco a la izquierda */}
+        <button
+          type="button"
+          onClick={handleRefresh}
+          className="w-9 h-9 rounded-[6px] border border-[#cbd5e1] hover:bg-[#f8fafc] flex items-center justify-center text-black cursor-pointer transition-colors"
+          title="Recargar consultas"
+        >
+          <RotateCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+        </button>
+
+        {/* Paginación << < 1 > >> al centro */}
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            disabled
+            className="w-8 h-8 rounded-[4px] border border-[#e2e8f0] bg-white text-[#94a3b8] flex items-center justify-center cursor-not-allowed text-[12px]"
+          >
+            <ChevronsLeft className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            disabled
+            className="w-8 h-8 rounded-[4px] border border-[#e2e8f0] bg-white text-[#94a3b8] flex items-center justify-center cursor-not-allowed text-[12px]"
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            className="w-8 h-8 rounded-[4px] border border-[#cbd5e1] bg-white font-bold text-black flex items-center justify-center text-[12px] shadow-xs"
+          >
+            1
+          </button>
+          <button
+            type="button"
+            disabled
+            className="w-8 h-8 rounded-[4px] border border-[#e2e8f0] bg-white text-[#94a3b8] flex items-center justify-center cursor-not-allowed text-[12px]"
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            disabled
+            className="w-8 h-8 rounded-[4px] border border-[#e2e8f0] bg-white text-[#94a3b8] flex items-center justify-center cursor-not-allowed text-[12px]"
+          >
+            <ChevronsRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        {/* Contador a la derecha */}
+        <span className="text-[13px] text-[#64748b] font-normal">
+          {filteredConsultas.length} {filteredConsultas.length === 1 ? 'consulta' : 'consultas'} en total
+        </span>
+      </div>
+
+      {/* ================= MODAL FILTROS (media_1794026169453_aa37a9fe.png) ================= */}
+      {isFilterModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsFilterModalOpen(false);
+          }}
+        >
+          <div className="relative w-full max-w-[560px] bg-white rounded-[10px] shadow-2xl p-6 sm:p-7 flex flex-col gap-5 max-h-[90vh] overflow-y-auto animate-scaleUp">
+            {/* Header con título y cruz rosa/neutral */}
+            <div className="flex items-center justify-between pb-3 border-b border-[#e2e8f0]">
+              <h2 className="text-[18px] font-bold text-black tracking-tight">Filtros</h2>
+              <button
+                type="button"
+                onClick={() => setIsFilterModalOpen(false)}
+                className="w-8 h-8 rounded-full flex items-center justify-center text-[#d50475] hover:bg-[#fdf2f8] transition-colors cursor-pointer"
+                aria-label="Cerrar filtros"
+              >
+                <X className="w-6 h-6 stroke-[2.5]" />
+              </button>
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
-              {/* Dropdown Recientes con menú flotante homologado */}
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setSortMenuOpen(!sortMenuOpen)}
-                  className="h-[40px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[13px] font-medium text-black bg-white hover:bg-[#f8fafc] flex items-center gap-2 cursor-pointer transition-colors"
-                >
-                  <span>{sortOrder === 'recientes' ? 'Recientes' : 'Más antiguos'}</span>
-                  <ChevronDown className="w-4 h-4 text-black" />
-                </button>
+            {/* Grupo 1: Estado de la consulta */}
+            <div className="flex flex-col gap-3">
+              <span className="text-[14px] font-bold text-black">
+                Estado de la consulta
+              </span>
 
-                {sortMenuOpen && (
-                  <div className="absolute right-0 top-[calc(100%+4px)] z-50 w-[150px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border-0 flex flex-col gap-1">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSortOrder('recientes');
-                        setSortMenuOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-1.5 rounded-[4px] text-[13px] transition-colors cursor-pointer ${
-                        sortOrder === 'recientes'
-                          ? 'bg-[#fdf2f8] text-[#d50475] font-bold'
-                          : 'hover:bg-[#f1f5f9] text-black'
-                      }`}
+              {/* 2 Columnas de checkboxes exactas a media_1794026169453_aa37a9fe.png */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2.5">
+                {/* Columna 1 */}
+                <div className="flex flex-col gap-2.5">
+                  {ALL_STATUS_OPTIONS.col1.map((st) => (
+                    <label
+                      key={st}
+                      className="flex items-center gap-2.5 text-[13px] text-black cursor-pointer hover:text-[#d50475] transition-colors select-none"
                     >
-                      Recientes
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSortOrder('antiguos');
-                        setSortMenuOpen(false);
-                      }}
-                      className={`w-full text-left px-3 py-1.5 rounded-[4px] text-[13px] transition-colors cursor-pointer ${
-                        sortOrder === 'antiguos'
-                          ? 'bg-[#fdf2f8] text-[#d50475] font-bold'
-                          : 'hover:bg-[#f1f5f9] text-black'
-                      }`}
-                    >
-                      Más antiguos
-                    </button>
-                  </div>
-                )}
-              </div>
+                      <input
+                        type="checkbox"
+                        checked={tempSelectedStatuses.includes(st)}
+                        onChange={() => handleToggleTempStatus(st)}
+                        className="w-4 h-4 rounded border-[#cbd5e1] text-[#d50475] accent-[#d50475] cursor-pointer"
+                      />
+                      <span>{st}</span>
+                    </label>
+                  ))}
+                </div>
 
-              {/* Botón Filtros */}
-              <div className="relative">
-                <button
-                  type="button"
-                  onClick={() => setFilterMenuOpen(!filterMenuOpen)}
-                  className="h-[40px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[13px] font-medium text-black bg-white hover:bg-[#f8fafc] flex items-center gap-2 cursor-pointer transition-colors"
-                >
-                  <span>Filtros</span>
-                  <ChevronDown className="w-4 h-4 text-black" />
-                </button>
-
-                {filterMenuOpen && (
-                  <div className="absolute right-0 top-[calc(100%+4px)] z-50 w-[180px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-2 border-0 flex flex-col gap-1">
-                    <button
-                      type="button"
-                      onClick={() => setFilterMenuOpen(false)}
-                      className="w-full text-left px-3 py-1.5 rounded-[4px] text-[13px] hover:bg-[#f1f5f9] text-black cursor-pointer"
+                {/* Columna 2 */}
+                <div className="flex flex-col gap-2.5">
+                  {ALL_STATUS_OPTIONS.col2.map((st) => (
+                    <label
+                      key={st}
+                      className="flex items-center gap-2.5 text-[13px] text-black cursor-pointer hover:text-[#d50475] transition-colors select-none"
                     >
-                      Todas las consultas
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setFilterMenuOpen(false)}
-                      className="w-full text-left px-3 py-1.5 rounded-[4px] text-[13px] hover:bg-[#f1f5f9] text-black cursor-pointer"
-                    >
-                      Solo Videollamadas
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setFilterMenuOpen(false)}
-                      className="w-full text-left px-3 py-1.5 rounded-[4px] text-[13px] hover:bg-[#f1f5f9] text-black cursor-pointer"
-                    >
-                      Solo Presenciales
-                    </button>
-                  </div>
-                )}
+                      <input
+                        type="checkbox"
+                        checked={tempSelectedStatuses.includes(st)}
+                        onChange={() => handleToggleTempStatus(st)}
+                        className="w-4 h-4 rounded border-[#cbd5e1] text-[#d50475] accent-[#d50475] cursor-pointer"
+                      />
+                      <span>{st}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Tabla de consultas: SIN BORDES REDONDEADOS (rounded-none), SIN FONDO GRIS, CON LÍNEAS DIVISORIAS VERTICALES */}
-          <div className="w-full bg-white border border-[#e2e8f0] rounded-none divide-y divide-[#e2e8f0] overflow-hidden shadow-none">
-            {filteredConsultas.length === 0 ? (
-              <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2 bg-white">
-                <FileText className="w-10 h-10 text-[#cbd5e1]" />
-                <p className="text-[15px] font-bold text-black">No se encontraron consultas</p>
-                <p className="text-[13px] text-[#64748b]">Intenta ajustar tus criterios de búsqueda o filtros.</p>
-              </div>
-            ) : (
-              filteredConsultas.map((item) => {
-                const isExpanded = expandedId === item.id;
-                return (
-                  <div key={item.id} className="flex flex-col bg-white">
-                    {/* Fila principal: dividida con líneas verticales border-r border-[#e2e8f0] exactas a la imagen */}
-                    <div
-                      onClick={() => toggleExpand(item.id)}
-                      className="grid grid-cols-12 items-stretch cursor-pointer hover:bg-[#fafafa] bg-white transition-colors"
-                    >
-                      {/* Columna 1: Hora y Fecha (border-r) */}
-                      <div className="col-span-2 sm:col-span-1 p-3.5 border-r border-[#e2e8f0] flex flex-col justify-center items-center text-center bg-white">
-                        <span className="text-[15px] font-bold text-black leading-tight">
-                          {item.time}
-                        </span>
-                        <span className="text-[11px] font-medium text-[#64748b] uppercase tracking-wider mt-0.5">
-                          {item.dateStr}
-                        </span>
-                      </div>
+            {/* Grupo 2: Seleccionar rango de fecha */}
+            <div className="flex flex-col gap-2 pt-1">
+              <span className="text-[14px] font-bold text-black">
+                Seleccionar rango de fecha
+              </span>
 
-                      {/* Columna 2: Tipo de consulta e idioma (SIN ICONOS como en la imagen, con border-r) */}
-                      <div className="col-span-4 sm:col-span-3 p-3.5 border-r border-[#e2e8f0] flex flex-col justify-center bg-white">
-                        <span className="text-[14px] font-bold text-black">
-                          {item.type}
-                        </span>
-                        <span className="text-[12px] text-[#64748b] mt-0.5">
-                          {item.language}
-                        </span>
-                      </div>
-
-                      {/* Columna 3: Paciente, edad, teléfono, correo (con border-r) */}
-                      <div className="col-span-3 sm:col-span-3 p-3.5 border-r border-[#e2e8f0] flex flex-col justify-center bg-white">
-                        <span className="text-[14px] font-bold text-black">
-                          {item.patientName}
-                        </span>
-                        <span className="text-[12px] text-[#64748b] mt-0.5 truncate">
-                          {item.patientMeta}
-                        </span>
-                      </div>
-
-                      {/* Columna 4: Profesional asignado y especialidad (con border-r) */}
-                      <div className="col-span-3 sm:col-span-3 p-3.5 border-r border-[#e2e8f0] flex flex-col justify-center bg-white">
-                        <span className="text-[14px] font-bold text-black">
-                          {item.doctorName}
-                        </span>
-                        <span className="text-[12px] text-[#64748b] mt-0.5 truncate">
-                          {item.doctorSpecialty}
-                        </span>
-                      </div>
-
-                      {/* Columna 5: Estado Badge + Chevron toggle */}
-                      <div className="col-span-12 sm:col-span-2 p-3.5 flex items-center justify-end gap-3 bg-white">
-                        <Badge variant={item.statusVariant}>
-                          {item.statusText}
-                        </Badge>
-
-                        <button
-                          type="button"
-                          className="w-7 h-7 rounded-full flex items-center justify-center text-[#64748b] hover:bg-[#f1f5f9] transition-colors"
-                          aria-label={isExpanded ? 'Contraer' : 'Expandir'}
-                        >
-                          {isExpanded ? (
-                            <ChevronUp className="w-5 h-5 text-black" />
-                          ) : (
-                            <ChevronDown className="w-5 h-5 text-black" />
-                          )}
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Fila expandible con detalles e información clínica: SIN FONDO GRIS, BOTONES EXACTOS */}
-                    {isExpanded && (
-                      <div className="p-4 sm:p-5 bg-white border-t border-[#e2e8f0] flex flex-col gap-4">
-                        <p className="text-[14px] leading-[22px] text-black font-normal">
-                          {item.reason}
-                        </p>
-
-                        {/* Botonera de acciones matching media_1793983781902_1c877755.png */}
-                        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-                          {/* Botones izquierda: Acceder (magenta relleno), Historial, Notas internas, Tip de contrato (píldoras con borde rosa) */}
-                          <div className="flex flex-wrap items-center gap-2">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                onOpenVideoModal?.();
-                              }}
-                              className="px-5 py-1.5 rounded-full bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold transition-colors cursor-pointer"
-                            >
-                              Acceder
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                alert('Ver historial de consultas');
-                              }}
-                              className="px-4 py-1.5 rounded-full border border-[#ff34b2] text-[#ff34b2] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer"
-                            >
-                              Historial
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                alert('Notas internas');
-                              }}
-                              className="px-4 py-1.5 rounded-full border border-[#ff34b2] text-[#ff34b2] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer"
-                            >
-                              Notas internas
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                alert('Tip de contrato');
-                              }}
-                              className="px-4 py-1.5 rounded-full border border-[#ff34b2] text-[#ff34b2] hover:bg-[#fdf2f8] bg-white text-[13px] font-medium transition-colors cursor-pointer"
-                            >
-                              Tip de contrato
-                            </button>
-                          </div>
-
-                          {/* Botones derecha: Crear nuevo, Reasignar y Cancelar con borde y texto rosa */}
-                          <div className="flex items-center gap-2">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setIsCreateOpen(true);
-                              }}
-                              className="px-3.5 py-1.5 rounded-[6px] border border-[#cbd5e1] hover:border-black bg-white text-black text-[13px] font-medium transition-colors cursor-pointer"
-                            >
-                              Crear nuevo
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                alert('Reasignar consulta');
-                              }}
-                              className="px-3.5 py-1.5 rounded-[6px] border border-[#cbd5e1] hover:border-black bg-white text-black text-[13px] font-medium transition-colors cursor-pointer"
-                            >
-                              Reasignar
-                            </button>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                alert('Consulta cancelada');
-                              }}
-                              className="px-3.5 py-1.5 rounded-[6px] border border-[#d50475] hover:bg-[#fdf2f8] bg-white text-[#d50475] text-[13px] font-medium transition-colors cursor-pointer"
-                            >
-                              Cancelar
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+                <div className="flex items-center gap-2">
+                  <span className="text-[13px] text-[#475569] font-medium w-6">De</span>
+                  <div className="relative flex-1">
+                    <input
+                      type="date"
+                      value={tempDateFrom}
+                      onChange={(e) => setTempDateFrom(e.target.value)}
+                      className="w-full h-[40px] px-3 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black bg-white focus:outline-none focus:border-[#d50475]"
+                    />
                   </div>
-                );
-              })
-            )}
-          </div>
+                </div>
 
-          {/* Footer de Paginación exacto a media_1793983781902_1c877755.png: Mostrando de 1 a 10 de 200 entradas */}
-          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-            <span className="text-[13px] text-[#64748b]">
-              Mostrando de 1 a {filteredConsultas.length} de 200 entradas
-            </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-[13px] text-[#475569] font-medium w-6">A</span>
+                  <div className="relative flex-1">
+                    <input
+                      type="date"
+                      value={tempDateTo}
+                      onChange={(e) => setTempDateTo(e.target.value)}
+                      className="w-full h-[40px] px-3 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black bg-white focus:outline-none focus:border-[#d50475]"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            {/* Paginador numérico cuadrado con bordes */}
-            <div className="inline-flex items-center border border-[#cbd5e1] rounded-[4px] overflow-hidden bg-white">
+            {/* Grupo 3: Botones apilados verticalmente (exacto a media_1794026169453_aa37a9fe.png) */}
+            <div className="flex flex-col gap-2.5 pt-3">
+              {/* Botón Cerrar: píldora borde negro */}
               <button
                 type="button"
-                className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
+                onClick={() => setIsFilterModalOpen(false)}
+                className="w-full h-[44px] rounded-full border border-black hover:bg-[#f8fafc] text-black text-[14px] font-bold transition-colors cursor-pointer"
               >
-                <ChevronsLeft className="w-4 h-4" />
+                Cerrar
               </button>
+
+              {/* Botón Aplicar: píldora magenta sólido */}
               <button
                 type="button"
-                className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
+                onClick={handleApplyFilters}
+                className="w-full h-[44px] rounded-full bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] font-bold shadow-xs transition-colors cursor-pointer"
               >
-                <ChevronLeft className="w-4 h-4" />
+                Aplicar
               </button>
+
+              {/* Botón Limpiar filtros: texto centrado con icono de basurero */}
               <button
                 type="button"
-                className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#d50475] font-bold text-[13px] hover:bg-[#fdf2f8] cursor-pointer"
+                onClick={handleClearFilters}
+                className="w-full py-2 text-center text-[13px] text-black hover:text-[#d50475] flex items-center justify-center gap-1.5 cursor-pointer transition-colors select-none font-medium"
               >
-                1
-              </button>
-              <button
-                type="button"
-                className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-black text-[13px] hover:bg-[#f8fafc] cursor-pointer"
-              >
-                2
-              </button>
-              <button
-                type="button"
-                className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-black text-[13px] hover:bg-[#f8fafc] cursor-pointer"
-              >
-                4
-              </button>
-              <button
-                type="button"
-                className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-black text-[13px] hover:bg-[#f8fafc] cursor-pointer"
-              >
-                5
-              </button>
-              <button
-                type="button"
-                className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                className="w-8 h-8 flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
-              >
-                <ChevronsRight className="w-4 h-4" />
+                <Trash2 className="w-4 h-4 text-black" />
+                <span>Limpiar filtros</span>
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* ================= PESTAÑA 2: HISTORIA CLÍNICA ================= */}
-      {activeTab === 'historia-clinica' && (
-        <HistoriaClinica />
-      )}
+      {/* ================= MODAL DE CONFIRMACIÓN PARA CANCELAR CONSULTA ================= */}
+      {cancellingConsultaId && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setCancellingConsultaId(null);
+          }}
+        >
+          <div className="w-full max-w-[420px] bg-white rounded-[12px] p-6 shadow-2xl flex flex-col gap-4 animate-scaleUp">
+            <div className="w-10 h-10 rounded-full bg-[#fef2f2] text-[#ef4444] flex items-center justify-center">
+              <AlertTriangle className="w-5 h-5" />
+            </div>
 
+            <div className="flex flex-col gap-1">
+              <h3 className="text-[17px] font-bold text-black">
+                ¿Estás seguro de que quieres cancelar esta consulta?
+              </h3>
+              <p className="text-[13px] text-[#64748b]">
+                Esta acción cancelará tu cita programada. El estado pasará a Cancelada.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setCancellingConsultaId(null)}
+                className="h-[38px] px-5 rounded-full border border-[#cbd5e1] hover:bg-[#f8fafc] text-black text-[13px] font-bold cursor-pointer transition-colors"
+              >
+                Volver
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmCancel}
+                className="h-[38px] px-5 rounded-full bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold cursor-pointer transition-colors shadow-xs"
+              >
+                Sí, cancelar consulta
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
