@@ -201,11 +201,11 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
         <nav className="flex flex-col gap-[6px] mt-2">
           {[
             { id: 'tokens', label: '1. Tokens & Color', icon: Palette },
-            { id: 'atomos', label: '2. Átomos (Badges/Btns)', icon: Layers },
-            { id: 'inputs', label: '3. Inputs & Dropdowns', icon: Edit2 },
-            { id: 'moleculas', label: '4. Moléculas & Menús', icon: Component },
-            { id: 'organismos', label: '5. Organismos Reales', icon: Layout },
-            { id: 'modales', label: '6. Modales & Diálogos', icon: X },
+            { id: 'atomos', label: '2. Átomos', icon: Layers },
+            { id: 'inputs', label: '3. Inputs & Forms', icon: Edit2 },
+            { id: 'moleculas', label: '4. Moléculas', icon: Component },
+            { id: 'organismos', label: '5. Organismos', icon: Layout },
+            { id: 'modales', label: '6. Modales', icon: X },
             { id: 'iconos', label: '7. Íconos Lucide', icon: Sparkles },
           ].map((sec) => {
             const IconComp = sec.icon;
@@ -214,14 +214,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 key={sec.id}
                 type="button"
                 onClick={() => setActiveSection(sec.id as any)}
-                className={`w-full h-[40px] px-[12px] rounded-[6px] flex items-center gap-[10px] text-[14px] leading-[20px] transition-colors cursor-pointer ${
+                className={`w-full h-[40px] px-[12px] rounded-[6px] flex items-center gap-[10px] text-[14px] leading-[20px] text-left transition-colors cursor-pointer select-none outline-none focus:outline-none focus-visible:outline-none ${
                   activeSection === sec.id
                     ? 'bg-[#f1f5f9] text-black font-bold'
                     : 'text-black hover:bg-[#f8fafc] font-normal'
                 }`}
               >
-                <IconComp className="w-[18px] h-[18px] text-[#64748b]" />
-                <span>{sec.label}</span>
+                <IconComp className="w-[18px] h-[18px] text-[#64748b] shrink-0" />
+                <span className="truncate whitespace-nowrap">{sec.label}</span>
               </button>
             );
           })}
