@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check } from 'lucide-react';
+import { Dropdown } from '../design-system/atoms/Dropdown';
 
 interface ModalVideoConsultaProps {
   isOpen: boolean;
@@ -11,6 +12,8 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
   const [selectedDay, setSelectedDay] = useState<number>(17);
   const [selectedTime, setSelectedTime] = useState<string>('09:30');
   const [motivo, setMotivo] = useState<string>('');
+  const [tipoConsulta, setTipoConsulta] = useState<string>('Primera vez');
+  const [zonaHoraria, setZonaHoraria] = useState<string>('GMT-6 (Ciudad de México)');
 
   if (!isOpen) return null;
 
@@ -120,59 +123,62 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
             
             {/* Step 1: Motivo de la consulta */}
             <div className="flex flex-col gap-[8px]">
-              <span className="text-[15px] font-bold text-black">Motivo de la consulta</span>
-              <span className="text-[13px] text-[#64748b]">Describe el motivo de la consulta</span>
+              <label className="text-[14px] font-normal text-black leading-tight">
+                Motivo de la consulta<span className="text-[#d50475]">*</span>
+              </label>
               <textarea
                 rows={3}
                 value={motivo}
                 onChange={(e) => setMotivo(e.target.value)}
                 placeholder="Describe tus síntomas o motivo (ej. Consulta general para revisión)..."
-                className={`w-full p-[12px] rounded-[6px] border text-[14px] text-black focus:outline-none transition-colors ${
-                  motivo.trim().length > 0
-                    ? 'border-[#cbd5e1] focus:border-[#831843]'
-                    : 'border-[#cbd5e1] focus:border-[#d50475]'
-                }`}
+                className="w-full p-3.5 rounded-[8px] border border-[#cbd5e1] text-[16px] text-black font-normal bg-white focus:outline-none focus:border-black hover:border-[#475569] transition-colors"
               />
             </div>
 
             {/* Step 2: Especialidad requerida */}
-            <div className="flex flex-col gap-[12px]">
+            <div className="flex flex-col gap-[14px]">
               <div className="flex flex-col">
-                <span className="text-[15px] font-bold text-black">Especialidad requerida</span>
-                <span className="text-[13px] text-[#64748b]">Selecciona una especialidad</span>
+                <label className="text-[14px] font-normal text-black leading-tight">
+                  Especialidad requerida<span className="text-[#d50475]">*</span>
+                </label>
+                <span className="text-[12px] text-[#64748b] mt-0.5">Selecciona una especialidad médica</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-[10px]">
                 {specialties.map((spec) => (
-                  <label
+                  <button
                     key={spec}
+                    type="button"
                     onClick={() => setSelectedSpecialty(spec)}
-                    className={`p-[10px] rounded-[6px] border flex items-center gap-[10px] cursor-pointer transition-colors ${
+                    className={`h-[42px] px-3.5 rounded-[8px] border flex items-center justify-between cursor-pointer transition-colors text-left ${
                       selectedSpecialty === spec
-                        ? 'border-[#831843] bg-[#fdf2f8]/50'
-                        : 'border-[#cbd5e1] hover:bg-[#f8fafc]'
+                        ? 'border-black bg-[#f1f5f9] text-black font-semibold'
+                        : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black font-normal'
                     }`}
                   >
-                    <input
-                      type="checkbox"
-                      checked={selectedSpecialty === spec}
-                      onChange={() => setSelectedSpecialty(spec)}
-                      className="w-[16px] h-[16px] accent-[#831843] rounded-[3px]"
-                    />
-                    <span className="text-[14px] font-normal text-black">{spec}</span>
-                  </label>
+                    <span className="text-[15px]">{spec}</span>
+                    {selectedSpecialty === spec && (
+                      <Check className="w-4 h-4 text-black shrink-0" />
+                    )}
+                  </button>
                 ))}
               </div>
 
-              <select className="w-full h-[40px] px-[12px] rounded-[6px] border border-[#cbd5e1] text-[14px] text-[#475569] bg-white">
-                <option>Tipo de consulta: Primera vez</option>
-                <option>Seguimiento</option>
-              </select>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                <Dropdown
+                  label="Tipo de consulta"
+                  value={tipoConsulta}
+                  onChange={setTipoConsulta}
+                  options={['Primera vez', 'Seguimiento']}
+                />
 
-              <select className="w-full h-[40px] px-[12px] rounded-[6px] border border-[#cbd5e1] text-[14px] text-[#475569] bg-white">
-                <option>Zona horaria: GMT-6 (Ciudad de México)</option>
-                <option>GMT+1 (Madrid)</option>
-              </select>
+                <Dropdown
+                  label="Zona horaria"
+                  value={zonaHoraria}
+                  onChange={setZonaHoraria}
+                  options={['GMT-6 (Ciudad de México)', 'GMT+1 (Madrid)', 'GMT+0 (Londres)']}
+                />
+              </div>
             </div>
 
             {/* Step 3: Horario disponible (Calendar + slots) */}

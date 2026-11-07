@@ -339,7 +339,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
                   >
                     {item.actionText}
                   </button>
-                  <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-black text-white text-[11px] font-medium px-2 py-0.5 rounded shadow-xs whitespace-nowrap z-30">
+                  <span className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-150 bg-[#0f172a] text-white text-[13px] font-medium px-3 py-1.5 rounded-[6px] shadow-lg whitespace-nowrap z-30 select-none">
                     Activo 15 minutos antes
                   </span>
                 </div>

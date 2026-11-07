@@ -178,22 +178,22 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                 <Info className="w-5 h-5 text-black" />
               </button>
 
-              {/* Dropdown con la información de soporte - Homologado al estilo de "Solicita una cita" */}
+              {/* Dropdown con la información de soporte - 100% neutro y 16px regular */}
               {isSupportOpen && (
-                <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[240px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col gap-[2px]">
+                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[260px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-1 animate-fadeIn">
                   <a
                     href="mailto:biometria@everhealth.es"
-                    className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold text-left transition-colors cursor-pointer group"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal text-left transition-colors cursor-pointer"
                   >
-                    <Mail className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
+                    <Mail className="w-5 h-5 text-[#64748b] shrink-0" />
                     <span className="truncate">biometria@everhealth.es</span>
                   </a>
 
                   <a
                     href="tel:918220518"
-                    className="w-full h-[36px] px-[12px] rounded-[6px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] flex items-center gap-[10px] text-[13px] leading-[20px] font-bold text-left transition-colors cursor-pointer group"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal text-left transition-colors cursor-pointer"
                   >
-                    <Phone className="w-[18px] h-[18px] text-[#d50475] shrink-0" />
+                    <Phone className="w-5 h-5 text-[#64748b] shrink-0" />
                     <span>918 220 518</span>
                   </a>
                 </div>
@@ -254,11 +254,11 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                       value={nombre}
                       onChange={(e) => setNombre(e.target.value)}
                       placeholder="Tu nombre"
-                      className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                      className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] text-[16px] font-normal text-black bg-white focus:outline-none focus:border-black"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">
+                    <label className="text-[14px] font-normal text-black">
                       Apellidos<span className="text-[#d50475]">*</span>
                     </label>
                     <input
@@ -266,14 +266,14 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                       value={apellidos}
                       onChange={(e) => setApellidos(e.target.value)}
                       placeholder="Tus apellidos"
-                      className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                      className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] text-[16px] font-normal text-black bg-white focus:outline-none focus:border-black"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">
+                    <label className="text-[14px] font-normal text-black">
                       Email<span className="text-[#d50475]">*</span>
                     </label>
                     <input
@@ -281,11 +281,11 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="tuemail@ejemplo.com"
-                      className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                      className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] text-[16px] font-normal text-black bg-white focus:outline-none focus:border-black"
                     />
                   </div>
                   <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">
+                    <label className="text-[14px] font-normal text-black">
                       Edad<span className="text-[#d50475]">*</span>
                     </label>
                     <input
@@ -293,7 +293,7 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                       value={edad}
                       onChange={(e) => setEdad(e.target.value)}
                       placeholder="Tu edad"
-                      className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                      className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] text-[16px] font-normal text-black bg-white focus:outline-none focus:border-black"
                     />
                   </div>
                 </div>

@@ -79,16 +79,16 @@ const INITIAL_MASCOTAS: Mascota[] = [
 ];
 
 const ESPECIES_OPTIONS = [
-  'Perro',
-  'Gato',
-  'Roedores/Conejos',
-  'Aves',
-  'Peces, anfibios y reptiles',
-  'Equino',
-  'Ovino',
-  'Porcino',
-  'Vacuno',
-  'Otros',
+  { val: 'Perro', label: 'Perro', emoji: '🐶' },
+  { val: 'Gato', label: 'Gato', emoji: '🐱' },
+  { val: 'Roedores/Conejos', label: 'Roedores/Conejos', emoji: '🐰' },
+  { val: 'Aves', label: 'Aves', emoji: '🦜' },
+  { val: 'Peces, anfibios y reptiles', label: 'Peces, anfibios y reptiles', emoji: '🐠' },
+  { val: 'Equino', label: 'Equino', emoji: '🐴' },
+  { val: 'Ovino', label: 'Ovino', emoji: '🐑' },
+  { val: 'Porcino', label: 'Porcino', emoji: '🐷' },
+  { val: 'Vacuno', label: 'Vacuno', emoji: '🐮' },
+  { val: 'Otros', label: 'Otros', emoji: '🐾' },
 ];
 
 const MESES_OPTIONS = [
@@ -428,18 +428,18 @@ export const Mascotas: React.FC = () => {
                         <MoreVertical className="w-4 h-4" />
                       </button>
 
-                      {/* Dropdown de Acciones con iconos neutros */}
+                      {/* Dropdown de Acciones homologado (16 regular, iconos neutrales, hover neutral) */}
                       {activeMenuId === item.id && (
-                        <div className="absolute right-0 top-[calc(100%+2px)] z-30 w-[190px] bg-white rounded-[10px] shadow-[0_8px_24px_rgba(0,0,0,0.12)] p-[6px] border-0 flex flex-col text-left">
+                        <div className="absolute right-0 top-[calc(100%+4px)] z-30 w-[220px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-1 text-left animate-fadeIn">
                           <button
                             type="button"
                             onClick={() => {
                               alert(`Editar datos de ${item.nombre}`);
                               setActiveMenuId(null);
                             }}
-                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
+                            className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-[16px] font-normal text-black flex items-center gap-3 text-left transition-colors cursor-pointer"
                           >
-                            <Edit2 className="w-4 h-4 text-[#64748b] shrink-0" />
+                            <Edit2 className="w-5 h-5 text-[#64748b] shrink-0" />
                             <span>Editar datos</span>
                           </button>
                           <button
@@ -448,9 +448,9 @@ export const Mascotas: React.FC = () => {
                               setMascotaToDelete(item);
                               setActiveMenuId(null);
                             }}
-                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] flex items-center gap-[10px] text-left transition-colors cursor-pointer"
+                            className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-[16px] font-normal text-black flex items-center gap-3 text-left transition-colors cursor-pointer"
                           >
-                            <Trash2 className="w-4 h-4 text-[#64748b] shrink-0" />
+                            <Trash2 className="w-5 h-5 text-[#64748b] shrink-0" />
                             <span>Dar de baja mascota</span>
                           </button>
                         </div>
@@ -532,11 +532,11 @@ export const Mascotas: React.FC = () => {
                     value={formNombre}
                     onChange={(e) => setFormNombre(e.target.value)}
                     placeholder="Nombre*"
-                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475] transition-colors"
+                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[16px] text-black font-normal focus:outline-none focus:border-black transition-colors"
                   />
                 </div>
 
-                {/* Dropdown Especie* */}
+                {/* Dropdown Especie* con emojis y 16px regular */}
                 <div className="flex flex-col gap-1 relative">
                   <button
                     type="button"
@@ -549,32 +549,33 @@ export const Mascotas: React.FC = () => {
                       setColorPrimarioMenuOpen(false);
                       setColorSecundarioMenuOpen(false);
                     }}
-                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white hover:border-black text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
+                    className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white hover:border-black text-[16px] font-normal text-black flex items-center justify-between cursor-pointer transition-colors"
                   >
                     <span className={formEspecie ? 'text-black' : 'text-[#64748b]'}>
                       {formEspecie || 'Especie*'}
                     </span>
-                    <ChevronDown className="w-4 h-4 text-black shrink-0" />
+                    <ChevronDown className="w-4 h-4 text-[#64748b] shrink-0" />
                   </button>
 
-                  {/* Dropdown menu */}
+                  {/* Dropdown menu (100% neutro, sin rosas) */}
                   {especieMenuOpen && (
-                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border border-[#e2e8f0] max-h-[220px] overflow-y-auto flex flex-col gap-[1px]">
+                    <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] max-h-[220px] overflow-y-auto flex flex-col gap-[2px]">
                       {ESPECIES_OPTIONS.map((esp) => (
                         <button
-                          key={esp}
+                          key={esp.val}
                           type="button"
                           onClick={() => {
-                            setFormEspecie(esp);
+                            setFormEspecie(`${esp.emoji} ${esp.label}`);
                             setEspecieMenuOpen(false);
                           }}
-                          className={`w-full h-[36px] px-4 rounded-[6px] text-[14px] text-left transition-colors cursor-pointer ${
-                            formEspecie === esp
-                              ? 'bg-[#fdf2f8] text-[#d50475] font-bold'
-                              : 'hover:bg-[#f1f5f9] text-[#475569] hover:text-black'
+                          className={`w-full px-3.5 py-2 rounded-[6px] text-[16px] font-normal text-left flex items-center gap-2.5 transition-colors cursor-pointer ${
+                            formEspecie?.includes(esp.label)
+                              ? 'bg-[#f1f5f9] text-black font-semibold'
+                              : 'hover:bg-[#f1f5f9] text-black'
                           }`}
                         >
-                          {esp}
+                          <span className="text-[18px] shrink-0 leading-none">{esp.emoji}</span>
+                          <span className="truncate">{esp.label}</span>
                         </button>
                       ))}
                     </div>

@@ -363,9 +363,9 @@ export const Familiares: React.FC = () => {
                               alert(`Editar datos de ${item.nombre}`);
                               setActiveMenuId(null);
                             }}
-                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f8fafc] text-[13px] font-normal text-black flex items-center gap-[10px] text-left transition-colors cursor-pointer"
+                            className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-[16px] font-normal text-black flex items-center gap-3 text-left transition-colors cursor-pointer"
                           >
-                            <Edit2 className="w-4 h-4 text-[#64748b] shrink-0" />
+                            <Edit2 className="w-5 h-5 text-[#64748b] shrink-0" />
                             <span>Editar datos</span>
                           </button>
                           <button
@@ -374,9 +374,9 @@ export const Familiares: React.FC = () => {
                               setFamiliarToDelete(item);
                               setActiveMenuId(null);
                             }}
-                            className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#fef2f2] text-[13px] font-normal text-[#ef4444] flex items-center gap-[10px] text-left transition-colors cursor-pointer"
+                            className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-[16px] font-normal text-black flex items-center gap-3 text-left transition-colors cursor-pointer"
                           >
-                            <Trash2 className="w-4 h-4 text-[#64748b] shrink-0" />
+                            <Trash2 className="w-5 h-5 text-[#64748b] shrink-0" />
                             <span>Dar de baja familiar</span>
                           </button>
                         </div>

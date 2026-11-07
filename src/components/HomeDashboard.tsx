@@ -28,6 +28,7 @@ import {
   Trash2,
   X,
   Menu,
+  Calendar,
   Home as HomeIcon,
   Video,
   MessageSquare,
@@ -68,6 +69,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   const [isDocsModalOpen, setIsDocsModalOpen] = useState(false);
 
   // Top Header Notifications State & Dropdown
+  const [isQuickActionsOpen, setIsQuickActionsOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [notifSoundEnabled, setNotifSoundEnabled] = useState(true);
   const [notifications, setNotifications] = useState([
@@ -171,8 +173,92 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
           {/* Desktop Spacer (para empujar elementos a la derecha en pantallas grandes) */}
           <div className="hidden lg:block" />
 
-          {/* Right: Notificaciones, Información, Usuario (en Mobile) y extras (en Desktop) */}
+          {/* Right: Acciones rápidas (+), Notificaciones, Información, Usuario */}
           <div className="flex items-center gap-3 relative">
+            
+            {/* Botón de Acciones Rápidas (Icono PlusCircle en rosa #d50475 con dropdown oficial) */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsQuickActionsOpen(!isQuickActionsOpen);
+                  setIsNotifOpen(false);
+                  setIsHeaderInfoOpen(false);
+                  setUserMenuOpen(false);
+                }}
+                className="p-1.5 cursor-pointer text-[#d50475] hover:opacity-80 transition-opacity"
+                title="Acciones rápidas"
+              >
+                <PlusCircle className="w-[22px] h-[22px] text-[#d50475]" />
+              </button>
+
+              {isQuickActionsOpen && (
+                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[240px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-1 animate-fadeIn font-[family-name:Helvetica]">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickActionsOpen(false);
+                      setChatModalTab('agendar');
+                      setIsChatModalOpen(true);
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
+                  >
+                    <Calendar className="w-5 h-5 text-[#64748b] shrink-0" />
+                    <span>Solicitar una cita</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickActionsOpen(false);
+                      setIsVideoModalOpen(true);
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
+                  >
+                    <Video className="w-5 h-5 text-[#64748b] shrink-0" />
+                    <span>Solicitar una videoconsulta</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickActionsOpen(false);
+                      setCurrentView('biometria');
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
+                  >
+                    <ScanFace className="w-5 h-5 text-[#64748b] shrink-0" />
+                    <span>Biometría facial</span>
+                  </button>
+
+                  <div className="w-full h-[1px] bg-[#f1f5f9] my-0.5" />
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickActionsOpen(false);
+                      setCurrentView('familiares');
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
+                  >
+                    <Users className="w-5 h-5 text-[#64748b] shrink-0" />
+                    <span>Añadir familia</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickActionsOpen(false);
+                      setCurrentView('mascotas');
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
+                  >
+                    <PawPrint className="w-5 h-5 text-[#64748b] shrink-0" />
+                    <span>Añadir mascota</span>
+                  </button>
+                </div>
+              )}
+            </div>
             
             {/* Botón de Notificaciones con puntito verde arriba a la derecha */}
             <div className="relative">
@@ -180,6 +266,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                 type="button"
                 onClick={() => {
                   setIsNotifOpen(!isNotifOpen);
+                  setIsQuickActionsOpen(false);
                   setIsHeaderInfoOpen(false);
                   setUserMenuOpen(false);
                 }}
@@ -288,6 +375,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                 type="button"
                 onClick={() => {
                   setIsHeaderInfoOpen(!isHeaderInfoOpen);
+                  setIsQuickActionsOpen(false);
                   setIsNotifOpen(false);
                   setUserMenuOpen(false);
                 }}
@@ -297,77 +385,49 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                 <Info className="w-[20px] h-[20px]" />
               </button>
 
-              {/* Dropdown de Soporte e Info General */}
+              {/* Dropdown de Soporte e Info General (100% homologado: iconos neutrales, texto 16 regular, sin separador en Ever Health, sin etiquetas a la derecha) */}
               {isHeaderInfoOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[300px] sm:w-[320px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(0,0,0,0.14)] p-3.5 border border-[#e2e8f0] flex flex-col gap-2.5 animate-fadeIn">
-                  <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
-                    <span className="text-[13px] font-bold text-black uppercase tracking-wider">
+                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[300px] sm:w-[320px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(0,0,0,0.14)] p-2.5 border border-[#e2e8f0] flex flex-col gap-1 animate-fadeIn">
+                  <div className="px-3.5 py-2">
+                    <span className="text-[16px] font-bold text-black">
                       Ever Health
                     </span>
-                    <span className="text-[12px] font-medium text-[#64748b]">Soporte y contacto</span>
                   </div>
 
-                  {/* Email */}
+                  {/* Email 16 regular */}
                   <a
                     href="mailto:soporte@everhealth.es"
-                    className="flex items-center gap-3 p-2 rounded-[8px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] transition-colors text-left group cursor-pointer"
+                    className="flex items-center gap-3 px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black transition-colors text-left cursor-pointer"
                   >
-                    <div className="w-8 h-8 rounded-full bg-[#f1f5f9] group-hover:bg-[#fce7f3] flex items-center justify-center shrink-0">
-                      <Mail className="w-[18px] h-[18px] text-black group-hover:text-[#d50475]" />
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-[12px] font-medium text-[#64748b] leading-tight">Email de atención</span>
-                      <span className="text-[14px] font-bold truncate mt-0.5">
-                        soporte@everhealth.es
-                      </span>
-                    </div>
+                    <Mail className="w-5 h-5 text-[#64748b] shrink-0" />
+                    <span className="text-[16px] font-normal text-black truncate">
+                      soporte@everhealth.es
+                    </span>
                   </a>
 
-                  {/* Teléfono */}
+                  {/* Teléfono 16 regular */}
                   <a
                     href="tel:911231214"
-                    className="flex items-center gap-3 p-2 rounded-[8px] hover:bg-[#fdf2f8] text-black hover:text-[#d50475] transition-colors text-left group cursor-pointer"
+                    className="flex items-center gap-3 px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black transition-colors text-left cursor-pointer"
                   >
-                    <div className="w-8 h-8 rounded-full bg-[#f1f5f9] group-hover:bg-[#fce7f3] flex items-center justify-center shrink-0">
-                      <Phone className="w-[18px] h-[18px] text-black group-hover:text-[#d50475]" />
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-[12px] font-medium text-[#64748b] leading-tight">Teléfono directo</span>
-                      <span className="text-[14px] font-bold mt-0.5">
-                        911 23 12 14
-                      </span>
-                    </div>
+                    <Phone className="w-5 h-5 text-[#64748b] shrink-0" />
+                    <span className="text-[16px] font-normal text-black">
+                      911 23 12 14
+                    </span>
                   </a>
 
-                  {/* Dirección */}
-                  <div className="flex items-center gap-3 p-2 rounded-[8px] text-black text-left">
-                    <div className="w-8 h-8 rounded-full bg-[#f1f5f9] flex items-center justify-center shrink-0">
-                      <MapPin className="w-[18px] h-[18px] text-black" />
-                    </div>
-                    <div className="flex flex-col min-w-0">
-                      <span className="text-[12px] font-medium text-[#64748b] leading-tight">Dirección fiscal</span>
-                      <span className="text-[13px] font-medium text-black mt-0.5">
-                        C/ Naciones 10, 28006 Madrid
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Términos y condiciones */}
-                  <div className="pt-1.5 border-t border-[#f1f5f9] flex items-center justify-between px-1">
-                    <button
-                      type="button"
-                      onClick={() => alert('Consulta los Términos y condiciones en everhealth.es')}
-                      className="text-[11px] font-bold text-[#64748b] hover:text-[#d50475] transition-colors cursor-pointer"
-                    >
-                      Términos y condiciones
-                    </button>
-                    <span className="text-[10px] text-[#94a3b8]">v2.4</span>
+                  {/* Dirección 16 regular */}
+                  <div className="flex items-center gap-3 px-3.5 py-2.5 rounded-[6px] text-black text-left">
+                    <MapPin className="w-5 h-5 text-[#64748b] shrink-0" />
+                    <span className="text-[16px] font-normal text-black">
+                      C/ Naciones 10, 28006 Madrid
+                    </span>
                   </div>
                 </div>
               )}
             </div>
 
-            {/* Usuario en Mobile: Iniciales con menú para Ajustes y Cerrar sesión */}
+            {/* Usuario en Mobile: Iniciales con menú homologado a 16px regular y hover neutral */}
             <div className="relative lg:hidden">
               <button
                 type="button"
@@ -375,6 +435,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                   setUserMenuOpen(!userMenuOpen);
                   setIsNotifOpen(false);
                   setIsHeaderInfoOpen(false);
+                  setIsQuickActionsOpen(false);
                 }}
                 className="w-8 h-8 rounded-[6px] bg-[#e2e8f0] text-black text-[12px] font-bold flex items-center justify-center cursor-pointer hover:bg-[#cbd5e1] transition-colors"
                 title={displayName}
@@ -383,16 +444,16 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
               </button>
 
               {userMenuOpen && (
-                <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[200px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.14)] p-[4px] border border-[#e2e8f0] flex flex-col gap-[2px]">
+                <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[220px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.14)] p-1.5 border border-[#e2e8f0] flex flex-col gap-1">
                   <button
                     type="button"
                     onClick={() => {
                       setUserMenuOpen(false);
                       setCurrentView('mi-perfil');
                     }}
-                    className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-2 text-[13px] text-black text-left transition-colors cursor-pointer"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-3 text-[16px] font-normal text-black text-left transition-colors cursor-pointer"
                   >
-                    <SlidersHorizontal className="w-4 h-4 text-[#64748b] shrink-0" />
+                    <SlidersHorizontal className="w-5 h-5 text-[#64748b] shrink-0" />
                     <span>Configuración</span>
                   </button>
                   <button
@@ -401,9 +462,9 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                       setUserMenuOpen(false);
                       onLogout();
                     }}
-                    className="w-full h-[36px] px-[10px] rounded-[6px] hover:bg-[#fef2f2] flex items-center gap-2 text-[13px] text-[#ef4444] text-left transition-colors cursor-pointer"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-3 text-[16px] font-normal text-black text-left transition-colors cursor-pointer"
                   >
-                    <LogOut className="w-4 h-4 text-[#ef4444] shrink-0" />
+                    <LogOut className="w-5 h-5 text-[#64748b] shrink-0" />
                     <span>Cerrar sesión</span>
                   </button>
                 </div>

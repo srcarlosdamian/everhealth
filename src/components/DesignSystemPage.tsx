@@ -348,6 +348,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
                     <Badge variant="disponible">Disponible</Badge>
+                    <Badge variant="disponible-ahora">Disponible ahora</Badge>
                     <Badge variant="en-espera">En espera</Badge>
                     <Badge variant="programada">Programada</Badge>
                     <Badge variant="limitada">Tiempo limitado</Badge>
@@ -579,25 +580,27 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
                   <div>
                     <h2 className="text-[18px] font-bold text-black">1. Inputs de Texto Estándar</h2>
-                    <p className="text-[13px] text-[#64748b]">Fondo blanco puro, altura 44px, placeholder `#94a3b8` y focus en rosa de marca `#d50475`.</p>
+                    <p className="text-[13px] text-[#64748b]">
+                      Título regular negro (`text-[14px] font-normal text-black`), texto 16px regular, fondo blanco puro, altura 44px, placeholder `#94a3b8` y <strong>borde de foco oscuro neutro / gris neutro (`focus:border-black`) sin tonos rosas</strong>.
+                    </p>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[12px] font-bold text-[#64748b]">Nombre y apellidos*</span>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[14px] font-normal text-black leading-tight">Nombre y apellidos*</label>
                       <input
                         type="text"
                         placeholder="Ej. Carlos Damián"
                         defaultValue="Carlos Damián"
-                        className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                        className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[16px] font-normal text-black focus:outline-none focus:border-black transition-colors"
                       />
                     </div>
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[12px] font-bold text-[#64748b]">Número de chip / identificador</span>
+                    <div className="flex flex-col gap-1.5">
+                      <label className="text-[14px] font-normal text-black leading-tight">Número de chip / identificador</label>
                       <input
                         type="text"
                         placeholder="Ej. 985141002345678"
                         defaultValue="985141002345678"
-                        className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] font-mono text-black focus:outline-none focus:border-[#d50475]"
+                        className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[16px] font-mono text-black focus:outline-none focus:border-black transition-colors"
                       />
                     </div>
                   </div>
@@ -607,47 +610,72 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
                   <div>
                     <h2 className="text-[18px] font-bold text-black">2. Input de Búsqueda con Icono Lucide</h2>
-                    <p className="text-[13px] text-[#64748b]">Icono `Search` neutro de 16px alineado a la izquierda, padding izquierdo de 40px.</p>
+                    <p className="text-[13px] text-[#64748b]">Icono `Search` neutro de 16px alineado a la izquierda, padding izquierdo de 40px, texto 16px regular y foco neutro oscuro.</p>
                   </div>
                   <div className="relative max-w-[480px]">
-                    <Search className="w-4 h-4 text-[#94a3b8] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <Search className="w-5 h-5 text-[#94a3b8] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                     <input
                       type="text"
                       placeholder="Buscar por paciente, médico, especialidad..."
-                      className="w-full h-[40px] pl-10 pr-4 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black bg-white focus:outline-none focus:border-[#d50475]"
+                      className="w-full h-[44px] pl-11 pr-4 rounded-[8px] border border-[#cbd5e1] text-[16px] font-normal text-black bg-white focus:outline-none focus:border-black transition-colors"
                     />
                   </div>
                 </div>
 
-                {/* 3. Selector Desplegable Personalizado (Custom Select) */}
+                {/* 3. Selector Desplegable Flotante (Custom Select) con Emojis & Iconos */}
                 <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
                   <div>
-                    <h2 className="text-[18px] font-bold text-black">3. Selector Desplegable Flotante (Custom Select)</h2>
-                    <p className="text-[13px] text-[#64748b]">Sustituye a los selects nativos del navegador para garantizar sombra suave, esquinas redondeadas y tipografía Helvetica homogénea.</p>
+                    <h2 className="text-[18px] font-bold text-black">3. Selector Desplegable Flotante (Custom Select) con Emojis & Iconos</h2>
+                    <p className="text-[13px] text-[#64748b]">
+                      Tipografía regular de 16px, color oscuro/negro, foco neutro y <strong>hover 100% neutral (`hover:bg-[#f1f5f9] text-black`) sin fondos rosas</strong>. Soporta versión con texto plano y versión con icono/emoji.
+                    </p>
                   </div>
-                  <div className="relative max-w-[280px]">
-                    <button
-                      type="button"
-                      onClick={() => setDemoDropdownOpen(!demoDropdownOpen)}
-                      className="w-full h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white text-[14px] text-black flex items-center justify-between cursor-pointer transition-colors"
-                    >
-                      <span>Perro (Especie seleccionada)</span>
-                      <ChevronDown className="w-4 h-4 text-black shrink-0" />
-                    </button>
-                    {demoDropdownOpen && (
-                      <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] border border-[#e2e8f0] flex flex-col gap-[1px]">
-                        {['Perro', 'Gato', 'Aves', 'Roedores', 'Otros'].map((opt, i) => (
-                          <div
-                            key={opt}
-                            className={`px-3 py-2 rounded-[4px] text-[13px] cursor-pointer ${
-                              i === 0 ? 'bg-[#fdf2f8] text-[#d50475] font-bold' : 'hover:bg-[#f1f5f9] text-[#475569]'
-                            }`}
-                          >
-                            {opt}
-                          </div>
-                        ))}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Versión con Emojis */}
+                    <div className="relative max-w-[320px]">
+                      <label className="text-[14px] font-normal text-black block mb-1.5">Especie con Emoji*</label>
+                      <button
+                        type="button"
+                        onClick={() => setDemoDropdownOpen(!demoDropdownOpen)}
+                        className="w-full h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white text-[16px] font-normal text-black flex items-center justify-between cursor-pointer transition-colors"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span>🐶</span>
+                          <span>Perro</span>
+                        </span>
+                        <ChevronDown className="w-4 h-4 text-[#64748b] shrink-0" />
+                      </button>
+                      {demoDropdownOpen && (
+                        <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-[2px]">
+                          {[
+                            { emoji: '🐶', label: 'Perro' },
+                            { emoji: '🐱', label: 'Gato' },
+                            { emoji: '🦜', label: 'Aves' },
+                            { emoji: '🐰', label: 'Roedores / Conejos' },
+                            { emoji: '🐾', label: 'Otros' },
+                          ].map((opt, i) => (
+                            <div
+                              key={opt.label}
+                              className={`px-3 py-2 rounded-[6px] text-[16px] font-normal flex items-center gap-2 cursor-pointer transition-colors ${
+                                i === 0 ? 'bg-[#f1f5f9] text-black font-semibold' : 'hover:bg-[#f1f5f9] text-black'
+                              }`}
+                            >
+                              <span>{opt.emoji}</span>
+                              <span>{opt.label}</span>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Versión con Texto Regular Plano */}
+                    <div className="relative max-w-[320px]">
+                      <label className="text-[14px] font-normal text-black block mb-1.5">Condición corporal (Texto regular)</label>
+                      <div className="w-full h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-white text-[16px] font-normal text-black flex items-center justify-between">
+                        <span>Peso Ideal</span>
+                        <ChevronDown className="w-4 h-4 text-[#64748b] shrink-0" />
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
 
@@ -778,9 +806,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         <span className="text-[13px] text-[#64748b]">Medicina General · Urgencias</span>
                       </div>
                     </div>
-                    <span className="px-3 py-1 rounded-[6px] bg-[#fdf2f8] text-[#d50475] text-[12px] font-bold">
-                      Disponible ahora
-                    </span>
+                    <Badge variant="disponible-ahora">Disponible ahora</Badge>
                   </div>
                 </div>
 

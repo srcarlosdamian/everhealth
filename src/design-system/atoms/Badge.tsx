@@ -2,6 +2,7 @@ import React from 'react';
 
 export type BadgeVariant =
   | 'disponible'
+  | 'disponible-ahora'
   | 'confirmada'
   | 'en-espera'
   | 'programada'
@@ -36,6 +37,7 @@ export const Badge: React.FC<BadgeProps> = ({
   const getVariantStyles = () => {
     switch (variant) {
       case 'disponible':
+      case 'disponible-ahora':
       case 'confirmada':
         return 'bg-transparent text-[#15803d] border border-[#cbd5e1]';
       case 'en-espera':

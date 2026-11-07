@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Check, Calendar as CalendarIcon, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+import { Badge } from '../design-system/atoms/Badge';
+import { Dropdown } from '../design-system/atoms/Dropdown';
 
 interface ModalSolicitarChatProps {
   isOpen: boolean;
@@ -124,35 +126,26 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
           {/* Form Fields */}
           <div className="flex-1 flex flex-col gap-[22px]">
             
-            {/* PASO 1 (NUEVO DROPDOWN): Modalidad de atención */}
+            {/* PASO 1 (DROPDOWN HOMOLOGADO): Modalidad de atención */}
             <div className="flex flex-col gap-[6px]">
-              <div className="flex flex-col">
-                <label className="text-[14px] font-bold text-black">
-                  1. Modalidad de atención<span className="text-[#d50475]">*</span>
-                </label>
-                <span className="text-[12px] text-[#64748b]">
-                  Elige si deseas agendar tu cita con anticipación o ser atendido en este momento
-                </span>
-              </div>
-
-              <div className="relative">
-                <select
-                  value={modalidad}
-                  onChange={(e) => setModalidad(e.target.value as any)}
-                  className="w-full h-[42px] px-3.5 pr-8 rounded-[8px] border border-[#cbd5e1] text-[14px] font-bold text-black bg-white focus:outline-none focus:border-[#d50475] appearance-none cursor-pointer"
-                >
-                  <option value="agendar">Agendar cita (Elegir fecha y horario)</option>
-                  <option value="ahora">Hablar ahora (Atención médica inmediata)</option>
-                </select>
-                <ChevronDown className="w-4 h-4 text-black absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              </div>
+              <Dropdown
+                label="1. Modalidad de atención"
+                required
+                value={modalidad}
+                onChange={(val) => setModalidad(val as 'agendar' | 'ahora')}
+                options={[
+                  { value: 'agendar', label: 'Agendar cita (Elegir fecha y horario)' },
+                  { value: 'ahora', label: 'Hablar ahora (Atención médica inmediata)' },
+                ]}
+                helperText="Elige si deseas agendar tu cita con anticipación o ser atendido en este momento"
+              />
             </div>
 
-            {/* PASO 2: Médico asignado */}
+            {/* PASO 2: Médico asignado con Badge homologado */}
             <div className="flex flex-col gap-[6px]">
               <div className="flex flex-col">
-                <span className="text-[14px] font-bold text-black">2. Médico asignado</span>
-                <span className="text-[12px] text-[#64748b]">Especialista disponible para tu consulta</span>
+                <span className="text-[14px] font-normal text-black leading-tight">2. Médico asignado</span>
+                <span className="text-[12px] text-[#64748b] mt-0.5">Especialista disponible para tu consulta</span>
               </div>
 
               <div className="p-3.5 rounded-[8px] border-2 border-[#e2e8f0] bg-white flex items-center justify-between gap-3">
@@ -161,13 +154,11 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                     MF
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-black">Dra. María Fernández</span>
-                    <span className="text-[12px] text-[#64748b]">Medicina General · Nutrición</span>
+                    <span className="text-[15px] font-bold text-black">Dra. María Fernández</span>
+                    <span className="text-[13px] text-[#64748b]">Medicina General · Nutrición</span>
                   </div>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-[4px] border border-[#cbd5e1] text-[#15803d] text-[11px] font-bold shrink-0">
-                  Disponible
-                </span>
+                <Badge variant="disponible">Disponible</Badge>
               </div>
             </div>
 
@@ -186,15 +177,15 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                     key={spec}
                     type="button"
                     onClick={() => setSelectedSpecialty(spec)}
-                    className={`h-[38px] px-3 rounded-[6px] border text-[13px] font-medium flex items-center justify-between transition-colors cursor-pointer ${
+                    className={`h-[42px] px-3.5 rounded-[8px] border text-[15px] font-normal flex items-center justify-between transition-colors cursor-pointer ${
                       selectedSpecialty === spec
-                        ? 'border-[#d50475] bg-[#fdf2f8] text-black font-bold'
+                        ? 'border-black bg-[#f1f5f9] text-black font-semibold'
                         : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black'
                     }`}
                   >
                     <span>{spec}</span>
                     {selectedSpecialty === spec && (
-                      <Check className="w-4 h-4 text-[#d50475]" />
+                      <Check className="w-4 h-4 text-black" />
                     )}
                   </button>
                 ))}
@@ -203,7 +194,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
 
             {/* PASO 4: Motivo de la consulta* (Obligatorio) */}
             <div className="flex flex-col gap-[6px]">
-              <label className="text-[14px] font-bold text-black">
+              <label className="text-[14px] font-normal text-black leading-tight">
                 4. Motivo de la consulta<span className="text-[#d50475]">*</span>
               </label>
               <span className="text-[12px] text-[#64748b]">Describe brevemente el síntoma o motivo</span>
@@ -213,7 +204,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                 value={motivoChat}
                 onChange={(e) => setMotivoChat(e.target.value)}
                 placeholder="Escribe brevemente tu motivo de consulta (ej. dudas sobre medicación o dolor de garganta)..."
-                className="w-full p-2.5 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#d50475] transition-colors"
+                className="w-full p-3.5 rounded-[8px] border border-[#cbd5e1] text-[16px] font-normal text-black bg-white focus:outline-none focus:border-black transition-colors"
               />
             </div>
 
