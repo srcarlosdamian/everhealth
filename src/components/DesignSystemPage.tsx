@@ -496,37 +496,71 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </div>
                 </div>
 
-                {/* 5. Stepper Checks 900 */}
-                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-4">
-                  <h2 className="text-[18px] font-bold text-black">Stepper con Check Pink 900 (`#831843`)</h2>
-                  <p className="text-[13px] text-[#64748b]">
-                    Indicador con línea continua que se chequea cuando los campos están completados.
-                  </p>
-                  <div className="flex items-center gap-6 p-4 rounded-[6px] bg-[#f8fafc] border border-[#e2e8f0]">
-                    <div className="flex flex-col items-center">
-                      <div className="w-[26px] h-[26px] rounded-full bg-[#831843] text-white flex items-center justify-center">
-                        <Check className="w-[14px] h-[14px] stroke-[3]" />
+                {/* 5. Stepper Checks 900 & Indicador de Pasos Homologado */}
+                <div className="border border-[#e2e8f0] rounded-[8px] p-6 bg-white flex flex-col gap-5">
+                  <div>
+                    <h2 className="text-[18px] font-bold text-black">Stepper con Check Pink 900 (`#831843`) e Indicadores de Paso</h2>
+                    <p className="text-[13px] text-[#64748b] mt-1">
+                      Indicadores de progreso multi-paso del sistema Ever Health: línea vertical continua conectada con viñetas checadas y etiquetas de cabecera homologadas.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col lg:flex-row gap-6">
+                    {/* Stepper vertical con checks */}
+                    <div className="flex-1 flex items-center gap-6 p-4 rounded-[6px] bg-[#f8fafc] border border-[#e2e8f0]">
+                      <div className="flex flex-col items-center">
+                        <div className="w-[26px] h-[26px] rounded-full bg-[#831843] text-white flex items-center justify-center">
+                          <Check className="w-[14px] h-[14px] stroke-[3]" />
+                        </div>
+                        <div className="w-[2px] h-[30px] bg-[#e2e8f0]" />
+                        <div className="w-[26px] h-[26px] rounded-full bg-[#831843] text-white flex items-center justify-center">
+                          <Check className="w-[14px] h-[14px] stroke-[3]" />
+                        </div>
+                        <div className="w-[2px] h-[30px] bg-[#e2e8f0]" />
+                        <div className="w-[26px] h-[26px] rounded-full border-2 border-[#cbd5e1] bg-white" />
                       </div>
-                      <div className="w-[2px] h-[30px] bg-[#e2e8f0]" />
-                      <div className="w-[26px] h-[26px] rounded-full bg-[#831843] text-white flex items-center justify-center">
-                        <Check className="w-[14px] h-[14px] stroke-[3]" />
+                      <div className="flex flex-col justify-between h-[116px] text-[13px]">
+                        <div>
+                          <strong className="text-black">Paso 1: Motivo</strong>
+                          <p className="text-[#64748b]">Completado (Check Pink 900)</p>
+                        </div>
+                        <div>
+                          <strong className="text-black">Paso 2: Especialidad</strong>
+                          <p className="text-[#64748b]">Completado (Check Pink 900)</p>
+                        </div>
+                        <div>
+                          <strong className="text-black">Paso 3: Horario</strong>
+                          <p className="text-[#64748b]">Pendiente (Círculo sin checar)</p>
+                        </div>
                       </div>
-                      <div className="w-[2px] h-[30px] bg-[#e2e8f0]" />
-                      <div className="w-[26px] h-[26px] rounded-full border-2 border-[#cbd5e1] bg-white" />
                     </div>
-                    <div className="flex flex-col justify-between h-[116px] text-[13px]">
-                      <div>
-                        <strong className="text-black">Paso 1: Motivo</strong>
-                        <p className="text-[#64748b]">Completado (Check Pink 900)</p>
+
+                    {/* Regla de homologación de etiquetas de cabecera */}
+                    <div className="flex-1 p-4 rounded-[6px] bg-white border border-[#e2e8f0] flex flex-col gap-3">
+                      <div className="flex items-center justify-between border-b border-[#f1f5f9] pb-2">
+                        <span className="text-[12px] font-bold text-black uppercase tracking-wider">Estándar de Nomenclatura</span>
+                        <span className="text-[11px] font-bold px-2 py-0.5 rounded-[4px] bg-[#ecfdf5] text-[#059669] border border-[#a7f3d0]">OFICIAL</span>
                       </div>
-                      <div>
-                        <strong className="text-black">Paso 2: Especialidad</strong>
-                        <p className="text-[#64748b]">Completado (Check Pink 900)</p>
+                      <p className="text-[13px] text-[#475569] leading-relaxed">
+                        Todos los flujos con etapas múltiples utilizan el formato estricto <strong className="text-black">`PASO X/Y`</strong> en mayúsculas con espaciado tracking-wider.
+                      </p>
+                      <div className="flex flex-wrap items-center gap-3 pt-1">
+                        <span className="text-[13px] font-bold text-black uppercase tracking-wider px-2.5 py-1 rounded-[4px] bg-[#f8fafc] border border-[#e2e8f0]">
+                          PASO 1/2
+                        </span>
+                        <span className="text-[13px] font-bold text-black uppercase tracking-wider px-2.5 py-1 rounded-[4px] bg-[#f8fafc] border border-[#e2e8f0]">
+                          PASO 2/2
+                        </span>
+                        <span className="text-[13px] font-bold text-black uppercase tracking-wider px-2.5 py-1 rounded-[4px] bg-[#f8fafc] border border-[#e2e8f0]">
+                          PASO 1/8
+                        </span>
+                        <span className="text-[13px] font-bold text-black uppercase tracking-wider px-2.5 py-1 rounded-[4px] bg-[#f8fafc] border border-[#e2e8f0]">
+                          PASO 1/3
+                        </span>
                       </div>
-                      <div>
-                        <strong className="text-black">Paso 3: Horario</strong>
-                        <p className="text-[#64748b]">Pendiente (Círculo sin checkear)</p>
-                      </div>
+                      <p className="text-[11px] text-[#ef4444] font-medium pt-1">
+                        ✕ Prohibido: "Paso 1 de 2", "1 de 2", o variantes no homologadas en minúsculas.
+                      </p>
                     </div>
                   </div>
                 </div>

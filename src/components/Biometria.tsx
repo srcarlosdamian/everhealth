@@ -223,9 +223,9 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
               <ArrowLeft className="w-5 h-5" />
             </button>
 
-            {/* Stepper text indicator alineado a la izquierda */}
-            <span className="text-[12px] font-bold text-black uppercase tracking-wider">
-              {stage === 1 ? 'PASO 1 DE 2' : stage === 'loading' ? 'CARGANDO' : 'PASO 2 DE 2'}
+            {/* Stepper text indicator alineado a la izquierda homologado a PASO X/Y */}
+            <span className="text-[13px] font-bold text-black uppercase tracking-wider">
+              {stage === 1 ? 'PASO 1/2' : stage === 'loading' ? 'CARGANDO' : 'PASO 2/2'}
             </span>
           </div>
 
