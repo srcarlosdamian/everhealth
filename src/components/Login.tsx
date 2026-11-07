@@ -26,16 +26,12 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBypassToHome }) => {
       {/* Main container matching EVR - 02 (1550 x 1024 proportions) */}
       <div className="w-full max-w-[1550px] min-h-screen lg:min-h-[1024px] flex flex-col lg:flex-row items-center justify-center lg:justify-between px-6 sm:px-12 lg:px-[124px] py-10 lg:py-[124px] gap-10 lg:gap-[80px]">
         
-        {/* Left Image Frame (Frame 6: 722 x 776) - Clic en la imagen manda directamente al Home en el prototipo */}
-        <div
-          onClick={onBypassToHome}
-          className="w-full max-w-[722px] lg:w-[722px] h-[420px] sm:h-[580px] lg:h-[776px] shrink-0 overflow-hidden bg-[#f8fafc] cursor-pointer group relative"
-          title="Atajo de prototipo: clic aquí para entrar directo al Home sin repetir el stepper"
-        >
+        {/* Left Image Frame (Frame 6: 722 x 776) - Estática sin zoom ni efectos de crecimiento */}
+        <div className="w-full max-w-[722px] lg:w-[722px] h-[420px] sm:h-[580px] lg:h-[776px] shrink-0 overflow-hidden bg-[#f8fafc]">
           <img
             src={heroSrc}
             alt="Bienvenida a Ever Health"
-            className="w-full h-full object-cover object-center group-hover:scale-[1.01] transition-transform duration-300"
+            className="w-full h-full object-cover object-center select-none"
           />
         </div>
 
