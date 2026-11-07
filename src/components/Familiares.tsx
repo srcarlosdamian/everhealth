@@ -20,6 +20,7 @@ import { TextInput } from '../design-system/atoms/TextInput';
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { ActionMenu } from '../design-system/molecules/ActionMenu';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
+import { TablePagination } from '../design-system/molecules/TablePagination';
 
 export interface Familiar {
   id: string;
@@ -352,42 +353,11 @@ export const Familiares: React.FC = () => {
         </table>
 
         {/* Paginación */}
-        <div className="p-4 bg-white border-t border-[#e2e8f0] flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-[#64748b]">
-          <span>Mostrando de 1 a {filtered.length} de {familiares.length} familiares</span>
-
-          <div className="inline-flex items-center border border-[#cbd5e1] rounded-[4px] overflow-hidden bg-white">
-            <button
-              type="button"
-              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
-            >
-              <ChevronsLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-black font-bold text-[13px] bg-[#f1f5f9]"
-            >
-              1
-            </button>
-            <button
-              type="button"
-              className="w-8 h-8 border-r border-[#cbd5e1] flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              className="w-8 h-8 flex items-center justify-center text-[#64748b] hover:bg-[#f8fafc] cursor-pointer"
-            >
-              <ChevronsRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+        <TablePagination
+          visibleCount={filtered.length}
+          totalCount={familiares.length}
+          entityLabel="familiares"
+        />
       </div>
 
       {/* ================= MODAL AÑADIR FAMILIAR ================= */}

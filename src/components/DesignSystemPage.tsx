@@ -55,6 +55,7 @@ import { AvailableDoctorsRow } from '../design-system/molecules/AvailableDoctors
 import { AssignedDoctorCard } from '../design-system/molecules/AssignedDoctorCard';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
+import { TablePagination } from '../design-system/molecules/TablePagination';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
 
 interface DesignSystemPageProps {
@@ -760,7 +761,22 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   />
                 </StageBlock>
 
-                {/* 6. CompletionMedalIllustration */}
+                {/* 6. TablePagination */}
+                <StageBlock
+                  title="Paginación Oficial de Tablas"
+                  componentTag="<TablePagination />"
+                  usedIn={['Consultas', 'Familiares', 'Mascotas']}
+                  description="Componente estandarizado único de paginación para todas las tablas: texto contador a la izquierda y botonera compacta con bordes cuadrados de 4px a la derecha."
+                  canvasMode={canvasMode}
+                >
+                  <TablePagination
+                    visibleCount={5}
+                    totalCount={20}
+                    entityLabel="registros"
+                  />
+                </StageBlock>
+
+                {/* 7. CompletionMedalIllustration */}
                 <StageBlock
                   title="Ilustración de Finalización (Medalla en Podio)"
                   componentTag="<CompletionMedalIllustration />"
@@ -840,49 +856,51 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </section>
                 </StageBlock>
 
-                {/* Organismo 2: Tarjeta de Consulta (Historial de Consultas) */}
+                {/* Organismo 2: Fila de Consulta estilo Calendario y Acordeón */}
                 <StageBlock
-                  title="Card: Registro de Consulta Médica"
-                  componentTag="<StatusDotBadge /> + <Button variant='pill-*' />"
-                  usedIn={['Historial de Consultas']}
-                  description="Estructura oficial de cada tarjeta en el Historial de Consultas: icono neutro + especialidad a la izquierda, StatusDotBadge a la derecha, 4 columnas de datos y botones píldora."
+                  title="Fila de Consulta: Estructura Calendario y Acordeón"
+                  componentTag="<Badge /> + <Button />"
+                  usedIn={['Consultas']}
+                  description="Fila de 5 columnas divididas con hora/fecha calendario a la izquierda, profesional, badge y chevron. Al desplegarse, mantiene fondo blanco puro y muestra el motivo junto a las acciones médicas reales."
                   canvasMode={canvasMode}
                 >
-                  <div className="w-full bg-white border border-[#e2e8f0] rounded-[6px] p-5 sm:p-6 flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-black">
-                        <Video className="w-[18px] h-[18px] text-[#475569] stroke-[2]" />
-                        <span className="text-[15px] font-bold text-black leading-none">
-                          Psicología
-                        </span>
+                  <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-hidden flex flex-col">
+                    <div className="w-full py-4 px-4 sm:px-6 flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-white">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 flex-1 items-center gap-4 lg:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-[#e2e8f0]">
+                        <div className="flex flex-col pr-2">
+                          <span className="text-[16px] font-bold text-black leading-tight">10:40</span>
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b] mt-0.5">27 OCT</span>
+                        </div>
+                        <div className="flex flex-col sm:pl-4">
+                          <span className="text-[15px] font-bold text-black leading-tight">Videoconsulta</span>
+                          <span className="text-[12px] text-[#64748b] mt-0.5">Medicina General · Ever Health</span>
+                        </div>
+                        <div className="flex flex-col sm:pl-4">
+                          <span className="text-[15px] font-bold text-black leading-tight">Carlos Damián</span>
+                          <span className="text-[12px] text-[#64748b] mt-0.5">Titular · contact@carlosdamian.com</span>
+                        </div>
+                        <div className="flex flex-col sm:pl-4">
+                          <span className="text-[15px] font-bold text-black leading-tight">Dr. Bruno Peñas</span>
+                          <span className="text-[12px] text-[#64748b] mt-0.5">Medicina General · Ever Health Doctor</span>
+                        </div>
                       </div>
-                      <StatusDotBadge status="En proceso" />
-                    </div>
-
-                    <div className="w-full h-[1px] bg-[#f8fafc]" />
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-[13px]">
-                      <div className="flex flex-col gap-1">
-                        <span className="text-[12px] text-[#64748b]">Fecha:</span>
-                        <span className="font-bold text-black text-[14px]">27/10/2026</span>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-[12px] text-[#64748b]">Hora:</span>
-                        <span className="font-bold text-black text-[14px]">10:10</span>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-[12px] text-[#64748b]">Motivo de la consulta:</span>
-                        <span className="text-black text-[14px]">Primera consulta - Test</span>
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-[12px] text-[#64748b]">Profesional:</span>
-                        <span className="font-bold text-black text-[14px]">Bruno Peñas</span>
+                      <div className="flex items-center justify-end gap-4 shrink-0">
+                        <Badge variant="disponible">En proceso</Badge>
+                        <ChevronUp className="w-5 h-5 text-black" />
                       </div>
                     </div>
-
-                    <div className="flex items-center justify-end gap-3 pt-2">
-                      <Button variant="pill-outline">Cancelar consulta</Button>
-                      <Button variant="pill-primary">Acceder a la consulta</Button>
+                    <div className="px-4 sm:px-6 pb-5 pt-2 flex flex-col gap-4 border-t border-[#f1f5f9] bg-white">
+                      <div className="flex flex-col gap-1">
+                        <span className="text-[12px] font-normal text-[#64748b]">Motivo de la consulta:</span>
+                        <p className="text-[14px] text-black font-normal">Consulta sobre dudas de medicación y evolución de síntomas leves.</p>
+                      </div>
+                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#f8fafc]">
+                        <div className="flex flex-wrap items-center gap-2.5">
+                          <Button variant="primary" className="h-[38px] px-5">Acceder a la videoconsulta</Button>
+                          <Button variant="outline" className="h-[38px] px-4">Ver conversación</Button>
+                        </div>
+                        <Button variant="outline" className="h-[38px] px-4 text-[#ef4444] hover:border-[#ef4444]">Cancelar consulta</Button>
+                      </div>
                     </div>
                   </div>
                 </StageBlock>
