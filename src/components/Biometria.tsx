@@ -11,9 +11,6 @@ interface BiometriaProps {
 
 export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = 'Carlos Damián' }) => {
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
-  const scanReadyImg = `${import.meta.env.BASE_URL}assets/scan-ready.jpg`;
-  const scanFarImg = `${import.meta.env.BASE_URL}assets/scan-far.jpg`;
-  const scanMeasuringImg = `${import.meta.env.BASE_URL}assets/scan-measuring.jpg`;
 
   // Flow stages:
   // 1: Formulario (Datos personales + clínicos con toggles)
@@ -40,17 +37,21 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
   // Info support popover state
   const [isSupportOpen, setIsSupportOpen] = useState(false);
 
-  // Camera selector
-  const [selectedCamera, setSelectedCamera] = useState('Cámara FaceTime HD (C4E1:9BFB)');
+  // Camera devices & selection
+  const [selectedCamera, setSelectedCamera] = useState('Cámara FaceTime HD / Frontal');
+  const [selectedDeviceId, setSelectedDeviceId] = useState('');
+  const [availableCameras, setAvailableCameras] = useState<{ deviceId: string; label: string }[]>([]);
 
   // Prototype Simulation Controls
   // Distance / positioning state: 'far' (demasiado lejos) | 'ready' (bien posicionado, botón azul listo)
   const [positionState, setPositionState] = useState<'far' | 'ready'>('ready');
-  
-  // Real webcam state
-  const [useRealWebcam, setUseRealWebcam] = useState(false);
+
+  // Real live camera state - 100% cámara web real por defecto
+  const [useRealWebcam, setUseRealWebcam] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
   const [webcamError, setWebcamError] = useState(false);
+  const [webcamPermission, setWebcamPermission] = useState<'prompt' | 'granted' | 'denied'>('prompt');
 
   // Measurement process states:
   // 'idle' (esperando a pulsar "Comenzar medición")
@@ -65,30 +66,75 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
   // Prototype Dropdown para forzar simulación de error
   const [simulatedOutcome, setSimulatedOutcome] = useState<'success' | 'blood_flow_error'>('blood_flow_error');
 
-  // Activar / desactivar cámara web real
+  // Activar cámara web real cuando se está en la Fase 2
   useEffect(() => {
-    let stream: MediaStream | null = null;
+    let active = true;
+
+    const stopStream = () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+        streamRef.current = null;
+      }
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
+    };
+
     if (stage === 2 && useRealWebcam) {
-      navigator.mediaDevices?.getUserMedia({ video: { width: 640, height: 480, facingMode: 'user' } })
+      const constraints: MediaStreamConstraints = {
+        video: selectedDeviceId
+          ? { deviceId: { exact: selectedDeviceId }, width: { ideal: 640 }, height: { ideal: 480 } }
+          : { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } },
+      };
+
+      navigator.mediaDevices?.getUserMedia(constraints)
         .then((s) => {
-          stream = s;
+          if (!active) {
+            s.getTracks().forEach((t) => t.stop());
+            return;
+          }
+          streamRef.current = s;
+          setWebcamPermission('granted');
+          setWebcamError(false);
           if (videoRef.current) {
             videoRef.current.srcObject = s;
           }
+
+          // Enumerar dispositivos de video disponibles
+          navigator.mediaDevices?.enumerateDevices()
+            .then((devices) => {
+              const videoDevices = devices
+                .filter((d) => d.kind === 'videoinput')
+                .map((d, index) => ({
+                  deviceId: d.deviceId,
+                  label: d.label || `Cámara ${index + 1}`,
+                }));
+              if (videoDevices.length > 0) {
+                setAvailableCameras(videoDevices);
+                if (!selectedDeviceId) {
+                  setSelectedDeviceId(videoDevices[0].deviceId);
+                  setSelectedCamera(videoDevices[0].label);
+                }
+              }
+            })
+            .catch(() => {});
         })
         .catch((err) => {
           console.warn('Webcam permission denied or unavailable:', err);
-          setWebcamError(true);
-          setUseRealWebcam(false);
+          if (active) {
+            setWebcamError(true);
+            setWebcamPermission('denied');
+          }
         });
+    } else {
+      stopStream();
     }
 
     return () => {
-      if (stream) {
-        stream.getTracks().forEach((track) => track.stop());
-      }
+      active = false;
+      stopStream();
     };
-  }, [stage, useRealWebcam]);
+  }, [stage, useRealWebcam, selectedDeviceId]);
 
   // Stage 1 -> loading transition
   const handleStartMeasurement = () => {
@@ -532,16 +578,31 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                       Para comenzar, seleccione una cámara
                     </span>
                     <select
-                      value={selectedCamera}
-                      onChange={(e) => setSelectedCamera(e.target.value)}
+                      value={selectedDeviceId || selectedCamera}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        const match = availableCameras.find((c) => c.deviceId === val || c.label === val);
+                        if (match) {
+                          setSelectedDeviceId(match.deviceId);
+                          setSelectedCamera(match.label);
+                        } else {
+                          setSelectedCamera(val);
+                        }
+                      }}
                       className="w-full h-[42px] px-3.5 pr-8 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black bg-white appearance-none cursor-pointer focus:outline-none focus:border-[#d50475]"
                     >
-                      <option value="Cámara FaceTime HD (C4E1:9BFB)">
-                        Cámara FaceTime HD (C4E1:9BFB)
-                      </option>
-                      <option value="Cámara Externa USB 1080p">
-                        Cámara Externa USB 1080p
-                      </option>
+                      {availableCameras.length > 0 ? (
+                        availableCameras.map((cam) => (
+                          <option key={cam.deviceId} value={cam.deviceId}>
+                            {cam.label}
+                          </option>
+                        ))
+                      ) : (
+                        <>
+                          <option value="FaceTime HD">Cámara FaceTime HD / Frontal</option>
+                          <option value="USB Cam">Cámara Externa USB 1080p</option>
+                        </>
+                      )}
                     </select>
                     <ChevronDown className="w-4 h-4 text-black absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
@@ -558,7 +619,7 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
               </div>
 
               {/* ================= BARRA DE CONTROLES DEL PROTOTIPO ================= */}
-              {/* Dropdowns para simular: tipo de error en la prueba + distancia de rostro + cámara real */}
+              {/* Dropdowns para simular: tipo de error en la prueba + distancia de rostro */}
               <div className="w-full bg-[#f8fafc] border border-dashed border-[#94a3b8] rounded-[10px] p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                 
                 {/* Dropdown de Resultado / Error del prototipo */}
@@ -567,7 +628,7 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                     <label className="text-[12px] font-bold text-black uppercase tracking-wider">
                       Simulación de resultado (Solo prototipo)
                     </label>
-                    <span className="text-[10px] text-[#64748b]">No visible en versión final</span>
+                    <span className="text-[10px] text-[#64748b]">Control de prueba</span>
                   </div>
                   <div className="relative">
                     <select
@@ -589,7 +650,7 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                   </p>
                 </div>
 
-                {/* Toggles rápidos de posición y cámara web */}
+                {/* Toggles rápidos de posición y estado de cámara en vivo */}
                 <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
                   <button
                     type="button"
@@ -607,19 +668,10 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                     {positionState === 'ready' ? 'Distancia: Centrado' : 'Distancia: Lejos'}
                   </button>
 
-                  <button
-                    type="button"
-                    onClick={() => setUseRealWebcam(!useRealWebcam)}
-                    className={`h-[38px] px-3 rounded-[6px] border text-[12px] font-bold uppercase flex items-center gap-1.5 transition-all cursor-pointer ${
-                      useRealWebcam
-                        ? 'border-[#10b981] bg-[#ecfdf5] text-[#10b981]'
-                        : 'border-[#cbd5e1] bg-white text-black'
-                    }`}
-                    title="Encender webcam de tu equipo para probar encuadre real"
-                  >
+                  <div className="h-[38px] px-3 rounded-[6px] border border-[#10b981] bg-[#ecfdf5] text-[#10b981] text-[12px] font-bold uppercase flex items-center gap-1.5 select-none">
                     <Camera className="w-4 h-4" />
-                    <span>{useRealWebcam ? 'Webcam activa' : 'Usar mi cámara'}</span>
-                  </button>
+                    <span>Cámara en vivo</span>
+                  </div>
                 </div>
               </div>
 
@@ -708,29 +760,65 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                         : 'border-dashed border-[#ef4444]'
                     }`}
                   >
-                    {/* Contenido: Webcam en vivo o fotografía del usuario */}
-                    {useRealWebcam ? (
+                    {/* Contenido: Webcam en vivo (100% real) o visor biométrico cuando la cámara no está lista */}
+                    {useRealWebcam && webcamPermission === 'granted' && !webcamError ? (
                       <video
                         ref={videoRef}
                         autoPlay
                         playsInline
                         muted
-                        className="w-full h-full rounded-full object-cover transform -scale-x-100"
+                        className="w-full h-full rounded-full object-cover transform -scale-x-100 bg-black"
                       />
                     ) : (
-                      <img
-                        src={
-                          measureStatus === 'measuring'
-                            ? scanMeasuringImg
-                            : positionState === 'ready'
-                            ? scanReadyImg
-                            : scanFarImg
-                        }
-                        alt="Escaneo facial biométrico"
-                        className={`w-full h-full rounded-full object-cover transition-transform duration-500 ${
-                          positionState === 'far' ? 'scale-90 opacity-90' : 'scale-105'
-                        }`}
-                      />
+                      <div className="w-full h-full rounded-full bg-[#0f172a] flex flex-col items-center justify-center p-6 text-center relative overflow-hidden select-none">
+                        {/* Biometric scanning grid & radar circles background */}
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15)_0,transparent_70%)] pointer-events-none" />
+                        <svg
+                          className="w-20 h-20 text-[#38bdf8] opacity-80 mb-2 animate-pulse"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.2"
+                        >
+                          <path d="M9 3H5a2 2 0 0 0-2 2v4m18-6h-4a2 2 0 0 0-2 2v4m-12 12H5a2 2 0 0 1-2-2v-4m18 6h-4a2 2 0 0 1-2-2v-4" />
+                          <circle cx="12" cy="12" r="3" />
+                          <path d="M12 7v1m0 8v1m-5-5H6m12 0h-1" />
+                        </svg>
+
+                        <p className="text-[13px] font-bold text-white z-10">
+                          {webcamPermission === 'denied'
+                            ? 'Acceso a cámara bloqueado'
+                            : 'Cámara en vivo requerida'}
+                        </p>
+                        <p className="text-[11px] text-[#94a3b8] mt-1 max-w-[200px] leading-tight z-10">
+                          {webcamPermission === 'denied'
+                            ? 'Autorice el acceso a su cámara web en el navegador para continuar.'
+                            : 'Inicie la cámara web para realizar la captura biométrica.'}
+                        </p>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setUseRealWebcam(true);
+                            setWebcamError(false);
+                            navigator.mediaDevices?.getUserMedia({ video: { facingMode: 'user' } })
+                              .then((s) => {
+                                streamRef.current = s;
+                                setWebcamPermission('granted');
+                                setWebcamError(false);
+                                if (videoRef.current) videoRef.current.srcObject = s;
+                              })
+                              .catch(() => {
+                                setWebcamError(true);
+                                setWebcamPermission('denied');
+                              });
+                          }}
+                          className="mt-2.5 px-3.5 py-1.5 rounded-[6px] bg-[#2563eb] hover:bg-[#1d4ed8] text-white text-[11px] font-bold flex items-center gap-1.5 z-10 cursor-pointer shadow-md transition-colors"
+                        >
+                          <Camera className="w-3.5 h-3.5" />
+                          <span>{webcamPermission === 'denied' ? 'Reintentar' : 'Activar cámara'}</span>
+                        </button>
+                      </div>
                     )}
 
                     {/* Guías y Puntos de tracking facial dinámicos */}
