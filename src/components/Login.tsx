@@ -26,8 +26,11 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBypassToHome }) => {
       {/* Main container matching EVR - 02 (1550 x 1024 proportions) */}
       <div className="w-full max-w-[1550px] min-h-screen lg:min-h-[1024px] flex flex-col lg:flex-row items-center justify-center lg:justify-between px-6 sm:px-12 lg:px-[124px] py-10 lg:py-[124px] gap-10 lg:gap-[80px]">
         
-        {/* Left Image Frame (Frame 6: 722 x 776) - Estática sin zoom ni efectos de crecimiento */}
-        <div className="w-full max-w-[722px] lg:w-[722px] h-[420px] sm:h-[580px] lg:h-[776px] shrink-0 overflow-hidden bg-[#f8fafc]">
+        {/* Left Image Frame: Atajo secreto al Home al hacer clic, completamente estática, sin hover y sin agrandarse */}
+        <div
+          onClick={onBypassToHome}
+          className="w-full max-w-[722px] lg:w-[722px] h-[420px] sm:h-[580px] lg:h-[776px] shrink-0 overflow-hidden bg-[#f8fafc] select-none"
+        >
           <img
             src={heroSrc}
             alt="Bienvenida a Ever Health"
