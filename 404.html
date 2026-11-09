@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <title>Ever Health</title>
+    <script type="text/javascript">
+      // GitHub Pages SPA redirect: convierte rutas directas sin # en rutas con hash para que la SPA las procese
+      var path = window.location.pathname;
+      var repo = '/everhealth';
+      var cleanPath = path;
+      if (cleanPath.startsWith(repo)) {
+        cleanPath = cleanPath.slice(repo.length);
+      }
+      cleanPath = cleanPath.replace(/^\//, '');
+      var search = window.location.search || '';
+      var target = repo + '/#/' + cleanPath + search;
+      window.location.replace(target);
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
