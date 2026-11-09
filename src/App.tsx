@@ -10,6 +10,7 @@ const VALID_ROUTES = [
   'inicio',
   'solicitar-chat',
   'historial-consultas',
+  'consultas',
   'historia-clinica',
   'familiares',
   'mascotas',
@@ -19,32 +20,66 @@ const VALID_ROUTES = [
   'design-system',
 ];
 
-const getRouteFromHash = (): string => {
-  const hash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase();
-  if (!hash || hash === '') return 'login'; // Ruta inicial: Pantalla de Login
-  if (hash === 'inicio') return 'home';
-  if (VALID_ROUTES.includes(hash)) return hash;
+const ROUTE_ALIASES: Record<string, string> = {
+  inicio: 'home',
+  dashboard: 'home',
+  consultas: 'historial-consultas',
+  historial: 'historial-consultas',
+  clinica: 'historia-clinica',
+  perfil: 'mi-perfil',
+  chat: 'solicitar-chat',
+  design: 'design-system',
+  'sistema-de-diseno': 'design-system',
+};
+
+const resolveRoute = (input: string | null | undefined): string | null => {
+  if (!input) return null;
+  const clean = input.replace(/^#\/?/, '').replace(/\/$/, '').trim().toLowerCase();
+  if (!clean) return null;
+  if (ROUTE_ALIASES[clean]) return ROUTE_ALIASES[clean];
+  if (VALID_ROUTES.includes(clean)) return clean;
+  return null;
+};
+
+const getInitialRoute = (): string => {
+  // 1. Soporte para enlaces con query params (?route=onboarding, ?p=onboarding, ?view=onboarding)
+  if (typeof window !== 'undefined' && window.location.search) {
+    const params = new URLSearchParams(window.location.search);
+    const queryRoute = params.get('route') || params.get('p') || params.get('view');
+    const resolvedFromQuery = resolveRoute(queryRoute);
+    if (resolvedFromQuery) return resolvedFromQuery;
+  }
+
+  // 2. Soporte para enlaces con hash (#/onboarding, #onboarding, #/home, #/consultas, etc.)
+  if (typeof window !== 'undefined' && window.location.hash) {
+    const resolvedFromHash = resolveRoute(window.location.hash);
+    if (resolvedFromHash) return resolvedFromHash;
+  }
+
+  // 3. Si se accede a la raíz pura sin ruta específica, arrancar en login
   return 'login';
 };
 
 export function App() {
-  // Siempre arrancar en 'login' para que desarrolladores y usuarios vean primero el login y el stepper
-  const [route, setRoute] = useState<string>('login');
+  const [route, setRoute] = useState<string>(() => getInitialRoute());
   const [email, setEmail] = useState<string>('contact@carlosdamian.com');
   const [userName, setUserName] = useState<string>('Carlos Damián');
 
-  // Al abrir o recargar la página, forzar siempre la entrada en login
+  // Sincronizar ruta y escuchar cambios de hash en el navegador para permitir enlaces directos compartibles
   useEffect(() => {
-    window.location.hash = '#/login';
-    setRoute('login');
+    const initialRoute = getInitialRoute();
+    const currentHash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase();
+
+    // Solo si no hay hash en la URL (ej. acceso directo a https://.../everhealth/), fijamos #/login
+    if (!currentHash || currentHash === '') {
+      window.location.hash = `#/${initialRoute}`;
+    } else {
+      setRoute(initialRoute);
+    }
 
     const handleHashChange = () => {
-      const hash = window.location.hash.replace(/^#\/?/, '').trim().toLowerCase();
-      if (!hash || hash === '' || hash === 'login') {
-        setRoute('login');
-      } else if (VALID_ROUTES.includes(hash)) {
-        setRoute(hash === 'inicio' ? 'home' : hash);
-      }
+      const targetRoute = getInitialRoute();
+      setRoute(targetRoute);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
