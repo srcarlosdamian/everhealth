@@ -18,6 +18,7 @@ import {
   ExternalLink,
   Sparkles,
 } from 'lucide-react';
+import { Toast, ToastVariant } from '../design-system/atoms/Toast';
 
 export interface HelpCenterProps {
   isOpen: boolean;
@@ -41,7 +42,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>(defaultCategory);
   const [openAccordionIds, setOpenAccordionIds] = useState<string[]>(['contact-directo', 'faq-bio-1']);
-  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ message: string; variant: ToastVariant } | null>(null);
 
   // Close on Escape key
   useEffect(() => {
@@ -56,14 +57,15 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
-  const copyToClipboard = (text: string, key: string) => {
+  const showToast = (message: string, variant: ToastVariant = 'info') => {
+    setToast({ message, variant });
+  };
+
+  const handleCopy = (text: string, label: string) => {
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
       navigator.clipboard.writeText(text).catch(() => {});
     }
-    setCopiedKey(key);
-    setTimeout(() => {
-      setCopiedKey(null);
-    }, 2000);
+    showToast(`${label} copiado al portapapeles: ${text}`, 'info');
   };
 
   const toggleAccordion = (id: string) => {
@@ -99,30 +101,27 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
               Atención General Ever Health
             </span>
 
-            <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between py-1 group">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between py-1.5 gap-2 group">
                 <a
                   href="mailto:soporte@everhealth.es"
-                  className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors"
+                  className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors min-w-0"
                 >
                   <Mail className="w-4 h-4 text-[#64748b] shrink-0" />
-                  <span className="font-medium">soporte@everhealth.es</span>
+                  <span className="font-medium truncate">soporte@everhealth.es</span>
                 </a>
                 <button
                   type="button"
-                  onClick={() => copyToClipboard('soporte@everhealth.es', 'mail-general')}
-                  className="p-1 rounded hover:bg-[#e2e8f0] text-[#64748b] transition-colors cursor-pointer"
+                  onClick={() => handleCopy('soporte@everhealth.es', 'Correo')}
+                  className="h-[28px] px-2.5 rounded-[6px] border border-[#cbd5e1] hover:border-[#d50475] hover:text-[#d50475] text-[#334155] bg-white text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
                   title="Copiar correo"
                 >
-                  {copiedKey === 'mail-general' ? (
-                    <span className="text-[11px] text-[#15803d] font-bold">Copiado</span>
-                  ) : (
-                    <Copy className="w-3.5 h-3.5" />
-                  )}
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Copiar</span>
                 </button>
               </div>
 
-              <div className="flex items-center justify-between py-1">
+              <div className="flex items-center justify-between py-1.5 gap-2">
                 <a
                   href="tel:911231214"
                   className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors"
@@ -130,27 +129,35 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
                   <Phone className="w-4 h-4 text-[#64748b] shrink-0" />
                   <span className="font-medium">911 23 12 14</span>
                 </a>
-                <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
-                  L-D 24h
-                </span>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
+                    L-D 24h
+                  </span>
+                  <a
+                    href="tel:911231214"
+                    onClick={() => showToast('Iniciando llamada a 911 23 12 14...', 'info')}
+                    className="h-[28px] px-2.5 rounded-[6px] bg-[#d50475] hover:bg-[#b80364] text-white text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                    title="Llamar"
+                  >
+                    <Phone className="w-3.5 h-3.5" />
+                    <span>Llamar</span>
+                  </a>
+                </div>
               </div>
 
-              <div className="flex items-center justify-between py-1 group">
-                <div className="flex items-center gap-2.5 text-black">
+              <div className="flex items-center justify-between py-1.5 gap-2 group">
+                <div className="flex items-center gap-2.5 text-black min-w-0">
                   <MapPin className="w-4 h-4 text-[#64748b] shrink-0" />
                   <span className="truncate">C/ Naciones 10, 28006 Madrid</span>
                 </div>
                 <button
                   type="button"
-                  onClick={() => copyToClipboard('C/ Naciones 10, 28006 Madrid', 'addr-general')}
-                  className="p-1 rounded hover:bg-[#e2e8f0] text-[#64748b] transition-colors cursor-pointer"
+                  onClick={() => handleCopy('C/ Naciones 10, 28006 Madrid', 'Dirección')}
+                  className="h-[28px] px-2.5 rounded-[6px] border border-[#cbd5e1] hover:border-[#d50475] hover:text-[#d50475] text-[#334155] bg-white text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
                   title="Copiar dirección"
                 >
-                  {copiedKey === 'addr-general' ? (
-                    <span className="text-[11px] text-[#15803d] font-bold">Copiado</span>
-                  ) : (
-                    <Copy className="w-3.5 h-3.5" />
-                  )}
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Copiar</span>
                 </button>
               </div>
             </div>
@@ -172,30 +179,27 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
               Para dudas técnicas sobre escaneo facial rPPG, calibración de cámara o mediciones biométricas:
             </p>
 
-            <div className="flex flex-col gap-1.5">
-              <div className="flex items-center justify-between py-1 group">
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center justify-between py-1.5 gap-2 group">
                 <a
                   href="mailto:biometria@everhealth.es"
-                  className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors"
+                  className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors min-w-0"
                 >
                   <Mail className="w-4 h-4 text-[#d50475] shrink-0" />
-                  <span className="font-medium text-black">biometria@everhealth.es</span>
+                  <span className="font-medium text-black truncate">biometria@everhealth.es</span>
                 </a>
                 <button
                   type="button"
-                  onClick={() => copyToClipboard('biometria@everhealth.es', 'mail-bio')}
-                  className="p-1 rounded hover:bg-[#fce7f3] text-[#d50475] transition-colors cursor-pointer"
+                  onClick={() => handleCopy('biometria@everhealth.es', 'Correo de biometría')}
+                  className="h-[28px] px-2.5 rounded-[6px] border border-[#fbcfe8] hover:border-[#d50475] text-[#d50475] bg-white text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
                   title="Copiar correo"
                 >
-                  {copiedKey === 'mail-bio' ? (
-                    <span className="text-[11px] text-[#15803d] font-bold">Copiado</span>
-                  ) : (
-                    <Copy className="w-3.5 h-3.5" />
-                  )}
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Copiar</span>
                 </button>
               </div>
 
-              <div className="flex items-center justify-between py-1">
+              <div className="flex items-center justify-between py-1.5 gap-2">
                 <a
                   href="tel:918220518"
                   className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors"
@@ -203,9 +207,20 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
                   <Phone className="w-4 h-4 text-[#d50475] shrink-0" />
                   <span className="font-medium text-black">918 220 518</span>
                 </a>
-                <span className="text-[11px] text-[#d50475] bg-white px-2 py-0.5 rounded border border-[#fbcfe8]">
-                  Especialistas
-                </span>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-[11px] text-[#d50475] bg-white px-2 py-0.5 rounded border border-[#fbcfe8]">
+                    Especialistas
+                  </span>
+                  <a
+                    href="tel:918220518"
+                    onClick={() => showToast('Iniciando llamada a soporte biométrico al 918 220 518...', 'info')}
+                    className="h-[28px] px-2.5 rounded-[6px] bg-[#d50475] hover:bg-[#b80364] text-white text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                    title="Llamar"
+                  >
+                    <Phone className="w-3.5 h-3.5" />
+                    <span>Llamar</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -533,6 +548,17 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
           {contentMarkup}
         </div>
       </div>
+
+      {/* Toast Flotante para notificaciones de estado (copiar correo, llamada, dirección) */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-[9999] w-[360px] max-w-[calc(100vw-32px)]">
+          <Toast
+            variant={toast.variant}
+            message={toast.message}
+            onClose={() => setToast(null)}
+          />
+        </div>
+      )}
     </>
   );
 };

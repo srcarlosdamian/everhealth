@@ -63,6 +63,7 @@ import { HelpCenter } from './HelpCenter';
 import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
 import { TablePagination } from '../design-system/molecules/TablePagination';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
+import { Toast, ToastVariant } from '../design-system/atoms/Toast';
 
 interface DesignSystemPageProps {
   onBackToHome: () => void;
@@ -171,6 +172,11 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [demoFamiliarMenuOpen, setDemoFamiliarMenuOpen] = useState<number | null>(null);
   const [demoModalDocMenuOpen, setDemoModalDocMenuOpen] = useState<number | null>(null);
   const [demoDocInputName, setDemoDocInputName] = useState('Valoración médica preoperatoria');
+  const [demoActiveToast, setDemoActiveToast] = useState<{
+    message: string;
+    variant: ToastVariant;
+    title?: string;
+  } | null>(null);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
@@ -1073,6 +1079,266 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       <span className="text-[13px] font-bold text-black uppercase tracking-wider">PASO 1/2</span>
                       <span className="text-[#cbd5e1]">·</span>
                       <span className="text-[13px] font-bold text-black uppercase tracking-wider">PASO 1/8</span>
+                    </div>
+                  </div>
+                </StageBlock>
+
+                {/* 9. Notificaciones Toast */}
+                <StageBlock
+                  title="Notificaciones Toast de Estado"
+                  componentTag="<Toast variant='info' | 'success' | 'warning' | 'error' />"
+                  usedIn={['Help Center', 'Modal Documentos', 'Historia Clínica', 'Familiares', 'Mascotas']}
+                  description="Mensajes flotantes no invasivos de retroalimentación para acciones como copiar datos (correo, dirección), iniciar llamadas telefónicas, guardar cambios o eliminar archivos. Reemplazan los checks en línea garantizando consistencia visual."
+                >
+                  <div className="flex flex-col gap-6">
+                    {/* Botones para probar toasts flotantes en vivo */}
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                        Probar Toasts en Vivo (Flotante)
+                      </span>
+                      <div className="flex flex-wrap items-center gap-2.5">
+                        <Button
+                          variant="secondary"
+                          onClick={() =>
+                            setDemoActiveToast({
+                              variant: 'info',
+                              title: 'Copiado al portapapeles',
+                              message: 'Correo copiado: soporte@everhealth.es',
+                            })
+                          }
+                          className="h-[36px] text-[12px]"
+                        >
+                          Probar Copiar Correo (Info)
+                        </Button>
+
+                        <Button
+                          variant="secondary"
+                          onClick={() =>
+                            setDemoActiveToast({
+                              variant: 'info',
+                              title: 'Llamada telefónica',
+                              message: 'Iniciando llamada al 911 23 12 14...',
+                            })
+                          }
+                          className="h-[36px] text-[12px]"
+                        >
+                          Probar Llamada (Info)
+                        </Button>
+
+                        <Button
+                          variant="secondary"
+                          onClick={() =>
+                            setDemoActiveToast({
+                              variant: 'success',
+                              title: 'Operación exitosa',
+                              message: 'Documento guardado correctamente.',
+                            })
+                          }
+                          className="h-[36px] text-[12px]"
+                        >
+                          Probar Guardado (Success)
+                        </Button>
+
+                        <Button
+                          variant="secondary"
+                          onClick={() =>
+                            setDemoActiveToast({
+                              variant: 'warning',
+                              title: 'Alerta de sistema',
+                              message: 'Verifica la iluminación frontal de tu cámara.',
+                            })
+                          }
+                          className="h-[36px] text-[12px]"
+                        >
+                          Probar Alerta (Warning)
+                        </Button>
+
+                        <Button
+                          variant="secondary"
+                          onClick={() =>
+                            setDemoActiveToast({
+                              variant: 'error',
+                              title: 'Elemento eliminado',
+                              message: 'Archivo eliminado de tu historia clínica.',
+                            })
+                          }
+                          className="h-[36px] text-[12px]"
+                        >
+                          Probar Eliminación (Error)
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Previews visuales estáticos de las 4 variantes */}
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                        Variantes Oficiales del Sistema
+                      </span>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        {/* 1. Info */}
+                        <div className="flex flex-col gap-1.5">
+                          <span className="text-[11px] font-bold text-[#0284c7] uppercase">
+                            Info (Copiar datos & Llamadas)
+                          </span>
+                          <Toast
+                            inline
+                            variant="info"
+                            title="Copiado al portapapeles"
+                            message="Dirección copiada: C/ Naciones 10, 28006 Madrid"
+                          />
+                        </div>
+
+                        {/* 2. Success */}
+                        <div className="flex flex-col gap-1.5">
+                          <span className="text-[11px] font-bold text-[#16a34a] uppercase">
+                            Success (Confirmación & Guardado)
+                          </span>
+                          <Toast
+                            inline
+                            variant="success"
+                            title="Documento añadido"
+                            message="Archivo 'analitica_sangre.pdf' guardado con éxito."
+                          />
+                        </div>
+
+                        {/* 3. Warning */}
+                        <div className="flex flex-col gap-1.5">
+                          <span className="text-[11px] font-bold text-[#d97706] uppercase">
+                            Warning (Recomendaciones & Permisos)
+                          </span>
+                          <Toast
+                            inline
+                            variant="warning"
+                            title="Permisos de cámara"
+                            message="Comprueba que tu navegador tenga habilitado el acceso a la cámara."
+                          />
+                        </div>
+
+                        {/* 4. Error */}
+                        <div className="flex flex-col gap-1.5">
+                          <span className="text-[11px] font-bold text-[#e11d48] uppercase">
+                            Error (Eliminación & Bajas)
+                          </span>
+                          <Toast
+                            inline
+                            variant="error"
+                            title="Documento eliminado"
+                            message="Se ha eliminado el informe de antecedentes médicos."
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Catálogo oficial de mensajes Toast documentados */}
+                    <div className="flex flex-col gap-2 pt-2">
+                      <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                        Catálogo de Mensajes Toast del Sistema
+                      </span>
+                      <div className="w-full border border-[#e2e8f0] rounded-[8px] overflow-x-auto bg-white">
+                        <table className="w-full text-left text-[12px] border-collapse">
+                          <thead className="bg-[#f8fafc] text-black border-b border-[#e2e8f0] font-bold">
+                            <tr>
+                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">Evento / Acción</th>
+                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">Variante</th>
+                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">Mensaje Oficial</th>
+                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">Ubicación</th>
+                              <th className="py-2.5 px-3">Duración</th>
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-[#e2e8f0] text-[#334155]">
+                            <tr className="hover:bg-[#fafafa]">
+                              <td className="py-2 px-3 font-bold text-black border-r border-[#e2e8f0]">
+                                Copiar correo soporte
+                              </td>
+                              <td className="py-2 px-3 border-r border-[#e2e8f0]">
+                                <span className="px-2 py-0.5 rounded bg-[#f0f9ff] text-[#0284c7] font-bold text-[11px]">Info</span>
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px] border-r border-[#e2e8f0]">
+                                Correo copiado: soporte@everhealth.es
+                              </td>
+                              <td className="py-2 px-3 text-[#64748b] border-r border-[#e2e8f0]">
+                                Help Center
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px]">3200ms</td>
+                            </tr>
+                            <tr className="hover:bg-[#fafafa]">
+                              <td className="py-2 px-3 font-bold text-black border-r border-[#e2e8f0]">
+                                Copiar dirección física
+                              </td>
+                              <td className="py-2 px-3 border-r border-[#e2e8f0]">
+                                <span className="px-2 py-0.5 rounded bg-[#f0f9ff] text-[#0284c7] font-bold text-[11px]">Info</span>
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px] border-r border-[#e2e8f0]">
+                                Dirección copiada: C/ Naciones 10, 28006 Madrid
+                              </td>
+                              <td className="py-2 px-3 text-[#64748b] border-r border-[#e2e8f0]">
+                                Help Center
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px]">3200ms</td>
+                            </tr>
+                            <tr className="hover:bg-[#fafafa]">
+                              <td className="py-2 px-3 font-bold text-black border-r border-[#e2e8f0]">
+                                Iniciar llamada
+                              </td>
+                              <td className="py-2 px-3 border-r border-[#e2e8f0]">
+                                <span className="px-2 py-0.5 rounded bg-[#f0f9ff] text-[#0284c7] font-bold text-[11px]">Info</span>
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px] border-r border-[#e2e8f0]">
+                                Iniciando llamada a 911 23 12 14...
+                              </td>
+                              <td className="py-2 px-3 text-[#64748b] border-r border-[#e2e8f0]">
+                                Help Center
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px]">3200ms</td>
+                            </tr>
+                            <tr className="hover:bg-[#fafafa]">
+                              <td className="py-2 px-3 font-bold text-black border-r border-[#e2e8f0]">
+                                Subir documento
+                              </td>
+                              <td className="py-2 px-3 border-r border-[#e2e8f0]">
+                                <span className="px-2 py-0.5 rounded bg-[#f0fdf4] text-[#16a34a] font-bold text-[11px]">Success</span>
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px] border-r border-[#e2e8f0]">
+                                Archivo '[nombre]' añadido correctamente
+                              </td>
+                              <td className="py-2 px-3 text-[#64748b] border-r border-[#e2e8f0]">
+                                Modal Documentos
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px]">3000ms</td>
+                            </tr>
+                            <tr className="hover:bg-[#fafafa]">
+                              <td className="py-2 px-3 font-bold text-black border-r border-[#e2e8f0]">
+                                Eliminar documento
+                              </td>
+                              <td className="py-2 px-3 border-r border-[#e2e8f0]">
+                                <span className="px-2 py-0.5 rounded bg-[#fff1f2] text-[#e11d48] font-bold text-[11px]">Error</span>
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px] border-r border-[#e2e8f0]">
+                                '[nombre]' ha sido eliminado
+                              </td>
+                              <td className="py-2 px-3 text-[#64748b] border-r border-[#e2e8f0]">
+                                Modal Documentos
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px]">3000ms</td>
+                            </tr>
+                            <tr className="hover:bg-[#fafafa]">
+                              <td className="py-2 px-3 font-bold text-black border-r border-[#e2e8f0]">
+                                Calibración biométrica
+                              </td>
+                              <td className="py-2 px-3 border-r border-[#e2e8f0]">
+                                <span className="px-2 py-0.5 rounded bg-[#fffbeb] text-[#d97706] font-bold text-[11px]">Warning</span>
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px] border-r border-[#e2e8f0]">
+                                Iluminación baja. Acerca tu rostro a la luz
+                              </td>
+                              <td className="py-2 px-3 text-[#64748b] border-r border-[#e2e8f0]">
+                                Biometría Facial
+                              </td>
+                              <td className="py-2 px-3 font-mono text-[11px]">4000ms</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </StageBlock>
@@ -2270,6 +2536,18 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
         isOpen={demoHelpCenterOpen}
         onClose={() => setDemoHelpCenterOpen(false)}
       />
+
+      {/* Toast flotante para demostración interactiva en Sistema de Diseño */}
+      {demoActiveToast && (
+        <div className="fixed bottom-6 right-6 z-[9999] w-[360px] max-w-[calc(100vw-32px)]">
+          <Toast
+            variant={demoActiveToast.variant}
+            title={demoActiveToast.title}
+            message={demoActiveToast.message}
+            onClose={() => setDemoActiveToast(null)}
+          />
+        </div>
+      )}
     </div>
   );
 };
