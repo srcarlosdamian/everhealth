@@ -177,6 +177,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
     variant: ToastVariant;
     title?: string;
   } | null>(null);
+  const [demoButtonsWithIcons, setDemoButtonsWithIcons] = useState(true);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
@@ -474,70 +475,135 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 2. Botones */}
                 <StageBlock
-                  title="Botones"
+                  title="Botones Estándar & Operaciones de Consulta"
                   componentTag="<Button /> / Modal Actions"
                   usedIn={['Inicio', 'Consultas', 'Historia Clínica', 'Familiares', 'Mascotas', 'Modales']}
-                  description="Botones primarios (#d50475), secundarios (borde gris #cbd5e1, fondo rosa #fdf2f8 y texto rosa #d50475), outline y circulares."
+                  description="Botones con radio estándar homologado de 8px (cuadrados). Mismo peso, mismo tamaño y en mayúsculas en ambos niveles. Incluye toggle para verlos con y sin íconos, variantes completas (primario, secundario rosa con borde #fbcfe8, secundario neutro, destructivo y bloqueado)."
                 >
                   <div className="flex flex-col gap-6">
-                    {/* 1. Global / Main Action Buttons */}
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[13px] font-bold text-black">
-                        1. Botones Principales y Globales (Cuadrados 8px, Primarios y Secundarios)
+                    {/* Control interactivo para alternar con / sin iconos */}
+                    <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
+                      <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                        Muestrario de Variantes Homologadas
                       </span>
+                      <label className="flex items-center gap-2 text-[13px] font-medium text-black cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={demoButtonsWithIcons}
+                          onChange={(e) => setDemoButtonsWithIcons(e.target.checked)}
+                          className="w-4 h-4 rounded border-[#cbd5e1] text-[#d50475] focus:ring-0 cursor-pointer accent-[#d50475]"
+                        />
+                        <span>Mostrar con íconos</span>
+                      </label>
+                    </div>
+
+                    {/* 1. Botones Estándar / Medianos (Nivel 1) */}
+                    <div className="flex flex-col gap-2.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[13px] font-bold text-black uppercase tracking-wide">
+                          1. Botones Estándar / Medianos (Header, CTAs Globales)
+                        </span>
+                        <span className="text-[11px] text-[#64748b]">
+                          Altura 40px · Mismo peso · Mayúsculas
+                        </span>
+                      </div>
                       <div className="flex flex-wrap items-center gap-3">
+                        {/* Primario CTA */}
                         <Button variant="primary">
-                          <Plus className="w-[20px] h-[20px] text-white" />
+                          {demoButtonsWithIcons && <Plus className="w-[18px] h-[18px] text-white" />}
                           <span>SOLICITA UNA CITA</span>
                         </Button>
-                        <button
-                          type="button"
-                          className="h-[40px] px-5 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] font-bold uppercase transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
-                        >
-                          <Plus className="w-4 h-4 text-white" />
-                          <span>CREA NUEVA CONSULTA</span>
-                        </button>
-                        <Button variant="secondary" className="h-[40px] px-5 normal-case font-bold">
-                          <span>Ver historia completa</span>
-                        </Button>
+
+                        {/* Secundario Rosa (borde rosa clarito #fbcfe8) */}
                         <Button variant="secondary">
-                          <ScanFace className="w-[20px] h-[20px] text-[#d50475]" />
+                          {demoButtonsWithIcons && <ScanFace className="w-[18px] h-[18px] text-[#d50475]" />}
                           <span>INICIAR ESCANEO</span>
                         </Button>
+
+                        {/* Secundario Neutro (borde gris) */}
                         <Button variant="outline">
                           <span>COMPLETA TU PERFIL MÉDICO</span>
-                          <ChevronRight className="w-[18px] h-[18px] text-black" />
+                          {demoButtonsWithIcons && <ChevronRight className="w-[18px] h-[18px] text-black" />}
                         </Button>
+
+                        {/* Destructivo Rojo */}
+                        <Button variant="destructive">
+                          {demoButtonsWithIcons && <Trash2 className="w-[16px] h-[16px] text-white" />}
+                          <span>DAR DE BAJA</span>
+                        </Button>
+
+                        {/* Bloqueado / No disponible */}
                         <Button variant="inactive" tooltipText="Activo 15 minutos antes">
-                          NO DISPONIBLE
+                          <span>NO DISPONIBLE</span>
                         </Button>
                       </div>
                     </div>
 
-                    <div className="h-[1px] bg-[#f1f5f9] w-full" />
+                    {/* División visual entre las dos filas como solicitó el usuario */}
+                    <div className="h-[1px] bg-[#e2e8f0] w-full my-1" />
 
-                    {/* 2. Consultation Operation Buttons */}
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[13px] font-bold text-black">
-                        2. Botones Operativos de Consulta (Cuadrados 8px, Altura 38px, Sentence Case)
-                      </span>
+                    {/* 2. Botones Operativos de Consulta (Nivel 2) */}
+                    <div className="flex flex-col gap-2.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[13px] font-bold text-black uppercase tracking-wide">
+                          2. Botones Operativos de Consulta (Fila de Historial & Detalle)
+                        </span>
+                        <span className="text-[11px] text-[#64748b]">
+                          Altura 38px · Mismo peso · Mayúsculas
+                        </span>
+                      </div>
                       <div className="flex flex-wrap items-center gap-3">
-                        <Button variant="consulta-primary">Acceder a la consulta</Button>
-                        <Button variant="consulta-primary">Acceder a la videoconsulta</Button>
-                        <Button variant="consulta-outline">
-                          <MessageSquare className="w-4 h-4 text-[#64748b]" />
-                          <span>Ver conversación</span>
+                        {/* Primario Consulta */}
+                        <Button variant="consulta-primary">
+                          {demoButtonsWithIcons && <Video className="w-4 h-4 text-white" />}
+                          <span>ACCEDER A LA CONSULTA</span>
                         </Button>
-                        <Button variant="consulta-outline">
-                          <FileText className="w-4 h-4 text-[#64748b]" />
-                          <span>Ver informe médico</span>
+
+                        {/* Secundario Rosa Consulta */}
+                        <Button variant="consulta-secondary">
+                          {demoButtonsWithIcons && <Calendar className="w-4 h-4 text-[#d50475]" />}
+                          <span>REAGENDAR CITA</span>
                         </Button>
-                        <Button variant="consulta-outline">Cancelar consulta</Button>
-                        <Button variant="destructive">Dar de baja</Button>
+
+                        {/* Secundario Neutro Conversación */}
+                        <Button variant="consulta-outline">
+                          {demoButtonsWithIcons && <MessageSquare className="w-4 h-4 text-[#64748b]" />}
+                          <span>VER CONVERSACIÓN</span>
+                        </Button>
+
+                        {/* Secundario Neutro Cancelar */}
+                        <Button variant="consulta-outline">
+                          {demoButtonsWithIcons && <X className="w-4 h-4 text-[#64748b]" />}
+                          <span>CANCELAR CONSULTA</span>
+                        </Button>
+
+                        {/* Destructivo Consulta */}
+                        <Button variant="destructive">
+                          {demoButtonsWithIcons && <Trash2 className="w-4 h-4 text-white" />}
+                          <span>DAR DE BAJA</span>
+                        </Button>
+
+                        {/* Bloqueado Consulta */}
+                        <Button variant="consulta-inactive" tooltipText="Activo 15 minutos antes">
+                          <span>NO DISPONIBLE</span>
+                        </Button>
                       </div>
                     </div>
 
-                    <div className="h-[1px] bg-[#f1f5f9] w-full" />
+                    {/* Especificaciones clave */}
+                    <div className="flex flex-wrap gap-2 text-[12px] pt-1">
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        ✓ Mismo peso y mayúsculas en ambos tamaños
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#fdf2f8] border border-[#fbcfe8] text-[#9d174d] font-medium">
+                        ✓ Borde secundario rosa homologado a <strong>#fbcfe8</strong> (rosa clarito)
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        ✓ Variantes espejo completas (Primario, Secundario Rosa, Secundario Neutro, Destructivo, Bloqueado)
+                      </span>
+                    </div>
+
+                    <div className="h-[1px] bg-[#f1f5f9] w-full my-2" />
 
                     {/* 3. Circular Icon Buttons */}
                     <div className="flex flex-col gap-2">
