@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   FileSpreadsheet,
-  ArrowRight,
   User,
   HeartPulse,
   Activity,
@@ -121,17 +120,30 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
 
   return (
     <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-6 animate-fadeIn font-[family-name:Helvetica]">
-      {/* Encabezado limpio sin tabs (solicitado: tabs solo en sidebar) */}
-      <div className="flex flex-col gap-1">
-        <span className="text-[13px] text-[#64748b] font-medium tracking-wide">
-          Historial
-        </span>
-        <h1 className="text-[22px] sm:text-[26px] leading-[32px] font-bold text-black tracking-tight">
-          Historia clínica
-        </h1>
-        <p className="text-[14px] leading-[22px] text-[#64748b]">
-          Consulta y edita tus antecedentes médicos, alergias, medicación y documentación clínica.
-        </p>
+      {/* Encabezado con título y botón de acción superior derecho */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex flex-col gap-1">
+          <span className="text-[13px] text-[#64748b] font-medium tracking-wide">
+            Historial
+          </span>
+          <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
+            Historia clínica
+          </h1>
+          <p className="text-[14px] leading-[22px] text-[#64748b]">
+            Consulta y edita tus antecedentes médicos, alergias, medicación y documentación clínica.
+          </p>
+        </div>
+
+        {/* Botón superior derecho: Ver historia completa */}
+        <div className="self-start sm:self-auto shrink-0">
+          <Button
+            variant="secondary"
+            onClick={() => onOpenDocumentsModal?.()}
+            className="h-[42px] px-5 normal-case font-bold shadow-2xs"
+          >
+            <span>Ver historia completa</span>
+          </Button>
+        </div>
       </div>
 
       {/* Grid de categorías clínicas con iconos 100% neutros */}
@@ -175,18 +187,6 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
             </p>
           </div>
         ))}
-      </div>
-
-      {/* Botón inferior: Ver historia clínica completa */}
-      <div className="pt-2 flex justify-center">
-        <Button
-          variant="outline"
-          onClick={() => onOpenDocumentsModal?.()}
-          className="w-full sm:w-auto min-w-[320px] h-[44px] px-6 text-[14px] font-bold"
-        >
-          <span>Ver historia clínica completa</span>
-          <ArrowRight className="w-4 h-4 text-black" />
-        </Button>
       </div>
     </div>
   );

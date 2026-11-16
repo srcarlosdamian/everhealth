@@ -464,14 +464,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 <StageBlock
                   title="Botones"
                   componentTag="<Button /> / Modal Actions"
-                  usedIn={['Inicio', 'Historial', 'Familiares', 'Mascotas', 'Modales']}
-                  description="Botones primarios (#d50475), secundarios outline (#cbd5e1), modales y circulares de 8px."
+                  usedIn={['Inicio', 'Consultas', 'Historia Clínica', 'Familiares', 'Mascotas', 'Modales']}
+                  description="Botones primarios (#d50475), secundarios (borde gris #cbd5e1, fondo rosa #fdf2f8 y texto rosa #d50475), outline y circulares."
                 >
                   <div className="flex flex-col gap-6">
                     {/* 1. Global / Main Action Buttons */}
                     <div className="flex flex-col gap-2">
                       <span className="text-[13px] font-bold text-black">
-                        1. Botones Principales y Globales (Cuadrados 8px, Mayúsculas)
+                        1. Botones Principales y Globales (Cuadrados 8px, Primarios y Secundarios)
                       </span>
                       <div className="flex flex-wrap items-center gap-3">
                         <Button variant="primary">
@@ -485,6 +485,9 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           <Plus className="w-4 h-4 text-white" />
                           <span>CREA NUEVA CONSULTA</span>
                         </button>
+                        <Button variant="secondary" className="h-[40px] px-5 normal-case font-bold">
+                          <span>Ver historia completa</span>
+                        </Button>
                         <Button variant="secondary">
                           <ScanFace className="w-[20px] h-[20px] text-[#d50475]" />
                           <span>INICIAR ESCANEO</span>

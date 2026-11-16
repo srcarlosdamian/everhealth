@@ -42,7 +42,7 @@ export const Button: React.FC<ButtonProps> = ({
       case 'primary':
         return 'px-[12px] py-[4px] rounded-[8px] bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white text-[14px] leading-[20px] font-bold uppercase border border-transparent shadow-xs';
       case 'secondary':
-        return 'px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-transparent text-[#d50475] text-[14px] leading-[20px] font-bold uppercase';
+        return 'px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-[#fdf2f8] hover:bg-[#fce7f3] active:bg-[#fbcfe8] text-[#d50475] text-[14px] leading-[20px] font-bold transition-colors';
       case 'outline':
         return 'px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white text-black text-[14px] leading-[20px] font-bold uppercase';
       case 'consulta-primary':
