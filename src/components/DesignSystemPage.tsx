@@ -41,7 +41,6 @@ import { Button } from '../design-system/atoms/Button';
 import { Badge } from '../design-system/atoms/Badge';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
-import { SwitchToggle } from '../design-system/atoms/SwitchToggle';
 import { Checkbox } from '../design-system/atoms/Checkbox';
 import { Radio } from '../design-system/atoms/Radio';
 import { CalendarMonthGrid } from '../design-system/molecules/CalendarMonthGrid';
@@ -49,7 +48,6 @@ import { CalendarDaySlots } from '../design-system/molecules/CalendarDaySlots';
 import { SelectedAppointmentBanner } from '../design-system/molecules/SelectedAppointmentBanner';
 import { ProgressCheckCircle } from '../design-system/atoms/ProgressCheckCircle';
 import { AutosaveIndicator } from '../design-system/atoms/AutosaveIndicator';
-import { StatusDotBadge } from '../design-system/atoms/StatusDotBadge';
 import { TextInput } from '../design-system/atoms/TextInput';
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { ColorPickerDropdown } from '../design-system/atoms/ColorPickerDropdown';
@@ -123,11 +121,11 @@ const StageBlock: React.FC<StageBlockProps> = ({
             </code>
           </div>
           <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-[11px] text-[#64748b]">Usado en:</span>
+            <span className="text-[11px] font-bold text-[#64748b]">Usado en:</span>
             {usedIn.map((place) => (
               <span
                 key={place}
-                className="px-2 py-0.5 rounded-full bg-[#f8fafc] border border-[#e2e8f0] text-[11px] font-medium text-[#475569]"
+                className="px-2.5 py-0.5 rounded-full bg-[#f1f5f9] border border-[#cbd5e1] text-[11px] font-bold text-[#0f172a]"
               >
                 {place}
               </span>
@@ -152,7 +150,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
   // Estados interactivos para probar los componentes reales en vivo
   const [demoToggle, setDemoToggle] = useState('si');
-  const [demoSwitch, setDemoSwitch] = useState(true);
   const [demoMultipleChecks, setDemoMultipleChecks] = useState<string[]>(['Fiebre', 'Tos']);
   const [demoRadioSpecialty, setDemoRadioSpecialty] = useState<string>('Sexología');
   const [demoCalendarDay, setDemoCalendarDay] = useState<number>(17);
@@ -269,10 +266,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </div>
 
                 <StageBlock
-                  title="Tipografía Oficial"
+                  title="Tipografía"
                   componentTag="font-[family-name:Helvetica]"
-                  usedIn={['Toda la App']}
-                  description="Familia tipográfica estrictamente Helvetica. Títulos de campo y opciones de menús/dropdowns en 16px regular negro."
+                  usedIn={['Toda la aplicación']}
+                  description="Familia Helvetica con escala de 11px a 32px y textos regulares en inputs."
                 >
                   <div className="flex flex-col gap-2 text-black">
                     <p className="text-[24px] font-bold">Helvetica Bold 700 — Encabezados y CTAs</p>
@@ -282,10 +279,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </StageBlock>
 
                 <StageBlock
-                  title="Gama Pink (Acciones Primarias)"
+                  title="Paleta Primaria (Pink)"
                   componentTag="#d50475 / #831843"
-                  usedIn={['Botones Primarios', 'Solicitar Cita', 'Stepper Check']}
-                  description="Reservado exclusivamente para CTAs primarios, el botón + del header, y los checks de progreso (#831843). Prohibido en hovers de inputs o menús secundarios."
+                  usedIn={['Botones CTA', 'Checks de Progreso', 'Selección']}
+                  description="Rosa principal #d50475 y tonos claros #fdf2f8 / #fce7f3 para selección."
                 >
                   <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
                     {[
@@ -306,10 +303,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </StageBlock>
 
                 <StageBlock
-                  title="Gama Neutra: BlueGray"
+                  title="Paleta Neutra (Slate)"
                   componentTag="#64748b / #cbd5e1 / #f1f5f9"
-                  usedIn={['Iconos', 'Bordes de Inputs', 'Hover de Menús']}
-                  description="Todos los iconos de navegación, historia clínica, soporte y tablas usan #64748b. Los hovers de dropdowns y menús usan #f1f5f9."
+                  usedIn={['Iconos', 'Bordes', 'Fondos', 'Textos']}
+                  description="Escala de grises para bordes (#e2e8f0), iconos (#64748b) y textos (#0f172a)."
                 >
                   <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                     {[
@@ -342,10 +339,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 1. Badges */}
                 <StageBlock
-                  title="Badges & Etiquetas de Estado Semánticas"
+                  title="Badges de Estado"
                   componentTag="<Badge />"
-                  usedIn={['Home', 'Solicitar Chat', 'Familiares', 'Mascotas', 'Historial de Consultas', 'Cuestionario']}
-                  description="Componente único y reutilizable para etiquetas de estado. 'Disponible', 'Disponible ahora' y 'A cargo' son el mismo componente unificado (<Badge variant='success' /> con borde gris #cbd5e1 y texto verde #15803d), clasificados por su propósito funcional."
+                  usedIn={['Historial de Consultas', 'Solicitar Chat', 'Familiares', 'Mascotas', 'Inicio']}
+                  description="Etiquetas de estado semánticas con bordes suaves, colores estándar y tooltips interactivos."
                 >
                   <div className="flex flex-col gap-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -463,27 +460,12 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </div>
                 </StageBlock>
 
-                {/* 2. StatusDotBadge */}
+                {/* 2. Botones */}
                 <StageBlock
-                  title="Indicador de Estado con Punto de Color"
-                  componentTag="<StatusDotBadge />"
-                  usedIn={['Historial de Consultas']}
-                  description="Punto circular semántico + texto regular utilizado en la esquina superior derecha de cada tarjeta en el Historial de Consultas."
-                >
-                  <div className="flex flex-wrap items-center gap-6">
-                    <StatusDotBadge status="Pendiente de recomendación" />
-                    <StatusDotBadge status="En proceso" />
-                    <StatusDotBadge status="Cancelada" />
-                    <StatusDotBadge status="Terminada" />
-                  </div>
-                </StageBlock>
-
-                {/* 3. Botones Oficiales */}
-                <StageBlock
-                  title="Botones Estándar, Operativos, Modales & Circulares"
+                  title="Botones"
                   componentTag="<Button /> / Modal Actions"
-                  usedIn={['Home', 'Historial de Consultas', 'Familiares', 'Mascotas', 'Modales']}
-                  description="Catálogo unificado de botones de la plataforma. Se dividen estrictamente en: (1) Botones principales en mayúsculas de 44px/48px, (2) Botones operativos de consulta en formato cuadrado de 38px (borde gris claro #cbd5e1 o primario), (3) Botones circulares exclusivos para acciones de icono (desplegables, navegación y cierre), y (4) Botones y acciones de pie de modales."
+                  usedIn={['Inicio', 'Historial', 'Familiares', 'Mascotas', 'Modales']}
+                  description="Botones primarios (#d50475), secundarios outline (#cbd5e1), modales y circulares de 8px."
                 >
                   <div className="flex flex-col gap-6">
                     {/* 1. Global / Main Action Buttons */}
@@ -832,10 +814,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 4. AutosaveIndicator */}
                 <StageBlock
-                  title="Indicador de Autoguardado"
+                  title="Autoguardado"
                   componentTag="<AutosaveIndicator />"
                   usedIn={['Cuestionario Médico', 'Mis Documentos Médicos']}
-                  description="Píldora discreta sin bordes en tipografía regular. Muestra confirmación de autoguardado (#f1f5f9 con CheckCircle2) o aviso de reintento (#fef9c3 fondo amarillo suave con el mismo tono de texto, tamaño y sin línea)."
+                  description="Avisos discretos de guardado automático con estados 'Guardado' y 'Error'."
                 >
                   <div className="flex flex-wrap items-center gap-4">
                     <AutosaveIndicator status="saved" />
@@ -843,32 +825,27 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </div>
                 </StageBlock>
 
-                {/* 5. SegmentedToggle & SwitchToggle */}
+                {/* 5. SegmentedToggle */}
                 <StageBlock
-                  title="Segmented Toggle (Sí/No) & Switch Toggle"
-                  componentTag="<SegmentedToggle /> / <SwitchToggle />"
-                  usedIn={['Cuestionario Médico', 'Historial de Consultas', 'Header Notificaciones']}
-                  description="Selectores binarios interactivos reutilizados en preguntas clínicas y filtros de vistas."
+                  title="Segmented Toggle"
+                  componentTag="<SegmentedToggle />"
+                  usedIn={['Biometría', 'Cuestionario Médico', 'Modal Ginecología']}
+                  description="Selector binario Sí/No con botón seleccionado en negro y radio de 6px."
                 >
                   <div className="flex flex-wrap items-center gap-8">
                     <SegmentedToggle
                       value={demoToggle}
                       onChange={(v) => setDemoToggle(v)}
                     />
-                    <SwitchToggle
-                      checked={demoSwitch}
-                      onChange={setDemoSwitch}
-                      label="Ver solo informes"
-                    />
                   </div>
                 </StageBlock>
 
-                {/* 6. Checkboxes (Selección Múltiple) & Radiales (Selección Única) */}
+                {/* 6. Checkbox & Radio */}
                 <StageBlock
-                  title="Checkboxes (Opción Múltiple) & Radiales (Opción Única)"
+                  title="Checkbox & Radio"
                   componentTag="<Checkbox /> / <Radio />"
-                  usedIn={['Biometría', 'Modal Videoconsulta', 'Modal Solicitar Chat', 'Login', 'Cuestionario Médico']}
-                  description="Componentes homologados para selección. Los checkboxes cuadrados (rounded-[4px]) permiten marcar múltiples opciones simultáneamente. Los radiales circulares (rounded-full) se utilizan para selección única o exclusiva donde no aplica doble selección."
+                  usedIn={['Biometría', 'Modales de Consulta', 'Login', 'Cuestionario Médico']}
+                  description="Controles de selección múltiple (cuadrados) y única (radiales) con foco negro."
                 >
                   <div className="flex flex-col gap-8">
                     {/* PARTE A: Checkboxes Cuadrados (Selección Múltiple) */}
@@ -971,10 +948,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 7. Calendarios de Citas & Selectores de Horario */}
                 <StageBlock
-                  title="Calendarios de Citas & Selectores de Horario"
+                  title="Calendario y Horarios"
                   componentTag="<CalendarMonthGrid /> / <CalendarDaySlots />"
-                  usedIn={['Modal Videoconsulta', 'Modal Solicitar Chat', 'Home (Citas)']}
-                  description="Estructura homologada para la reserva de citas médicas. Incluye el Calendario Mensual completo y el Selector de Días y Horarios en Columnas, con franjas horarias secundarias rosa CTA (#d50475) y confirmación en banner rosa claro (#fdf2f8) sin bordes."
+                  usedIn={['Modal Videoconsulta', 'Modal Solicitar Chat']}
+                  description="Calendario mensual y turnos en columnas con selección en rosa suave y banner de confirmación sin línea."
                 >
                   <div className="flex flex-col gap-8">
                     {/* Modelo 1: Calendario Mensual + Franjas de Hora Adyacentes */}
@@ -1066,10 +1043,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 8. ProgressCheckCircle & StepperCheck */}
                 <StageBlock
-                  title="Anillos de Progreso & Stepper Check (#831843)"
+                  title="Progreso y Stepper Check"
                   componentTag="<ProgressCheckCircle /> / <StepperCheck />"
                   usedIn={['Cuestionario Médico', 'Modal Videoconsulta', 'Modal Solicitar Chat', 'Biometría']}
-                  description="Indicadores de avance por sección y checks circulares para formularios multipaso con nomenclatura estricta PASO X/Y."
+                  description="Anillos circulares de porcentaje y checks multipaso en tono vino #831843."
                 >
                   <div className="flex flex-wrap items-center gap-8">
                     <div className="flex items-center gap-4">
@@ -1105,10 +1082,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 1. TextInput */}
                 <StageBlock
-                  title="Input de Texto Estándar & Monospace"
+                  title="Input de Texto"
                   componentTag="<TextInput />"
-                  usedIn={['Familiares', 'Mascotas', 'Onboarding', 'Cuestionario Médico']}
-                  description="Al hacer clic o foco en el input, el borde cambia a negro neutro (focus:border-black)."
+                  usedIn={['Familiares', 'Mascotas', 'Cuestionario Médico']}
+                  description="Campos de texto estándar con altura de 44px, etiqueta superior y foco negro."
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[680px]">
                     <TextInput
@@ -1127,10 +1104,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 2. Search Input */}
                 <StageBlock
-                  title="Input de Búsqueda con Icono"
+                  title="Input de Búsqueda"
                   componentTag="<TextInput leftIcon={<Search />} />"
-                  usedIn={['Familiares', 'Mascotas', 'Historia Clínica']}
-                  description="Variante del mismo componente TextInput con icono Search neutro a la izquierda y foco oscuro neutro."
+                  usedIn={['Historial de Consultas', 'Solicitar Chat', 'Help Center']}
+                  description="Buscador con icono de lupa integrado para filtrar tablas y directorios."
                 >
                   <div className="max-w-[480px]">
                     <TextInput
@@ -1140,12 +1117,12 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </div>
                 </StageBlock>
 
-                {/* 3. Dropdown (con emoji/icono, texto regular y variante size="sm") */}
+                {/* 3. Dropdown */}
                 <StageBlock
-                  title="Selector Desplegable Unificado (Con ChevronDown de Lucide y Tamaños Standard/Compacto)"
+                  title="Dropdown Selector"
                   componentTag="<Dropdown />"
-                  usedIn={['Solicitar Chat', 'Historial de Consultas', 'Mascotas', 'Familiares', 'Modal Videoconsulta', 'Modal Solicitar Chat']}
-                  description="Componente oficial del Sistema de Diseño que reemplaza los <select> nativos del navegador. Utiliza el ícono ChevronDown de Lucide con rotación fluida, margen derecho adecuado y estados hover/focus neutros. Disponible en tamaño standard (44px) y tamaño compacto sm (36px) para barras de filtros."
+                  usedIn={['Solicitar Chat', 'Historial', 'Mascotas', 'Familiares', 'Modales de Consulta']}
+                  description="Selector personalizado con ChevronDown en tamaño Standard (44px) y Compacto (36px)."
                 >
                   <div className="flex flex-col gap-6">
                     {/* Tamaño Standard (Formularios y Modales) */}
@@ -1213,33 +1190,12 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </div>
                 </StageBlock>
 
-                {/* 4. Dropdown en Modales Médicos */}
+                {/* 4. ColorPickerDropdown */}
                 <StageBlock
-                  title="Dropdown en Solicitud de Videoconsulta y Chat"
-                  componentTag="<Dropdown />"
-                  usedIn={['ModalVideoConsulta', 'ModalSolicitarChat']}
-                  description="Reemplaza cualquier <select> nativo en los modales de consulta, garantizando el mismo chevron y tipografía 16px regular."
-                >
-                  <div className="max-w-[420px]">
-                    <Dropdown
-                      label="1. Modalidad de atención"
-                      required
-                      value={demoModalidad}
-                      onChange={setDemoModalidad}
-                      options={[
-                        { value: 'agendar', label: 'Agendar cita (Elegir fecha y horario)' },
-                        { value: 'ahora', label: 'Hablar ahora (Atención médica inmediata)' },
-                      ]}
-                    />
-                  </div>
-                </StageBlock>
-
-                {/* 5. ColorPickerDropdown */}
-                <StageBlock
-                  title="Selector de Color Flotante"
+                  title="Selector de Color"
                   componentTag="<ColorPickerDropdown />"
-                  usedIn={['Mascotas (Modal Añadir Mascota)']}
-                  description="Despliega la paleta de colores habituales e input HEX justo debajo del campo con borde neutro oscuro al abrirse."
+                  usedIn={['Mascotas']}
+                  description="Paleta flotante con tonos de mascota e input de código HEX."
                 >
                   <div className="max-w-[280px]">
                     <ColorPickerDropdown
@@ -1262,15 +1218,15 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </p>
                 </div>
 
-                {/* 1. ActionMenu Unificado */}
+                {/* 1. ActionMenu */}
                 <StageBlock
-                  title="Menú de Acciones Unificado (MenuAcciones / ActionMenu)"
-                  componentTag="<MenuAcciones />"
-                  usedIn={['Header (+)', 'Header Soporte', 'Header Usuario', 'Sidebar', 'Biometría', 'Tablas Familiares/Mascotas']}
-                  description="Unifica todos los menús desplegables de la app con el mismo ancho (280px), mismo espaciado (gap-1, padding 10px), mismo tamaño de texto (16px normal) e iconos uniformes (w-5 h-5). En Variante 1 los iconos son color rosa y el texto en mayúsculas; en Variante 2 los iconos son neutros. Al hacer clic en la dirección en Variante 2, se copia automáticamente al portapapeles con un aviso sutil."
+                  title="Menú de Acciones"
+                  componentTag="<ActionMenu />"
+                  usedIn={['Historial de Consultas', 'Familiares', 'Mascotas', 'Inicio']}
+                  description="Menú desplegable de 280px para acciones rápidas y opciones de fila."
                 >
                   <div className="flex flex-wrap items-start gap-8">
-                    {/* Variante 1: Solicitar una cita */}
+                    {/* Variante 1: Solicitar cita */}
                     <div className="flex flex-col gap-2">
                       <span className="text-[12px] font-bold text-[#64748b] uppercase tracking-wider">
                         Variante 1: &quot;solicitar-cita&quot;
@@ -1293,41 +1249,20 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       />
                     </div>
 
-                    {/* Variante 2A: Header Botón (+) */}
+                    {/* Variante 2: Standard */}
                     <div className="flex flex-col gap-2">
                       <span className="text-[12px] font-bold text-[#64748b] uppercase tracking-wider">
-                        Variante 2: &quot;standard&quot; (Header + / Tablas / Usuario)
+                        Variante 2: &quot;standard&quot;
                       </span>
                       <ActionMenu
                         variant="standard"
                         className="w-[280px]"
                         items={[
-                          { id: '1', label: 'Solicitar una cita', icon: <Calendar className="w-5 h-5" /> },
-                          { id: '2', label: 'Solicitar una videoconsulta', icon: <Video className="w-5 h-5" /> },
+                          { id: '1', label: 'Solicitar chat', icon: <MessageSquare className="w-5 h-5" /> },
+                          { id: '2', label: 'Solicitar videoconsulta', icon: <Video className="w-5 h-5" /> },
                           { id: '3', label: 'Biometría facial', icon: <ScanFace className="w-5 h-5" /> },
                           { id: '4', label: 'Añadir familia', icon: <Users className="w-5 h-5" /> },
                           { id: '5', label: 'Añadir mascota', icon: <PawPrint className="w-5 h-5" /> },
-                        ]}
-                      />
-                    </div>
-
-                    {/* Variante 2B: Soporte Ever Health */}
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[12px] font-bold text-[#64748b] uppercase tracking-wider">
-                        Variante 2: &quot;standard&quot; (Soporte Ever Health)
-                      </span>
-                      <ActionMenu
-                        variant="standard"
-                        className="w-[280px]"
-                        items={[
-                          { id: 'mail', label: 'soporte@everhealth.es', icon: <Mail className="w-5 h-5" /> },
-                          { id: 'tel', label: '911 23 12 14', icon: <Phone className="w-5 h-5" /> },
-                          {
-                            id: 'loc',
-                            label: 'C/ Naciones 10, 28006 Madrid',
-                            icon: <MapPin className="w-5 h-5" />,
-                            copyable: true,
-                          },
                         ]}
                       />
                     </div>
@@ -1336,30 +1271,30 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 2. AvailableDoctorsRow */}
                 <StageBlock
-                  title="Fila de Médicos Disponibles (Transparente)"
+                  title="Médicos Disponibles"
                   componentTag="<AvailableDoctorsRow />"
-                  usedIn={['EVR100Home (Atención inmediata)']}
-                  description="Observa sobre el fondo de puntitos que este componente NO tiene contenedor ni borde propio: son los 3 avatares superpuestos y las 2 líneas de texto."
+                  usedIn={['Inicio (Atención Inmediata)']}
+                  description="Avatares superpuestos con tiempo estimado de espera."
                 >
                   <AvailableDoctorsRow />
                 </StageBlock>
 
                 {/* 3. AssignedDoctorCard */}
                 <StageBlock
-                  title="Tarjeta de Médico Asignado"
+                  title="Médico Asignado"
                   componentTag="<AssignedDoctorCard />"
-                  usedIn={['ModalSolicitarChat', 'SolicitarChat']}
-                  description="Este componente SÍ posee fondo blanco propio y borde de 2px (#e2e8f0), e integra internamente el átomo <Badge variant='disponible-ahora' />."
+                  usedIn={['Modal Solicitar Chat']}
+                  description="Ficha del doctor colegiado con avatar, nombre y especialidad."
                 >
                   <AssignedDoctorCard />
                 </StageBlock>
 
                 {/* 4. NavigationFooter */}
                 <StageBlock
-                  title="Barra Inferior de Navegación de Formularios"
+                  title="Barra de Navegación"
                   componentTag="<NavigationFooter />"
-                  usedIn={['Onboarding', 'Cuestionario Médico', 'Mis Documentos Médicos']}
-                  description="Barra con superficie #f8fafc y botones Atrás / Continuar reutilizada en todos los flujos paso a paso."
+                  usedIn={['Biometría', 'Cuestionario Médico', 'Onboarding']}
+                  description="Barra inferior fija con botones Atrás y Siguiente / Finalizar."
                 >
                   <NavigationFooter
                     onBack={() => {}}
@@ -1371,10 +1306,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 5. PaginationEvents */}
                 <StageBlock
-                  title="Paginador de Eventos (Cargar más / Mostrar menos)"
+                  title="Paginador de Eventos"
                   componentTag="<PaginationEvents />"
-                  usedIn={['EVR100Home (Próximas consultas)']}
-                  description="Pie de lista interactivo conectado directamente a la tarjeta de Próximas consultas en el Home."
+                  usedIn={['Inicio (Próximas consultas)']}
+                  description="Pie interactivo para expandir o contraer citas programadas."
                 >
                   <PaginationEvents
                     visibleCount={demoPaginationExpanded ? 5 : 1}
@@ -1386,10 +1321,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 6. TablePagination */}
                 <StageBlock
-                  title="Paginación Oficial de Tablas"
+                  title="Paginación de Tablas"
                   componentTag="<TablePagination />"
-                  usedIn={['Consultas', 'Familiares', 'Mascotas']}
-                  description="Componente estandarizado único de paginación para todas las tablas: texto contador a la izquierda y botonera compacta con bordes cuadrados de 4px a la derecha."
+                  usedIn={['Historial de Consultas', 'Familiares', 'Mascotas']}
+                  description="Controles numéricos de paginación y contador de registros."
                 >
                   <TablePagination
                     visibleCount={5}
@@ -1400,10 +1335,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 7. CompletionMedalIllustration */}
                 <StageBlock
-                  title="Ilustración de Finalización (Medalla en Podio)"
+                  title="Ilustración de Medalla"
                   componentTag="<CompletionMedalIllustration />"
-                  usedIn={['Cuestionario Médico (Pantalla de éxito)']}
-                  description="Ilustración SVG vectorial sin fondo que se muestra al concluir el cuestionario médico."
+                  usedIn={['Cuestionario Médico']}
+                  description="Ilustración vectorial de medalla al finalizar cuestionarios."
                 >
                   <CompletionMedalIllustration size={140} />
                 </StageBlock>
@@ -1422,10 +1357,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* Organismo 1: Card Atención Inmediata */}
                 <StageBlock
-                  title="Card: Atención Inmediata"
+                  title="Card Atención Inmediata"
                   componentTag="<AvailableDoctorsRow /> + <Button /> + <ActionMenu />"
-                  usedIn={['EVR100Home']}
-                  description="Combina la fila de médicos disponibles, el botón primario y el menú desplegable 'solicitar-cita'."
+                  usedIn={['Inicio']}
+                  description="Bloque de bienvenida y acceso directo a videoconsulta o chat."
                 >
                   <section className="w-full bg-white p-6 border border-[#e2e8f0] flex flex-col gap-[16px]">
                     <div className="flex flex-col gap-[2px]">
@@ -1476,12 +1411,12 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </section>
                 </StageBlock>
 
-                {/* Organismo 2: Fila de Consulta estilo Calendario y Acordeón */}
+                {/* Organismo 2: Fila de Consulta */}
                 <StageBlock
-                  title="Fila de Consulta: Estructura Calendario y Acordeón"
+                  title="Fila de Consulta"
                   componentTag="<Badge /> + <Button />"
-                  usedIn={['Consultas']}
-                  description="Fila de 5 columnas divididas con hora/fecha calendario a la izquierda, profesional, badge y chevron. Al desplegarse, mantiene fondo blanco puro y muestra el motivo junto a las acciones médicas reales."
+                  usedIn={['Historial de Consultas']}
+                  description="Fila de tabla con hora, profesional, badge de estado y panel desplegable."
                 >
                   <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-hidden flex flex-col">
                     <div className="w-full py-4 px-4 sm:px-6 flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-white">
@@ -1549,10 +1484,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </div>
 
                 <StageBlock
-                  title="Modal de Confirmación («Dar de baja / Cancelar»)"
+                  title="Modal de Confirmación"
                   componentTag="<ConfirmDeactivateModal />"
                   usedIn={['Familiares', 'Mascotas', 'Historial de Consultas']}
-                  description="Componente único para confirmar bajas o cancelaciones. Mostrado aquí mismo sobre el lienzo de puntitos tal cual es."
+                  description="Diálogo de advertencia para confirmación de bajas o cancelaciones."
                 >
                   <div className="flex flex-col items-start gap-4">
                     <ConfirmDeactivateModal
@@ -1568,10 +1503,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </StageBlock>
 
                 <StageBlock
-                  title="Modal de Formulario («Añadir Familiar / Mascota»)"
+                  title="Modal de Formulario"
                   componentTag="<TextInput /> + <Dropdown /> + <Button />"
                   usedIn={['Familiares', 'Mascotas']}
-                  description="Construido íntegramente con los átomos TextInput y Dropdown (sin <select> nativos ni bordes rosas)."
+                  description="Estructura modal para creación y edición de datos con inputs y dropdowns."
                 >
                   <Button variant="primary" onClick={() => setDemoFormModalOpen(true)}>
                     Probar Modal de Formulario en vivo
@@ -1579,10 +1514,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </StageBlock>
 
                 <StageBlock
-                  title="Comparativa de Footers & Botones en Modales"
+                  title="Footers de Modales"
                   componentTag="Modal Footers & Actions"
-                  usedIn={['Video Consulta', 'Solicitar Chat', 'Familiares', 'Mascotas', 'Documentos', 'Ginecología']}
-                  description="Comparativa en vivo de las 4 familias de barras inferiores (footers) de modales en Ever Health, mostrando la alineación de textos informativos a la izquierda y el grupo de acciones a la derecha."
+                  usedIn={['Videoconsulta', 'Solicitar Chat', 'Familiares', 'Mascotas']}
+                  description="Alineación estándar: textos de estado a la izquierda y botones de acción a la derecha."
                 >
                   <div className="flex flex-col gap-6">
                     {/* 1. Footer Citas */}
@@ -1665,10 +1600,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </StageBlock>
 
                 <StageBlock
-                  title="Help Center (Panel Lateral Derecho & Modal Mobile)"
+                  title="Help Center"
                   componentTag="<HelpCenter />"
                   usedIn={['Header (Info)', 'Biometría', 'Mobile Drawer']}
-                  description="Centro de soporte y ayuda interactivo. En pantallas de escritorio se despliega como panel lateral a la derecha estilo Gemini (sin oscurecer el fondo) y en dispositivos móviles como ventana modal adaptada. Incluye buscador en tiempo real, canales de contacto (soporte general y biometría divididos por línea) y acordeones categorizados."
+                  description="Panel lateral derecho en desktop y modal en mobile con soporte unificado y FAQs."
                 >
                   <div className="flex flex-col items-start gap-3">
                     <Button variant="primary" onClick={() => setDemoHelpCenterOpen(true)}>
@@ -1698,10 +1633,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </div>
 
                 <StageBlock
-                  title="Íconos Activos en la Aplicación"
+                  title="Catálogo de Íconos"
                   componentTag="lucide-react"
-                  usedIn={['Toda la App']}
-                  description="Cada tarjeta muestra el icono en su tono neutro oficial (#64748b)."
+                  usedIn={['Toda la aplicación']}
+                  description="Íconos oficiales Lucide en tono neutro #64748b."
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {ICONS_CATALOG.map((item) => {
