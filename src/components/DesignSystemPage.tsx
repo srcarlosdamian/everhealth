@@ -972,7 +972,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   title="Calendarios de Citas & Selectores de Horario"
                   componentTag="<CalendarMonthGrid /> / <CalendarDaySlots />"
                   usedIn={['Modal Videoconsulta', 'Modal Solicitar Chat', 'Home (Citas)']}
-                  description="Estructura homologada para la reserva de citas médicas. Incluye el Calendario Mensual completo (cuadrícula de 7 columnas con día seleccionado neutral) y el Selector de Días y Horarios en Columnas para turnos rápidos."
+                  description="Estructura homologada para la reserva de citas médicas. Incluye el Calendario Mensual completo y el Selector de Días y Horarios en Columnas, con franjas horarias secundarias rosa CTA (#d50475) y confirmación en banner rosa claro (#fdf2f8) sin bordes."
                 >
                   <div className="flex flex-col gap-8">
                     {/* Modelo 1: Calendario Mensual + Franjas de Hora Adyacentes */}
@@ -982,7 +982,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           1. Calendario Mensual con Franjas de Hora Adyacentes (Videoconsulta)
                         </span>
                         <span className="text-[12px] text-[#64748b]">
-                          Navegación de mes con chevrons discretos y cuadrícula de días (D L M M J V S). Día seleccionado con fondo negro y radio de 6px.
+                          Navegación de mes con chevrons discretos y cuadrícula de días (D L M M J V S). Día seleccionado con fondo rosa claro (#fce7f3), borde (#f472b6) y texto oscuro 950 (#0f172a). Franja horaria seleccionada en botón secundario rosa CTA (#d50475).
                         </span>
                       </div>
 
@@ -1003,7 +1003,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               onClick={() => setDemoCalendarTime(time)}
                               className={`h-[36px] rounded-[6px] border text-[13px] font-bold transition-all cursor-pointer ${
                                 demoCalendarTime === time
-                                  ? 'border-black bg-black text-white shadow-xs'
+                                  ? 'border-[#f472b6] bg-[#fce7f3] text-[#d50475] shadow-xs'
                                   : 'border-[#cbd5e1] hover:border-black bg-white text-black'
                               }`}
                             >
@@ -1030,7 +1030,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           2. Selector de Días y Turnos en Columnas (Solicitar Chat / Turnos Médicos)
                         </span>
                         <span className="text-[12px] text-[#64748b]">
-                          Visualización por días de la semana con franjas horarias directas. Columna activa con borde negro y franja seleccionada con fondo negro.
+                          Visualización por días de la semana con franjas horarias directas. Columna activa con fondo rosa claro (#fdf2f8), borde rosa (#f472b6) y franja seleccionada con botón secundario rosa CTA (#d50475).
                         </span>
                       </div>
 

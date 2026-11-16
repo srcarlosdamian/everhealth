@@ -18,6 +18,7 @@ interface SidebarProps {
   currentView: string;
   onNavigate: (view: string) => void;
   onOpenVideoModal: () => void;
+  onOpenBiometriaModal?: () => void;
   userName: string;
   onLogout: () => void;
 }
@@ -26,6 +27,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   currentView,
   onNavigate,
   onOpenVideoModal,
+  onOpenBiometriaModal,
   userName,
   onLogout,
 }) => {
@@ -144,65 +146,63 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         <hr className="border-[#e2e8f0] my-[6px]" />
 
-        {/* Group: Solicitar una cita + Biometría facial (WITHOUT dividing hr as requested) */}
-        <div className="flex flex-col gap-[6px] relative" ref={dropdownRef}>
-          {/* Solicitar una cita Button with dropdown (EVR - 121) */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setSolicitarOpen(!solicitarOpen)}
-              className={`w-full h-[40px] px-[12px] rounded-[6px] border flex items-center gap-[10px] text-[14px] leading-[20px] font-normal transition-colors cursor-pointer ${
-                solicitarOpen
-                  ? 'border-[#cbd5e1] bg-[#f8fafc] text-black'
-                  : 'border-[#cbd5e1] bg-white hover:bg-[#f8fafc] text-black'
-              }`}
-            >
-              <Plus className="w-[18px] h-[18px] text-black" />
-              <span>Solicitar una cita</span>
-            </button>
-
-            {/* Dropdown Menu matching EVR - 121 sin borde gris, solo sombra */}
-            {solicitarOpen && (
-              <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[8px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] flex flex-col gap-[2px]">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSolicitarOpen(false);
-                    onNavigate('solicitar-chat');
-                  }}
-                  className="w-full h-[36px] px-[10px] rounded-[4px] hover:bg-[#f1f5f9] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
-                >
-                  <MessageSquare className="w-[16px] h-[16px] text-black" />
-                  <span>Solicitar chat</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSolicitarOpen(false);
-                    onOpenVideoModal();
-                  }}
-                  className="w-full h-[36px] px-[10px] rounded-[4px] hover:bg-[#f1f5f9] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
-                >
-                  <Video className="w-[16px] h-[16px] text-black" />
-                  <span>Solicitar video consulta</span>
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Biometría facial (placed directly next to Solicitar una cita without hr) */}
+        {/* Grupo Solicitar con Dropdown: Chat, Videoconsulta y Biometría Facial */}
+        <div className="relative" ref={dropdownRef}>
           <button
             type="button"
-            onClick={() => onNavigate('biometria')}
-            className={`w-full h-[40px] px-[12px] rounded-[6px] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal transition-colors cursor-pointer ${
-              currentView === 'biometria'
-                ? 'bg-[#f1f5f9] text-black font-medium'
-                : 'text-black hover:bg-[#f8fafc]'
+            onClick={() => setSolicitarOpen(!solicitarOpen)}
+            className={`w-full h-[40px] px-[12px] rounded-[6px] border flex items-center gap-[10px] text-[14px] leading-[20px] font-normal transition-colors cursor-pointer ${
+              solicitarOpen
+                ? 'border-[#cbd5e1] bg-[#f8fafc] text-black font-medium'
+                : 'border-[#cbd5e1] bg-white hover:bg-[#f8fafc] text-black'
             }`}
           >
-            <ScanFace className="w-[18px] h-[18px] text-black" />
-            <span>Biometría facial</span>
+            <Plus className="w-[18px] h-[18px] text-black" />
+            <span>Solicitar</span>
           </button>
+
+          {/* Dropdown Menu: Solicitar chat, Solicitar videoconsulta, Biometría facial */}
+          {solicitarOpen && (
+            <div className="absolute left-0 top-[calc(100%+4px)] z-50 w-full bg-white rounded-[8px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-[4px] flex flex-col gap-[2px]">
+              <button
+                type="button"
+                onClick={() => {
+                  setSolicitarOpen(false);
+                  onNavigate('solicitar-chat');
+                }}
+                className="w-full h-[36px] px-[10px] rounded-[4px] hover:bg-[#f1f5f9] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
+              >
+                <MessageSquare className="w-[16px] h-[16px] text-black" />
+                <span>Solicitar chat</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSolicitarOpen(false);
+                  onOpenVideoModal();
+                }}
+                className="w-full h-[36px] px-[10px] rounded-[4px] hover:bg-[#f1f5f9] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
+              >
+                <Video className="w-[16px] h-[16px] text-black" />
+                <span>Solicitar videoconsulta</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setSolicitarOpen(false);
+                  if (onOpenBiometriaModal) {
+                    onOpenBiometriaModal();
+                  } else {
+                    onNavigate('biometria');
+                  }
+                }}
+                className="w-full h-[36px] px-[10px] rounded-[4px] hover:bg-[#f1f5f9] flex items-center gap-[10px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
+              >
+                <ScanFace className="w-[16px] h-[16px] text-black" />
+                <span>Biometría facial</span>
+              </button>
+            </div>
+          )}
         </div>
 
         <hr className="border-[#e2e8f0] my-[6px]" />

@@ -19,7 +19,8 @@ export interface CalendarDaySlotsProps {
  * Selector de Citas en Columnas de Días y Horarios:
  * - Tarjetas por día con nombre (Lun, Mar, etc.) y fecha (17 Oct).
  * - Franjas horarias seleccionables con botones táctiles.
- * - Estado seleccionado neutral (borde negro y fondo negro para la franja activa).
+ * - Columna activa en rosa claro (#fdf2f8) con borde rosa suave (#f472b6).
+ * - Franja seleccionada estilo secundario (fondo rosa claro #fce7f3, texto rosa CTA #d50475 y borde #f472b6).
  */
 export const CalendarDaySlots: React.FC<CalendarDaySlotsProps> = ({
   days,
@@ -45,7 +46,7 @@ export const CalendarDaySlots: React.FC<CalendarDaySlotsProps> = ({
             }}
             className={`p-2.5 rounded-[8px] border flex flex-col gap-1.5 text-center cursor-pointer transition-all ${
               isColumnActive
-                ? 'border-black bg-[#f8fafc] shadow-xs'
+                ? 'border-[#f472b6] bg-[#fdf2f8] shadow-xs'
                 : 'border-[#cbd5e1] hover:border-[#94a3b8] bg-white'
             }`}
           >
@@ -68,9 +69,7 @@ export const CalendarDaySlots: React.FC<CalendarDaySlotsProps> = ({
                     }}
                     className={`h-[28px] rounded-[6px] border text-[11px] font-bold transition-all cursor-pointer ${
                       isSlotSelected
-                        ? colorTheme === 'magenta'
-                          ? 'bg-[#d50475] text-white border-[#d50475]'
-                          : 'bg-black text-white border-black'
+                        ? 'bg-[#fce7f3] text-[#d50475] border-[#f472b6]'
                         : 'bg-white text-black border-[#cbd5e1] hover:border-black'
                     }`}
                   >

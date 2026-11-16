@@ -16,7 +16,7 @@ export interface CalendarMonthGridProps {
  * Calendario Mensual Homologado (Sistema de Diseño Everhealth):
  * - Cuadrícula de 7 columnas (D L M M J V S).
  * - Días con esquinas suaves de 6px (rounded-[6px]).
- * - Estado seleccionado neutral por defecto (bg-black text-white) o magenta según tema.
+ * - Estado seleccionado con fondo rosa claro (#fce7f3), texto oscuro 950 (#0f172a) y borde rosa (#f472b6).
  * - Navegación mensual superior con chevrons discretos.
  */
 export const CalendarMonthGrid: React.FC<CalendarMonthGridProps> = ({
@@ -37,7 +37,7 @@ export const CalendarMonthGrid: React.FC<CalendarMonthGridProps> = ({
   const selectedClass =
     colorTheme === 'magenta'
       ? 'bg-[#d50475] text-white font-bold shadow-xs'
-      : 'bg-black text-white font-bold shadow-xs';
+      : 'bg-[#fce7f3] text-[#0f172a] font-bold border border-[#f472b6]';
 
   return (
     <div className={`border border-[#e2e8f0] rounded-[8px] p-3.5 bg-white w-full sm:w-[270px] select-none ${className}`}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Info, Mail, Phone, ChevronDown, HelpCircle, AlertCircle, Camera, VideoOff, Heart, RefreshCw, Check } from 'lucide-react';
+import { ArrowLeft, Info, Mail, Phone, ChevronDown, HelpCircle, AlertCircle, Camera, VideoOff, Heart, RefreshCw, Check, X, ScanFace } from 'lucide-react';
 import { LanguageSelector } from './LanguageSelector';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
@@ -8,9 +8,16 @@ import { Checkbox } from '../design-system/atoms/Checkbox';
 interface BiometriaProps {
   onBackToHome: () => void;
   userName?: string;
+  isModal?: boolean;
+  onClose?: () => void;
 }
 
-export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = 'Carlos Damián' }) => {
+export const Biometria: React.FC<BiometriaProps> = ({
+  onBackToHome,
+  userName = 'Carlos Damián',
+  isModal = false,
+  onClose,
+}) => {
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
   // Flow stages:
@@ -200,81 +207,29 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
     setCountdown(25);
   };
 
-  return (
-    <div className="min-h-screen w-full bg-white flex flex-col font-[family-name:Helvetica]">
-      {/* Header: Logo Everhealth a la izquierda, a la derecha Info Icon (sin bordes) + ES */}
-      <header className="w-full h-[56px] border-b border-[#f1f5f9] flex items-center justify-center px-4 bg-white sticky top-0 z-40">
-        <div className="w-full max-w-[800px] flex items-center justify-between">
-          <img
-            src={logoSrc}
-            alt="EVER HEALTH"
-            onClick={onBackToHome}
-            className="h-[40px] w-auto object-contain object-left cursor-pointer"
-          />
+  const handleExit = onClose || onBackToHome;
 
-          <div className="flex items-center gap-3 relative">
-            {/* Botón icono de información (sin bordes) que abre dropdown con email y teléfono */}
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsSupportOpen(!isSupportOpen)}
-                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
-                title="Información y soporte de biometría"
-                aria-label="Información de contacto"
-              >
-                <Info className="w-5 h-5 text-black" />
-              </button>
+  const biometriaContent = (
+    <div className="w-full max-w-[800px] flex flex-col gap-6 mx-auto">
+      {/* Top navigation row con botón atrás transparente y PASO a la izquierda exacto al stepper */}
+      <div className="flex flex-col gap-2">
+        <button
+          type="button"
+          onClick={() => {
+            if (stage === 2) setStage(1);
+            else handleExit();
+          }}
+          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer bg-transparent -ml-2"
+          title="Atrás"
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </button>
 
-              {/* Dropdown con la información de soporte - 100% neutro y 16px regular */}
-              {isSupportOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[260px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-1 animate-fadeIn">
-                  <a
-                    href="mailto:biometria@everhealth.es"
-                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal text-left transition-colors cursor-pointer"
-                  >
-                    <Mail className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span className="truncate">biometria@everhealth.es</span>
-                  </a>
-
-                  <a
-                    href="tel:918220518"
-                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal text-left transition-colors cursor-pointer"
-                  >
-                    <Phone className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span>918 220 518</span>
-                  </a>
-                </div>
-              )}
-            </div>
-
-            <LanguageSelector />
-          </div>
-        </div>
-      </header>
-
-      {/* Main Container */}
-      <main className="flex-1 w-full flex justify-center px-4 pt-8 pb-16">
-        <div className="w-full max-w-[800px] flex flex-col gap-6">
-
-          {/* Top navigation row con botón atrás transparente y PASO a la izquierda exacto al stepper */}
-          <div className="flex flex-col gap-2">
-            <button
-              type="button"
-              onClick={() => {
-                if (stage === 2) setStage(1);
-                else onBackToHome();
-              }}
-              className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer bg-transparent -ml-2"
-              title="Atrás"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </button>
-
-            {/* Stepper text indicator alineado a la izquierda homologado a PASO X/Y */}
-            <span className="text-[13px] font-bold text-black uppercase tracking-wider">
-              {stage === 1 ? 'PASO 1/2' : stage === 'loading' ? 'CARGANDO' : 'PASO 2/2'}
-            </span>
-          </div>
+        {/* Stepper text indicator alineado a la izquierda homologado a PASO X/Y */}
+        <span className="text-[13px] font-bold text-black uppercase tracking-wider">
+          {stage === 1 ? 'PASO 1/2' : stage === 'loading' ? 'CARGANDO' : 'PASO 2/2'}
+        </span>
+      </div>
 
           {/* ================= FASE 1: FORMULARIO BIOMETRÍA ================= */}
           {stage === 1 && (
@@ -517,7 +472,7 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
               </div>
 
               <NavigationFooter
-                onBack={onBackToHome}
+                onBack={handleExit}
                 onNext={handleStartMeasurement}
                 backText="Atrás"
                 nextText="Continuar"
@@ -1000,14 +955,108 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                   handleResetScan();
                   setStage(1);
                 }}
-                onNext={onBackToHome}
+                onNext={handleExit}
                 backText="Cancelar"
                 nextText="Finalizar escaneo"
               />
             </div>
           )}
 
+    </div>
+  );
+
+  if (isModal) {
+    return (
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto animate-fadeIn font-[family-name:Helvetica]"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) handleExit();
+        }}
+      >
+        <div className="relative w-full max-w-[840px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 my-8 flex flex-col gap-6 max-h-[92vh] overflow-y-auto animate-scaleUp">
+          {/* Modal Header */}
+          <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full bg-[#f8fafc] border border-[#e2e8f0] flex items-center justify-center text-black">
+                <ScanFace className="w-4 h-4 text-black" />
+              </div>
+              <div className="flex flex-col">
+                <h2 className="text-[20px] font-bold text-black leading-tight">Biometría facial</h2>
+                <span className="text-[12px] text-[#64748b]">
+                  {stage === 1 ? 'Paso 1: Datos de salud y cuestionario' : stage === 'loading' ? 'Iniciando escaneo' : 'Paso 2: Medición biométrica en vivo'}
+                </span>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleExit}
+              className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+              title="Cerrar modal"
+            >
+              <X className="w-5 h-5 text-black" />
+            </button>
+          </div>
+
+          {/* Modal Content */}
+          {biometriaContent}
         </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen w-full bg-white flex flex-col font-[family-name:Helvetica]">
+      {/* Header: Logo Everhealth a la izquierda, a la derecha Info Icon (sin bordes) + ES */}
+      <header className="w-full h-[56px] border-b border-[#f1f5f9] flex items-center justify-center px-4 bg-white sticky top-0 z-40">
+        <div className="w-full max-w-[800px] flex items-center justify-between">
+          <img
+            src={logoSrc}
+            alt="EVER HEALTH"
+            onClick={onBackToHome}
+            className="h-[40px] w-auto object-contain object-left cursor-pointer"
+          />
+
+          <div className="flex items-center gap-3 relative">
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsSupportOpen(!isSupportOpen)}
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+                title="Información y soporte de biometría"
+                aria-label="Información de contacto"
+              >
+                <Info className="w-5 h-5 text-black" />
+              </button>
+
+              {isSupportOpen && (
+                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[260px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-1 animate-fadeIn">
+                  <a
+                    href="mailto:biometria@everhealth.es"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal text-left transition-colors cursor-pointer"
+                  >
+                    <Mail className="w-5 h-5 text-[#64748b] shrink-0" />
+                    <span className="truncate">biometria@everhealth.es</span>
+                  </a>
+
+                  <a
+                    href="tel:918220518"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal text-left transition-colors cursor-pointer"
+                  >
+                    <Phone className="w-5 h-5 text-[#64748b] shrink-0" />
+                    <span>918 220 518</span>
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <LanguageSelector />
+          </div>
+        </div>
+      </header>
+
+      {/* Main Container */}
+      <main className="flex-1 w-full flex justify-center px-4 pt-8 pb-16">
+        {biometriaContent}
       </main>
     </div>
   );
