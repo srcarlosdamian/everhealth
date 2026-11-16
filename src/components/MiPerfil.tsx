@@ -342,7 +342,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
               </span>
               <button
                 type="button"
-                className="px-5 h-[38px] rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white text-black text-[13px] font-bold uppercase cursor-pointer transition-colors"
+                className="px-5 h-[40px] rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white text-black text-[13px] font-bold uppercase cursor-pointer transition-colors"
               >
                 Seleccionar foto de perfil
               </button>

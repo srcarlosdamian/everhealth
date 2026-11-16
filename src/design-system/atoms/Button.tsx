@@ -37,37 +37,32 @@ export const Button: React.FC<ButtonProps> = ({
 
   const getStyles = () => {
     if (isInactive) {
-      return 'px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[14px] leading-[20px] font-bold uppercase cursor-not-allowed';
+      return 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[13px] font-bold uppercase cursor-not-allowed';
     }
 
     switch (variant) {
       case 'primary':
-        return 'px-[12px] py-[4px] rounded-[8px] bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white text-[14px] leading-[20px] font-bold uppercase border border-transparent shadow-xs';
-      case 'secondary':
-        return 'px-[12px] py-[4px] rounded-[8px] border border-[#fbcfe8] hover:border-[#d50475] bg-[#fdf2f8] hover:bg-[#fce7f3] active:bg-[#fbcfe8] text-[#d50475] text-[14px] leading-[20px] font-bold uppercase transition-colors';
-      case 'outline':
-        return 'px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white text-black text-[14px] leading-[20px] font-bold uppercase';
-      case 'destructive':
-        return 'px-[12px] py-[4px] rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[14px] leading-[20px] font-bold uppercase shadow-xs';
       case 'consulta-primary':
       case 'pill-primary':
-        return 'h-[38px] px-5 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold uppercase shadow-xs';
+      case 'modal-primary':
+        return 'h-[40px] px-5 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white text-[13px] font-bold uppercase border border-transparent shadow-xs';
+      case 'secondary':
       case 'consulta-secondary':
-        return 'h-[38px] px-5 rounded-[8px] border border-[#fbcfe8] hover:border-[#d50475] bg-[#fdf2f8] hover:bg-[#fce7f3] text-[#d50475] text-[13px] font-bold uppercase transition-colors';
+        return 'h-[40px] px-5 rounded-[8px] border border-[#fbcfe8] hover:border-[#d50475] bg-white hover:bg-[#f8fafc] text-[#d50475] text-[13px] font-bold uppercase transition-colors';
+      case 'outline':
       case 'consulta-outline':
       case 'pill-outline':
       case 'pill-purple':
-        return 'h-[38px] px-5 rounded-[8px] border border-[#cbd5e1] hover:bg-[#f8fafc] hover:border-[#94a3b8] bg-white text-black text-[13px] font-bold uppercase';
-      case 'consulta-inactive':
-        return 'h-[38px] px-5 rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[13px] font-bold uppercase cursor-not-allowed';
-      case 'modal-primary':
-        return 'h-[40px] px-6 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white text-[14px] font-bold uppercase shadow-xs';
       case 'modal-outline':
-        return 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] hover:bg-[#f8fafc] hover:border-[#94a3b8] bg-white text-black text-[14px] font-bold uppercase';
+        return 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white hover:bg-[#f8fafc] text-black text-[13px] font-bold uppercase';
+      case 'destructive':
+        return 'h-[40px] px-5 rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold uppercase shadow-xs';
+      case 'consulta-inactive':
+        return 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[13px] font-bold uppercase cursor-not-allowed';
       case 'ghost':
         return 'px-2.5 py-1.5 rounded-[6px] bg-transparent hover:bg-[#f1f5f9] text-black text-[13px] font-medium';
       default:
-        return 'px-[12px] py-[4px] rounded-[8px] bg-[#d50475] text-white text-[14px] leading-[20px] font-bold uppercase';
+        return 'h-[40px] px-5 rounded-[8px] bg-[#d50475] text-white text-[13px] font-bold uppercase';
     }
   };
 

@@ -149,16 +149,16 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="h-[38px] px-4 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] text-black text-[13px] font-bold transition-colors cursor-pointer"
+            className="h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] bg-white text-black text-[13px] font-bold uppercase transition-colors cursor-pointer"
           >
-            Descartar
+            DESCARTAR
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="h-[38px] px-5 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold transition-colors cursor-pointer shadow-xs"
+            className="h-[40px] px-6 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold uppercase transition-colors cursor-pointer shadow-xs"
           >
-            Confirmar
+            CONFIRMAR
           </button>
         </div>
 

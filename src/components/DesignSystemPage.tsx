@@ -672,25 +672,25 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       <div className="flex flex-wrap items-center gap-3">
                         {/* Primario CTA */}
                         <Button variant="primary">
-                          {demoButtonsWithIcons && <Plus className="w-[18px] h-[18px] text-white" />}
+                          {demoButtonsWithIcons && <Plus className="w-4 h-4 text-white" />}
                           <span>SOLICITA UNA CITA</span>
                         </Button>
 
-                        {/* Secundario Rosa (borde rosa clarito #fbcfe8) */}
+                        {/* Secundario Rosa (borde rosa clarito #fbcfe8, sin fondo rosa claro) */}
                         <Button variant="secondary">
-                          {demoButtonsWithIcons && <ScanFace className="w-[18px] h-[18px] text-[#d50475]" />}
+                          {demoButtonsWithIcons && <ScanFace className="w-4 h-4 text-[#d50475]" />}
                           <span>INICIAR ESCANEO</span>
                         </Button>
 
                         {/* Secundario Neutro (borde gris) */}
                         <Button variant="outline">
                           <span>COMPLETA TU PERFIL MÉDICO</span>
-                          {demoButtonsWithIcons && <ChevronRight className="w-[18px] h-[18px] text-black" />}
+                          {demoButtonsWithIcons && <ChevronRight className="w-4 h-4 text-black" />}
                         </Button>
 
                         {/* Destructivo Rojo */}
                         <Button variant="destructive">
-                          {demoButtonsWithIcons && <Trash2 className="w-[16px] h-[16px] text-white" />}
+                          {demoButtonsWithIcons && <Trash2 className="w-4 h-4 text-white" />}
                           <span>DAR DE BAJA</span>
                         </Button>
 
@@ -711,7 +711,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           2. Botones Operativos de Consulta (Fila de Historial & Detalle)
                         </span>
                         <span className="text-[11px] text-[#64748b]">
-                          Altura 38px · Mismo peso · Mayúsculas
+                          Altura 40px · Mismo peso · Mayúsculas
                         </span>
                       </div>
                       <div className="flex flex-wrap items-center gap-3">
@@ -721,7 +721,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           <span>ACCEDER A LA CONSULTA</span>
                         </Button>
 
-                        {/* Secundario Rosa Consulta */}
+                        {/* Secundario Rosa Consulta (sin fondo rosa claro) */}
                         <Button variant="consulta-secondary">
                           {demoButtonsWithIcons && <Calendar className="w-4 h-4 text-[#d50475]" />}
                           <span>REAGENDAR CITA</span>
@@ -755,13 +755,13 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     {/* Especificaciones clave */}
                     <div className="flex flex-wrap gap-2 text-[12px] pt-1">
                       <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
-                        ✓ Mismo peso y mayúsculas en ambos tamaños
+                        ✓ Altura estándar 40px, mismo peso bold y mismo tamaño de texto (13px) en todos los botones
                       </span>
-                      <span className="px-2.5 py-1 rounded bg-[#fdf2f8] border border-[#fbcfe8] text-[#9d174d] font-medium">
-                        ✓ Borde secundario rosa homologado a <strong>#fbcfe8</strong> (rosa clarito)
+                      <span className="px-2.5 py-1 rounded bg-white border border-[#fbcfe8] text-[#d50475] font-medium">
+                        ✓ Botón secundario sin fondo rosa claro (fondo blanco, borde #fbcfe8 y texto magenta)
                       </span>
                       <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
-                        ✓ Variantes espejo completas (Primario, Secundario Rosa, Secundario Neutro, Destructivo, Bloqueado)
+                        ✓ Mismo tamaño de icono (16px) en todos los botones
                       </span>
                     </div>
 

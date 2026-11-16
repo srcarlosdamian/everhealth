@@ -141,7 +141,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
             className="w-full px-[14px] bg-transparent"
           >
             <span>COMPLETA TU PERFIL MÉDICO</span>
-            <ChevronRight className="w-[18px] h-[18px] text-black shrink-0" />
+            <ChevronRight className="w-4 h-4 text-black shrink-0" />
           </Button>
         </div>
       </section>
@@ -171,7 +171,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
               variant="primary"
               onClick={() => setSolicitaDropdownOpen(!solicitaDropdownOpen)}
             >
-              <Plus className="w-[20px] h-[20px] text-white shrink-0" />
+              <Plus className="w-4 h-4 text-white shrink-0" />
               <span>SOLICITA UNA CITA</span>
             </Button>
 
@@ -254,7 +254,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
             if (onStartBiometria) onStartBiometria();
           }}
         >
-          <ScanFace className="w-[20px] h-[20px] text-[#d50475] shrink-0" />
+          <ScanFace className="w-4 h-4 text-[#d50475] shrink-0" />
           <span>INICIAR ESCANEO</span>
         </Button>
       </section>

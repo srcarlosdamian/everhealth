@@ -138,9 +138,8 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
           <Button
             variant="secondary"
             onClick={() => onOpenDocumentsModal?.()}
-            className="h-[42px] px-5 normal-case font-bold shadow-2xs"
           >
-            <span>Ver historia completa</span>
+            <span>VER HISTORIA COMPLETA</span>
           </Button>
         </div>
       </div>
