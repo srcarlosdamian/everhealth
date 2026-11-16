@@ -232,7 +232,7 @@ export const Familiares: React.FC = () => {
               <th className="py-3 px-4 border-r border-[#e2e8f0]">Sexo al nacer</th>
               <th className="py-3 px-4 border-r border-[#e2e8f0]">Condición</th>
               <th className="py-3 px-4 border-r border-[#e2e8f0]">Tutor Asignado</th>
-              <th className="py-3 px-4 text-right">Acciones</th>
+              <th className="py-3 px-4 text-right w-[88px] min-w-[88px]">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black bg-white">
@@ -291,13 +291,14 @@ export const Familiares: React.FC = () => {
                     )}
                   </td>
 
-                  <td className="py-3.5 px-4 text-right relative">
-                    <div className="inline-block relative">
+                  <td className="py-3.5 px-4 text-right relative w-[88px] min-w-[88px]">
+                    <div className="relative inline-flex items-center justify-end">
                       <button
                         type="button"
-                        onClick={() =>
-                          setActiveMenuId(activeMenuId === item.id ? null : item.id)
-                        }
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setActiveMenuId(activeMenuId === item.id ? null : item.id);
+                        }}
                         className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
                         title="Acciones"
                       >
@@ -307,7 +308,8 @@ export const Familiares: React.FC = () => {
                       {activeMenuId === item.id && (
                         <ActionMenu
                           variant="standard"
-                          className="absolute right-0 top-[calc(100%+4px)] z-50 w-[235px]"
+                          onClose={() => setActiveMenuId(null)}
+                          className="absolute right-0 top-[calc(100%+4px)] z-50 w-[235px] text-left"
                           items={[
                             {
                               id: 'historial',
@@ -383,12 +385,13 @@ export const Familiares: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className="inline-block relative">
+                  <div className="relative inline-flex items-center justify-end">
                     <button
                       type="button"
-                      onClick={() =>
-                        setActiveMenuId(activeMenuId === `mobile-${item.id}` ? null : `mobile-${item.id}`)
-                      }
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveMenuId(activeMenuId === `mobile-${item.id}` ? null : `mobile-${item.id}`);
+                      }}
                       className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
                       title="Acciones"
                     >
@@ -398,7 +401,8 @@ export const Familiares: React.FC = () => {
                     {activeMenuId === `mobile-${item.id}` && (
                       <ActionMenu
                         variant="standard"
-                        className="absolute right-0 top-[calc(100%+4px)] z-50 w-[235px]"
+                        onClose={() => setActiveMenuId(null)}
+                        className="absolute right-0 top-[calc(100%+4px)] z-50 w-[235px] text-left"
                         items={[
                           {
                             id: 'historial',

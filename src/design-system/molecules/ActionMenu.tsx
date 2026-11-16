@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Check } from 'lucide-react';
 
 export interface ActionMenuItem {
@@ -27,6 +27,18 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
 }) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copiedNotice, setCopiedNotice] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        onClose?.();
+      }
+    };
+    // Use mousedown with capture or bubbling
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => document.removeEventListener('mousedown', handleOutsideClick);
+  }, [onClose]);
 
   const handleItemClick = (item: ActionMenuItem, e: React.MouseEvent) => {
     // Si el item es copiable o representa una dirección/contacto
@@ -58,9 +70,19 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
     }
   };
 
+  const hasPosition =
+    className.includes('absolute') ||
+    className.includes('fixed') ||
+    className.includes('relative');
+  const hasWidth = className.includes('w-');
+
   return (
     <div
-      className={`relative w-[280px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-1 font-[family-name:Helvetica] ${className}`}
+      ref={menuRef}
+      onClick={(e) => e.stopPropagation()}
+      className={`${hasPosition ? '' : 'relative'} ${
+        hasWidth ? '' : 'w-[280px]'
+      } bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-1 font-[family-name:Helvetica] ${className}`}
     >
       {items.map((item) => {
         const isSpecial = variant === 'solicitar-cita' || item.isSpecialPrimary;
