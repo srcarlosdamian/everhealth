@@ -962,16 +962,15 @@ export const Biometria: React.FC<BiometriaProps> = ({
         >
           {/* Modal Header */}
           <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-[#f8fafc] border border-[#e2e8f0] flex items-center justify-center text-black">
-                <ScanFace className="w-4 h-4 text-black" />
-              </div>
-              <div className="flex flex-col">
-                <h2 className="text-[20px] font-bold text-black leading-tight">Biometría facial</h2>
-                <span className="text-[12px] text-[#64748b]">
-                  {stage === 1 ? 'Paso 1: Datos de salud y cuestionario' : stage === 'loading' ? 'Iniciando escaneo' : 'Paso 2: Medición biométrica en vivo'}
-                </span>
-              </div>
+            <div className="flex flex-col">
+              <h2 className="text-[20px] font-bold text-black leading-tight">Biometría facial</h2>
+              <span className="text-[13px] text-[#64748b] mt-0.5">
+                {stage === 1
+                  ? 'Paso 1: Completa los datos de salud y cuestionario previo'
+                  : stage === 'loading'
+                  ? 'Iniciando escaneo facial y calibración del sensor'
+                  : 'Paso 2: Medición biométrica en tiempo real'}
+              </span>
             </div>
             <div className="flex items-center gap-1">
               <button

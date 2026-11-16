@@ -2641,8 +2641,26 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 <div>
                   <h1 className="text-[28px] font-bold text-black">6. Modales del Sistema</h1>
                   <p className="text-[14px] text-[#64748b] mt-1">
-                    Componentes modales reutilizados en Familiares, Mascotas e Historial de Consultas.
+                    Componentes modales y estándares de interacción homologados en toda la aplicación.
                   </p>
+                </div>
+
+                {/* Banner de Reglas Oficiales de Modales */}
+                <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-[10px] p-5 flex flex-col gap-2.5">
+                  <span className="text-[14px] font-bold text-black">
+                    Reglas Generales de Modales
+                  </span>
+                  <ul className="text-[13px] text-[#475569] space-y-1.5 list-disc list-inside">
+                    <li>
+                      <strong className="text-black font-semibold">Sin iconos en el título:</strong> Ningún modal lleva icono antes del título en su encabezado. El título debe ser tipografía limpia y directa acompañada únicamente del botón circular de cierre (&times;).
+                    </li>
+                    <li>
+                      <strong className="text-black font-semibold">Descripción de contexto obligatoria:</strong> Todos los modales deben incluir un texto breve debajo del título o línea divisoria explicando el contexto o la acción que realizará el usuario.
+                    </li>
+                    <li>
+                      <strong className="text-black font-semibold">Cierre por clic exterior:</strong> Todo modal debe cerrarse al hacer clic en el backdrop/overlay exterior.
+                    </li>
+                  </ul>
                 </div>
 
                 <StageBlock

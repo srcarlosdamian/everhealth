@@ -172,9 +172,14 @@ export const MisDocumentosMedicos: React.FC<MisDocumentosMedicosProps> = ({
             className="w-full max-w-[420px] bg-white rounded-[12px] p-6 shadow-xl flex flex-col gap-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <h3 className="text-[18px] font-bold text-black">
-              Subir {categories.find((c) => c.id === activeCategory)?.title}
-            </h3>
+            <div className="flex flex-col gap-1">
+              <h3 className="text-[18px] font-bold text-black">
+                Subir {categories.find((c) => c.id === activeCategory)?.title}
+              </h3>
+              <p className="text-[13px] text-[#64748b]">
+                Adjunta informes médicos o estudios correspondientes a esta categoría clínica.
+              </p>
+            </div>
             <div className="border-2 border-dashed border-[#cbd5e1] rounded-[8px] p-8 text-center flex flex-col items-center gap-2">
               <span className="text-[14px] text-[#475569]">Arrastra tus archivos aquí o haz clic para explorar</span>
               <span className="text-[12px] text-[#94a3b8]">PDF, JPG o PNG hasta 25MB</span>

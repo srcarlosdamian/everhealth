@@ -412,10 +412,7 @@ export const Mascotas: React.FC = () => {
             className="w-full max-w-[820px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 overflow-visible relative animate-scaleUp cursor-default"
           >
             <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
-              <div className="flex items-center gap-2">
-                <PawPrint className="w-5 h-5 text-[#64748b]" />
-                <h2 className="text-[20px] font-bold text-black">Añadir mascota</h2>
-              </div>
+              <h2 className="text-[20px] font-bold text-black">Añadir mascota</h2>
               <button
                 type="button"
                 onClick={() => setIsModalOpen(false)}
@@ -424,6 +421,10 @@ export const Mascotas: React.FC = () => {
                 <X className="w-5 h-5" />
               </button>
             </div>
+
+            <p className="text-[13.5px] leading-[20px] text-[#64748b] -mt-2">
+              Registra los datos de tu mascota para asociarla a tu unidad familiar y dar seguimiento a su historial veterinario.
+            </p>
 
             <form onSubmit={handleSaveMascota} className="flex flex-col gap-5">
               {/* Fila 1: Nombre* y Especie* */}

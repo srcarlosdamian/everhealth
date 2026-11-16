@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertTriangle, Info, X } from 'lucide-react';
+import { Info, X } from 'lucide-react';
 import { Button } from '../atoms/Button';
 
 interface ConfirmDeactivateModalProps {
@@ -36,16 +36,11 @@ export const ConfirmDeactivateModal: React.FC<ConfirmDeactivateModalProps> = ({
       onClick={(e) => e.stopPropagation()}
       className="w-full max-w-[480px] bg-white rounded-[16px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6 sm:p-7 border border-[#e2e8f0] flex flex-col gap-4 cursor-default"
     >
-      {/* Header con Badge de advertencia y botón cerrar circular */}
+      {/* Header sin icono inicial y botón cerrar circular */}
       <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-[#fef2f2] border border-[#fecdd3] flex items-center justify-center text-[#e11d48] shrink-0">
-            <AlertTriangle className="w-5 h-5 text-[#e11d48]" />
-          </div>
-          <h3 className="text-[18px] sm:text-[19px] font-bold text-black tracking-tight leading-snug">
-            {title}
-          </h3>
-        </div>
+        <h3 className="text-[18px] sm:text-[19px] font-bold text-black tracking-tight leading-snug">
+          {title}
+        </h3>
         <button
           type="button"
           onClick={onCancel}

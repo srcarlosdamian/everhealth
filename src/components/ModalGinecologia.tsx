@@ -60,6 +60,11 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
           </button>
         </div>
 
+        {/* Descripción de contexto */}
+        <p className="text-[13.5px] leading-[20px] text-[#64748b] -mt-2">
+          Selecciona las patologías y antecedentes ginecológicos para actualizar la historia clínica.
+        </p>
+
         {/* Patologías Section - Check neutral, hover sin cambiar fondo */}
         <div className="flex flex-col gap-3">
           <h3 className="text-[17px] font-bold text-black">Patologías</h3>
