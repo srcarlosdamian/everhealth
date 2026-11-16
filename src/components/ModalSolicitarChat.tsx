@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Check, Calendar as CalendarIcon } from 'lucide-react';
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
+import { Checkbox } from '../design-system/atoms/Checkbox';
 import { AssignedDoctorCard } from '../design-system/molecules/AssignedDoctorCard';
 
 interface ModalSolicitarChatProps {
@@ -160,9 +161,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                     }`}
                   >
                     <span>{spec}</span>
-                    {selectedSpecialty === spec && (
-                      <Check className="w-4 h-4 text-black" />
-                    )}
+                    <Checkbox checked={selectedSpecialty === spec} size="sm" />
                   </button>
                 ))}
               </div>

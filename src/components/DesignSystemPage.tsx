@@ -41,6 +41,7 @@ import { Badge } from '../design-system/atoms/Badge';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { SwitchToggle } from '../design-system/atoms/SwitchToggle';
+import { Checkbox } from '../design-system/atoms/Checkbox';
 import { ProgressCheckCircle } from '../design-system/atoms/ProgressCheckCircle';
 import { AutosaveIndicator } from '../design-system/atoms/AutosaveIndicator';
 import { StatusDotBadge } from '../design-system/atoms/StatusDotBadge';
@@ -146,6 +147,9 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   // Estados interactivos para probar los componentes reales en vivo
   const [demoToggle, setDemoToggle] = useState('si');
   const [demoSwitch, setDemoSwitch] = useState(true);
+  const [demoCheckbox1, setDemoCheckbox1] = useState(true);
+  const [demoCheckbox2, setDemoCheckbox2] = useState(false);
+  const [demoCardCheck, setDemoCardCheck] = useState('Sexología');
   const [demoEspecie, setDemoEspecie] = useState('Perro');
   const [demoCondicion, setDemoCondicion] = useState('Peso Ideal');
   const [demoModalidad, setDemoModalidad] = useState('agendar');
@@ -530,7 +534,84 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </div>
                 </StageBlock>
 
-                {/* 6. ProgressCheckCircle & StepperCheck */}
+                {/* 6. Checkboxes & Selectores de Check (Homologación Biometría vs Video Consulta) */}
+                <StageBlock
+                  title="Checkboxes & Selectores de Check (Homologación Neutral)"
+                  componentTag="<Checkbox />"
+                  usedIn={['Biometría', 'Modal Videoconsulta', 'Modal Solicitar Chat', 'Login', 'Cuestionario Médico']}
+                  description="Componente unificado y neutral para checks en toda la plataforma. Homologado según el diseño de Biometría (caja cuadrada con radio de 4px, fondo negro neutral al marcar y sin rosas). Incluye comparativa directa con el estilo previo flotante de Video Consulta."
+                >
+                  <div className="flex flex-col gap-8">
+                    {/* Comparativa directa documentada */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                      <div className="flex flex-col gap-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[12px] font-bold text-white bg-black px-2 py-0.5 rounded-[4px] uppercase tracking-wider">
+                            Oficial Homologado (Estilo Biometría Neutral)
+                          </span>
+                        </div>
+                        <p className="text-[13px] text-[#475569]">
+                          Caja cuadrada <code>rounded-[4px]</code> con borde <code>#cbd5e1</code>, activa con fondo negro neutro (<code>bg-black</code>) y check blanco centrado. Mantiene sobriedad eliminando el exceso de rosa.
+                        </p>
+                        <div className="flex flex-wrap items-center gap-4 pt-1">
+                          <Checkbox checked={demoCheckbox1} onChange={setDemoCheckbox1} label="Opción marcada" />
+                          <Checkbox checked={demoCheckbox2} onChange={setDemoCheckbox2} label="Opción desmarcada" />
+                          <Checkbox checked disabled label="Deshabilitado" />
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-3 border-t md:border-t-0 md:border-l border-[#e2e8f0] md:pl-6 pt-4 md:pt-0">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[12px] font-bold text-[#64748b] bg-[#e2e8f0] px-2 py-0.5 rounded-[4px] uppercase tracking-wider">
+                            Estilo Previo (Solicitar Video Consulta)
+                          </span>
+                        </div>
+                        <p className="text-[13px] text-[#475569]">
+                          Check suelto sin caja contenedora en tarjetas, o viñeta circular en steppers. Ahora reemplazado por la caja cuadrada neutral para consistencia.
+                        </p>
+                        <div className="flex flex-wrap items-center gap-4 pt-1">
+                          <div className="h-[38px] px-3.5 rounded-[8px] border border-black bg-[#f1f5f9] flex items-center justify-between gap-3 text-[14px] font-semibold text-black">
+                            <span>Sexología (Previo)</span>
+                            <Check className="w-4 h-4 text-black" />
+                          </div>
+                          <div className="h-[38px] px-3.5 rounded-[8px] border border-black bg-[#f1f5f9] flex items-center justify-between gap-3 text-[14px] font-semibold text-black">
+                            <span>Sexología (Homologado)</span>
+                            <Checkbox checked size="sm" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Tarjetas de Selección con Checkbox Homologado */}
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[13px] font-bold text-black">
+                        Ejemplo de uso en Tarjetas de Selección Clínica (Biometría / Videoconsulta / Chat):
+                      </span>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-[500px]">
+                        {['Sexología', 'Medicina General'].map((opt) => {
+                          const isSel = demoCardCheck === opt;
+                          return (
+                            <button
+                              key={opt}
+                              type="button"
+                              onClick={() => setDemoCardCheck(opt)}
+                              className={`h-[44px] px-4 rounded-[8px] border flex items-center justify-between cursor-pointer transition-colors text-left ${
+                                isSel
+                                  ? 'border-black bg-[#f8fafc] text-black font-semibold'
+                                  : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black font-normal'
+                              }`}
+                            >
+                              <span className="text-[15px]">{opt}</span>
+                              <Checkbox checked={isSel} size="sm" />
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </StageBlock>
+
+                {/* 7. ProgressCheckCircle & StepperCheck */}
                 <StageBlock
                   title="Anillos de Progreso & Stepper Check (#831843)"
                   componentTag="<ProgressCheckCircle /> / <StepperCheck />"

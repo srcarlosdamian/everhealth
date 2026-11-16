@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Checkbox } from '../design-system/atoms/Checkbox';
 
 interface LoginProps {
   onLogin: (email: string) => void;
@@ -97,19 +98,14 @@ export const Login: React.FC<LoginProps> = ({ onLogin, onBypassToHome }) => {
               />
             </div>
 
-            {/* Frame 7: Checkbox Recuerdame (height 24px) */}
+            {/* Frame 7: Checkbox Recuerdame homologado neutral */}
             <div className="flex items-center mb-[32px] h-[24px]">
-              <label className="inline-flex items-center gap-[8px] cursor-pointer select-none">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-[18px] h-[18px] rounded-[4px] border border-[#cbd5e1] text-[#d50475] focus:ring-[#d50475] accent-[#d50475] cursor-pointer"
-                />
-                <span className="text-[16px] leading-[24px] font-normal text-black">
-                  Recuerdame
-                </span>
-              </label>
+              <Checkbox
+                checked={rememberMe}
+                onChange={setRememberMe}
+                size="md"
+                label={<span className="text-[16px] leading-[24px] font-normal text-black">Recuerdame</span>}
+              />
             </div>
 
             {/* Button: Iniciar sesión (452 x 48, Pink/Pink-700 when filled, gray #cbd5e1 when empty) */}

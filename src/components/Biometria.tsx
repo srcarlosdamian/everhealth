@@ -3,6 +3,7 @@ import { ArrowLeft, Info, Mail, Phone, ChevronDown, HelpCircle, AlertCircle, Cam
 import { LanguageSelector } from './LanguageSelector';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
+import { Checkbox } from '../design-system/atoms/Checkbox';
 
 interface BiometriaProps {
   onBackToHome: () => void;
@@ -486,19 +487,11 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                           onClick={() => setMedicacionPresion(opt.id)}
                           className={`p-4 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
                             isSelected
-                              ? 'border-[#d50475] bg-[#fdf2f8]/40 shadow-xs'
+                              ? 'border-black bg-[#f8fafc] shadow-xs'
                               : 'border-[#cbd5e1] hover:border-black bg-white'
                           }`}
                         >
-                          <div
-                            className={`w-5 h-5 rounded-[4px] border flex items-center justify-center transition-all ${
-                              isSelected
-                                ? 'border-[#d50475] bg-[#d50475] text-white'
-                                : 'border-[#94a3b8] bg-white'
-                            }`}
-                          >
-                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                          </div>
+                          <Checkbox checked={isSelected} size="md" />
                           <span className="text-[14px] font-bold text-black">{opt.label}</span>
                         </div>
                       );
@@ -507,22 +500,20 @@ export const Biometria: React.FC<BiometriaProps> = ({ onBackToHome, userName = '
                 </div>
               </div>
 
-              {/* Checkbox Acepto términos */}
+              {/* Checkbox Acepto términos con componente oficial Checkbox */}
               <div className="pt-2">
-                <label className="flex items-center gap-3 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={aceptaTerminos}
-                    onChange={(e) => setAceptaTerminos(e.target.checked)}
-                    className="w-4 h-4 rounded-[4px] accent-[#d50475] border-[#cbd5e1] cursor-pointer"
-                  />
-                  <span className="text-[14px] text-black">
-                    He leído y acepto la{' '}
-                    <span className="text-[#d50475] underline hover:opacity-80">
-                      política de privacidad
+                <Checkbox
+                  checked={aceptaTerminos}
+                  onChange={setAceptaTerminos}
+                  label={
+                    <span className="text-[14px] text-black">
+                      He leído y acepto la{' '}
+                      <span className="text-black underline font-semibold hover:opacity-80">
+                        política de privacidad
+                      </span>
                     </span>
-                  </span>
-                </label>
+                  }
+                />
               </div>
 
               <NavigationFooter

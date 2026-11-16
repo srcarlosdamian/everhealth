@@ -5,6 +5,7 @@ import { ModalGinecologia } from './ModalGinecologia';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { ProgressCheckCircle } from '../design-system/atoms/ProgressCheckCircle';
 import { AutosaveIndicator } from '../design-system/atoms/AutosaveIndicator';
+import { Checkbox } from '../design-system/atoms/Checkbox';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 import { CompletionMedalIllustration } from '../design-system/atoms/CompletionMedalIllustration';
 import { MisDocumentosMedicos } from './MisDocumentosMedicos';
@@ -27,8 +28,10 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
   const [hasCirugias, setHasCirugias] = useState<'si' | 'no'>('no');
   const [hasMedicamentos, setHasMedicamentos] = useState<'si' | 'no'>('no');
   const [hasSustancias, setHasSustancias] = useState<'si' | 'no'>('no');
+  const [selectedSustancias, setSelectedSustancias] = useState<string[]>(['Alcohol']);
   const [hasAlimentacion, setHasAlimentacion] = useState<'si' | 'no'>('no');
   const [hasEmocional, setHasEmocional] = useState<'si' | 'no'>('no');
+  const [selectedTraumas, setSelectedTraumas] = useState<string[]>([]);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
@@ -513,12 +516,25 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {['Alcohol', 'Tabaco', 'Otras drogas'].map((item) => (
-                  <label key={item} className="p-3 rounded-[6px] border border-[#cbd5e1] hover:border-[#475569] flex items-center gap-2.5 cursor-pointer text-[14px] text-black font-medium transition-colors">
-                    <input type="checkbox" className="w-4 h-4 accent-[#d50475]" />
-                    <span>{item}</span>
-                  </label>
-                ))}
+                {['Alcohol', 'Tabaco', 'Otras drogas'].map((item) => {
+                  const isChecked = selectedSustancias.includes(item);
+                  return (
+                    <label
+                      key={item}
+                      onClick={() => {
+                        setSelectedSustancias((prev) =>
+                          prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+                        );
+                      }}
+                      className={`p-3 rounded-[6px] border flex items-center gap-2.5 cursor-pointer text-[14px] text-black font-medium transition-colors select-none ${
+                        isChecked ? 'border-black bg-[#f8fafc]' : 'border-[#cbd5e1] hover:border-[#475569] bg-white'
+                      }`}
+                    >
+                      <Checkbox checked={isChecked} size="sm" />
+                      <span>{item}</span>
+                    </label>
+                  );
+                })}
               </div>
 
               <div className="flex flex-col gap-1">
@@ -592,12 +608,25 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                   'Desastre natural',
                   'Atentado o conflicto armado',
                   'Duelo por la pérdida de un ser querido',
-                ].map((item) => (
-                  <label key={item} className="p-3.5 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] flex items-center gap-3 cursor-pointer text-[14px] text-black font-medium transition-colors">
-                    <input type="checkbox" className="w-4 h-4 accent-[#d50475]" />
-                    <span>{item}</span>
-                  </label>
-                ))}
+                ].map((item) => {
+                  const isChecked = selectedTraumas.includes(item);
+                  return (
+                    <label
+                      key={item}
+                      onClick={() => {
+                        setSelectedTraumas((prev) =>
+                          prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+                        );
+                      }}
+                      className={`p-3.5 rounded-[8px] border flex items-center gap-3 cursor-pointer text-[14px] text-black font-medium transition-colors select-none ${
+                        isChecked ? 'border-black bg-[#f8fafc]' : 'border-[#cbd5e1] hover:border-[#475569] bg-white'
+                      }`}
+                    >
+                      <Checkbox checked={isChecked} size="sm" />
+                      <span>{item}</span>
+                    </label>
+                  );
+                })}
               </div>
             </div>
           )}

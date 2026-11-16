@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
+import { Checkbox } from '../design-system/atoms/Checkbox';
 
 interface ModalVideoConsultaProps {
   isOpen: boolean;
@@ -122,9 +123,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                     }`}
                   >
                     <span className="text-[15px]">{spec}</span>
-                    {selectedSpecialty === spec && (
-                      <Check className="w-4 h-4 text-black shrink-0" />
-                    )}
+                    <Checkbox checked={selectedSpecialty === spec} size="sm" />
                   </button>
                 ))}
               </div>
