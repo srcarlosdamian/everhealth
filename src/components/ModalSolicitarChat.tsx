@@ -247,9 +247,9 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="h-[40px] px-6 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white font-bold text-[14px] uppercase transition-colors cursor-pointer shadow-xs"
+                className="h-[40px] px-6 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white font-bold text-[13px] uppercase transition-colors cursor-pointer shadow-xs"
               >
-                Confirmar cita
+                CONFIRMAR CITA
               </button>
             </div>
 

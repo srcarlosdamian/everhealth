@@ -227,7 +227,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
             onClick={onClose}
             className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px] shadow-xs"
           >
-            Confirmar cita
+            CONFIRMAR CITA
           </Button>
         </div>
 

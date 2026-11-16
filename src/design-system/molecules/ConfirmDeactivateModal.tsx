@@ -24,8 +24,8 @@ export const ConfirmDeactivateModal: React.FC<ConfirmDeactivateModalProps> = ({
   descriptionPrefix = 'Esta acción dará de baja a',
   descriptionSuffix = 'de tu unidad familiar.',
   consequenceNote = 'Ya no podrás solicitar consultas, gestionar tutores ni acceder a su historial médico compartido.',
-  cancelText = 'Cancelar',
-  confirmText = 'Dar de baja',
+  cancelText = 'CANCELAR',
+  confirmText = 'DAR DE BAJA',
   onCancel,
   onConfirm,
 }) => {

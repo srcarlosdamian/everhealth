@@ -557,16 +557,16 @@ export const Familiares: React.FC = () => {
                 <Button
                   variant="outline"
                   onClick={() => setIsModalOpen(false)}
-                  className="h-[42px] px-5"
+                  className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
                 >
-                  Cancelar
+                  CANCELAR
                 </Button>
                 <Button
                   type="submit"
                   variant="primary"
-                  className="h-[42px] px-7"
+                  className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
                 >
-                  Guardar
+                  GUARDAR
                 </Button>
               </div>
             </form>

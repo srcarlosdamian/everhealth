@@ -2716,8 +2716,8 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 <StageBlock
                   title="Footers de Modales"
                   componentTag="Modal Footers & Actions"
-                  usedIn={['Videoconsulta', 'Solicitar Chat', 'Familiares', 'Mascotas']}
-                  description="Alineación estándar: textos de estado a la izquierda y botones de acción a la derecha."
+                  usedIn={['Videoconsulta', 'Solicitar Chat', 'Familiares', 'Mascotas', 'Documentos']}
+                  description="Regla obligatoria de modales: mismo peso (font-bold), mismo tamaño (altura 40px, esquinas de 8px) y ambos en MAYÚSCULAS en todas las acciones."
                 >
                   <div className="flex flex-col gap-6">
                     {/* 1. Footer Citas */}
@@ -2727,7 +2727,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           1. Footer de Citas Médicas (Video Consulta / Solicitar Chat)
                         </span>
                         <span className="text-[11px] text-[#64748b]">
-                          Texto de pasos a la izquierda + Botón 40px magenta a la derecha
+                          Texto de pasos a la izquierda + Botón 40px mayúsculas magenta a la derecha
                         </span>
                       </div>
                       <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-white flex flex-wrap items-center justify-between gap-3 shadow-xs">
@@ -2735,7 +2735,9 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           <Check className="w-4 h-4" />
                           <span>Todos los pasos completados</span>
                         </div>
-                        <Button variant="modal-primary">Confirmar cita</Button>
+                        <Button variant="modal-primary" className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]">
+                          CONFIRMAR CITA
+                        </Button>
                       </div>
                     </div>
 
@@ -2746,12 +2748,16 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           2. Footer de Formularios de Datos (Familiares y Mascotas)
                         </span>
                         <span className="text-[11px] text-[#64748b]">
-                          Botones 42px mayúsculas: Cancelar (outline) + Guardar (primario)
+                          Botones 40px mayúsculas: CANCELAR (outline) + GUARDAR (primario)
                         </span>
                       </div>
                       <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-white flex items-center justify-end gap-3 shadow-xs">
-                        <Button variant="outline" className="h-[42px] px-5">Cancelar</Button>
-                        <Button variant="primary" className="h-[42px] px-7">Guardar</Button>
+                        <Button variant="outline" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
+                          CANCELAR
+                        </Button>
+                        <Button variant="primary" className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]">
+                          GUARDAR
+                        </Button>
                       </div>
                     </div>
 
@@ -2762,12 +2768,16 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           3. Footer de Diálogo de Confirmación (Dar de baja)
                         </span>
                         <span className="text-[11px] text-[#64748b]">
-                          Botones 36px sentence case: Cancelar (outline) + Dar de baja (destructivo)
+                          Botones 40px mayúsculas: CANCELAR (outline) + DAR DE BAJA (destructivo)
                         </span>
                       </div>
-                      <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-white flex items-center justify-end gap-2.5 shadow-xs">
-                        <Button variant="outline" className="h-[36px] px-4 text-[12px]">Cancelar</Button>
-                        <Button variant="destructive" className="h-[36px] px-4 text-[12px]">Dar de baja</Button>
+                      <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-white flex items-center justify-end gap-3 shadow-xs">
+                        <Button variant="outline" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
+                          CANCELAR
+                        </Button>
+                        <Button variant="destructive" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white">
+                          DAR DE BAJA
+                        </Button>
                       </div>
                     </div>
 
@@ -2778,22 +2788,16 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           4. Footer de Modales Clínicos y Documentales (Ginecología / Documentos)
                         </span>
                         <span className="text-[11px] text-[#64748b]">
-                          Botones 38px: Descartar / Cancelar (outline #cbd5e1) + Confirmar / Actualizar (primario)
+                          Botones 40px mayúsculas: DESCARTAR (outline #cbd5e1) + CONFIRMAR (primario)
                         </span>
                       </div>
                       <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-white flex items-center justify-end gap-3 shadow-xs">
-                        <button
-                          type="button"
-                          className="h-[38px] px-4 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] text-black text-[13px] font-bold transition-colors cursor-pointer"
-                        >
-                          Descartar
-                        </button>
-                        <button
-                          type="button"
-                          className="h-[38px] px-5 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold transition-colors cursor-pointer shadow-xs"
-                        >
-                          Confirmar
-                        </button>
+                        <Button variant="outline" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
+                          DESCARTAR
+                        </Button>
+                        <Button variant="primary" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
+                          CONFIRMAR
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -2909,11 +2913,19 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
               />
             </div>
             <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#f1f5f9]">
-              <Button variant="outline" onClick={() => setDemoFormModalOpen(false)}>
-                Cancelar
+              <Button
+                variant="outline"
+                className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
+                onClick={() => setDemoFormModalOpen(false)}
+              >
+                CANCELAR
               </Button>
-              <Button variant="primary" onClick={() => setDemoFormModalOpen(false)}>
-                Guardar
+              <Button
+                variant="primary"
+                className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
+                onClick={() => setDemoFormModalOpen(false)}
+              >
+                GUARDAR
               </Button>
             </div>
           </div>
