@@ -13,6 +13,7 @@ import {
   ScanFace,
   ChevronRight,
 } from 'lucide-react';
+import { Button } from '../design-system/atoms/Button';
 
 interface HistoriaClinicaProps {
   onOpenDocumentsModal?: () => void;
@@ -119,7 +120,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
   ];
 
   return (
-    <div className="w-full max-w-[1000px] mx-auto flex flex-col gap-6 animate-fadeIn font-[family-name:Helvetica] px-4 sm:px-6 py-4">
+    <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-6 animate-fadeIn font-[family-name:Helvetica]">
       {/* Encabezado limpio sin tabs (solicitado: tabs solo en sidebar) */}
       <div className="flex flex-col gap-1">
         <span className="text-[13px] text-[#64748b] font-medium tracking-wide">
@@ -178,14 +179,14 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
 
       {/* Botón inferior: Ver historia clínica completa */}
       <div className="pt-2 flex justify-center">
-        <button
-          type="button"
+        <Button
+          variant="outline"
           onClick={() => onOpenDocumentsModal?.()}
-          className="w-full sm:w-auto min-w-[320px] h-[44px] px-6 rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white text-black text-[14px] font-bold uppercase transition-colors cursor-pointer flex items-center justify-center gap-2"
+          className="w-full sm:w-auto min-w-[320px] h-[44px] px-6 text-[14px] font-bold"
         >
           <span>Ver historia clínica completa</span>
           <ArrowRight className="w-4 h-4 text-black" />
-        </button>
+        </Button>
       </div>
     </div>
   );

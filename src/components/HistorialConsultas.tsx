@@ -211,7 +211,7 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
   }, [consultas, filterStatus, searchQuery]);
 
   return (
-    <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-6 font-[family-name:Helvetica] px-4 sm:px-6 py-4 animate-fadeIn">
+    <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-6 font-[family-name:Helvetica] animate-fadeIn">
       {/* ================= 1. CABECERA: TÍTULO, SUBTÍTULO & + CREA NUEVA CONSULTA ================= */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
