@@ -74,7 +74,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       </div>
 
-      {/* User Selector Dropdown with Configuración de usuario & Cerrar sesión */}
+      {/* User Selector Dropdown with Configuración & Cerrar sesión */}
       <div className="relative mb-[16px]" ref={userMenuRef}>
         <button
           type="button"
@@ -106,10 +106,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 setUserMenuOpen(false);
                 onNavigate('mi-perfil');
               }}
-              className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer"
+              className="w-full h-[40px] px-[12px] rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-[12px] text-[14px] leading-[20px] font-normal text-black text-left transition-colors cursor-pointer whitespace-nowrap"
             >
               <SlidersHorizontal className="w-[18px] h-[18px] text-black shrink-0" />
-              <span>Configuración de usuario</span>
+              <span>Configuración</span>
             </button>
             <button
               type="button"
