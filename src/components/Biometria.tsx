@@ -4,12 +4,14 @@ import { LanguageSelector } from './LanguageSelector';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 import { Checkbox } from '../design-system/atoms/Checkbox';
+import { HelpCenter } from './HelpCenter';
 
 interface BiometriaProps {
   onBackToHome: () => void;
   userName?: string;
   isModal?: boolean;
   onClose?: () => void;
+  onOpenHelpCenter?: () => void;
 }
 
 export const Biometria: React.FC<BiometriaProps> = ({
@@ -17,8 +19,10 @@ export const Biometria: React.FC<BiometriaProps> = ({
   userName = 'Carlos Damián',
   isModal = false,
   onClose,
+  onOpenHelpCenter,
 }) => {
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
+  const [isHelpCenterOpen, setIsHelpCenterOpen] = useState(false);
 
   // Flow stages:
   // 1: Formulario (Datos personales + clínicos con toggles)
@@ -987,18 +991,38 @@ export const Biometria: React.FC<BiometriaProps> = ({
                 </span>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={handleExit}
-              className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
-              title="Cerrar modal"
-            >
-              <X className="w-5 h-5 text-black" />
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={() => {
+                  if (onOpenHelpCenter) onOpenHelpCenter();
+                  else setIsHelpCenterOpen(true);
+                }}
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+                title="Help Center y Soporte"
+              >
+                <Info className="w-5 h-5 text-black" />
+              </button>
+              <button
+                type="button"
+                onClick={handleExit}
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+                title="Cerrar modal"
+              >
+                <X className="w-5 h-5 text-black" />
+              </button>
+            </div>
           </div>
 
           {/* Modal Content */}
           {biometriaContent}
+
+          {/* Help Center Panel / Modal */}
+          <HelpCenter
+            isOpen={isHelpCenterOpen}
+            onClose={() => setIsHelpCenterOpen(false)}
+            defaultCategory="biometria"
+          />
         </div>
       </div>
     );
@@ -1017,37 +1041,18 @@ export const Biometria: React.FC<BiometriaProps> = ({
           />
 
           <div className="flex items-center gap-3 relative">
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setIsSupportOpen(!isSupportOpen)}
-                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
-                title="Información y soporte de biometría"
-                aria-label="Información de contacto"
-              >
-                <Info className="w-5 h-5 text-black" />
-              </button>
-
-              {isSupportOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[260px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-1 animate-fadeIn">
-                  <a
-                    href="mailto:biometria@everhealth.es"
-                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal text-left transition-colors cursor-pointer"
-                  >
-                    <Mail className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span className="truncate">biometria@everhealth.es</span>
-                  </a>
-
-                  <a
-                    href="tel:918220518"
-                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal text-left transition-colors cursor-pointer"
-                  >
-                    <Phone className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span>918 220 518</span>
-                  </a>
-                </div>
-              )}
-            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (onOpenHelpCenter) onOpenHelpCenter();
+                else setIsHelpCenterOpen(true);
+              }}
+              className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+              title="Help Center y Soporte"
+              aria-label="Información y soporte"
+            >
+              <Info className="w-5 h-5 text-black" />
+            </button>
 
             <LanguageSelector />
           </div>
@@ -1058,6 +1063,13 @@ export const Biometria: React.FC<BiometriaProps> = ({
       <main className="flex-1 w-full flex justify-center px-4 pt-8 pb-16">
         {biometriaContent}
       </main>
+
+      {/* Help Center Panel / Modal */}
+      <HelpCenter
+        isOpen={isHelpCenterOpen}
+        onClose={() => setIsHelpCenterOpen(false)}
+        defaultCategory="biometria"
+      />
     </div>
   );
 };

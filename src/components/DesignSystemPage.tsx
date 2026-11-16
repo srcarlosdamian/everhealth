@@ -58,6 +58,7 @@ import { ActionMenu } from '../design-system/molecules/ActionMenu';
 import { AvailableDoctorsRow } from '../design-system/molecules/AvailableDoctorsRow';
 import { AssignedDoctorCard } from '../design-system/molecules/AssignedDoctorCard';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
+import { HelpCenter } from './HelpCenter';
 import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
 import { TablePagination } from '../design-system/molecules/TablePagination';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
@@ -165,6 +166,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [demoPaginationExpanded, setDemoPaginationExpanded] = useState(false);
   const [demoConfirmModalOpen, setDemoConfirmModalOpen] = useState(false);
   const [demoFormModalOpen, setDemoFormModalOpen] = useState(false);
+  const [demoHelpCenterOpen, setDemoHelpCenterOpen] = useState(false);
   const [demoCitaMenuOpen, setDemoCitaMenuOpen] = useState(false);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
@@ -1661,6 +1663,22 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     </div>
                   </div>
                 </StageBlock>
+
+                <StageBlock
+                  title="Help Center (Panel Lateral Derecho & Modal Mobile)"
+                  componentTag="<HelpCenter />"
+                  usedIn={['Header (Info)', 'Biometría', 'Mobile Drawer']}
+                  description="Centro de soporte y ayuda interactivo. En pantallas de escritorio se despliega como panel lateral a la derecha estilo Gemini (sin oscurecer el fondo) y en dispositivos móviles como ventana modal adaptada. Incluye buscador en tiempo real, canales de contacto (soporte general y biometría divididos por línea) y acordeones categorizados."
+                >
+                  <div className="flex flex-col items-start gap-3">
+                    <Button variant="primary" onClick={() => setDemoHelpCenterOpen(true)}>
+                      Abrir Help Center en vivo
+                    </Button>
+                    <span className="text-[12px] text-[#64748b]">
+                      Prueba en escritorio (panel derecho sin modal) o reduce la ventana para ver el modo modal móvil.
+                    </span>
+                  </div>
+                </StageBlock>
               </div>
             )}
 
@@ -1757,6 +1775,12 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
           </div>
         </div>
       )}
+
+      {/* Help Center Demo */}
+      <HelpCenter
+        isOpen={demoHelpCenterOpen}
+        onClose={() => setDemoHelpCenterOpen(false)}
+      />
     </div>
   );
 };

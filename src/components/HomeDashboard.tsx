@@ -8,6 +8,7 @@ import { ModalVideoConsulta } from './ModalVideoConsulta';
 import { ModalSolicitarChat } from './ModalSolicitarChat';
 import { ModalDocumentos } from './ModalDocumentos';
 import { ModalBiometria } from './ModalBiometria';
+import { HelpCenter } from './HelpCenter';
 import { Biometria } from './Biometria';
 import { HistorialConsultas } from './HistorialConsultas';
 import { HistoriaClinica } from './HistoriaClinica';
@@ -69,6 +70,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   const [chatModalTab, setChatModalTab] = useState<'agendar' | 'ahora'>('agendar');
   const [isDocsModalOpen, setIsDocsModalOpen] = useState(false);
   const [isBiometriaModalOpen, setIsBiometriaModalOpen] = useState(false);
+  const [isHelpCenterOpen, setIsHelpCenterOpen] = useState(false);
 
   // Top Header Notifications State & Dropdown
   const [isQuickActionsOpen, setIsQuickActionsOpen] = useState(false);
@@ -373,82 +375,24 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
               )}
             </div>
 
-            {/* Botón de Información / Soporte con Dropdown */}
+            {/* Botón de Información / Soporte -> Help Center */}
             <div className="relative">
               <button
                 type="button"
                 onClick={() => {
-                  setIsHeaderInfoOpen(!isHeaderInfoOpen);
+                  setIsHelpCenterOpen(!isHelpCenterOpen);
                   setIsQuickActionsOpen(false);
                   setIsNotifOpen(false);
                   setUserMenuOpen(false);
                 }}
-                className="text-black hover:opacity-75 p-1.5 cursor-pointer"
-                title="Información y soporte Ever Health"
+                className={`text-black hover:opacity-75 p-1.5 cursor-pointer transition-colors ${
+                  isHelpCenterOpen ? 'bg-[#f1f5f9] rounded-full' : ''
+                }`}
+                title="Help Center y Soporte Ever Health"
+                aria-label="Abrir Help Center"
               >
                 <Info className="w-[20px] h-[20px]" />
               </button>
-
-              {/* Dropdown de Soporte e Info General (100% homologado: iconos neutrales, texto 16 regular, sin separador en Ever Health, sin etiquetas a la derecha) */}
-              {isHeaderInfoOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[300px] sm:w-[320px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(0,0,0,0.14)] p-2.5 border border-[#e2e8f0] flex flex-col gap-1 animate-fadeIn">
-                  <div className="px-3.5 py-2">
-                    <span className="text-[16px] font-bold text-black">
-                      Ever Health
-                    </span>
-                  </div>
-
-                  {/* Email 16 regular */}
-                  <a
-                    href="mailto:soporte@everhealth.es"
-                    className="flex items-center gap-3 px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black transition-colors text-left cursor-pointer"
-                  >
-                    <Mail className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span className="text-[16px] font-normal text-black truncate">
-                      soporte@everhealth.es
-                    </span>
-                  </a>
-
-                  {/* Teléfono 16 regular */}
-                  <a
-                    href="tel:911231214"
-                    className="flex items-center gap-3 px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black transition-colors text-left cursor-pointer"
-                  >
-                    <Phone className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span className="text-[16px] font-normal text-black">
-                      911 23 12 14
-                    </span>
-                  </a>
-
-                  {/* Dirección 16 regular con copia al portapapeles y aviso sutil */}
-                  <div
-                    onClick={() => {
-                      if (typeof navigator !== 'undefined' && navigator.clipboard) {
-                        navigator.clipboard.writeText('C/ Naciones 10, 28006 Madrid').catch(() => {});
-                      }
-                      setAddressCopied(true);
-                      setTimeout(() => setAddressCopied(false), 2000);
-                    }}
-                    className="flex items-center justify-between px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black text-left cursor-pointer transition-colors group"
-                  >
-                    <div className="flex items-center gap-3 min-w-0">
-                      <MapPin className="w-5 h-5 text-[#64748b] shrink-0" />
-                      <span className="text-[16px] font-normal text-black truncate">
-                        C/ Naciones 10, 28006 Madrid
-                      </span>
-                    </div>
-                    {addressCopied ? (
-                      <span className="text-[11px] font-medium text-[#15803d] bg-[#f0fdf4] px-1.5 py-0.5 rounded border border-[#bbf7d0] shrink-0 ml-2 animate-fadeIn">
-                        Copiado
-                      </span>
-                    ) : (
-                      <span className="text-[10px] text-[#94a3b8] opacity-0 group-hover:opacity-80 transition-opacity shrink-0 ml-2">
-                        Copiar
-                      </span>
-                    )}
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Usuario en Mobile: Iniciales con menú homologado a 16px regular y hover neutral */}
@@ -688,6 +632,18 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                     <Palette className="w-[18px] h-[18px] text-[#64748b]" />
                     <span>Sistema de diseño</span>
                   </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileDrawerOpen(false);
+                      setIsHelpCenterOpen(true);
+                    }}
+                    className="w-full h-[40px] px-3 rounded-[6px] flex items-center gap-2.5 text-[14px] text-black hover:bg-[#f8fafc] transition-colors cursor-pointer"
+                  >
+                    <HelpCircle className="w-[18px] h-[18px] text-[#64748b]" />
+                    <span>Help Center & Soporte</span>
+                  </button>
                 </nav>
               </div>
 
@@ -830,6 +786,12 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
         isOpen={isBiometriaModalOpen}
         onClose={() => setIsBiometriaModalOpen(false)}
         userName={userName}
+        onOpenHelpCenter={() => setIsHelpCenterOpen(true)}
+      />
+
+      <HelpCenter
+        isOpen={isHelpCenterOpen}
+        onClose={() => setIsHelpCenterOpen(false)}
       />
     </div>
   );
