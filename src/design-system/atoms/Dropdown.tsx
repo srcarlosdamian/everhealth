@@ -80,7 +80,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
         onClick={() => !disabled && setIsOpen(!isOpen)}
         className={`w-full ${
           size === 'sm'
-            ? 'h-[36px] px-3 text-[13px] rounded-[6px]'
+            ? 'h-[38px] px-3 text-[13px] rounded-[8px]'
             : 'h-[44px] px-3.5 text-[16px] rounded-[8px]'
         } bg-white border text-left flex items-center justify-between transition-colors select-none cursor-pointer ${
           disabled ? 'opacity-60 cursor-not-allowed bg-[#f8fafc]' : ''

@@ -1,7 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { Star, ChevronDown, ChevronUp } from 'lucide-react';
 import { Dropdown } from '../design-system/atoms/Dropdown';
-import { Badge } from '../design-system/atoms/Badge';
+import { Badge, BadgeVariant } from '../design-system/atoms/Badge';
+import { Button } from '../design-system/atoms/Button';
 
 interface SolicitarChatProps {
   onOpenCalendarModal: (doctorName?: string) => void;
@@ -54,7 +55,7 @@ const DOCTORS: Doctor[] = [
     id: '5',
     name: 'Benito Martínez',
     initials: 'BM',
-    badge: 'Disponibilidad limitada',
+    badge: 'Tiempo limitado',
     badgeType: 'limitada',
     specialties: ['Pediatría', 'Dermatología', 'Psiquiatría'],
   },
@@ -93,7 +94,7 @@ const SCHEDULE_DAYS = [
 const DISPONIBILIDAD_OPTIONS = [
   { value: 'todas', label: 'Disponibilidad' },
   { value: 'disponible', label: 'Disponible ahora' },
-  { value: 'limitada', label: 'Disponibilidad limitada' },
+  { value: 'limitada', label: 'Tiempo limitado' },
   { value: 'no-disponible', label: 'No disponible' },
 ];
 
@@ -316,13 +317,13 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
                 )}
 
                 {/* VER CALENDARIO: opens modal EVR - 9 as requested */}
-                <button
-                  type="button"
+                <Button
+                  variant="outline"
                   onClick={() => onOpenCalendarModal(doc.name)}
-                  className="h-[34px] px-3.5 rounded-[6px] border border-[#cbd5e1] hover:bg-[#f8fafc] text-[12px] font-bold text-black tracking-wide uppercase transition-colors cursor-pointer"
+                  className="h-[34px] px-3.5 text-[12px] font-bold tracking-wide"
                 >
                   Ver calendario
-                </button>
+                </Button>
               </div>
 
             </div>
