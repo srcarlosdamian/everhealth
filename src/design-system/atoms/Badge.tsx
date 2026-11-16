@@ -1,16 +1,32 @@
 import React from 'react';
 
+/**
+ * Variantes semánticas reutilizables para el componente Badge (Átomo del Sistema de Diseño).
+ * 'success' / 'disponible' / 'a-cargo' / 'confirmada' son un mismo componente unificado
+ * (borde gris #cbd5e1, fondo transparente, texto en verde #15803d, font-bold 12px)
+ * que se reutiliza según su propósito funcional:
+ *  - Disponibilidad médica (ej: "Disponible", "Disponible ahora")
+ *  - Filiación / Dependientes (ej: "Menor a cargo", "Tutor legal")
+ *  - Consulta activa / Confirmada (ej: "En proceso", "Confirmada")
+ */
 export type BadgeVariant =
+  | 'success'          // Estado positivo / activo (Disponible, Disponible ahora, Menor a cargo, Tutor legal, Confirmada)
+  | 'neutral'          // Estado neutro / inactivo (Programada, No disponible, Adulto)
+  | 'info'             // Estado en espera / pendiente (En espera, Pendiente)
+  | 'warning'          // Advertencia / tiempo limitado (Tiempo limitado)
+  | 'error'            // Error de conexión / alerta de sistema (Error de conexión)
+  | 'especialidad'     // Píldora de especialidad médica
+  | 'porcentaje'       // Píldora de porcentaje métrico
+  // Aliases funcionales retrocompatibles:
   | 'disponible'
   | 'disponible-ahora'
+  | 'a-cargo'
   | 'confirmada'
   | 'en-espera'
   | 'programada'
   | 'no-disponible'
   | 'limitada'
-  | 'error-conexion'
-  | 'especialidad'
-  | 'porcentaje';
+  | 'error-conexion';
 
 interface BadgeProps {
   variant?: BadgeVariant;
@@ -19,34 +35,40 @@ interface BadgeProps {
 }
 
 export const Badge: React.FC<BadgeProps> = ({
-  variant = 'disponible',
+  variant = 'success',
   children,
   className = '',
 }) => {
-  // Homologated Badge Design System Rules per User Feedback:
-  // - No badge has a background fill by default (all are bg-transparent, except error-conexion).
-  // - Border is light gray: border-[#cbd5e1] (gray 300).
-  // - Typography: text-[12px] leading-[16px] font-bold across all.
-  // - NO green dots or status dots (eliminados en Consultas y en el Sistema de Diseño).
-  // - "Disponible" & "Confirmada" son el mismo componente y estilo: text-[#15803d] (green 700).
-  // - "En espera": text-[#2563eb] (blue).
-  // - "Programada" & "No disponible": text-[#475569] (dark gray).
-  // - "Tiempo limitado": text-[#b45309] (amber 700).
-  // - "Error de conexión": bg-[#fef9c3] (amarillo 100), text-[#a16207] (amarillo 700), border-[#fef08a], mismo peso y tamaño.
+  // Reglas homologadas del Átomo Badge en el Sistema de Diseño:
+  // - Un solo componente visual reutilizable: sin fondo de relleno (bg-transparent por defecto).
+  // - Borde uniforme gris sutil: border-[#cbd5e1] (gray 300).
+  // - Tipografía: text-[12px] leading-[16px] font-bold unificada en todas las variantes.
+  // - Sin puntos verdes/estados circulares extra (eliminados para mantener el badge limpio y legible).
+  // - 'success' / 'disponible' / 'a-cargo' / 'confirmada': text-[#15803d] (green 700).
+  // - 'info' / 'en-espera': text-[#2563eb] (blue 600).
+  // - 'neutral' / 'programada' / 'no-disponible': text-[#475569] (slate 600).
+  // - 'warning' / 'limitada': text-[#b45309] (amber 700).
+  // - 'error' / 'error-conexion': bg-[#fef9c3] text-[#a16207] border-[#fef08a].
 
   const getVariantStyles = () => {
     switch (variant) {
+      case 'success':
       case 'disponible':
       case 'disponible-ahora':
+      case 'a-cargo':
       case 'confirmada':
         return 'bg-transparent text-[#15803d] border border-[#cbd5e1]';
+      case 'info':
       case 'en-espera':
         return 'bg-transparent text-[#2563eb] border border-[#cbd5e1]';
+      case 'neutral':
       case 'programada':
       case 'no-disponible':
         return 'bg-transparent text-[#475569] border border-[#cbd5e1]';
+      case 'warning':
       case 'limitada':
         return 'bg-transparent text-[#b45309] border border-[#cbd5e1]';
+      case 'error':
       case 'error-conexion':
         return 'bg-[#fef9c3] text-[#a16207] border border-[#fef08a]';
       case 'especialidad':
@@ -60,7 +82,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
   return (
     <span
-      className={`inline-flex items-center justify-center px-2.5 py-1 rounded-[6px] text-[12px] leading-[16px] font-bold ${getVariantStyles()} ${className}`}
+      className={`inline-flex items-center justify-center px-2.5 py-1 rounded-[6px] text-[12px] leading-[16px] font-bold whitespace-nowrap ${getVariantStyles()} ${className}`}
     >
       {children}
     </span>

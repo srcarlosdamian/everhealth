@@ -373,21 +373,123 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 1. Badges */}
                 <StageBlock
-                  title="Badges & Etiquetas de Estado"
+                  title="Badges & Etiquetas de Estado Semánticas"
                   componentTag="<Badge />"
-                  usedIn={['Home', 'Solicitar Chat', 'Familiares', 'Mascotas', 'Cuestionario Médico']}
-                  description="Sin fondo de relleno (transparente), borde gris #cbd5e1 y texto semántico en bold. Incluye la variante 'disponible-ahora' de la tarjeta de médico asignado."
+                  usedIn={['Home', 'Solicitar Chat', 'Familiares', 'Mascotas', 'Historial de Consultas', 'Cuestionario']}
+                  description="Componente único y reutilizable para etiquetas de estado. 'Disponible', 'Disponible ahora' y 'A cargo' son el mismo componente unificado (<Badge variant='success' /> con borde gris #cbd5e1 y texto verde #15803d), clasificados por su propósito funcional."
                   canvasMode={canvasMode}
                 >
-                  <div className="flex flex-wrap items-center gap-3">
-                    <Badge variant="disponible">Disponible</Badge>
-                    <Badge variant="disponible-ahora">Disponible ahora</Badge>
-                    <Badge variant="en-espera">En espera</Badge>
-                    <Badge variant="programada">Programada</Badge>
-                    <Badge variant="confirmada">Menor a cargo</Badge>
-                    <Badge variant="limitada">Tiempo limitado</Badge>
-                    <Badge variant="no-disponible">No disponible</Badge>
-                    <Badge variant="error-conexion">Error de conexión... reintentando</Badge>
+                  <div className="flex flex-col gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* 1. Disponibilidad Médica */}
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-col">
+                          <span className="text-[13px] font-bold text-black">
+                            Disponibilidad Médica en Tiempo Real
+                          </span>
+                          <span className="text-[12px] text-[#64748b]">
+                            Especialistas activos para atención inmediata en Home y directorio
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                          <Badge variant="success">Disponible</Badge>
+                          <Badge variant="success">Disponible ahora</Badge>
+                        </div>
+                      </div>
+
+                      {/* 2. Filiación y Dependientes a Cargo */}
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-col">
+                          <span className="text-[13px] font-bold text-black">
+                            Filiación y Dependientes a Cargo
+                          </span>
+                          <span className="text-[12px] text-[#64748b]">
+                            Tutela legal y menores a cargo en módulo de Familiares
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                          <Badge variant="success">Menor a cargo</Badge>
+                          <Badge variant="success">Tutor legal</Badge>
+                        </div>
+                      </div>
+
+                      {/* 3. Consultas en Curso y Citas Confirmadas */}
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-col">
+                          <span className="text-[13px] font-bold text-black">
+                            Consultas Activas y Confirmadas
+                          </span>
+                          <span className="text-[12px] text-[#64748b]">
+                            Consultas en progreso o citas validadas en Historial
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                          <Badge variant="success">En proceso</Badge>
+                          <Badge variant="success">Confirmada</Badge>
+                        </div>
+                      </div>
+
+                      {/* 4. Citas Programadas y Fuera de Servicio */}
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-col">
+                          <span className="text-[13px] font-bold text-black">
+                            Citas Programadas e Inactividad
+                          </span>
+                          <span className="text-[12px] text-[#64748b]">
+                            Consultas en agenda futura o médicos fuera de turno
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                          <Badge variant="neutral">Programada</Badge>
+                          <Badge variant="neutral">No disponible</Badge>
+                        </div>
+                      </div>
+
+                      {/* 5. Sala de Espera Virtual */}
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-col">
+                          <span className="text-[13px] font-bold text-black">
+                            Sala de Espera y Turnos
+                          </span>
+                          <span className="text-[12px] text-[#64748b]">
+                            Pacientes aguardando turno en sala virtual de videoconsulta
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                          <Badge variant="info">En espera</Badge>
+                        </div>
+                      </div>
+
+                      {/* 6. Disponibilidad Temporal Reducida */}
+                      <div className="flex flex-col gap-2">
+                        <div className="flex flex-col">
+                          <span className="text-[13px] font-bold text-black">
+                            Tiempo o Cupo Limitado
+                          </span>
+                          <span className="text-[12px] text-[#64748b]">
+                            Turnos de guardia médica con cupo próximo a cerrar
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                          <Badge variant="warning">Tiempo limitado</Badge>
+                        </div>
+                      </div>
+
+                      {/* 7. Alertas de Conectividad y Red */}
+                      <div className="flex flex-col gap-2 md:col-span-2">
+                        <div className="flex flex-col">
+                          <span className="text-[13px] font-bold text-black">
+                            Alertas de Conexión y Sistema
+                          </span>
+                          <span className="text-[12px] text-[#64748b]">
+                            Avisos de reconexión o fallas temporales de red en telemedicina
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                          <Badge variant="error">Error de conexión... reintentando</Badge>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </StageBlock>
 

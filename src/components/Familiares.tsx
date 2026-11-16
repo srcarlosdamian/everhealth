@@ -274,16 +274,16 @@ export const Familiares: React.FC = () => {
 
                   <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
                     {item.esTutor ? (
-                      <Badge variant="disponible" className="w-fit">Tutor legal</Badge>
+                      <Badge variant="success" className="w-fit">Tutor legal</Badge>
                     ) : item.edad < 18 ? (
                       <div className="flex flex-col items-start gap-1">
-                        <Badge variant="confirmada" className="w-fit">Menor a cargo</Badge>
+                        <Badge variant="success" className="w-fit">Menor a cargo</Badge>
                         <span className="text-[11px] text-[#64748b]">
                           {item.tutorAsignado || 'Tutor: Titular'}
                         </span>
                       </div>
                     ) : (
-                      <Badge variant="programada" className="w-fit">Adulto</Badge>
+                      <Badge variant="neutral" className="w-fit">Adulto</Badge>
                     )}
                   </td>
 
