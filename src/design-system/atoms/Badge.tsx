@@ -48,7 +48,9 @@ export const Badge: React.FC<BadgeProps> = ({
   // - 'info' / 'en-espera': text-[#2563eb] (blue 600).
   // - 'neutral' / 'programada' / 'no-disponible': text-[#475569] (slate 600).
   // - 'warning' / 'limitada': text-[#b45309] (amber 700).
-  // - 'error' / 'error-conexion': bg-[#fef9c3] text-[#a16207] border-[#fef08a].
+  // - 'error' / 'error-conexion': bg-[#fef9c3] (amarillo suave), text-[#1e293b] (tono regular igual que autosave), sin borde (border-transparent).
+
+  const isError = variant === 'error' || variant === 'error-conexion';
 
   const getVariantStyles = () => {
     switch (variant) {
@@ -70,7 +72,7 @@ export const Badge: React.FC<BadgeProps> = ({
         return 'bg-transparent text-[#b45309] border border-[#cbd5e1]';
       case 'error':
       case 'error-conexion':
-        return 'bg-[#fef9c3] text-[#a16207] border border-[#fef08a]';
+        return 'bg-[#fef9c3] text-[#1e293b] border-transparent font-normal';
       case 'especialidad':
         return 'bg-[#f1f5f9] text-[#334155] border border-transparent text-[11px] font-medium';
       case 'porcentaje':
@@ -82,7 +84,9 @@ export const Badge: React.FC<BadgeProps> = ({
 
   return (
     <span
-      className={`inline-flex items-center justify-center px-2.5 py-1 rounded-[6px] text-[12px] leading-[16px] font-bold whitespace-nowrap ${getVariantStyles()} ${className}`}
+      className={`inline-flex items-center justify-center px-3 py-1 rounded-[6px] text-[12px] leading-[16px] ${
+        isError ? 'font-normal' : 'font-bold'
+      } whitespace-nowrap ${getVariantStyles()} ${className}`}
     >
       {children}
     </span>

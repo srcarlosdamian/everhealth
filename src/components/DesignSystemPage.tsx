@@ -502,11 +502,11 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   title="Indicador de Autoguardado"
                   componentTag="<AutosaveIndicator />"
                   usedIn={['Cuestionario Médico', 'Mis Documentos Médicos']}
-                  description="Píldora discreta #f1f5f9 con icono CheckCircle2 que confirma el guardado automático en formularios clínicos."
+                  description="Píldora discreta sin bordes en tipografía regular. Muestra confirmación de autoguardado (#f1f5f9 con CheckCircle2) o aviso de reintento (#fef9c3 fondo amarillo suave con el mismo tono de texto, tamaño y sin línea)."
                 >
                   <div className="flex flex-wrap items-center gap-4">
-                    <AutosaveIndicator />
-                    <Badge variant="error-conexion">Error de conexión... reintentando</Badge>
+                    <AutosaveIndicator status="saved" />
+                    <AutosaveIndicator status="error" />
                   </div>
                 </StageBlock>
 
