@@ -4,6 +4,9 @@ import { LanguageSelector } from './LanguageSelector';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 import { Checkbox } from '../design-system/atoms/Checkbox';
+import { Radio } from '../design-system/atoms/Radio';
+import { TextInput } from '../design-system/atoms/TextInput';
+import { Button } from '../design-system/atoms/Button';
 import { HelpCenter } from './HelpCenter';
 
 interface BiometriaProps {
@@ -251,99 +254,81 @@ export const Biometria: React.FC<BiometriaProps> = ({
               {/* Formulario de datos personales */}
               <div className="flex flex-col gap-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">
-                      Nombre<span className="text-[#d50475]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={nombre}
-                      onChange={(e) => setNombre(e.target.value)}
-                      placeholder="Tu nombre"
-                      className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] text-[16px] font-normal text-black bg-white focus:outline-none focus:border-black"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-normal text-black">
-                      Apellidos<span className="text-[#d50475]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={apellidos}
-                      onChange={(e) => setApellidos(e.target.value)}
-                      placeholder="Tus apellidos"
-                      className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] text-[16px] font-normal text-black bg-white focus:outline-none focus:border-black"
-                    />
-                  </div>
+                  <TextInput
+                    label="Nombre*"
+                    required
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    placeholder="Tu nombre"
+                  />
+                  <TextInput
+                    label="Apellidos*"
+                    required
+                    value={apellidos}
+                    onChange={(e) => setApellidos(e.target.value)}
+                    placeholder="Tus apellidos"
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-normal text-black">
-                      Email<span className="text-[#d50475]">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="tuemail@ejemplo.com"
-                      className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] text-[16px] font-normal text-black bg-white focus:outline-none focus:border-black"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-normal text-black">
-                      Edad<span className="text-[#d50475]">*</span>
-                    </label>
-                    <input
-                      type="number"
-                      value={edad}
-                      onChange={(e) => setEdad(e.target.value)}
-                      placeholder="Tu edad"
-                      className="h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] text-[16px] font-normal text-black bg-white focus:outline-none focus:border-black"
-                    />
-                  </div>
+                  <TextInput
+                    label="Email*"
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="tuemail@ejemplo.com"
+                  />
+                  <TextInput
+                    label="Edad*"
+                    type="number"
+                    required
+                    value={edad}
+                    onChange={(e) => setEdad(e.target.value)}
+                    placeholder="Tu edad"
+                  />
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">Altura</label>
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[14px] font-normal text-black leading-tight">Altura</label>
                     <div className="relative">
                       <input
                         type="number"
                         value={altura}
                         onChange={(e) => setAltura(e.target.value)}
                         placeholder="170"
-                        className="w-full h-[44px] px-3.5 pr-10 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                        className="w-full h-[44px] px-4 pr-10 rounded-[8px] border border-[#cbd5e1] text-[16px] text-black focus:outline-none focus:border-black transition-colors"
                       />
-                      <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[14px] text-black font-medium pointer-events-none">
+                      <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[14px] text-[#64748b] font-medium pointer-events-none">
                         cm
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">Peso</label>
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[14px] font-normal text-black leading-tight">Peso</label>
                     <div className="relative">
                       <input
                         type="number"
                         value={peso}
                         onChange={(e) => setPeso(e.target.value)}
                         placeholder="70"
-                        className="w-full h-[44px] px-3.5 pr-10 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                        className="w-full h-[44px] px-4 pr-10 rounded-[8px] border border-[#cbd5e1] text-[16px] text-black focus:outline-none focus:border-black transition-colors"
                       />
-                      <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[14px] text-black font-medium pointer-events-none">
+                      <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[14px] text-[#64748b] font-medium pointer-events-none">
                         kg
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-1">
-                    <label className="text-[14px] font-medium text-black">Sexo al nacer</label>
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-[14px] font-normal text-black leading-tight">Sexo al nacer</label>
                     <div className="relative">
                       <select
                         value={sexo}
                         onChange={(e) => setSexo(e.target.value)}
-                        className="w-full h-[44px] px-3.5 pr-10 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black bg-white focus:outline-none focus:border-[#d50475] appearance-none cursor-pointer"
+                        className="w-full h-[44px] px-4 pr-10 rounded-[8px] border border-[#cbd5e1] text-[15px] text-black bg-white focus:outline-none focus:border-black appearance-none cursor-pointer transition-colors"
                       >
                         <option value="Masculino">Masculino</option>
                         <option value="Femenino">Femenino</option>
@@ -355,12 +340,12 @@ export const Biometria: React.FC<BiometriaProps> = ({
                 </div>
               </div>
 
-              {/* Preguntas clínicas con tarjetas cuadradas con checks radiales (estilo Bienestar emocional) */}
+              {/* Preguntas clínicas con tarjetas cuadradas homologadas con atom Radio */}
               <div className="flex flex-col gap-6 pt-2">
                 
-                {/* 1. ¿Tiene diabetes? (3 opciones en tarjetas cuadradas con check radial único) */}
+                {/* 1. ¿Tiene diabetes? */}
                 <div className="flex flex-col gap-2.5">
-                  <span className="text-[15px] font-bold text-black">¿Tiene diabetes?</span>
+                  <span className="text-[14px] font-bold text-black">¿Tiene diabetes?</span>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {[
                       { id: 'no', label: 'No' },
@@ -372,31 +357,23 @@ export const Biometria: React.FC<BiometriaProps> = ({
                         <div
                           key={opt.id}
                           onClick={() => setDiabetes(opt.id)}
-                          className={`p-4 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
+                          className={`p-3.5 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
                             isSelected
-                              ? 'border-[#d50475] bg-[#fdf2f8]/40 shadow-xs'
+                              ? 'border-black bg-[#f8fafc] shadow-xs'
                               : 'border-[#cbd5e1] hover:border-black bg-white'
                           }`}
                         >
-                          <div
-                            className={`w-5 h-5 rounded-[4px] border flex items-center justify-center transition-all ${
-                              isSelected
-                                ? 'border-[#d50475] bg-[#d50475] text-white'
-                                : 'border-[#94a3b8] bg-white'
-                            }`}
-                          >
-                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                          </div>
-                          <span className="text-[14px] font-bold text-black">{opt.label}</span>
+                          <Radio checked={isSelected} size="md" />
+                          <span className="text-[14px] font-medium text-black">{opt.label}</span>
                         </div>
                       );
                     })}
                   </div>
                 </div>
 
-                {/* 2. ¿Fuma? (2 opciones en tarjetas cuadradas) */}
+                {/* 2. ¿Fuma? */}
                 <div className="flex flex-col gap-2.5">
-                  <span className="text-[15px] font-bold text-black">¿Fuma?</span>
+                  <span className="text-[14px] font-bold text-black">¿Fuma?</span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {[
                       { id: 'si', label: 'Sí' },
@@ -407,31 +384,23 @@ export const Biometria: React.FC<BiometriaProps> = ({
                         <div
                           key={opt.id}
                           onClick={() => setFuma(opt.id)}
-                          className={`p-4 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
+                          className={`p-3.5 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
                             isSelected
-                              ? 'border-[#d50475] bg-[#fdf2f8]/40 shadow-xs'
+                              ? 'border-black bg-[#f8fafc] shadow-xs'
                               : 'border-[#cbd5e1] hover:border-black bg-white'
                           }`}
                         >
-                          <div
-                            className={`w-5 h-5 rounded-[4px] border flex items-center justify-center transition-all ${
-                              isSelected
-                                ? 'border-[#d50475] bg-[#d50475] text-white'
-                                : 'border-[#94a3b8] bg-white'
-                            }`}
-                          >
-                            {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                          </div>
-                          <span className="text-[14px] font-bold text-black">{opt.label}</span>
+                          <Radio checked={isSelected} size="md" />
+                          <span className="text-[14px] font-medium text-black">{opt.label}</span>
                         </div>
                       );
                     })}
                   </div>
                 </div>
 
-                {/* 3. ¿Está tomando medicación para la presión arterial? (2 opciones en tarjetas cuadradas) */}
+                {/* 3. ¿Está tomando medicación para la presión arterial? */}
                 <div className="flex flex-col gap-2.5">
-                  <span className="text-[15px] font-bold text-black">
+                  <span className="text-[14px] font-bold text-black">
                     ¿Está tomando medicación para la presión arterial?
                   </span>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -444,14 +413,14 @@ export const Biometria: React.FC<BiometriaProps> = ({
                         <div
                           key={opt.id}
                           onClick={() => setMedicacionPresion(opt.id)}
-                          className={`p-4 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
+                          className={`p-3.5 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
                             isSelected
                               ? 'border-black bg-[#f8fafc] shadow-xs'
                               : 'border-[#cbd5e1] hover:border-black bg-white'
                           }`}
                         >
-                          <Checkbox checked={isSelected} size="md" />
-                          <span className="text-[14px] font-bold text-black">{opt.label}</span>
+                          <Radio checked={isSelected} size="md" />
+                          <span className="text-[14px] font-medium text-black">{opt.label}</span>
                         </div>
                       );
                     })}
@@ -516,9 +485,10 @@ export const Biometria: React.FC<BiometriaProps> = ({
                     handleResetScan();
                     setStage(1);
                   }}
-                  className="text-[14px] font-bold text-black hover:text-[#d50475] flex items-center gap-1 transition-colors cursor-pointer w-fit"
+                  className="text-[13px] font-bold text-black hover:text-[#d50475] flex items-center gap-1.5 transition-colors cursor-pointer w-fit uppercase"
                 >
-                  <span>&lt; Cancelar</span>
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>Volver al paso 1</span>
                 </button>
 
                 <div className="flex items-center gap-3 flex-1 sm:max-w-[420px]">
@@ -557,10 +527,15 @@ export const Biometria: React.FC<BiometriaProps> = ({
                     <ChevronDown className="w-4 h-4 text-black absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                   </div>
 
-                  {/* Botón Ayuda pill */}
+                  {/* Botón Ayuda pill conectado con HelpCenter */}
                   <button
                     type="button"
-                    className="h-[42px] px-3.5 rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white flex items-center gap-1.5 text-[13px] font-bold text-black cursor-pointer transition-colors shrink-0"
+                    onClick={() => {
+                      if (onOpenHelpCenter) onOpenHelpCenter();
+                      else setIsHelpCenterOpen(true);
+                    }}
+                    className="h-[40px] px-3.5 rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white flex items-center gap-1.5 text-[13px] font-bold text-black cursor-pointer transition-colors shrink-0"
+                    title="Centro de ayuda y soporte"
                   >
                     <HelpCircle className="w-4 h-4 text-black" />
                     <span>Ayuda</span>
@@ -827,16 +802,16 @@ export const Biometria: React.FC<BiometriaProps> = ({
                     )}
                   </div>
 
-                  {/* Botón azul flotante "Comenzar medición" cuando la cara está bien ubicada */}
+                  {/* Botón CTA "Comenzar medición" homologado */}
                   {positionState === 'ready' && measureStatus === 'idle' && (
                     <div className="absolute -bottom-5 z-30">
-                      <button
-                        type="button"
+                      <Button
+                        variant="primary"
                         onClick={handleStartScan}
-                        className="h-[44px] px-6 rounded-[10px] bg-[#3b82f6] hover:bg-[#2563eb] text-white font-medium text-[15px] shadow-lg hover:shadow-xl transition-all flex items-center justify-center cursor-pointer active:scale-95"
+                        className="h-[40px] px-6 rounded-[8px] text-[13px] font-bold uppercase shadow-lg"
                       >
                         Comenzar medición
-                      </button>
+                      </Button>
                     </div>
                   )}
                 </div>
@@ -947,14 +922,14 @@ export const Biometria: React.FC<BiometriaProps> = ({
                       </p>
                     </div>
 
-                    {/* Botón azul 'OK' matching exactamente la captura */}
-                    <button
-                      type="button"
+                    {/* Botón homologado 'OK' */}
+                    <Button
+                      variant="primary"
                       onClick={handleResetScan}
-                      className="w-full sm:w-[180px] h-[46px] rounded-[10px] bg-[#3b82f6] hover:bg-[#2563eb] text-white font-bold text-[15px] transition-colors cursor-pointer shadow-md hover:shadow-lg"
+                      className="w-full sm:w-[180px] h-[40px] px-6 rounded-[8px] text-[13px] font-bold uppercase shadow-xs"
                     >
                       OK
-                    </button>
+                    </Button>
                   </div>
                 </div>
               )}

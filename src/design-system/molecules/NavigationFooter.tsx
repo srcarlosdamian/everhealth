@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '../atoms/Button';
 
 interface NavigationFooterProps {
   onBack?: () => void;
@@ -11,10 +12,10 @@ interface NavigationFooterProps {
 }
 
 /**
- * Standard Step Navigation Footer matching Figma spec (media_1793943084780_8476d117.png):
- * - Light gray background (#f8fafc, gray-50)
- * - "Atrás" button: white background, subtle border, sentence case
- * - "Continuar" button: brand pink (#d50475), sentence case
+ * Standard Step Navigation Footer (Sistema de Diseño Everhealth):
+ * - Altura homologada de 40px, esquinas cuadradas suaves de 8px, mismo peso (font-bold) y en mayúsculas.
+ * - Botón "Atrás": variante outline con borde gris claro #cbd5e1 y texto negro.
+ * - Botón "Continuar" / CTA: variante primario rosa #d50475 con texto blanco.
  */
 export const NavigationFooter: React.FC<NavigationFooterProps> = ({
   onBack,
@@ -31,13 +32,13 @@ export const NavigationFooter: React.FC<NavigationFooterProps> = ({
     >
       <div>
         {!hideBack && onBack ? (
-          <button
-            type="button"
+          <Button
+            variant="outline"
             onClick={onBack}
-            className="h-[38px] px-5 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-[14px] leading-[20px] font-normal text-black transition-colors cursor-pointer select-none"
+            className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
           >
             {backText}
-          </button>
+          </Button>
         ) : (
           <div />
         )}
@@ -45,18 +46,16 @@ export const NavigationFooter: React.FC<NavigationFooterProps> = ({
 
       <div>
         {onNext && (
-          <button
-            type="button"
+          <Button
+            variant="primary"
             onClick={onNext}
-            // Prototipo: siempre permite continuar, aunque se vea bloqueado
-            className={`h-[38px] px-6 rounded-[8px] text-[14px] leading-[20px] font-medium text-white transition-colors select-none cursor-pointer ${
-              isNextDisabled
-                ? 'bg-[#cbd5e1] hover:bg-[#94a3b8]'
-                : 'bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d]'
+            disabled={isNextDisabled}
+            className={`h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px] ${
+              isNextDisabled ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
             {nextText}
-          </button>
+          </Button>
         )}
       </div>
     </div>
