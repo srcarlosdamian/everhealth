@@ -1,5 +1,5 @@
 import React from 'react';
-import { X } from 'lucide-react';
+import { AlertTriangle, Info, X } from 'lucide-react';
 import { Button } from '../atoms/Button';
 
 interface ConfirmDeactivateModalProps {
@@ -32,32 +32,56 @@ export const ConfirmDeactivateModal: React.FC<ConfirmDeactivateModalProps> = ({
   if (!isOpen && !inlinePreview) return null;
 
   const dialogContent = (
-    <div className="w-full max-w-[460px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(0,0,0,0.14)] p-6 border border-[#e2e8f0] flex flex-col gap-4">
-      <div className="flex items-center justify-between pb-2.5 border-b border-[#f1f5f9]">
-        <h3 className="text-[17px] font-bold text-black">{title}</h3>
+    <div className="w-full max-w-[480px] bg-white rounded-[16px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6 sm:p-7 border border-[#e2e8f0] flex flex-col gap-4">
+      {/* Header con Badge de advertencia y botón cerrar circular */}
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-[#fef2f2] border border-[#fecdd3] flex items-center justify-center text-[#e11d48] shrink-0">
+            <AlertTriangle className="w-5 h-5 text-[#e11d48]" />
+          </div>
+          <h3 className="text-[18px] sm:text-[19px] font-bold text-black tracking-tight leading-snug">
+            {title}
+          </h3>
+        </div>
         <button
           type="button"
           onClick={onCancel}
-          className="w-7 h-7 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors shrink-0"
+          title="Cerrar"
         >
           <X className="w-4 h-4" />
         </button>
       </div>
-      <p className="text-[14px] leading-[20px] text-[#475569]">
+
+      {/* Descripción clara y destacada */}
+      <p className="text-[14px] leading-[22px] text-[#475569]">
         {descriptionPrefix}{' '}
         <strong className="text-black font-bold">{entityName}</strong>{' '}
         {descriptionSuffix}
       </p>
+
+      {/* Callout de consecuencia / aclaración con icono informativo */}
       {consequenceNote && (
-        <div className="p-3 bg-[#f8fafc] border border-[#e2e8f0] rounded-[6px] text-[12px] text-[#64748b] leading-[18px]">
-          {consequenceNote}
+        <div className="p-3.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] flex items-start gap-2.5 text-[12.5px] text-[#475569] leading-[19px]">
+          <Info className="w-4 h-4 text-[#64748b] shrink-0 mt-0.5" />
+          <div>{consequenceNote}</div>
         </div>
       )}
-      <div className="flex items-center justify-end gap-2.5 pt-2 border-t border-[#f1f5f9]">
-        <Button variant="outline" onClick={onCancel} className="h-[36px] px-3.5 text-[12px]">
+
+      {/* Botones de acción homologados: mismo peso, misma altura (40px) y mayúsculas */}
+      <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#f1f5f9]">
+        <Button
+          variant="outline"
+          onClick={onCancel}
+          className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
+        >
           {cancelText}
         </Button>
-        <Button variant="destructive" onClick={onConfirm} className="h-[36px] px-3.5 text-[12px]">
+        <Button
+          variant="destructive"
+          onClick={onConfirm}
+          className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white shadow-xs"
+        >
           {confirmText}
         </Button>
       </div>
@@ -69,7 +93,7 @@ export const ConfirmDeactivateModal: React.FC<ConfirmDeactivateModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
       {dialogContent}
     </div>
   );

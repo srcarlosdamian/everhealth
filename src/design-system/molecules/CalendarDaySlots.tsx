@@ -50,10 +50,20 @@ export const CalendarDaySlots: React.FC<CalendarDaySlotsProps> = ({
                 : 'border-[#cbd5e1] hover:border-[#94a3b8] bg-white'
             }`}
           >
-            <span className="text-[11px] font-bold text-[#64748b] uppercase tracking-wider">
+            <span
+              className={`text-[11px] font-bold uppercase tracking-wider transition-colors ${
+                isColumnActive ? 'text-[#d50475]' : 'text-[#64748b]'
+              }`}
+            >
               {col.dayName}
             </span>
-            <span className="text-[13px] font-bold text-black">{col.dateNumber}</span>
+            <span
+              className={`text-[13px] font-bold transition-colors ${
+                isColumnActive ? 'text-[#0f172a]' : 'text-black'
+              }`}
+            >
+              {col.dateNumber}
+            </span>
 
             <div className="flex flex-col gap-1.5 mt-1">
               {col.slots.map((slot, sIdx) => {
@@ -69,8 +79,8 @@ export const CalendarDaySlots: React.FC<CalendarDaySlotsProps> = ({
                     }}
                     className={`h-[28px] rounded-[6px] border text-[11px] font-bold transition-all cursor-pointer ${
                       isSlotSelected
-                        ? 'bg-[#fce7f3] text-[#d50475] border-[#f472b6]'
-                        : 'bg-white text-black border-[#cbd5e1] hover:border-black'
+                        ? 'bg-[#fce7f3] text-[#d50475] border-[#f472b6] shadow-xs'
+                        : 'bg-white text-black border-[#cbd5e1] hover:border-[#f472b6] hover:text-[#d50475]'
                     }`}
                   >
                     {slot}

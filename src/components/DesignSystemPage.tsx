@@ -1090,7 +1090,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           2. Selector de Días y Turnos en Columnas (Solicitar Chat / Turnos Médicos)
                         </span>
                         <span className="text-[12px] text-[#64748b]">
-                          Visualización por días de la semana con franjas horarias directas. Columna activa con fondo rosa claro (#fdf2f8), borde rosa (#f472b6) y franja seleccionada con botón secundario rosa CTA (#d50475).
+                          Visualización por días de la semana con franjas horarias directas. Columna activa con fondo rosa claro (#fdf2f8), cabecera rosa CTA (#d50475), fecha oscuro 950 (#0f172a) y franja seleccionada con botón secundario rosa (#fce7f3) y texto rosa CTA (#d50475).
                         </span>
                       </div>
 

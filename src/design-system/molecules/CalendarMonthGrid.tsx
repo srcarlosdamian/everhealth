@@ -37,7 +37,7 @@ export const CalendarMonthGrid: React.FC<CalendarMonthGridProps> = ({
   const selectedClass =
     colorTheme === 'magenta'
       ? 'bg-[#d50475] text-white font-bold shadow-xs'
-      : 'bg-[#fce7f3] text-[#0f172a] font-bold border border-[#f472b6]';
+      : 'bg-[#fce7f3] text-[#0f172a] font-bold border border-[#f472b6] shadow-xs';
 
   return (
     <div className={`border border-[#e2e8f0] rounded-[8px] p-3.5 bg-white w-full sm:w-[270px] select-none ${className}`}>

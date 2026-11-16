@@ -173,8 +173,8 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                       onClick={() => setSelectedTime(time)}
                       className={`h-[36px] rounded-[6px] border text-[13px] font-bold transition-all cursor-pointer ${
                         selectedTime === time
-                          ? 'border-black bg-black text-white shadow-xs'
-                          : 'border-[#cbd5e1] hover:border-black bg-white text-black'
+                          ? 'border-[#f472b6] bg-[#fce7f3] text-[#d50475] shadow-xs'
+                          : 'border-[#cbd5e1] hover:border-[#f472b6] hover:text-[#d50475] bg-white text-black'
                       }`}
                     >
                       {time}
