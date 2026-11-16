@@ -1,4 +1,5 @@
 import React from 'react';
+import { Tooltip } from './Tooltip';
 
 /**
  * Variantes semánticas reutilizables para el componente Badge (Átomo del Sistema de Diseño).
@@ -100,12 +101,9 @@ export const Badge: React.FC<BadgeProps> = ({
 
   if (effectiveTooltip) {
     return (
-      <div className="relative group inline-flex shrink-0">
+      <Tooltip text={effectiveTooltip}>
         {badgeElement}
-        <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-150 bg-[#0f172a] text-white text-[11px] font-medium px-2 py-0.5 rounded-[4px] shadow-lg whitespace-nowrap z-30 select-none">
-          {effectiveTooltip}
-        </span>
-      </div>
+      </Tooltip>
     );
   }
 

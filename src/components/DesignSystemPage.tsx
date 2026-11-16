@@ -42,6 +42,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { Badge } from '../design-system/atoms/Badge';
+import { Tooltip } from '../design-system/atoms/Tooltip';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { Checkbox } from '../design-system/atoms/Checkbox';
@@ -178,6 +179,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
     title?: string;
   } | null>(null);
   const [demoButtonsWithIcons, setDemoButtonsWithIcons] = useState(true);
+  const [demoForceTooltips, setDemoForceTooltips] = useState(false);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
@@ -467,6 +469,165 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         </div>
                         <div className="flex flex-wrap items-center gap-2 pt-1">
                           <Badge variant="error">Error de conexión... reintentando</Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </StageBlock>
+
+                {/* 1.1 Tooltips y Elementos de Información Flotante */}
+                <StageBlock
+                  title="Tooltips y Elementos de Información Flotante"
+                  componentTag="<Tooltip text='...' /> / <Badge tooltipText='...' />"
+                  usedIn={['Historial de Consultas', 'Badges de Estado', 'Botones de Acción', 'Iconos de Tabla']}
+                  description="Píldoras flotantes oscuras (#0f172a) con microanimación de escala y fade para desglosar información contextual y sub-estados sin saturar las tablas ni romper el layout."
+                >
+                  <div className="flex flex-col gap-6">
+                    {/* Control interactivo para forzar tooltips visibles */}
+                    <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
+                      <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                        Muestrario de Estados con Tooltip Contextual
+                      </span>
+                      <label className="flex items-center gap-2 text-[13px] font-medium text-black cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={demoForceTooltips}
+                          onChange={(e) => setDemoForceTooltips(e.target.checked)}
+                          className="w-4 h-4 rounded border-[#cbd5e1] text-[#d50475] focus:ring-0 cursor-pointer accent-[#d50475]"
+                        />
+                        <span>Mantener tooltips siempre visibles</span>
+                      </label>
+                    </div>
+
+                    {/* Simulación fiel de la tabla de Consultas (como en la captura del usuario) */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-col">
+                        <span className="text-[13px] font-bold text-black">
+                          1. Desglose de Sub-Estados en Tablas de Historial (Caso de Uso Real)
+                        </span>
+                        <span className="text-[12px] text-[#64748b]">
+                          La tabla muestra la etiqueta concisa 'Pendiente' o 'Terminada' para mantener las columnas alineadas; al pasar el cursor (hover), se despliega el sub-estado exacto ('De informe: Pendiente', 'De recomendación: Pendiente').
+                        </span>
+                      </div>
+
+                      <div className="border border-[#e2e8f0] rounded-[8px] bg-white divide-y divide-[#f1f5f9] max-w-[560px]">
+                        {/* Fila 1: Consulta Terminada */}
+                        <div className="p-3.5 flex items-center justify-between gap-4 hover:bg-[#fafafa] transition-colors">
+                          <div className="flex items-center gap-3">
+                            <span className="text-[13px] font-bold text-black">Dra. Elena Ruiz</span>
+                            <span className="text-[12px] text-[#64748b]">· Nutrición</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Tooltip text="Consulta finalizada e informe emitido" forceVisible={demoForceTooltips}>
+                              <Badge variant="neutral">Terminada</Badge>
+                            </Tooltip>
+                            <ChevronDown className="w-4 h-4 text-[#64748b]" />
+                          </div>
+                        </div>
+
+                        {/* Fila 2: Consulta Pendiente de informe (Exacto a la captura) */}
+                        <div className="p-3.5 flex items-center justify-between gap-4 hover:bg-[#fafafa] transition-colors">
+                          <div className="flex items-center gap-3">
+                            <span className="text-[13px] font-bold text-black">Dr. Alejandro Gómez</span>
+                            <span className="text-[12px] text-[#64748b]">· Pediatría</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Tooltip text="De informe: Pendiente" forceVisible={demoForceTooltips}>
+                              <Badge variant="limitada">Pendiente</Badge>
+                            </Tooltip>
+                            <ChevronDown className="w-4 h-4 text-[#64748b]" />
+                          </div>
+                        </div>
+
+                        {/* Fila 3: Consulta Pendiente de recomendación */}
+                        <div className="p-3.5 flex items-center justify-between gap-4 hover:bg-[#fafafa] transition-colors">
+                          <div className="flex items-center gap-3">
+                            <span className="text-[13px] font-bold text-black">Dr. Javier Ortiz</span>
+                            <span className="text-[12px] text-[#64748b]">· Medicina general</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <Tooltip text="De recomendación: Pendiente" forceVisible={demoForceTooltips}>
+                              <Badge variant="limitada">Pendiente</Badge>
+                            </Tooltip>
+                            <ChevronDown className="w-4 h-4 text-[#64748b]" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 2. Tooltips en Botones de Acción y Controles */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-col">
+                        <span className="text-[13px] font-bold text-black">
+                          2. Aclaraciones Flotantes en Botones y Controles de Acción
+                        </span>
+                        <span className="text-[12px] text-[#64748b]">
+                          Identifican la acción sin requerir texto largo en el botón (útil para botones de iconos y barras de herramientas).
+                        </span>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-4 pt-1">
+                        <Tooltip text="Descargar informe médico en PDF" forceVisible={demoForceTooltips}>
+                          <button
+                            type="button"
+                            className="h-[36px] px-3 rounded-[6px] border border-[#cbd5e1] hover:border-black bg-white flex items-center gap-2 text-[12px] font-bold text-black cursor-pointer transition-colors"
+                          >
+                            <Download className="w-3.5 h-3.5 text-black" />
+                            <span>Descargar</span>
+                          </button>
+                        </Tooltip>
+
+                        <Tooltip text="Iniciar llamada telefónica directa: 911 23 12 14" forceVisible={demoForceTooltips}>
+                          <button
+                            type="button"
+                            className="h-[36px] px-3 rounded-[6px] border border-[#cbd5e1] hover:border-black bg-white flex items-center gap-2 text-[12px] font-bold text-black cursor-pointer transition-colors"
+                          >
+                            <Phone className="w-3.5 h-3.5 text-black" />
+                            <span>Llamar soporte</span>
+                          </button>
+                        </Tooltip>
+
+                        <Tooltip text="Centro de ayuda y soporte (Help Center)" forceVisible={demoForceTooltips}>
+                          <button
+                            type="button"
+                            className="w-9 h-9 rounded-full border border-[#cbd5e1] hover:border-black bg-white flex items-center justify-center text-black cursor-pointer transition-colors"
+                          >
+                            <Info className="w-4 h-4 text-black" />
+                          </button>
+                        </Tooltip>
+
+                        <Tooltip text="Eliminar permanentemente este registro" forceVisible={demoForceTooltips}>
+                          <button
+                            type="button"
+                            className="w-9 h-9 rounded-full border border-[#fecdd3] hover:bg-[#fef2f2] flex items-center justify-center text-[#e11d48] cursor-pointer transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </Tooltip>
+                      </div>
+                    </div>
+
+                    {/* 3. Ficha Técnica y Especificaciones del Componente */}
+                    <div className="p-4 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] flex flex-col gap-2.5">
+                      <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                        Especificación Técnica del Átomo Tooltip
+                      </span>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 text-[12px]">
+                        <div className="flex flex-col">
+                          <span className="text-[#64748b]">Fondo & Sombra</span>
+                          <span className="font-bold text-black">#0f172a (Slate-950) · shadow-lg</span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[#64748b]">Tipografía</span>
+                          <span className="font-bold text-black">11px font-medium blanco (#fff)</span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[#64748b]">Radio & Padding</span>
+                          <span className="font-bold text-black">rounded-[4px] · px-2 py-0.5</span>
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-[#64748b]">Microinteracción</span>
+                          <span className="font-bold text-black">Fade + scale-95 a scale-100 (150ms)</span>
                         </div>
                       </div>
                     </div>
