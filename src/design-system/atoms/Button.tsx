@@ -7,6 +7,8 @@ export type ButtonVariant =
   | 'inactive'
   | 'consulta-primary'
   | 'consulta-outline'
+  | 'modal-primary'
+  | 'modal-outline'
   | 'pill-primary'
   | 'pill-outline'
   | 'pill-purple'
@@ -52,6 +54,12 @@ export const Button: React.FC<ButtonProps> = ({
       case 'pill-purple':
         // Cancelar consulta & Ver conversación: cuadrados (rounded-[8px]), borde gris claro #cbd5e1 y texto negro
         return 'h-[38px] px-5 rounded-[8px] border border-[#cbd5e1] hover:bg-[#f8fafc] hover:border-[#94a3b8] bg-white text-black text-[13px] font-bold';
+      case 'modal-primary':
+        // Confirmar cita / Confirmar modal: formato estándar 40px, rounded-[8px], magenta primario
+        return 'h-[40px] px-6 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white text-[14px] font-bold shadow-xs';
+      case 'modal-outline':
+        // Cancelar / Descartar en modales: formato estándar 40px, rounded-[8px], borde gris claro #cbd5e1 y texto negro
+        return 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] hover:bg-[#f8fafc] hover:border-[#94a3b8] bg-white text-black text-[14px] font-bold';
       case 'destructive':
         // Dar de baja: mismo formato cuadrado (rounded-[8px]), altura h-[38px] y tipografía
         return 'h-[38px] px-5 rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold shadow-xs';

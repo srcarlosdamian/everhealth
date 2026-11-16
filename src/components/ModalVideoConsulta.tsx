@@ -205,7 +205,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
               <button
                 type="button"
                 onClick={onClose}
-                className={`h-[40px] px-[24px] rounded-[6px] text-[14px] font-bold transition-all cursor-pointer ${
+                className={`h-[40px] px-6 rounded-[8px] text-[14px] font-bold transition-all cursor-pointer ${
                   isFullyComplete
                     ? 'bg-[#d50475] hover:bg-[#b80364] text-white shadow-xs'
                     : 'bg-[#cbd5e1] text-[#64748b] hover:bg-[#94a3b8] hover:text-white'
