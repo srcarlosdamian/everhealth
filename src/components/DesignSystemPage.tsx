@@ -11,6 +11,7 @@ import {
   MessageSquare,
   ScanFace,
   ChevronRight,
+  ChevronLeft,
   ChevronDown,
   ChevronUp,
   Plus,
