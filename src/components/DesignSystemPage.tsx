@@ -35,8 +35,6 @@ import {
   Trash2,
   Edit2,
   MapPin,
-  Grid,
-  Square,
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { Badge } from '../design-system/atoms/Badge';
@@ -96,7 +94,6 @@ interface StageBlockProps {
   componentTag: string;
   usedIn: string[];
   description: string;
-  canvasMode: 'dots' | 'white';
   children: React.ReactNode;
 }
 
@@ -105,7 +102,6 @@ const StageBlock: React.FC<StageBlockProps> = ({
   componentTag,
   usedIn,
   description,
-  canvasMode,
   children,
 }) => {
   return (
@@ -134,15 +130,8 @@ const StageBlock: React.FC<StageBlockProps> = ({
         <p className="text-[13px] text-[#64748b] leading-relaxed">{description}</p>
       </div>
 
-      {/* Lienzo (Stage Canvas) con cuaderno de puntitos o fondo blanco limpio:
-          El componente se renderiza TAL CUAL ES adentro, sin contenedores falsos */}
-      <div
-        className={`w-full rounded-[8px] border border-[#e2e8f0] p-6 sm:p-8 transition-colors overflow-visible ${
-          canvasMode === 'dots'
-            ? 'bg-[#fcfcfd] bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:16px_16px]'
-            : 'bg-white'
-        }`}
-      >
+      {/* Lienzo (Stage Canvas): Siempre fondo blanco limpio */}
+      <div className="w-full rounded-[8px] border border-[#e2e8f0] p-6 sm:p-8 transition-colors overflow-visible bg-white">
         {children}
       </div>
     </div>
@@ -153,7 +142,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [activeSection, setActiveSection] = useState<
     'tokens' | 'atomos' | 'inputs' | 'moleculas' | 'organismos' | 'modales' | 'iconos'
   >('atomos');
-  const [canvasMode, setCanvasMode] = useState<'dots' | 'white'>('dots');
 
   // Estados interactivos para probar los componentes reales en vivo
   const [demoToggle, setDemoToggle] = useState('si');
@@ -231,7 +219,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Header con selector de Lienzo (Puntitos vs Blanco) */}
+        {/* Top Header */}
         <header className="w-full h-[56px] px-4 sm:px-8 flex items-center justify-center border-b border-[#f1f5f9] bg-white sticky top-0 z-30">
           <div className="w-full max-w-[840px] flex items-center justify-between gap-4">
             <div className="flex items-center gap-2">
@@ -240,37 +228,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
               <span className="text-[14px] text-[#64748b] capitalize">{activeSection}</span>
             </div>
 
-            {/* Selector de fondo de lienzo (Puntitos vs Blanco) */}
             <div className="flex items-center gap-3">
-              <div className="inline-flex items-center p-0.5 rounded-[6px] bg-[#f1f5f9] border border-[#e2e8f0]">
-                <button
-                  type="button"
-                  onClick={() => setCanvasMode('dots')}
-                  className={`px-2.5 py-1 rounded-[4px] text-[12px] font-medium flex items-center gap-1.5 cursor-pointer transition-colors ${
-                    canvasMode === 'dots'
-                      ? 'bg-white text-black shadow-xs font-bold'
-                      : 'text-[#64748b] hover:text-black'
-                  }`}
-                  title="Ver sobre cuadrícula de puntos para distinguir fondos transparentes vs blancos"
-                >
-                  <Grid className="w-3.5 h-3.5" />
-                  <span>Puntitos</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setCanvasMode('white')}
-                  className={`px-2.5 py-1 rounded-[4px] text-[12px] font-medium flex items-center gap-1.5 cursor-pointer transition-colors ${
-                    canvasMode === 'white'
-                      ? 'bg-white text-black shadow-xs font-bold'
-                      : 'text-[#64748b] hover:text-black'
-                  }`}
-                  title="Ver sobre lienzo blanco liso"
-                >
-                  <Square className="w-3.5 h-3.5" />
-                  <span>Fondo blanco</span>
-                </button>
-              </div>
-
               <button
                 type="button"
                 onClick={onBackToHome}
@@ -301,7 +259,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="font-[family-name:Helvetica]"
                   usedIn={['Toda la App']}
                   description="Familia tipográfica estrictamente Helvetica. Títulos de campo y opciones de menús/dropdowns en 16px regular negro."
-                  canvasMode={canvasMode}
                 >
                   <div className="flex flex-col gap-2 text-black">
                     <p className="text-[24px] font-bold">Helvetica Bold 700 — Encabezados y CTAs</p>
@@ -315,7 +272,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="#d50475 / #831843"
                   usedIn={['Botones Primarios', 'Solicitar Cita', 'Stepper Check']}
                   description="Reservado exclusivamente para CTAs primarios, el botón + del header, y los checks de progreso (#831843). Prohibido en hovers de inputs o menús secundarios."
-                  canvasMode={canvasMode}
                 >
                   <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
                     {[
@@ -340,7 +296,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="#64748b / #cbd5e1 / #f1f5f9"
                   usedIn={['Iconos', 'Bordes de Inputs', 'Hover de Menús']}
                   description="Todos los iconos de navegación, historia clínica, soporte y tablas usan #64748b. Los hovers de dropdowns y menús usan #f1f5f9."
-                  canvasMode={canvasMode}
                 >
                   <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                     {[
@@ -377,7 +332,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<Badge />"
                   usedIn={['Home', 'Solicitar Chat', 'Familiares', 'Mascotas', 'Historial de Consultas', 'Cuestionario']}
                   description="Componente único y reutilizable para etiquetas de estado. 'Disponible', 'Disponible ahora' y 'A cargo' son el mismo componente unificado (<Badge variant='success' /> con borde gris #cbd5e1 y texto verde #15803d), clasificados por su propósito funcional."
-                  canvasMode={canvasMode}
                 >
                   <div className="flex flex-col gap-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -499,7 +453,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<StatusDotBadge />"
                   usedIn={['Historial de Consultas']}
                   description="Punto circular semántico + texto regular utilizado en la esquina superior derecha de cada tarjeta en el Historial de Consultas."
-                  canvasMode={canvasMode}
                 >
                   <div className="flex flex-wrap items-center gap-6">
                     <StatusDotBadge status="Pendiente de recomendación" />
@@ -515,7 +468,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<Button />"
                   usedIn={['Home', 'Historial de Consultas', 'Familiares', 'Mascotas', 'Modales']}
                   description="Variantes estándar de 8px en mayúsculas y variantes píldora (rounded-full) de Historial de Consultas. El estado 'inactive' incluye automáticamente el tooltip estilo Shadcn ('Activo 15 minutos antes')."
-                  canvasMode={canvasMode}
                 >
                   <div className="flex flex-col gap-6">
                     <div className="flex flex-wrap items-center gap-3">
@@ -551,7 +503,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<AutosaveIndicator />"
                   usedIn={['Cuestionario Médico', 'Mis Documentos Médicos']}
                   description="Píldora discreta #f1f5f9 con icono CheckCircle2 que confirma el guardado automático en formularios clínicos."
-                  canvasMode={canvasMode}
                 >
                   <div className="flex flex-wrap items-center gap-4">
                     <AutosaveIndicator />
@@ -565,7 +516,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<SegmentedToggle /> / <SwitchToggle />"
                   usedIn={['Cuestionario Médico', 'Historial de Consultas', 'Header Notificaciones']}
                   description="Selectores binarios interactivos reutilizados en preguntas clínicas y filtros de vistas."
-                  canvasMode={canvasMode}
                 >
                   <div className="flex flex-wrap items-center gap-8">
                     <SegmentedToggle
@@ -586,7 +536,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<ProgressCheckCircle /> / <StepperCheck />"
                   usedIn={['Cuestionario Médico', 'Modal Videoconsulta', 'Modal Solicitar Chat', 'Biometría']}
                   description="Indicadores de avance por sección y checks circulares para formularios multipaso con nomenclatura estricta PASO X/Y."
-                  canvasMode={canvasMode}
                 >
                   <div className="flex flex-wrap items-center gap-8">
                     <div className="flex items-center gap-4">
@@ -626,7 +575,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<TextInput />"
                   usedIn={['Familiares', 'Mascotas', 'Onboarding', 'Cuestionario Médico']}
                   description="Al hacer clic o foco en el input, el borde cambia a negro neutro (focus:border-black)."
-                  canvasMode={canvasMode}
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[680px]">
                     <TextInput
@@ -649,7 +597,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<TextInput leftIcon={<Search />} />"
                   usedIn={['Familiares', 'Mascotas', 'Historia Clínica']}
                   description="Variante del mismo componente TextInput con icono Search neutro a la izquierda y foco oscuro neutro."
-                  canvasMode={canvasMode}
                 >
                   <div className="max-w-[480px]">
                     <TextInput
@@ -665,7 +612,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<Dropdown />"
                   usedIn={['Mascotas', 'Familiares', 'Modal Videoconsulta', 'Modal Solicitar Chat']}
                   description="16px regular negro en el botón y en la lista desplegable. Hover gris neutro (#f1f5f9) sin colores rosas. Soporta emojis o iconos a la izquierda."
-                  canvasMode={canvasMode}
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[680px]">
                     <Dropdown
@@ -696,7 +642,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<Dropdown />"
                   usedIn={['ModalVideoConsulta', 'ModalSolicitarChat']}
                   description="Reemplaza cualquier <select> nativo en los modales de consulta, garantizando el mismo chevron y tipografía 16px regular."
-                  canvasMode={canvasMode}
                 >
                   <div className="max-w-[420px]">
                     <Dropdown
@@ -718,7 +663,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<ColorPickerDropdown />"
                   usedIn={['Mascotas (Modal Añadir Mascota)']}
                   description="Despliega la paleta de colores habituales e input HEX justo debajo del campo con borde neutro oscuro al abrirse."
-                  canvasMode={canvasMode}
                 >
                   <div className="max-w-[280px]">
                     <ColorPickerDropdown
@@ -747,7 +691,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<ActionMenu />"
                   usedIn={['Header (+)', 'Header Soporte', 'Header Usuario', 'Sidebar', 'Biometría', 'Tablas Familiares/Mascotas']}
                   description="Unifica todos los menús desplegables de la app en un solo componente con 2 variantes: 'solicitar-cita' (iconos rosas + mayúsculas bold) y 'standard' (icono neutro #64748b a la izquierda + texto 16px regular negro + hover neutro #f1f5f9)."
-                  canvasMode={canvasMode}
                 >
                   <div className="flex flex-wrap items-start gap-8">
                     {/* Variante 1: Solicitar una cita */}
@@ -815,7 +758,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<AvailableDoctorsRow />"
                   usedIn={['EVR100Home (Atención inmediata)']}
                   description="Observa sobre el fondo de puntitos que este componente NO tiene contenedor ni borde propio: son los 3 avatares superpuestos y las 2 líneas de texto."
-                  canvasMode={canvasMode}
                 >
                   <AvailableDoctorsRow />
                 </StageBlock>
@@ -826,7 +768,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<AssignedDoctorCard />"
                   usedIn={['ModalSolicitarChat', 'SolicitarChat']}
                   description="Este componente SÍ posee fondo blanco propio y borde de 2px (#e2e8f0), e integra internamente el átomo <Badge variant='disponible-ahora' />."
-                  canvasMode={canvasMode}
                 >
                   <AssignedDoctorCard />
                 </StageBlock>
@@ -837,7 +778,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<NavigationFooter />"
                   usedIn={['Onboarding', 'Cuestionario Médico', 'Mis Documentos Médicos']}
                   description="Barra con superficie #f8fafc y botones Atrás / Continuar reutilizada en todos los flujos paso a paso."
-                  canvasMode={canvasMode}
                 >
                   <NavigationFooter
                     onBack={() => {}}
@@ -853,7 +793,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<PaginationEvents />"
                   usedIn={['EVR100Home (Próximas consultas)']}
                   description="Pie de lista interactivo conectado directamente a la tarjeta de Próximas consultas en el Home."
-                  canvasMode={canvasMode}
                 >
                   <PaginationEvents
                     visibleCount={demoPaginationExpanded ? 5 : 1}
@@ -869,7 +808,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<TablePagination />"
                   usedIn={['Consultas', 'Familiares', 'Mascotas']}
                   description="Componente estandarizado único de paginación para todas las tablas: texto contador a la izquierda y botonera compacta con bordes cuadrados de 4px a la derecha."
-                  canvasMode={canvasMode}
                 >
                   <TablePagination
                     visibleCount={5}
@@ -884,7 +822,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<CompletionMedalIllustration />"
                   usedIn={['Cuestionario Médico (Pantalla de éxito)']}
                   description="Ilustración SVG vectorial sin fondo que se muestra al concluir el cuestionario médico."
-                  canvasMode={canvasMode}
                 >
                   <CompletionMedalIllustration size={140} />
                 </StageBlock>
@@ -907,7 +844,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<AvailableDoctorsRow /> + <Button /> + <ActionMenu />"
                   usedIn={['EVR100Home']}
                   description="Combina la fila de médicos disponibles, el botón primario y el menú desplegable 'solicitar-cita'."
-                  canvasMode={canvasMode}
                 >
                   <section className="w-full bg-white p-6 border border-[#e2e8f0] flex flex-col gap-[16px]">
                     <div className="flex flex-col gap-[2px]">
@@ -964,7 +900,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<Badge /> + <Button />"
                   usedIn={['Consultas']}
                   description="Fila de 5 columnas divididas con hora/fecha calendario a la izquierda, profesional, badge y chevron. Al desplegarse, mantiene fondo blanco puro y muestra el motivo junto a las acciones médicas reales."
-                  canvasMode={canvasMode}
                 >
                   <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-hidden flex flex-col">
                     <div className="w-full py-4 px-4 sm:px-6 flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-white">
@@ -1024,7 +959,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<ConfirmDeactivateModal />"
                   usedIn={['Familiares', 'Mascotas', 'Historial de Consultas']}
                   description="Componente único para confirmar bajas o cancelaciones. Mostrado aquí mismo sobre el lienzo de puntitos tal cual es."
-                  canvasMode={canvasMode}
                 >
                   <div className="flex flex-col items-start gap-4">
                     <ConfirmDeactivateModal
@@ -1044,7 +978,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="<TextInput /> + <Dropdown /> + <Button />"
                   usedIn={['Familiares', 'Mascotas']}
                   description="Construido íntegramente con los átomos TextInput y Dropdown (sin <select> nativos ni bordes rosas)."
-                  canvasMode={canvasMode}
                 >
                   <Button variant="primary" onClick={() => setDemoFormModalOpen(true)}>
                     Probar Modal de Formulario en vivo
@@ -1073,7 +1006,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   componentTag="lucide-react"
                   usedIn={['Toda la App']}
                   description="Cada tarjeta muestra el icono en su tono neutro oficial (#64748b)."
-                  canvasMode={canvasMode}
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                     {ICONS_CATALOG.map((item) => {
