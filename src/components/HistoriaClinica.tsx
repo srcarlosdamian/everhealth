@@ -10,7 +10,6 @@ import {
   Apple,
   Brain,
   ScanFace,
-  ChevronRight,
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 
@@ -174,10 +173,6 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
                     {sec.lastEdited}
                   </span>
                 </div>
-              </div>
-
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-[#94a3b8] group-hover:text-black group-hover:translate-x-0.5 transition-all shrink-0">
-                <ChevronRight className="w-5 h-5" />
               </div>
             </div>
 
