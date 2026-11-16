@@ -42,6 +42,10 @@ import { StepperCheck } from '../design-system/atoms/StepperCheck';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { SwitchToggle } from '../design-system/atoms/SwitchToggle';
 import { Checkbox } from '../design-system/atoms/Checkbox';
+import { Radio } from '../design-system/atoms/Radio';
+import { CalendarMonthGrid } from '../design-system/molecules/CalendarMonthGrid';
+import { CalendarDaySlots } from '../design-system/molecules/CalendarDaySlots';
+import { SelectedAppointmentBanner } from '../design-system/molecules/SelectedAppointmentBanner';
 import { ProgressCheckCircle } from '../design-system/atoms/ProgressCheckCircle';
 import { AutosaveIndicator } from '../design-system/atoms/AutosaveIndicator';
 import { StatusDotBadge } from '../design-system/atoms/StatusDotBadge';
@@ -147,9 +151,12 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   // Estados interactivos para probar los componentes reales en vivo
   const [demoToggle, setDemoToggle] = useState('si');
   const [demoSwitch, setDemoSwitch] = useState(true);
-  const [demoCheckbox1, setDemoCheckbox1] = useState(true);
-  const [demoCheckbox2, setDemoCheckbox2] = useState(false);
-  const [demoCardCheck, setDemoCardCheck] = useState('Sexología');
+  const [demoMultipleChecks, setDemoMultipleChecks] = useState<string[]>(['Fiebre', 'Tos']);
+  const [demoRadioSpecialty, setDemoRadioSpecialty] = useState<string>('Sexología');
+  const [demoCalendarDay, setDemoCalendarDay] = useState<number>(17);
+  const [demoCalendarTime, setDemoCalendarTime] = useState<string>('09:30');
+  const [demoSlotDay, setDemoSlotDay] = useState<string>('MAÑANA 23 Oct');
+  const [demoSlotTime, setDemoSlotTime] = useState<string>('09:30');
   const [demoEspecie, setDemoEspecie] = useState('Perro');
   const [demoCondicion, setDemoCondicion] = useState('Peso Ideal');
   const [demoModalidad, setDemoModalidad] = useState('agendar');
@@ -534,84 +541,208 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </div>
                 </StageBlock>
 
-                {/* 6. Checkboxes & Selectores de Check (Homologación Biometría vs Video Consulta) */}
+                {/* 6. Checkboxes (Selección Múltiple) & Radiales (Selección Única) */}
                 <StageBlock
-                  title="Checkboxes & Selectores de Check (Homologación Neutral)"
-                  componentTag="<Checkbox />"
+                  title="Checkboxes (Opción Múltiple) & Radiales (Opción Única)"
+                  componentTag="<Checkbox /> / <Radio />"
                   usedIn={['Biometría', 'Modal Videoconsulta', 'Modal Solicitar Chat', 'Login', 'Cuestionario Médico']}
-                  description="Componente unificado y neutral para checks en toda la plataforma. Homologado según el diseño de Biometría (caja cuadrada con radio de 4px, fondo negro neutral al marcar y sin rosas). Incluye comparativa directa con el estilo previo flotante de Video Consulta."
+                  description="Componentes homologados para selección. Los checkboxes cuadrados (rounded-[4px]) permiten marcar múltiples opciones simultáneamente. Los radiales circulares (rounded-full) se utilizan para selección única o exclusiva donde no aplica doble selección."
                 >
                   <div className="flex flex-col gap-8">
-                    {/* Comparativa directa documentada */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
-                      <div className="flex flex-col gap-3">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[12px] font-bold text-white bg-black px-2 py-0.5 rounded-[4px] uppercase tracking-wider">
-                            Oficial Homologado (Estilo Biometría Neutral)
-                          </span>
-                        </div>
-                        <p className="text-[13px] text-[#475569]">
-                          Caja cuadrada <code>rounded-[4px]</code> con borde <code>#cbd5e1</code>, activa con fondo negro neutro (<code>bg-black</code>) y check blanco centrado. Mantiene sobriedad eliminando el exceso de rosa.
-                        </p>
-                        <div className="flex flex-wrap items-center gap-4 pt-1">
-                          <Checkbox checked={demoCheckbox1} onChange={setDemoCheckbox1} label="Opción marcada" />
-                          <Checkbox checked={demoCheckbox2} onChange={setDemoCheckbox2} label="Opción desmarcada" />
-                          <Checkbox checked disabled label="Deshabilitado" />
-                        </div>
+                    {/* PARTE A: Checkboxes Cuadrados (Selección Múltiple) */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[14px] font-bold text-black">
+                          A. Selección Múltiple — Checkboxes Cuadrados (Estilo Biometría)
+                        </span>
+                        <span className="text-[12px] text-[#64748b]">Permite chequear varias opciones</span>
                       </div>
 
-                      <div className="flex flex-col gap-3 border-t md:border-t-0 md:border-l border-[#e2e8f0] md:pl-6 pt-4 md:pt-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-[12px] font-bold text-[#64748b] bg-[#e2e8f0] px-2 py-0.5 rounded-[4px] uppercase tracking-wider">
-                            Estilo Previo (Solicitar Video Consulta)
-                          </span>
-                        </div>
-                        <p className="text-[13px] text-[#475569]">
-                          Check suelto sin caja contenedora en tarjetas, o viñeta circular en steppers. Ahora reemplazado por la caja cuadrada neutral para consistencia.
-                        </p>
-                        <div className="flex flex-wrap items-center gap-4 pt-1">
-                          <div className="h-[38px] px-3.5 rounded-[8px] border border-black bg-[#f1f5f9] flex items-center justify-between gap-3 text-[14px] font-semibold text-black">
-                            <span>Sexología (Previo)</span>
-                            <Check className="w-4 h-4 text-black" />
-                          </div>
-                          <div className="h-[38px] px-3.5 rounded-[8px] border border-black bg-[#f1f5f9] flex items-center justify-between gap-3 text-[14px] font-semibold text-black">
-                            <span>Sexología (Homologado)</span>
-                            <Checkbox checked size="sm" />
-                          </div>
+                      {/* Estados puros de Checkbox */}
+                      <div className="flex flex-wrap items-center gap-6 pt-1">
+                        <Checkbox checked={true} label="Marcado" />
+                        <Checkbox checked={false} label="Desmarcado" />
+                        <Checkbox checked={true} disabled label="Deshabilitado marcado" />
+                        <Checkbox checked={false} disabled label="Deshabilitado desmarcado" />
+                      </div>
+
+                      {/* Ejemplo interactivo múltiple en tarjetas */}
+                      <div className="flex flex-col gap-2 pt-2">
+                        <span className="text-[12px] font-medium text-[#475569]">
+                          Ejemplo de selección múltiple (puedes marcar o desmarcar varios síntomas):
+                        </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 max-w-[620px]">
+                          {['Fiebre', 'Tos frecuente', 'Cansancio'].map((sintoma) => {
+                            const isChecked = demoMultipleChecks.includes(sintoma);
+                            return (
+                              <div
+                                key={sintoma}
+                                onClick={() => {
+                                  setDemoMultipleChecks((prev) =>
+                                    prev.includes(sintoma)
+                                      ? prev.filter((s) => s !== sintoma)
+                                      : [...prev, sintoma]
+                                  );
+                                }}
+                                className={`h-[44px] px-4 rounded-[8px] border flex items-center justify-between cursor-pointer transition-colors select-none ${
+                                  isChecked
+                                    ? 'border-black bg-[#f8fafc] text-black font-semibold'
+                                    : 'border-[#cbd5e1] hover:border-[#94a3b8] bg-white text-black font-normal'
+                                }`}
+                              >
+                                <span className="text-[14px]">{sintoma}</span>
+                                <Checkbox checked={isChecked} size="sm" />
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     </div>
 
-                    {/* Tarjetas de Selección con Checkbox Homologado */}
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[13px] font-bold text-black">
-                        Ejemplo de uso en Tarjetas de Selección Clínica (Biometría / Videoconsulta / Chat):
-                      </span>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-[500px]">
-                        {['Sexología', 'Medicina General'].map((opt) => {
-                          const isSel = demoCardCheck === opt;
-                          return (
-                            <button
-                              key={opt}
-                              type="button"
-                              onClick={() => setDemoCardCheck(opt)}
-                              className={`h-[44px] px-4 rounded-[8px] border flex items-center justify-between cursor-pointer transition-colors text-left ${
-                                isSel
-                                  ? 'border-black bg-[#f8fafc] text-black font-semibold'
-                                  : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black font-normal'
-                              }`}
-                            >
-                              <span className="text-[15px]">{opt}</span>
-                              <Checkbox checked={isSel} size="sm" />
-                            </button>
-                          );
-                        })}
+                    <div className="h-[1px] bg-[#f1f5f9] w-full" />
+
+                    {/* PARTE B: Radiales / Radio Buttons (Selección Única) */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[14px] font-bold text-black">
+                          B. Selección Única / Exclusiva — Radiales Circulares (Radio Buttons)
+                        </span>
+                        <span className="text-[12px] text-[#64748b]">Solo una opción a la vez (sin doble check)</span>
+                      </div>
+
+                      {/* Estados puros de Radio */}
+                      <div className="flex flex-wrap items-center gap-6 pt-1">
+                        <Radio checked={true} label="Seleccionado" />
+                        <Radio checked={false} label="Sin seleccionar" />
+                        <Radio checked={true} disabled label="Deshabilitado seleccionado" />
+                        <Radio checked={false} disabled label="Deshabilitado sin seleccionar" />
+                      </div>
+
+                      {/* Ejemplo interactivo exclusivo en tarjetas de especialidad */}
+                      <div className="flex flex-col gap-2 pt-2">
+                        <span className="text-[12px] font-medium text-[#475569]">
+                          Ejemplo de selección única (al hacer clic en una se desmarca la otra):
+                        </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-[480px]">
+                          {['Sexología', 'Medicina General'].map((opt) => {
+                            const isSel = demoRadioSpecialty === opt;
+                            return (
+                              <div
+                                key={opt}
+                                onClick={() => setDemoRadioSpecialty(opt)}
+                                className={`h-[44px] px-4 rounded-[8px] border flex items-center justify-between cursor-pointer transition-colors select-none ${
+                                  isSel
+                                    ? 'border-black bg-[#f8fafc] text-black font-semibold'
+                                    : 'border-[#cbd5e1] hover:border-[#94a3b8] bg-white text-black font-normal'
+                                }`}
+                              >
+                                <span className="text-[14px]">{opt}</span>
+                                <Radio checked={isSel} size="sm" />
+                              </div>
+                            );
+                          })}
+                        </div>
                       </div>
                     </div>
                   </div>
                 </StageBlock>
 
-                {/* 7. ProgressCheckCircle & StepperCheck */}
+                {/* 7. Calendarios de Citas & Selectores de Horario */}
+                <StageBlock
+                  title="Calendarios de Citas & Selectores de Horario"
+                  componentTag="<CalendarMonthGrid /> / <CalendarDaySlots />"
+                  usedIn={['Modal Videoconsulta', 'Modal Solicitar Chat', 'Home (Citas)']}
+                  description="Estructura homologada para la reserva de citas médicas. Incluye el Calendario Mensual completo (cuadrícula de 7 columnas con día seleccionado neutral) y el Selector de Días y Horarios en Columnas para turnos rápidos."
+                >
+                  <div className="flex flex-col gap-8">
+                    {/* Modelo 1: Calendario Mensual + Franjas de Hora Adyacentes */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-col">
+                        <span className="text-[14px] font-bold text-black">
+                          1. Calendario Mensual con Franjas de Hora Adyacentes (Videoconsulta)
+                        </span>
+                        <span className="text-[12px] text-[#64748b]">
+                          Navegación de mes con chevrons discretos y cuadrícula de días (D L M M J V S). Día seleccionado con fondo negro y radio de 6px.
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col sm:flex-row gap-4 items-start pt-1">
+                        <CalendarMonthGrid
+                          selectedDay={demoCalendarDay}
+                          onSelectDay={setDemoCalendarDay}
+                          selectedMonthName="Octubre 2026"
+                          colorTheme="neutral"
+                        />
+
+                        <div className="flex flex-col gap-2 w-full sm:w-[140px]">
+                          <span className="text-[12px] font-bold text-[#64748b]">Horario disponible</span>
+                          {['09:30', '11:00', '16:15', '18:00'].map((time) => (
+                            <button
+                              key={time}
+                              type="button"
+                              onClick={() => setDemoCalendarTime(time)}
+                              className={`h-[36px] rounded-[6px] border text-[13px] font-bold transition-all cursor-pointer ${
+                                demoCalendarTime === time
+                                  ? 'border-black bg-black text-white shadow-xs'
+                                  : 'border-[#cbd5e1] hover:border-black bg-white text-black'
+                              }`}
+                            >
+                              {time}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="max-w-[430px] pt-1">
+                        <SelectedAppointmentBanner
+                          dateText={`Sábado ${demoCalendarDay} de Octubre`}
+                          timeText={`${demoCalendarTime} hrs`}
+                        />
+                      </div>
+                    </div>
+
+                    <div className="h-[1px] bg-[#f1f5f9] w-full" />
+
+                    {/* Modelo 2: Selector de Días y Franjas Horarias en Columnas */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-col">
+                        <span className="text-[14px] font-bold text-black">
+                          2. Selector de Días y Turnos en Columnas (Solicitar Chat / Turnos Médicos)
+                        </span>
+                        <span className="text-[12px] text-[#64748b]">
+                          Visualización por días de la semana con franjas horarias directas. Columna activa con borde negro y franja seleccionada con fondo negro.
+                        </span>
+                      </div>
+
+                      <div className="max-w-[560px] pt-1">
+                        <CalendarDaySlots
+                          days={[
+                            { dayName: 'HOY', dateNumber: '22 Oct', slots: ['09:30', '11:00'] },
+                            { dayName: 'MAÑANA', dateNumber: '23 Oct', slots: ['09:30', '11:00'] },
+                            { dayName: 'MIÉRCOLES', dateNumber: '25 Oct', slots: ['09:30', '11:00'] },
+                            { dayName: 'VIERNES', dateNumber: '27 Oct', slots: ['09:30', '11:00'] },
+                          ]}
+                          selectedDay={demoSlotDay}
+                          selectedTime={demoSlotTime}
+                          onSelectSlot={(day, time) => {
+                            setDemoSlotDay(day);
+                            setDemoSlotTime(time);
+                          }}
+                          colorTheme="neutral"
+                        />
+                      </div>
+
+                      <div className="max-w-[560px] pt-1">
+                        <SelectedAppointmentBanner
+                          dateText={demoSlotDay}
+                          timeText={`${demoSlotTime} hrs`}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </StageBlock>
+
+                {/* 8. ProgressCheckCircle & StepperCheck */}
                 <StageBlock
                   title="Anillos de Progreso & Stepper Check (#831843)"
                   componentTag="<ProgressCheckCircle /> / <StepperCheck />"

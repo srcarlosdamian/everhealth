@@ -3,6 +3,9 @@ import { X, Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check } from 'l
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
 import { Checkbox } from '../design-system/atoms/Checkbox';
+import { Radio } from '../design-system/atoms/Radio';
+import { CalendarMonthGrid } from '../design-system/molecules/CalendarMonthGrid';
+import { SelectedAppointmentBanner } from '../design-system/molecules/SelectedAppointmentBanner';
 
 interface ModalVideoConsultaProps {
   isOpen: boolean;
@@ -123,7 +126,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                     }`}
                   >
                     <span className="text-[15px]">{spec}</span>
-                    <Checkbox checked={selectedSpecialty === spec} size="sm" />
+                    <Radio checked={selectedSpecialty === spec} size="sm" />
                   </button>
                 ))}
               </div>
@@ -153,45 +156,25 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 items-start">
-                {/* Mini Calendar matching EVR - 124 */}
-                <div className="border border-[#e2e8f0] rounded-[8px] p-3 w-full sm:w-[260px] bg-white">
-                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#f1f5f9] text-[13px] font-bold text-black">
-                    <span>Octubre 2026</span>
-                    <div className="flex items-center gap-1">
-                      <ChevronLeft className="w-4 h-4 text-[#64748b] cursor-pointer" />
-                      <ChevronRight className="w-4 h-4 text-[#64748b] cursor-pointer" />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-7 text-center text-[11px] font-bold text-[#64748b] mb-1">
-                    <span>D</span><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span>
-                  </div>
-                  <div className="grid grid-cols-7 gap-1 text-center text-[12px]">
-                    <span></span><span></span><span></span><span>1</span><span>2</span><span>3</span><span>4</span>
-                    <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span>
-                    <span>12</span><span>13</span><span>14</span><span>15</span><span>16</span>
-                    <button
-                      type="button"
-                      onClick={() => setSelectedDay(17)}
-                      className="w-6 h-6 mx-auto rounded-full bg-[#831843] text-white font-bold flex items-center justify-center cursor-pointer shadow-xs"
-                    >
-                      17
-                    </button>
-                    <span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span>
-                    <span>26</span><span>27</span><span>28</span><span>29</span><span>30</span><span>31</span>
-                  </div>
-                </div>
+                {/* Calendario Mensual Homologado */}
+                <CalendarMonthGrid
+                  selectedDay={selectedDay}
+                  onSelectDay={setSelectedDay}
+                  selectedMonthName="Octubre 2026"
+                  colorTheme="neutral"
+                />
 
-                {/* Time slots column */}
+                {/* Columna de Franjas Horarias */}
                 <div className="flex flex-col gap-2 w-full sm:w-[140px]">
                   {times.map((time) => (
                     <button
                       key={time}
                       type="button"
                       onClick={() => setSelectedTime(time)}
-                      className={`h-[36px] rounded-[6px] border text-[13px] font-medium transition-colors cursor-pointer ${
+                      className={`h-[36px] rounded-[6px] border text-[13px] font-bold transition-all cursor-pointer ${
                         selectedTime === time
-                          ? 'border-[#831843] bg-[#fdf2f8] text-[#831843] font-bold'
-                          : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black'
+                          ? 'border-black bg-black text-white shadow-xs'
+                          : 'border-[#cbd5e1] hover:border-black bg-white text-black'
                       }`}
                     >
                       {time}
@@ -201,16 +184,11 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
               </div>
             </div>
 
-            {/* Selected appointment banner */}
-            <div className="bg-[#fdf2f8] rounded-[6px] px-[14px] py-[10px] flex items-center justify-between text-[13px] text-[#831843]">
-              <div className="flex items-center gap-[8px] font-bold">
-                <CalendarIcon className="w-[16px] h-[16px]" />
-                <span>Cita seleccionada</span>
-              </div>
-              <span className="font-medium text-black">
-                Sábado 17 de Octubre a las <strong className="font-bold">{selectedTime} hrs</strong>
-              </span>
-            </div>
+            {/* Banner Homologado de Cita Seleccionada */}
+            <SelectedAppointmentBanner
+              dateText={`Sábado ${selectedDay} de Octubre`}
+              timeText={`${selectedTime} hrs`}
+            />
 
             {/* Confirm button (Blocked visual state if not complete, but interactive prototype) */}
             <div className="flex items-center justify-between pt-2 border-t border-[#f1f5f9]">

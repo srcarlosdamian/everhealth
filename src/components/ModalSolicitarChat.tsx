@@ -3,6 +3,9 @@ import { X, Check, Calendar as CalendarIcon } from 'lucide-react';
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
 import { Checkbox } from '../design-system/atoms/Checkbox';
+import { Radio } from '../design-system/atoms/Radio';
+import { CalendarDaySlots } from '../design-system/molecules/CalendarDaySlots';
+import { SelectedAppointmentBanner } from '../design-system/molecules/SelectedAppointmentBanner';
 import { AssignedDoctorCard } from '../design-system/molecules/AssignedDoctorCard';
 
 interface ModalSolicitarChatProps {
@@ -161,7 +164,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                     }`}
                   >
                     <span>{spec}</span>
-                    <Checkbox checked={selectedSpecialty === spec} size="sm" />
+                    <Radio checked={selectedSpecialty === spec} size="sm" />
                   </button>
                 ))}
               </div>
@@ -185,7 +188,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
 
             {/* PASO 5: Día y Horario disponible* (Obligatorio) */}
             {modalidad === 'agendar' ? (
-              <div className="flex flex-col gap-[8px]">
+              <div className="flex flex-col gap-[10px]">
                 <div className="flex flex-col">
                   <label className="text-[14px] font-bold text-black">
                     5. Día y horario disponible<span className="text-[#d50475]">*</span>
@@ -193,52 +196,25 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                   <span className="text-[12px] text-[#64748b]">Elige la fecha y hora que mejor te acomode</span>
                 </div>
 
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                  {daysSchedule.map((col, idx) => (
-                    <div
-                      key={idx}
-                      onClick={() => setSelectedDay(`${col.day} ${col.date}`)}
-                      className={`p-2 rounded-[6px] border flex flex-col gap-1 text-center cursor-pointer transition-colors ${
-                        selectedDay === `${col.day} ${col.date}`
-                          ? 'border-[#d50475] bg-[#fdf2f8]'
-                          : 'border-[#cbd5e1] hover:bg-[#f8fafc]'
-                      }`}
-                    >
-                      <span className="text-[10px] font-bold text-[#64748b]">{col.day}</span>
-                      <span className="text-[12px] font-bold text-black">{col.date}</span>
-                      <div className="flex flex-col gap-1 mt-1">
-                        {col.slots.slice(0, 2).map((slot, sIdx) => (
-                          <button
-                            key={sIdx}
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedDay(`${col.day} ${col.date}`);
-                              setSelectedTime(slot);
-                            }}
-                            className={`h-[26px] rounded-[4px] border text-[11px] font-bold transition-colors cursor-pointer ${
-                              selectedTime === slot && selectedDay === `${col.day} ${col.date}`
-                                ? 'bg-[#d50475] text-white border-[#d50475]'
-                                : 'bg-white text-black border-[#cbd5e1]'
-                            }`}
-                          >
-                            {slot}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                <CalendarDaySlots
+                  days={daysSchedule.map((d) => ({
+                    dayName: d.day,
+                    dateNumber: d.date,
+                    slots: d.slots.filter(Boolean),
+                  }))}
+                  selectedDay={selectedDay}
+                  selectedTime={selectedTime}
+                  onSelectSlot={(day, time) => {
+                    setSelectedDay(day);
+                    setSelectedTime(time);
+                  }}
+                  colorTheme="neutral"
+                />
 
-                <div className="bg-[#fdf2f8] rounded-[6px] px-3 py-2 flex items-center justify-between text-[12px] text-[#d50475]">
-                  <div className="flex items-center gap-1.5 font-bold">
-                    <CalendarIcon className="w-4 h-4" />
-                    <span>Cita seleccionada:</span>
-                  </div>
-                  <span className="font-bold text-black">
-                    {selectedDay} a las {selectedTime} hrs
-                  </span>
-                </div>
+                <SelectedAppointmentBanner
+                  dateText={selectedDay}
+                  timeText={`${selectedTime} hrs`}
+                />
               </div>
             ) : (
               <div className="flex flex-col gap-[8px]">
