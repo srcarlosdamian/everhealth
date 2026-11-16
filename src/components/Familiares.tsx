@@ -4,7 +4,6 @@ import {
   Search,
   MoreVertical,
   X,
-  Info,
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
@@ -94,7 +93,6 @@ export const Familiares: React.FC = () => {
 
   // Modal Añadir Familiar
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showWarningAlert, setShowWarningAlert] = useState(true);
 
   // Modal Confirmación Dar de baja
   const [familiarToDelete, setFamiliarToDelete] = useState<Familiar | null>(null);
@@ -379,25 +377,9 @@ export const Familiares: React.FC = () => {
               </button>
             </div>
 
-            {showWarningAlert && (
-              <div className="w-full bg-[#fef9c3] border border-[#fef08a] rounded-[8px] p-3.5 flex items-start justify-between gap-3 text-[#854d0e]">
-                <div className="flex items-start gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-[#fde047] flex items-center justify-center shrink-0 mt-0.5">
-                    <Info className="w-3.5 h-3.5 text-[#854d0e]" />
-                  </div>
-                  <p className="text-[13px] leading-[18px]">
-                    Si vas a añadir familiares adultos y menores, es recomendable empezar por <strong>los adultos</strong>. Así luego, si es el caso, es más fácil seleccionarlos como tutores de los menores.
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setShowWarningAlert(false)}
-                  className="text-[#854d0e] hover:opacity-70 p-0.5 cursor-pointer shrink-0"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            )}
+            <p className="text-[13.5px] leading-[20px] text-[#64748b] -mt-2">
+              Si vas a añadir familiares adultos y menores, es recomendable empezar por <strong className="font-semibold text-[#334155]">los adultos</strong>. Así luego, si es el caso, es más fácil seleccionarlos como tutores de los menores.
+            </p>
 
             <form onSubmit={handleSaveFamiliar} className="flex flex-col gap-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
