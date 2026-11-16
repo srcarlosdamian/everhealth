@@ -218,9 +218,11 @@ export const Familiares: React.FC = () => {
         </div>
       </div>
 
-      {/* Tabla de familiares */}
-      <div className="w-full bg-white border border-[#e2e8f0] rounded-none shadow-none overflow-x-auto">
-        <table className="w-full text-left border-collapse bg-white">
+      {/* Contenedor de datos (Tabla en Desktop / Cards tipo tabla en Mobile) */}
+      <div className="w-full bg-white border border-[#e2e8f0] rounded-none shadow-none overflow-visible">
+        {/* VISTA DESKTOP: TABLA COMPLETA */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full text-left border-collapse bg-white">
           <thead>
             <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
               <th className="py-3 px-4 border-r border-[#e2e8f0]">Nombre y Apellidos</th>
@@ -353,6 +355,124 @@ export const Familiares: React.FC = () => {
             )}
           </tbody>
         </table>
+        </div>
+
+        {/* VISTA MOBILE: CARDS TIPO TABLA CON DISEÑO HOMOLOGADO */}
+        <div className="block md:hidden divide-y divide-[#e2e8f0] bg-white">
+          {filtered.length === 0 ? (
+            <div className="py-12 text-center text-[#64748b] bg-white text-[14px]">
+              No se encontraron familiares registrados.
+            </div>
+          ) : (
+            filtered.map((item) => (
+              <div key={item.id} className="p-4 flex flex-col gap-3.5 bg-white hover:bg-[#fafafa] transition-colors">
+                {/* Cabecera de la Card: Avatar + Nombre + Parentesco + Botón Acciones */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[13px] flex items-center justify-center shrink-0">
+                      {item.nombre[0]}
+                      {item.apellidos[0]}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-black text-[15px] leading-tight">
+                        {item.nombre} {item.apellidos}
+                      </span>
+                      <span className="text-[12px] font-medium text-[#64748b] mt-0.5">
+                        {item.parentesco}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="inline-block relative">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveMenuId(activeMenuId === `mobile-${item.id}` ? null : `mobile-${item.id}`)
+                      }
+                      className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                      title="Acciones"
+                    >
+                      <MoreVertical className="w-4 h-4" />
+                    </button>
+
+                    {activeMenuId === `mobile-${item.id}` && (
+                      <ActionMenu
+                        variant="standard"
+                        className="absolute right-0 top-[calc(100%+4px)] z-50 w-[235px]"
+                        items={[
+                          {
+                            id: 'historial',
+                            label: 'Ver historial clínico',
+                            icon: <FileText className="w-5 h-5" />,
+                            onClick: () => {
+                              alert(`Consultar historial de ${item.nombre}`);
+                              setActiveMenuId(null);
+                            },
+                          },
+                          {
+                            id: 'cita',
+                            label: 'Pedir cita médica',
+                            icon: <Calendar className="w-5 h-5" />,
+                            onClick: () => {
+                              alert(`Solicitar cita para ${item.nombre}`);
+                              setActiveMenuId(null);
+                            },
+                          },
+                          {
+                            id: 'editar',
+                            label: 'Editar datos',
+                            icon: <Edit2 className="w-5 h-5" />,
+                            onClick: () => {
+                              alert(`Editar datos de ${item.nombre}`);
+                              setActiveMenuId(null);
+                            },
+                          },
+                          {
+                            id: 'baja',
+                            label: 'Dar de baja familiar',
+                            icon: <Trash2 className="w-5 h-5" />,
+                            onClick: () => {
+                              setFamiliarToDelete(item);
+                              setActiveMenuId(null);
+                            },
+                          },
+                        ]}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Grid de campos tipo tabla con etiquetas uppercase y valores claros */}
+                <div className="grid grid-cols-2 gap-2.5 pt-2 border-t border-[#f1f5f9] text-[13px]">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Nacimiento y Edad</span>
+                    <span className="text-black font-normal mt-0.5">{item.fechaNacimiento} ({item.edad} años)</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Sexo al nacer</span>
+                    <span className="text-[#475569] font-normal mt-0.5">{item.sexo}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Condición</span>
+                    <div className="mt-0.5">
+                      {item.esTutor ? (
+                        <Badge variant="success" className="w-fit">Tutor legal</Badge>
+                      ) : item.edad < 18 ? (
+                        <Badge variant="success" className="w-fit">Menor a cargo</Badge>
+                      ) : (
+                        <Badge variant="neutral" className="w-fit">Adulto</Badge>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Tutor Asignado</span>
+                    <span className="text-black font-medium mt-0.5">{item.tutorAsignado || '—'}</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
 
         {/* Paginación */}
         <TablePagination

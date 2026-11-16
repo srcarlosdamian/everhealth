@@ -27,7 +27,7 @@ interface DocItem {
 
 export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClose }) => {
   const [search, setSearch] = useState('');
-  const [menuOpenDocId, setMenuOpenDocId] = useState<number | null>(null);
+  const [menuOpenDocId, setMenuOpenDocId] = useState<number | string | null>(null);
   const [feedbackMsg, setFeedbackMsg] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -173,9 +173,10 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
           </button>
         </div>
 
-        {/* Documents Table */}
+        {/* Documents Table en Desktop / Cards en Mobile */}
         <div className="border border-[#e2e8f0] rounded-[10px] overflow-visible bg-white">
-          <table className="w-full text-left text-[13px]">
+          <div className="hidden sm:block overflow-x-auto">
+            <table className="w-full text-left text-[13px]">
             <thead className="bg-[#f8fafc] text-[#64748b] border-b border-[#e2e8f0]">
               <tr>
                 <th className="py-2.5 px-4 font-bold uppercase tracking-wider text-[11px]">
@@ -284,6 +285,87 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
               )}
             </tbody>
           </table>
+          </div>
+
+          {/* VISTA MOBILE: CARDS TIPO TABLA CON DISEÑO HOMOLOGADO */}
+          <div className="block sm:hidden divide-y divide-[#f1f5f9] bg-white">
+            {filteredDocs.length === 0 ? (
+              <div className="py-8 text-center text-[#64748b] text-[13px] p-4">
+                {search ? (
+                  <div>No se encontraron documentos para &quot;<span className="font-semibold text-black">{search}</span>&quot;.</div>
+                ) : (
+                  <div>No tienes documentos adjuntos. Haz clic en &quot;Subir documento&quot;.</div>
+                )}
+              </div>
+            ) : (
+              filteredDocs.map((doc) => {
+                const isMenuOpen = menuOpenDocId === `mobile-${doc.id}`;
+                return (
+                  <div key={doc.id} className="p-3.5 flex flex-col gap-2.5 bg-white hover:bg-[#f8fafc]/70 transition-colors">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 max-w-[200px]">
+                        <FileText className="w-4 h-4 text-[#94a3b8] shrink-0" />
+                        <span className="truncate font-medium text-[13px] text-[#334155]" title={doc.file}>
+                          {doc.file}
+                        </span>
+                      </div>
+
+                      <div className="relative">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setMenuOpenDocId(isMenuOpen ? null : `mobile-${doc.id}`);
+                          }}
+                          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black transition-colors cursor-pointer"
+                          title="Opciones"
+                        >
+                          <MoreVertical className="w-4 h-4" />
+                        </button>
+
+                        {isMenuOpen && (
+                          <div
+                            ref={menuRef}
+                            onClick={(e) => e.stopPropagation()}
+                            className="absolute right-0 top-[calc(100%+4px)] z-50 w-[190px] bg-white rounded-[10px] shadow-xl border border-[#e2e8f0] py-1.5 animate-scaleUp font-[family-name:Helvetica]"
+                          >
+                            <button
+                              type="button"
+                              onClick={() => handleDownload(doc.file)}
+                              className="w-full px-3.5 py-2 text-[13px] font-medium text-[#334155] hover:bg-[#f8fafc] hover:text-black flex items-center gap-2.5 transition-colors cursor-pointer"
+                            >
+                              <Download className="w-4 h-4 text-[#64748b]" />
+                              <span>Descargar archivo</span>
+                            </button>
+                            <div className="h-[1px] bg-[#f1f5f9] my-1" />
+                            <button
+                              type="button"
+                              onClick={() => handleDelete(doc.id, doc.file)}
+                              className="w-full px-3.5 py-2 text-[13px] font-bold text-[#ef4444] hover:bg-[#fef2f2] flex items-center gap-2.5 transition-colors cursor-pointer"
+                            >
+                              <Trash2 className="w-4 h-4 text-[#ef4444]" />
+                              <span>Eliminar</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Nombre personalizado*</span>
+                      <input
+                        type="text"
+                        value={doc.name}
+                        onChange={(e) => handleNameChange(doc.id, e.target.value)}
+                        placeholder="Nombre descriptivo del archivo *"
+                        className="w-full h-[36px] px-3 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#d50475] transition-colors"
+                      />
+                    </div>
+                  </div>
+                );
+              })
+            )}
+          </div>
         </div>
 
         {/* Pagination */}

@@ -269,9 +269,11 @@ export const Mascotas: React.FC = () => {
         </div>
       </div>
 
-      {/* Tabla de mascotas */}
+      {/* Contenedor de datos (Tabla en Desktop / Cards tipo tabla en Mobile) */}
       <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-visible">
-        <table className="w-full text-left border-collapse table-auto">
+        {/* VISTA DESKTOP: TABLA COMPLETA */}
+        <div className="hidden md:block overflow-x-auto">
+          <table className="w-full text-left border-collapse table-auto">
           <thead>
             <tr className="bg-white border-b border-[#e2e8f0] text-[12px] font-bold uppercase tracking-wider text-black">
               <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Mascota</th>
@@ -392,6 +394,134 @@ export const Mascotas: React.FC = () => {
             )}
           </tbody>
         </table>
+        </div>
+
+        {/* VISTA MOBILE: CARDS TIPO TABLA CON DISEÑO HOMOLOGADO */}
+        <div className="block md:hidden divide-y divide-[#e2e8f0] bg-white">
+          {filtered.length === 0 ? (
+            <div className="py-12 text-center text-[#64748b] bg-white text-[14px]">
+              No se encontraron mascotas registradas.
+            </div>
+          ) : (
+            filtered.map((item) => (
+              <div key={item.id} className="p-4 flex flex-col gap-3.5 bg-white hover:bg-[#fafafa] transition-colors">
+                {/* Cabecera de la Card: Avatar + Nombre + Especie/Raza + Botón Acciones */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[13px] flex items-center justify-center shrink-0">
+                      {item.nombre.slice(0, 2).toUpperCase()}
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-bold text-black text-[15px] leading-tight">
+                        {item.nombre}
+                      </span>
+                      <span className="text-[12px] font-medium text-[#64748b] mt-0.5">
+                        {item.especie} · {item.raza}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="inline-block relative">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setActiveMenuId(activeMenuId === `mobile-${item.id}` ? null : `mobile-${item.id}`)
+                      }
+                      className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                      title="Acciones"
+                    >
+                      <MoreVertical className="w-4 h-4" />
+                    </button>
+
+                    {activeMenuId === `mobile-${item.id}` && (
+                      <ActionMenu
+                        variant="standard"
+                        className="absolute right-0 top-[calc(100%+4px)] z-50 w-[235px]"
+                        items={[
+                          {
+                            id: 'historial',
+                            label: 'Ver historial clínico',
+                            icon: <FileText className="w-5 h-5" />,
+                            onClick: () => {
+                              alert(`Consultar historial de ${item.nombre}`);
+                              setActiveMenuId(null);
+                            },
+                          },
+                          {
+                            id: 'cita',
+                            label: 'Pedir cita veterinaria',
+                            icon: <Calendar className="w-5 h-5" />,
+                            onClick: () => {
+                              alert(`Solicitar cita para ${item.nombre}`);
+                              setActiveMenuId(null);
+                            },
+                          },
+                          {
+                            id: 'editar',
+                            label: 'Editar datos',
+                            icon: <Edit2 className="w-5 h-5" />,
+                            onClick: () => {
+                              alert(`Editar datos de ${item.nombre}`);
+                              setActiveMenuId(null);
+                            },
+                          },
+                          {
+                            id: 'baja',
+                            label: 'Dar de baja mascota',
+                            icon: <Trash2 className="w-5 h-5" />,
+                            onClick: () => {
+                              setMascotaToDelete(item);
+                              setActiveMenuId(null);
+                            },
+                          },
+                        ]}
+                      />
+                    )}
+                  </div>
+                </div>
+
+                {/* Grid de campos tipo tabla con diseño idéntico a las columnas */}
+                <div className="grid grid-cols-2 gap-2.5 pt-2 border-t border-[#f1f5f9] text-[13px]">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Edad y Nacimiento</span>
+                    <span className="text-black font-normal mt-0.5">{item.edad} ({item.fechaNacimiento})</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Sexo</span>
+                    <span className="text-[#475569] font-normal mt-0.5">{item.sexo}</span>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Condición Corporal</span>
+                    <div className="mt-0.5">
+                      <Badge
+                        variant={
+                          item.condicionCorporal === 'Peso Ideal'
+                            ? 'disponible'
+                            : item.condicionCorporal === 'Sobrepeso'
+                            ? 'limitada'
+                            : item.condicionCorporal === 'Obesidad'
+                            ? 'no-disponible'
+                            : 'programada'
+                        }
+                        className="w-fit"
+                      >
+                        {item.condicionCorporal}
+                      </Badge>
+                    </div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Familiar Asignado</span>
+                    <span className="text-black font-medium mt-0.5">{item.familiarAsignado}</span>
+                  </div>
+                  <div className="flex flex-col col-span-2">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Nº Chip</span>
+                    <span className="font-mono text-[12px] text-[#475569] mt-0.5">{item.numeroChip}</span>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
 
         {/* Paginación */}
         <TablePagination

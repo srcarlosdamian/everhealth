@@ -2606,6 +2606,24 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               ✓ HOMOLOGADO: Todas las tablas utilizan el mismo botón circular de 32px con MoreVertical y menú emergente.
                             </td>
                           </tr>
+
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Comportamiento en Mobile (&lt; md)
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0] text-[11px]">
+                              Cards tipo tabla con Avatar, datos y menú de acciones
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0] text-[11px]">
+                              Cards tipo tabla con Avatar, datos y menú de acciones
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0] text-[11px]">
+                              Cards tipo tabla con archivo, input editable y acciones
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
+                              ✓ HOMOLOGADO: En dispositivos móviles todas las tablas se convierten en cards estructuradas con diseño y colores muy similares a las tablas para evitar el scroll horizontal.
+                            </td>
+                          </tr>
                         </tbody>
                       </table>
                     </div>
