@@ -227,17 +227,18 @@ export const Familiares: React.FC = () => {
             <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
               <th className="py-3 px-4 border-r border-[#e2e8f0]">Nombre y Apellidos</th>
               <th className="py-3 px-4 border-r border-[#e2e8f0]">Parentesco</th>
-              <th className="py-3 px-4 border-r border-[#e2e8f0]">Fecha de Nacimiento</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">Nacimiento</th>
               <th className="py-3 px-4 border-r border-[#e2e8f0]">Edad</th>
               <th className="py-3 px-4 border-r border-[#e2e8f0]">Sexo al nacer</th>
-              <th className="py-3 px-4 border-r border-[#e2e8f0]">Tutor / Estado</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">Condición</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">Tutor Asignado</th>
               <th className="py-3 px-4 text-right">Acciones</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black bg-white">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={7} className="py-12 text-center text-[#64748b] bg-white">
+                <td colSpan={8} className="py-12 text-center text-[#64748b] bg-white">
                   No se encontraron familiares registrados.
                 </td>
               </tr>
@@ -264,7 +265,7 @@ export const Familiares: React.FC = () => {
                     {item.fechaNacimiento}
                   </td>
 
-                  <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-bold text-black">
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-normal text-black">
                     {item.edad} años
                   </td>
 
@@ -276,14 +277,17 @@ export const Familiares: React.FC = () => {
                     {item.esTutor ? (
                       <Badge variant="success" className="w-fit">Tutor legal</Badge>
                     ) : item.edad < 18 ? (
-                      <div className="flex flex-col items-start gap-1">
-                        <Badge variant="success" className="w-fit">Menor a cargo</Badge>
-                        <span className="text-[11px] text-[#64748b]">
-                          {item.tutorAsignado || 'Tutor: Titular'}
-                        </span>
-                      </div>
+                      <Badge variant="success" className="w-fit">Menor a cargo</Badge>
                     ) : (
                       <Badge variant="neutral" className="w-fit">Adulto</Badge>
+                    )}
+                  </td>
+
+                  <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[13px] text-[#334155]">
+                    {item.tutorAsignado ? (
+                      <span className="font-medium text-black">{item.tutorAsignado}</span>
+                    ) : (
+                      <span className="text-[#94a3b8]">—</span>
                     )}
                   </td>
 

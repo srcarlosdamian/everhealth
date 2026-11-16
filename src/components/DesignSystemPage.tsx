@@ -1760,10 +1760,11 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
                             <th className="py-3 px-4 border-r border-[#e2e8f0]">Nombre y Apellidos</th>
                             <th className="py-3 px-4 border-r border-[#e2e8f0]">Parentesco</th>
-                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Fecha de Nacimiento</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Nacimiento</th>
                             <th className="py-3 px-4 border-r border-[#e2e8f0]">Edad</th>
                             <th className="py-3 px-4 border-r border-[#e2e8f0]">Sexo al nacer</th>
-                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Tutor / Estado</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Condición</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Tutor Asignado</th>
                             <th className="py-3 px-4 text-right">Acciones</th>
                           </tr>
                         </thead>
@@ -1772,25 +1773,28 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
-                                  CD
+                                  ER
                                 </div>
-                                <span className="font-bold text-black">Carlos Damián</span>
+                                <span className="font-bold text-black">Elena Ruiz Morales</span>
                               </div>
                             </td>
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-[#475569]">
-                              Titular
+                              Cónyuge
                             </td>
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#64748b]">
-                              15/04/1994
+                              14/05/1990
                             </td>
-                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-bold text-black">
-                              32 años
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-normal text-black">
+                              36 años
                             </td>
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
-                              Hombre
+                              Femenino
                             </td>
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
                               <Badge variant="success" className="w-fit">Tutor legal</Badge>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[13px] text-[#94a3b8]">
+                              —
                             </td>
                             <td className="py-3.5 px-4 text-right relative">
                               <div className="inline-block relative">
@@ -1829,25 +1833,100 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
                               <div className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
-                                  ER
+                                  MD
                                 </div>
-                                <span className="font-bold text-black">Elena Ruiz Morales</span>
+                                <span className="font-bold text-black">Mateo Damian Ruiz</span>
                               </div>
                             </td>
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-[#475569]">
                               Hijo/a
                             </td>
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#64748b]">
-                              12/08/2018
+                              22/08/2018
                             </td>
-                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-bold text-black">
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-normal text-black">
                               8 años
                             </td>
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
-                              Mujer
+                              Masculino
                             </td>
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
                               <Badge variant="success" className="w-fit">Menor a cargo</Badge>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[13px] font-medium text-black">
+                              Carlos Damian (Titular)
+                            </td>
+                            <td className="py-3.5 px-4 text-right">
+                              <button
+                                type="button"
+                                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                              >
+                                <MoreVertical className="w-4 h-4" />
+                              </button>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-[#fafafa] bg-white transition-colors">
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
+                                  LD
+                                </div>
+                                <span className="font-bold text-black">Lucía Damian Ruiz</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-[#475569]">
+                              Hijo/a
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#64748b]">
+                              10/11/2021
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-normal text-black">
+                              5 años
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
+                              Femenino
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <Badge variant="success" className="w-fit">Menor a cargo</Badge>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[13px] font-medium text-black">
+                              Elena Ruiz (Cónyuge)
+                            </td>
+                            <td className="py-3.5 px-4 text-right">
+                              <button
+                                type="button"
+                                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                              >
+                                <MoreVertical className="w-4 h-4" />
+                              </button>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-[#fafafa] bg-white transition-colors">
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
+                                  RM
+                                </div>
+                                <span className="font-bold text-black">Rosa Morales Silva</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-[#475569]">
+                              Madre / Padre
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#64748b]">
+                              03/02/1962
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-normal text-black">
+                              64 años
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
+                              Femenino
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <Badge variant="neutral" className="w-fit">Adulto</Badge>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[13px] text-[#94a3b8]">
+                              —
                             </td>
                             <td className="py-3.5 px-4 text-right">
                               <button
@@ -1871,10 +1950,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         Cabecera: <strong>bg-white</strong> + texto negro 12px negrita uppercase
                       </span>
                       <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
-                        Columnas: <strong>border-r border-[#e2e8f0]</strong> (divisores verticales completos)
+                        Columnas divididas: <strong>Nacimiento</strong> (acortado) y <strong>Tutor Asignado</strong> en columna independiente
                       </span>
                       <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
-                        Filas: <strong>py-3.5 px-4</strong> + hover bg-[#fafafa]
+                        Edad: <strong>text-black font-normal</strong> (peso regular, sin bold)
                       </span>
                     </div>
                   </div>
@@ -2244,6 +2323,42 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                             </td>
                             <td className="py-2.5 px-3.5 text-[11px]">
                               <strong>MANTENER DIFERENCIADO:</strong> Los modales tienen altura máxima restringida (max-h 90vh) y llevan inputs de 36px, por lo que py-2.5 es el espaciado óptimo.
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Distribución de Tutela / Asignación
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0] text-[11px]">
+                              Separada: <strong>Condición</strong> (badge) + <strong>Tutor Asignado</strong> (columna)
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0] text-[11px]">
+                              Separada: <strong>Condición Corporal</strong> + <strong>Familiar Asignado</strong>
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0] text-[11px] text-[#64748b]">
+                              N/A (Documentación clínica)
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
+                              ✓ HOMOLOGADO: Tanto Familiares como Mascotas aprovechan el ancho completo con 8 columnas dedicadas.
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Peso tipográfico en Edad
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0] text-[11px]">
+                              Regular (`font-normal text-black`)
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0] text-[11px]">
+                              Regular (`font-medium text-black`)
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0] text-[11px] text-[#64748b]">
+                              N/A
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
+                              ✓ HOMOLOGADO: La edad se muestra sin negrita agresiva para balancear la jerarquía visual con el nombre.
                             </td>
                           </tr>
 
