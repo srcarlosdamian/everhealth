@@ -2676,8 +2676,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
       {/* Modal Interactivo de Demostración: Formulario usando TextInput y Dropdown reales */}
       {demoFormModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
-          <div className="w-full max-w-[640px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-7 flex flex-col gap-5 animate-scaleUp">
+        <div
+          onClick={() => setDemoFormModalOpen(false)}
+          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-[640px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-7 flex flex-col gap-5 animate-scaleUp cursor-default"
+          >
             <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
               <h2 className="text-[20px] font-bold text-black">Añadir familiar</h2>
               <button
@@ -2688,6 +2694,9 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 <X className="w-5 h-5" />
               </button>
             </div>
+            <p className="text-[13.5px] leading-[20px] text-[#64748b] -mt-2">
+              Si vas a añadir familiares adultos y menores, es recomendable empezar por <strong className="font-semibold text-[#334155]">los adultos</strong>. Así luego, si es el caso, es más fácil seleccionarlos como tutores de los menores.
+            </p>
             <div className="flex flex-col gap-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <TextInput label="Nombre*" defaultValue="Mateo" placeholder="Nombre" />

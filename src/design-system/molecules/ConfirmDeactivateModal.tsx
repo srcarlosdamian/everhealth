@@ -32,7 +32,10 @@ export const ConfirmDeactivateModal: React.FC<ConfirmDeactivateModalProps> = ({
   if (!isOpen && !inlinePreview) return null;
 
   const dialogContent = (
-    <div className="w-full max-w-[480px] bg-white rounded-[16px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6 sm:p-7 border border-[#e2e8f0] flex flex-col gap-4">
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className="w-full max-w-[480px] bg-white rounded-[16px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6 sm:p-7 border border-[#e2e8f0] flex flex-col gap-4 cursor-default"
+    >
       {/* Header con Badge de advertencia y botón cerrar circular */}
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
@@ -93,7 +96,10 @@ export const ConfirmDeactivateModal: React.FC<ConfirmDeactivateModalProps> = ({
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
+    <div
+      onClick={onCancel}
+      className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn cursor-pointer"
+    >
       {dialogContent}
     </div>
   );

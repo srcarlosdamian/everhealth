@@ -56,11 +56,12 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto animate-fadeIn font-[family-name:Helvetica]"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
+      onClick={onClose}
     >
-      <div className="relative w-full max-w-[660px] bg-white rounded-[14px] shadow-2xl p-6 sm:p-[28px] my-8 flex flex-col gap-[20px] max-h-[92vh] overflow-y-auto animate-scaleUp">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-[660px] bg-white rounded-[14px] shadow-2xl p-6 sm:p-[28px] my-8 flex flex-col gap-[20px] max-h-[92vh] overflow-y-auto animate-scaleUp cursor-default"
+      >
         
         {/* Header */}
         <div className="flex items-center justify-between pb-[16px] border-b border-[#e2e8f0]">

@@ -925,8 +925,14 @@ export const Biometria: React.FC<BiometriaProps> = ({
               {/* ================= MODAL DE ERROR REQUERIDO POR EL USUARIO ================= */}
               {/* "La medición del flujo sanguíneo no es fiable / Intente que la luz le dé en la cara..." */}
               {measureStatus === 'error' && (
-                <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
-                  <div className="w-full max-w-[440px] bg-white rounded-[16px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col items-center text-center gap-6 animate-scaleUp">
+                <div
+                  onClick={handleResetScan}
+                  className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn"
+                >
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className="w-full max-w-[440px] bg-white rounded-[16px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col items-center text-center gap-6 animate-scaleUp cursor-default"
+                  >
                     {/* Icono de advertencia rojo exacto a la imagen del usuario */}
                     <div className="w-16 h-16 rounded-full bg-[#fef2f2] flex items-center justify-center">
                       <AlertCircle className="w-10 h-10 text-[#ef4444] stroke-[2.2]" />
@@ -973,11 +979,12 @@ export const Biometria: React.FC<BiometriaProps> = ({
     return (
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto animate-fadeIn font-[family-name:Helvetica]"
-        onClick={(e) => {
-          if (e.target === e.currentTarget) handleExit();
-        }}
+        onClick={handleExit}
       >
-        <div className="relative w-full max-w-[840px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 my-8 flex flex-col gap-6 max-h-[92vh] overflow-y-auto animate-scaleUp">
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full max-w-[840px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 my-8 flex flex-col gap-6 max-h-[92vh] overflow-y-auto animate-scaleUp cursor-default"
+        >
           {/* Modal Header */}
           <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
             <div className="flex items-center gap-2.5">

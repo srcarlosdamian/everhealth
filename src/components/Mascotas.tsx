@@ -403,8 +403,14 @@ export const Mascotas: React.FC = () => {
 
       {/* ================= MODAL AÑADIR MASCOTA ================= */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-fadeIn">
-          <div className="w-full max-w-[820px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 overflow-visible relative animate-scaleUp">
+        <div
+          onClick={() => setIsModalOpen(false)}
+          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-fadeIn"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-[820px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 overflow-visible relative animate-scaleUp cursor-default"
+          >
             <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
               <div className="flex items-center gap-2">
                 <PawPrint className="w-5 h-5 text-[#64748b]" />
