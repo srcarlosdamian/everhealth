@@ -11,6 +11,8 @@ import {
   PawPrint,
   Edit2,
   Trash2,
+  FileText,
+  Calendar,
 } from 'lucide-react';
 import { Badge } from '../design-system/atoms/Badge';
 import { Button } from '../design-system/atoms/Button';
@@ -533,7 +535,7 @@ export const Mascotas: React.FC = () => {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Familiar Asignado</span>
-                    <span className="text-black font-medium mt-0.5">{item.familiarAsignado}</span>
+                    <span className="text-black font-medium mt-0.5">{item.familiarRelacionado}</span>
                   </div>
                   <div className="flex flex-col col-span-2">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-[#64748b]">Nº Chip</span>

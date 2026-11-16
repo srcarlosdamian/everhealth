@@ -39,6 +39,7 @@ import {
   MoreVertical,
   Download,
   AlertCircle,
+  Info,
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { Badge } from '../design-system/atoms/Badge';
@@ -854,7 +855,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           4. Botones de Modales y Diálogos (Comparativa de Acciones en Ventanas Modales)
                         </span>
                         <span className="text-[12px] text-[#64748b]">
-                          Conjunto de botones utilizados en ventanas emergentes. Todos homologados con esquinas de 8px (cuadrados) y orden estándar (secundario a la izquierda, primario a la derecha).
+                          Conjunto de botones utilizados en ventanas emergentes. Homologados estrictamente bajo la regla: <strong>mismo peso (bold), mismo tamaño (40px de altura, esquinas de 8px) y ambos en MAYÚSCULAS</strong>, con orden estándar (cancelar/secundario a la izquierda, acción primaria a la derecha).
                         </span>
                       </div>
 
@@ -871,14 +872,16 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                             </span>
                           </div>
                           <div className="flex flex-wrap items-center gap-3">
-                            <Button variant="modal-primary">Confirmar cita</Button>
+                            <Button variant="modal-primary" className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]">
+                              CONFIRMAR CITA
+                            </Button>
                             <button
                               type="button"
                               disabled
-                              className="h-[40px] px-6 rounded-[8px] bg-[#cbd5e1] text-[#64748b] text-[14px] font-bold cursor-not-allowed select-none"
+                              className="h-[40px] px-6 rounded-[8px] bg-[#cbd5e1] text-[#64748b] text-[13px] font-bold uppercase cursor-not-allowed select-none"
                               title="Estado incompleto / bloqueado"
                             >
-                              Confirmar cita (Bloqueado)
+                              CONFIRMAR CITA (BLOQUEADO)
                             </button>
                           </div>
                           <span className="text-[11px] text-[#64748b]">
@@ -893,15 +896,19 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               B. Formularios de Datos (Familiares / Mascotas)
                             </span>
                             <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
-                              h: 42px · r: 8px
+                              h: 40px · r: 8px
                             </span>
                           </div>
                           <div className="flex flex-wrap items-center gap-3">
-                            <Button variant="outline" className="h-[42px] px-5">Cancelar</Button>
-                            <Button variant="primary" className="h-[42px] px-7">Guardar</Button>
+                            <Button variant="outline" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
+                              CANCELAR
+                            </Button>
+                            <Button variant="primary" className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]">
+                              GUARDAR
+                            </Button>
                           </div>
                           <span className="text-[11px] text-[#64748b]">
-                            Botones principales de envío de formulario en mayúsculas bold.
+                            Mismo tamaño, mismo peso bold y ambos en mayúsculas en formularios.
                           </span>
                         </div>
 
@@ -912,12 +919,16 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               C. Diálogo Crítico de Confirmación (Baja)
                             </span>
                             <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
-                              h: 36px · r: 8px
+                              h: 40px · r: 8px
                             </span>
                           </div>
                           <div className="flex flex-wrap items-center gap-3">
-                            <Button variant="outline" className="h-[36px] px-4 text-[12px]">Cancelar</Button>
-                            <Button variant="destructive" className="h-[36px] px-4 text-[12px]">Dar de baja</Button>
+                            <Button variant="outline" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
+                              CANCELAR
+                            </Button>
+                            <Button variant="destructive" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white">
+                              DAR DE BAJA
+                            </Button>
                           </div>
                           <span className="text-[11px] text-[#64748b]">
                             Usado en <code>ConfirmDeactivateModal</code> para acciones destructivas.
@@ -931,29 +942,20 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               D. Modales Clínicos & Documentales
                             </span>
                             <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
-                              h: 38px · r: 8px
+                              h: 40px · r: 8px
                             </span>
                           </div>
                           <div className="flex flex-wrap items-center gap-2.5">
-                            <button
-                              type="button"
-                              className="h-[38px] px-4 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] text-black text-[13px] font-bold transition-colors cursor-pointer"
-                            >
-                              Descartar
-                            </button>
-                            <button
-                              type="button"
-                              className="h-[38px] px-5 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold transition-colors cursor-pointer shadow-xs"
-                            >
-                              Confirmar
-                            </button>
-                            <button
-                              type="button"
-                              className="h-[36px] px-3.5 rounded-[8px] border border-[#d50475] text-[#d50475] hover:bg-[#fdf2f8] text-[12px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
-                            >
+                            <Button variant="outline" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
+                              DESCARTAR
+                            </Button>
+                            <Button variant="primary" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
+                              CONFIRMAR
+                            </Button>
+                            <Button variant="outline" className="h-[40px] px-4 text-[13px] font-bold uppercase rounded-[8px] border-[#d50475] text-[#d50475] hover:bg-[#fdf2f8] flex items-center gap-1.5">
                               <Plus className="w-3.5 h-3.5" />
-                              <span>Subir doc</span>
-                            </button>
+                              <span>SUBIR DOC</span>
+                            </Button>
                           </div>
                           <span className="text-[11px] text-[#64748b]">
                             Usado en <code>ModalGinecologia</code> y <code>ModalDocumentos</code>.
@@ -976,66 +978,66 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           </thead>
                           <tbody className="divide-y divide-[#f1f5f9] text-[#334155]">
                             <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black">Confirmar cita</td>
+                              <td className="py-2 px-3 font-bold text-black uppercase">CONFIRMAR CITA</td>
                               <td className="py-2 px-3 font-mono">40px</td>
                               <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3">Sentence case 14px bold</td>
+                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
                               <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Blanco texto)</td>
                               <td className="py-2 px-3 text-[#64748b]">VideoConsulta / SolicitarChat</td>
                             </tr>
                             <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-[#64748b]">Confirmar cita (Bloqueado)</td>
+                              <td className="py-2 px-3 font-bold text-[#64748b] uppercase">CONFIRMAR CITA (BLOQUEADO)</td>
                               <td className="py-2 px-3 font-mono">40px</td>
                               <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3">Sentence case 14px bold</td>
+                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
                               <td className="py-2 px-3 text-[#64748b]">#cbd5e1 (Gris deshabilitado)</td>
                               <td className="py-2 px-3 text-[#64748b]">VideoConsulta (incompleto)</td>
                             </tr>
                             <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black">Guardar</td>
-                              <td className="py-2 px-3 font-mono">42px</td>
+                              <td className="py-2 px-3 font-bold text-black uppercase">GUARDAR</td>
+                              <td className="py-2 px-3 font-mono">40px</td>
                               <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3 uppercase">Mayúsculas 14px bold</td>
+                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
                               <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Primario)</td>
                               <td className="py-2 px-3 text-[#64748b]">Familiares / Mascotas</td>
                             </tr>
                             <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black">Cancelar (Formulario)</td>
-                              <td className="py-2 px-3 font-mono">42px</td>
+                              <td className="py-2 px-3 font-bold text-black uppercase">CANCELAR</td>
+                              <td className="py-2 px-3 font-mono">40px</td>
                               <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3 uppercase">Mayúsculas 14px bold</td>
+                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
                               <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
                               <td className="py-2 px-3 text-[#64748b]">Familiares / Mascotas</td>
                             </tr>
                             <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-[#ef4444]">Dar de baja</td>
-                              <td className="py-2 px-3 font-mono">36px</td>
+                              <td className="py-2 px-3 font-bold text-[#ef4444] uppercase">DAR DE BAJA</td>
+                              <td className="py-2 px-3 font-mono">40px</td>
                               <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3">Sentence case 12px bold</td>
+                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
                               <td className="py-2 px-3 text-[#ef4444] font-medium">#ef4444 (Destructivo)</td>
                               <td className="py-2 px-3 text-[#64748b]">ConfirmDeactivateModal</td>
                             </tr>
                             <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black">Cancelar (Confirmación)</td>
-                              <td className="py-2 px-3 font-mono">36px</td>
+                              <td className="py-2 px-3 font-bold text-black uppercase">CANCELAR</td>
+                              <td className="py-2 px-3 font-mono">40px</td>
                               <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3">Sentence case 12px bold</td>
+                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
                               <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
                               <td className="py-2 px-3 text-[#64748b]">ConfirmDeactivateModal</td>
                             </tr>
                             <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black">Descartar / Cancelar</td>
-                              <td className="py-2 px-3 font-mono">38px</td>
+                              <td className="py-2 px-3 font-bold text-black uppercase">DESCARTAR</td>
+                              <td className="py-2 px-3 font-mono">40px</td>
                               <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3">Sentence case 13px bold</td>
+                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
                               <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
                               <td className="py-2 px-3 text-[#64748b]">Ginecología / Documentos</td>
                             </tr>
                             <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black">Confirmar / Actualizar</td>
-                              <td className="py-2 px-3 font-mono">38px</td>
+                              <td className="py-2 px-3 font-bold text-black uppercase">CONFIRMAR</td>
+                              <td className="py-2 px-3 font-mono">40px</td>
                               <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3">Sentence case 13px bold</td>
+                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
                               <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Primario)</td>
                               <td className="py-2 px-3 text-[#64748b]">Ginecología / Documentos</td>
                             </tr>

@@ -113,7 +113,6 @@ export const Familiares: React.FC = () => {
     setFormFechaNac('');
     setFormSexo('');
     setFormParentesco('');
-    setShowWarningAlert(true);
     setIsModalOpen(true);
   };
 
