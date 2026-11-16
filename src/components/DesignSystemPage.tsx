@@ -429,14 +429,16 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       <div className="flex flex-col gap-2">
                         <div className="flex flex-col">
                           <span className="text-[13px] font-bold text-black">
-                            Tiempo o Cupo Limitado
+                            Tiempo o Cupo Limitado & Estados Pendientes
                           </span>
                           <span className="text-[12px] text-[#64748b]">
-                            Turnos de guardia médica con cupo próximo a cerrar
+                            Turnos de guardia y consultas pendientes (etiqueta compacta 'Pendiente' con tooltip al pasar el cursor)
                           </span>
                         </div>
-                        <div className="flex flex-wrap items-center gap-2 pt-1">
+                        <div className="flex flex-wrap items-center gap-3 pt-1">
                           <Badge variant="warning">Tiempo limitado</Badge>
+                          <Badge variant="limitada" tooltipText="De recomendación: Pendiente">Pendiente (hover: recomendación)</Badge>
+                          <Badge variant="limitada" tooltipText="De informe: Pendiente">Pendiente (hover: informe)</Badge>
                         </div>
                       </div>
 
@@ -475,35 +477,145 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 3. Botones Oficiales */}
                 <StageBlock
-                  title="Botones Estándar & Operaciones de Consulta"
-                  componentTag="<Button />"
+                  title="Botones Estándar, Operativos & Circulares"
+                  componentTag="<Button /> / Icon Buttons"
                   usedIn={['Home', 'Historial de Consultas', 'Familiares', 'Mascotas', 'Modales']}
-                  description="Botones con radio estándar homologado de 8px (cuadrados). Incluye acciones primarias, secundarias, de consulta ('Acceder a la consulta', 'Cancelar consulta', 'Ver conversación' con borde gris claro #cbd5e1) y acción destructiva ('Dar de baja'). El estado 'inactive' incluye automáticamente el tooltip estilo Shadcn ('Activo 15 minutos antes')."
+                  description="Catálogo unificado de botones de la plataforma. Se dividen estrictamente en: (1) Botones principales en mayúsculas de 44px/48px, (2) Botones operativos de consulta en formato cuadrado de 38px (borde gris claro #cbd5e1 o primario), y (3) Botones circulares exclusivos para acciones de icono (desplegables, navegación y cierre)."
                 >
                   <div className="flex flex-col gap-6">
-                    <div className="flex flex-wrap items-center gap-3">
-                      <Button variant="primary">
-                        <Plus className="w-[20px] h-[20px] text-white" />
-                        <span>SOLICITA UNA CITA</span>
-                      </Button>
-                      <Button variant="secondary">
-                        <ScanFace className="w-[20px] h-[20px] text-[#d50475]" />
-                        <span>INICIAR ESCANEO</span>
-                      </Button>
-                      <Button variant="outline">
-                        <span>COMPLETA TU PERFIL MÉDICO</span>
-                        <ChevronRight className="w-[18px] h-[18px] text-black" />
-                      </Button>
-                      <Button variant="inactive" tooltipText="Activo 15 minutos antes">
-                        NO DISPONIBLE
-                      </Button>
+                    {/* 1. Global / Main Action Buttons */}
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[13px] font-bold text-black">
+                        1. Botones Principales y Globales (Cuadrados 8px, Mayúsculas)
+                      </span>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <Button variant="primary">
+                          <Plus className="w-[20px] h-[20px] text-white" />
+                          <span>SOLICITA UNA CITA</span>
+                        </Button>
+                        <button
+                          type="button"
+                          className="h-[40px] px-5 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] font-bold uppercase transition-colors flex items-center gap-2 cursor-pointer shadow-xs"
+                        >
+                          <Plus className="w-4 h-4 text-white" />
+                          <span>CREA NUEVA CONSULTA</span>
+                        </button>
+                        <Button variant="secondary">
+                          <ScanFace className="w-[20px] h-[20px] text-[#d50475]" />
+                          <span>INICIAR ESCANEO</span>
+                        </Button>
+                        <Button variant="outline">
+                          <span>COMPLETA TU PERFIL MÉDICO</span>
+                          <ChevronRight className="w-[18px] h-[18px] text-black" />
+                        </Button>
+                        <Button variant="inactive" tooltipText="Activo 15 minutos antes">
+                          NO DISPONIBLE
+                        </Button>
+                      </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3">
-                      <Button variant="pill-primary">Acceder a la consulta</Button>
-                      <Button variant="pill-outline">Cancelar consulta</Button>
-                      <Button variant="pill-outline">Ver conversación</Button>
-                      <Button variant="destructive">Dar de baja</Button>
+                    <div className="h-[1px] bg-[#f1f5f9] w-full" />
+
+                    {/* 2. Consultation Operation Buttons */}
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[13px] font-bold text-black">
+                        2. Botones Operativos de Consulta (Cuadrados 8px, Altura 38px, Sentence Case)
+                      </span>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <Button variant="consulta-primary">Acceder a la consulta</Button>
+                        <Button variant="consulta-primary">Acceder a la videoconsulta</Button>
+                        <Button variant="consulta-outline">
+                          <MessageSquare className="w-4 h-4 text-[#64748b]" />
+                          <span>Ver conversación</span>
+                        </Button>
+                        <Button variant="consulta-outline">
+                          <FileText className="w-4 h-4 text-[#64748b]" />
+                          <span>Ver informe médico</span>
+                        </Button>
+                        <Button variant="consulta-outline">Cancelar consulta</Button>
+                        <Button variant="destructive">Dar de baja</Button>
+                      </div>
+                    </div>
+
+                    <div className="h-[1px] bg-[#f1f5f9] w-full" />
+
+                    {/* 3. Circular Icon Buttons */}
+                    <div className="flex flex-col gap-2">
+                      <div className="flex flex-col">
+                        <span className="text-[13px] font-bold text-black">
+                          3. Botones Circulares de Acción e Icono (Rounded-full)
+                        </span>
+                        <span className="text-[12px] text-[#64748b]">
+                          Uso reservado exclusivamente para interacción con iconos: chevrons de acordeón, cierre de modales y navegación.
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-4 pt-1">
+                        <div className="flex items-center gap-2 border border-[#e2e8f0] rounded-[8px] p-2 bg-[#f8fafc]">
+                          <button
+                            type="button"
+                            className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-black transition-colors cursor-pointer"
+                            title="Desplegar acordeón"
+                          >
+                            <ChevronDown className="w-5 h-5 text-black" />
+                          </button>
+                          <button
+                            type="button"
+                            className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-black transition-colors cursor-pointer"
+                            title="Plegar acordeón"
+                          >
+                            <ChevronUp className="w-5 h-5 text-black" />
+                          </button>
+                          <span className="text-[12px] text-[#475569] font-medium pr-2">
+                            Acordeón tabla consultas
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2 border border-[#e2e8f0] rounded-[8px] p-2 bg-[#f8fafc]">
+                          <button
+                            type="button"
+                            className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-black transition-colors cursor-pointer"
+                            title="Cerrar modal"
+                          >
+                            <X className="w-5 h-5 text-black" />
+                          </button>
+                          <span className="text-[12px] text-[#475569] font-medium pr-2">
+                            Cerrar modal
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2 border border-[#e2e8f0] rounded-[8px] p-2 bg-[#f8fafc]">
+                          <button
+                            type="button"
+                            className="w-6 h-6 rounded-full hover:bg-white flex items-center justify-center text-[#64748b] transition-colors cursor-pointer"
+                            title="Mes anterior"
+                          >
+                            <ChevronLeft className="w-4 h-4" />
+                          </button>
+                          <button
+                            type="button"
+                            className="w-6 h-6 rounded-full hover:bg-white flex items-center justify-center text-[#64748b] transition-colors cursor-pointer"
+                            title="Mes siguiente"
+                          >
+                            <ChevronRight className="w-4 h-4" />
+                          </button>
+                          <span className="text-[12px] text-[#475569] font-medium pr-2">
+                            Navegador de calendario
+                          </span>
+                        </div>
+
+                        <div className="flex items-center gap-2 border border-[#e2e8f0] rounded-[8px] p-2 bg-[#f8fafc]">
+                          <button
+                            type="button"
+                            className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-black transition-colors cursor-pointer"
+                            title="Volver atrás"
+                          >
+                            <ArrowLeft className="w-5 h-5 text-black" />
+                          </button>
+                          <span className="text-[12px] text-[#475569] font-medium pr-2">
+                            Atrás navegación
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </StageBlock>
@@ -1182,8 +1294,13 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         </div>
                       </div>
                       <div className="flex items-center justify-end gap-4 shrink-0">
-                        <Badge variant="disponible">En proceso</Badge>
-                        <ChevronUp className="w-5 h-5 text-black" />
+                        <Badge variant="limitada" tooltipText="De recomendación: Pendiente">Pendiente</Badge>
+                        <button
+                          type="button"
+                          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer focus:outline-none focus:ring-0"
+                        >
+                          <ChevronUp className="w-5 h-5 text-black" />
+                        </button>
                       </div>
                     </div>
                     <div className="px-4 sm:px-6 pb-5 pt-2 flex flex-col gap-4 border-t border-[#f1f5f9] bg-white">
@@ -1193,10 +1310,17 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       </div>
                       <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#f8fafc]">
                         <div className="flex flex-wrap items-center gap-2.5">
-                          <Button variant="primary" className="h-[38px] px-5">Acceder a la videoconsulta</Button>
-                          <Button variant="outline" className="h-[38px] px-4">Ver conversación</Button>
+                          <Button variant="consulta-primary">Acceder a la videoconsulta</Button>
+                          <Button variant="consulta-outline">
+                            <MessageSquare className="w-4 h-4 text-[#64748b]" />
+                            <span>Ver conversación</span>
+                          </Button>
+                          <Button variant="consulta-outline">
+                            <FileText className="w-4 h-4 text-[#64748b]" />
+                            <span>Ver informe médico</span>
+                          </Button>
                         </div>
-                        <Button variant="outline" className="h-[38px] px-4 text-[#ef4444] hover:border-[#ef4444]">Cancelar consulta</Button>
+                        <Button variant="consulta-outline">Cancelar consulta</Button>
                       </div>
                     </div>
                   </div>

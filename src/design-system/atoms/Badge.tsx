@@ -32,12 +32,16 @@ interface BadgeProps {
   variant?: BadgeVariant;
   children: React.ReactNode;
   className?: string;
+  title?: string;
+  tooltipText?: string;
 }
 
 export const Badge: React.FC<BadgeProps> = ({
   variant = 'success',
   children,
   className = '',
+  title,
+  tooltipText,
 }) => {
   // Reglas homologadas del Átomo Badge en el Sistema de Diseño:
   // - Un solo componente visual reutilizable: sin fondo de relleno (bg-transparent por defecto).
@@ -51,6 +55,7 @@ export const Badge: React.FC<BadgeProps> = ({
   // - 'error' / 'error-conexion': bg-[#fef9c3] (amarillo suave), text-[#1e293b] (tono regular igual que autosave), sin borde (border-transparent).
 
   const isError = variant === 'error' || variant === 'error-conexion';
+  const effectiveTooltip = tooltipText || title;
 
   const getVariantStyles = () => {
     switch (variant) {
@@ -82,8 +87,9 @@ export const Badge: React.FC<BadgeProps> = ({
     }
   };
 
-  return (
+  const badgeElement = (
     <span
+      title={effectiveTooltip}
       className={`inline-flex items-center justify-center px-3 py-1 rounded-[6px] text-[12px] leading-[16px] ${
         isError ? 'font-normal' : 'font-bold'
       } whitespace-nowrap ${getVariantStyles()} ${className}`}
@@ -91,4 +97,17 @@ export const Badge: React.FC<BadgeProps> = ({
       {children}
     </span>
   );
+
+  if (effectiveTooltip) {
+    return (
+      <div className="relative group inline-flex shrink-0">
+        {badgeElement}
+        <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-150 bg-[#0f172a] text-white text-[11px] font-medium px-2 py-0.5 rounded-[4px] shadow-lg whitespace-nowrap z-30 select-none">
+          {effectiveTooltip}
+        </span>
+      </div>
+    );
+  }
+
+  return badgeElement;
 };

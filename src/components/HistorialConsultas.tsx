@@ -142,6 +142,25 @@ const formatShortDate = (dateStr: string): string => {
   return dateStr;
 };
 
+const formatStatusBadge = (status: ConsultaStatus): { text: string; tooltip?: string } => {
+  if (status === 'Pendiente de recomendación') {
+    return {
+      text: 'Pendiente',
+      tooltip: 'De recomendación: Pendiente',
+    };
+  }
+  if (status === 'Pendiente de informe') {
+    return {
+      text: 'Pendiente',
+      tooltip: 'De informe: Pendiente',
+    };
+  }
+  return {
+    text: status,
+    tooltip: undefined,
+  };
+};
+
 export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
   onOpenVideoModal,
   onOpenChatModal,
@@ -353,7 +372,14 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
 
                   {/* Columna 5: Badge de Estado + Chevron del Acordeón */}
                   <div className="flex items-center justify-between lg:justify-end gap-4 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-[#f1f5f9]">
-                    <Badge variant={badgeVariant}>{c.status}</Badge>
+                    {(() => {
+                      const badgeInfo = formatStatusBadge(c.status);
+                      return (
+                        <Badge variant={badgeVariant} tooltipText={badgeInfo.tooltip}>
+                          {badgeInfo.text}
+                        </Badge>
+                      );
+                    })()}
 
                     <button
                       type="button"
@@ -361,7 +387,7 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                         e.stopPropagation();
                         handleToggleRow(c.id);
                       }}
-                      className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+                      className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer focus:outline-none focus:ring-0"
                     >
                       {isExpanded ? (
                         <ChevronUp className="w-5 h-5 text-black" />
@@ -391,12 +417,11 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                         {/* Botón principal según el estado */}
                         {c.status === 'En proceso' && (
                           <Button
-                            variant="primary"
+                            variant="consulta-primary"
                             onClick={() => {
                               if (c.type === 'video') onOpenVideoModal?.();
                               else onOpenChatModal?.();
                             }}
-                            className="h-[38px] px-5"
                           >
                             {c.type === 'video' ? 'Acceder a la videoconsulta' : 'Acceder al chat'}
                           </Button>
@@ -405,9 +430,8 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                         {/* Ver conversación / historial si es chat o consulta terminada */}
                         {(c.type === 'chat' || c.status === 'Terminada' || c.status === 'Pendiente de recomendación') && (
                           <Button
-                            variant="outline"
+                            variant="consulta-outline"
                             onClick={() => onOpenChatModal?.()}
-                            className="h-[38px] px-4"
                           >
                             <MessageSquare className="w-4 h-4 text-[#64748b]" />
                             <span>Ver conversación</span>
@@ -417,9 +441,8 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                         {/* Ver informe médico si tiene informe */}
                         {c.hasInforme && (
                           <Button
-                            variant="outline"
+                            variant="consulta-outline"
                             onClick={() => onOpenDocumentsModal?.()}
-                            className="h-[38px] px-4"
                           >
                             <FileText className="w-4 h-4 text-[#64748b]" />
                             <span>Ver informe médico</span>
@@ -428,11 +451,10 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                       </div>
 
                       {/* Botón de Cancelar consulta si está en proceso o pendiente */}
-                      {(c.status === 'En proceso' || c.status === 'Pendiente' || c.status === 'Pendiente de recomendación') && (
+                      {(c.status === 'En proceso' || c.status === 'Pendiente' || c.status === 'Pendiente de recomendación' || c.status === 'Pendiente de informe') && (
                         <Button
-                          variant="outline"
+                          variant="consulta-outline"
                           onClick={() => setCancellingConsultaId(c.id)}
-                          className="h-[38px] px-4 text-[#ef4444] hover:border-[#ef4444]"
                         >
                           Cancelar consulta
                         </Button>
