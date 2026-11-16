@@ -36,6 +36,9 @@ import {
   Trash2,
   Edit2,
   MapPin,
+  MoreVertical,
+  Download,
+  AlertCircle,
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { Badge } from '../design-system/atoms/Badge';
@@ -165,6 +168,9 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [demoFormModalOpen, setDemoFormModalOpen] = useState(false);
   const [demoHelpCenterOpen, setDemoHelpCenterOpen] = useState(false);
   const [demoCitaMenuOpen, setDemoCitaMenuOpen] = useState(false);
+  const [demoFamiliarMenuOpen, setDemoFamiliarMenuOpen] = useState<number | null>(null);
+  const [demoModalDocMenuOpen, setDemoModalDocMenuOpen] = useState<number | null>(null);
+  const [demoDocInputName, setDemoDocInputName] = useState('Valoración médica preoperatoria');
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
@@ -204,7 +210,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
             { id: 'atomos', label: '2. Átomos', icon: Layers },
             { id: 'inputs', label: '3. Inputs & Forms', icon: Edit2 },
             { id: 'moleculas', label: '4. Moléculas', icon: Component },
-            { id: 'organismos', label: '5. Organismos', icon: Layout },
+            { id: 'organismos', label: '5. Organismos & Tablas', icon: Layout },
             { id: 'modales', label: '6. Modales', icon: X },
             { id: 'iconos', label: '7. Íconos Lucide', icon: Sparkles },
           ].map((sec) => {
@@ -1470,6 +1476,551 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         </div>
                         <Button variant="consulta-outline">Cancelar consulta</Button>
                       </div>
+                    </div>
+                  </div>
+                </StageBlock>
+
+                {/* Organismo 3: Tabla de Gestión Principal (Familiares) */}
+                <StageBlock
+                  title="Tabla de Gestión Principal (Familiares)"
+                  componentTag="<table className='w-full text-left border-collapse bg-white'>"
+                  usedIn={['Familiares']}
+                  description="Patrón maestro de tablas de página completa: contenedor sin redondear, cabecera blanca, texto en negro mayúsculas, divisores verticales de columna y badges de estado legal."
+                >
+                  <div className="flex flex-col gap-4">
+                    <div className="w-full bg-white border border-[#e2e8f0] rounded-none shadow-none overflow-x-auto">
+                      <table className="w-full text-left border-collapse bg-white">
+                        <thead>
+                          <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Nombre y Apellidos</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Parentesco</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Fecha de Nacimiento</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Edad</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Sexo al nacer</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Tutor / Estado</th>
+                            <th className="py-3 px-4 text-right">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black bg-white">
+                          <tr className="hover:bg-[#fafafa] bg-white transition-colors">
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
+                                  CD
+                                </div>
+                                <span className="font-bold text-black">Carlos Damián</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-[#475569]">
+                              Titular
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#64748b]">
+                              15/04/1994
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-bold text-black">
+                              32 años
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
+                              Hombre
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <Badge variant="success" className="w-fit">Tutor legal</Badge>
+                            </td>
+                            <td className="py-3.5 px-4 text-right relative">
+                              <div className="inline-block relative">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setDemoFamiliarMenuOpen(demoFamiliarMenuOpen === 1 ? null : 1)
+                                  }
+                                  className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                                  title="Acciones"
+                                >
+                                  <MoreVertical className="w-4 h-4" />
+                                </button>
+                                {demoFamiliarMenuOpen === 1 && (
+                                  <div className="absolute right-0 top-full mt-1 w-44 bg-white border border-[#e2e8f0] rounded-[8px] shadow-lg py-1 z-50 text-left">
+                                    <button
+                                      type="button"
+                                      onClick={() => setDemoFamiliarMenuOpen(null)}
+                                      className="w-full px-4 py-2 text-[13px] text-left hover:bg-[#f8fafc] text-black font-medium"
+                                    >
+                                      Ver detalle
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => setDemoFamiliarMenuOpen(null)}
+                                      className="w-full px-4 py-2 text-[13px] text-left hover:bg-[#f8fafc] text-black font-medium"
+                                    >
+                                      Editar familiar
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-[#fafafa] bg-white transition-colors">
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
+                                  ER
+                                </div>
+                                <span className="font-bold text-black">Elena Ruiz Morales</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-[#475569]">
+                              Hijo/a
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#64748b]">
+                              12/08/2018
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-bold text-black">
+                              8 años
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
+                              Mujer
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <Badge variant="success" className="w-fit">Menor a cargo</Badge>
+                            </td>
+                            <td className="py-3.5 px-4 text-right">
+                              <button
+                                type="button"
+                                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                              >
+                                <MoreVertical className="w-4 h-4" />
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* Especificaciones clave de Familiares */}
+                    <div className="flex flex-wrap gap-2 text-[12px]">
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Contenedor: <strong>rounded-none</strong> + borde #e2e8f0
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Cabecera: <strong>bg-white</strong> + texto negro 12px negrita uppercase
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Columnas: <strong>border-r border-[#e2e8f0]</strong> (divisores verticales completos)
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Filas: <strong>py-3.5 px-4</strong> + hover bg-[#fafafa]
+                      </span>
+                    </div>
+                  </div>
+                </StageBlock>
+
+                {/* Organismo 4: Tabla con Datos Secundarios (Mascotas) */}
+                <StageBlock
+                  title="Tabla con Datos Secundarios (Mascotas)"
+                  componentTag="<table className='w-full text-left border-collapse table-auto'>"
+                  usedIn={['Mascotas']}
+                  description="Variante que comparte el patrón maestro de Familiares (cuadrada y con divisores verticales), adaptada para soportar dos líneas por celda y badges de clasificación física."
+                >
+                  <div className="flex flex-col gap-4">
+                    <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-x-auto">
+                      <table className="w-full text-left border-collapse table-auto">
+                        <thead>
+                          <tr className="bg-white border-b border-[#e2e8f0] text-[12px] font-bold uppercase tracking-wider text-black">
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Mascota</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Especie y Raza</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Edad</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Sexo</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Condición Corporal</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Familiar Asignado</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Nº Chip</th>
+                            <th className="py-3.5 px-4 text-right">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black">
+                          <tr className="hover:bg-[#f8fafc] transition-colors">
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
+                                  MA
+                                </div>
+                                <span className="font-bold text-black">Max</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <div className="flex flex-col">
+                                <span className="font-bold text-black">Perro</span>
+                                <span className="text-[12px] text-[#64748b]">Golden Retriever</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <div className="flex flex-col">
+                                <span className="font-medium text-black">3 años</span>
+                                <span className="text-[12px] text-[#64748b]">10/05/2023</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
+                              Macho
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <Badge variant="disponible" className="w-fit">Peso Ideal</Badge>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
+                              Carlos Damián
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-mono text-[13px] text-[#64748b]">
+                              981098123456789
+                            </td>
+                            <td className="py-3.5 px-4 text-right">
+                              <button
+                                type="button"
+                                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                              >
+                                <MoreVertical className="w-4 h-4" />
+                              </button>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-[#f8fafc] transition-colors">
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <div className="flex items-center gap-3">
+                                <div className="w-8 h-8 rounded-full bg-[#f1f5f9] text-[#475569] font-bold text-[12px] flex items-center justify-center shrink-0">
+                                  LU
+                                </div>
+                                <span className="font-bold text-black">Luna</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <div className="flex flex-col">
+                                <span className="font-bold text-black">Gato</span>
+                                <span className="text-[12px] text-[#64748b]">Siamés</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <div className="flex flex-col">
+                                <span className="font-medium text-black">2 años</span>
+                                <span className="text-[12px] text-[#64748b]">14/02/2024</span>
+                              </div>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
+                              Hembra
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
+                              <Badge variant="limitada" className="w-fit">Sobrepeso</Badge>
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[#475569]">
+                              Elena Ruiz
+                            </td>
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-mono text-[13px] text-[#64748b]">
+                              981098998877665
+                            </td>
+                            <td className="py-3.5 px-4 text-right">
+                              <button
+                                type="button"
+                                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors"
+                              >
+                                <MoreVertical className="w-4 h-4" />
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 text-[12px]">
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Consistencia: Comparte 100% el estilo de contenedor, divisores y cabecera de <strong>Familiares</strong>.
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Celdas dobles: Titular 14px bold + Subtexto 12px gris (#64748b).
+                      </span>
+                    </div>
+                  </div>
+                </StageBlock>
+
+                {/* Organismo 5: Tabla de Modales (ModalDocumentos) */}
+                <StageBlock
+                  title="Tabla en Modales (Documentos Médicos)"
+                  componentTag="<table className='w-full text-left text-[13px]'>"
+                  usedIn={['ModalDocumentos', 'Historia Clínica']}
+                  description="Variante compacta para diálogos modales. Nota: Presenta divergencias visuales con respecto a Familiares (cabecera gris, sin divisores verticales y bordes redondeados)."
+                >
+                  <div className="flex flex-col gap-4">
+                    <div className="border border-[#e2e8f0] rounded-[10px] overflow-visible bg-white">
+                      <table className="w-full text-left text-[13px]">
+                        <thead className="bg-[#f8fafc] text-[#64748b] border-b border-[#e2e8f0]">
+                          <tr>
+                            <th className="py-2.5 px-4 font-bold uppercase tracking-wider text-[11px]">
+                              DOCUMENTO
+                            </th>
+                            <th className="py-2.5 px-4 font-bold uppercase tracking-wider text-[11px]">
+                              NOMBRE PERSONALIZADO*
+                            </th>
+                            <th className="py-2.5 px-4 font-bold uppercase tracking-wider text-[11px] text-right">
+                              ACCIONES
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#f1f5f9]">
+                          <tr className="hover:bg-[#f8fafc]/70 transition-colors">
+                            <td className="py-3 px-4 font-medium text-[#334155] max-w-[220px]">
+                              <div className="flex items-center gap-2">
+                                <FileText className="w-4 h-4 text-[#94a3b8] shrink-0" />
+                                <span className="truncate">ecografia_tiroidea.jpg</span>
+                              </div>
+                            </td>
+                            <td className="py-2 px-4">
+                              <input
+                                type="text"
+                                value={demoDocInputName}
+                                onChange={(e) => setDemoDocInputName(e.target.value)}
+                                placeholder="Nombre descriptivo del archivo *"
+                                className="w-full h-[36px] px-3 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#d50475]"
+                              />
+                            </td>
+                            <td className="py-3 px-4 text-right relative">
+                              <div className="inline-block relative">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setDemoModalDocMenuOpen(demoModalDocMenuOpen === 1 ? null : 1)
+                                  }
+                                  className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer"
+                                  title="Opciones"
+                                >
+                                  <MoreVertical className="w-4 h-4" />
+                                </button>
+                                {demoModalDocMenuOpen === 1 && (
+                                  <div className="absolute right-0 top-full mt-1 w-44 bg-white border border-[#e2e8f0] rounded-[8px] shadow-lg py-1 z-50 text-left">
+                                    <button
+                                      type="button"
+                                      onClick={() => setDemoModalDocMenuOpen(null)}
+                                      className="w-full px-3.5 py-2 text-[13px] flex items-center gap-2 hover:bg-[#f8fafc] text-[#334155]"
+                                    >
+                                      <Download className="w-4 h-4 text-[#64748b]" />
+                                      <span>Descargar</span>
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => setDemoModalDocMenuOpen(null)}
+                                      className="w-full px-3.5 py-2 text-[13px] flex items-center gap-2 hover:bg-[#fef2f2] text-[#ef4444] font-bold"
+                                    >
+                                      <Trash2 className="w-4 h-4 text-[#ef4444]" />
+                                      <span>Eliminar</span>
+                                    </button>
+                                  </div>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                          <tr className="hover:bg-[#f8fafc]/70 transition-colors">
+                            <td className="py-3 px-4 font-medium text-[#334155]">
+                              <div className="flex items-center gap-2">
+                                <FileText className="w-4 h-4 text-[#94a3b8] shrink-0" />
+                                <span className="truncate">analitica_sangre.pdf</span>
+                              </div>
+                            </td>
+                            <td className="py-2 px-4">
+                              <input
+                                type="text"
+                                defaultValue="Analítica general y bioquímica"
+                                className="w-full h-[36px] px-3 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#d50475]"
+                              />
+                            </td>
+                            <td className="py-3 px-4 text-right">
+                              <button
+                                type="button"
+                                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer"
+                              >
+                                <MoreVertical className="w-4 h-4" />
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div className="flex flex-wrap gap-2 text-[12px]">
+                      <span className="px-2.5 py-1 rounded bg-[#fff1f2] border border-[#fecdd3] text-[#9f1239] font-medium">
+                        Divergencia 1: Cabecera gris (bg-[#f8fafc]) y texto gris (#64748b)
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#fff1f2] border border-[#fecdd3] text-[#9f1239] font-medium">
+                        Divergencia 2: Sin divisores verticales de columna (no tiene border-r)
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Divergencia 3: Contenedor rounded-[10px] (adaptado a la ventana modal)
+                      </span>
+                    </div>
+                  </div>
+                </StageBlock>
+
+                {/* Organismo 6: Matriz Comparativa y Diagnóstico de Tablas */}
+                <StageBlock
+                  title="Comparativa de Tablas: Diagnóstico & Homologación"
+                  componentTag="Matriz de Análisis y Decisiones de Diseño"
+                  usedIn={['Familiares', 'Mascotas', 'ModalDocumentos', 'Historial Consultas']}
+                  description="Comparación exhaustiva de todas las tablas para determinar qué se mejora, qué se cambia y qué se quita para lograr consistencia en todo el producto."
+                >
+                  <div className="flex flex-col gap-6">
+                    {/* Tabla comparativa técnica */}
+                    <div className="w-full border border-[#e2e8f0] rounded-[8px] overflow-x-auto bg-white">
+                      <table className="w-full text-left text-[12px] border-collapse">
+                        <thead className="bg-[#f8fafc] text-black border-b border-[#e2e8f0] font-bold">
+                          <tr>
+                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">Atributo Visual</th>
+                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">Tabla Familiares (Maestra)</th>
+                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">Tabla Mascotas</th>
+                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">Tabla en Modales</th>
+                            <th className="py-3 px-3.5 font-bold text-[#d50475]">Diagnóstico & Qué Hacer</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#e2e8f0] text-[#334155]">
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Bordes exteriores
+                            </td>
+                            <td className="py-2.5 px-3.5 font-mono text-[11px] border-r border-[#e2e8f0]">
+                              rounded-none
+                            </td>
+                            <td className="py-2.5 px-3.5 font-mono text-[11px] border-r border-[#e2e8f0]">
+                              rounded-none
+                            </td>
+                            <td className="py-2.5 px-3.5 font-mono text-[11px] text-[#d50475] font-bold border-r border-[#e2e8f0]">
+                              rounded-[10px]
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[11px]">
+                              <strong>Mantener o estandarizar a 8px:</strong> En páginas completas encaja `rounded-none`, pero en modales debe ser redondeada para respetar el radio del diálogo.
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Fondo de cabecera
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              Blanco (bg-white)
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              Blanco (bg-white)
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[#d50475] font-bold border-r border-[#e2e8f0]">
+                              Gris (bg-[#f8fafc])
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[11px]">
+                              <span className="text-[#d50475] font-bold">CAMBIAR:</span> Cambiar el fondo del modal a blanco (`bg-white`) con borde inferior `#e2e8f0` para máxima coherencia con Familiares.
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Color texto cabecera
+                            </td>
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Negro (text-black 12px)
+                            </td>
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Negro (text-black 12px)
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[#64748b] border-r border-[#e2e8f0]">
+                              Gris (#64748b 11px)
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[11px]">
+                              <span className="text-[#d50475] font-bold">CAMBIAR:</span> Estandarizar cabecera en modales a `text-black` font-bold uppercase para evitar que se vea apagada.
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Líneas verticales (Columnas)
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[#16a34a] font-bold border-r border-[#e2e8f0]">
+                              Sí (border-r #e2e8f0)
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[#16a34a] font-bold border-r border-[#e2e8f0]">
+                              Sí (border-r #e2e8f0)
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[#ef4444] font-bold border-r border-[#e2e8f0]">
+                              No tiene líneas verticales
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[11px]">
+                              <span className="text-[#d50475] font-bold">DECISIÓN:</span> Es la diferencia más notoria. Se puede: <strong>A)</strong> Agregar `border-r` al modal, o <strong>B)</strong> Quitar `border-r` de Familiares para un look más moderno y limpio sin cuadrícula rígida.
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Divisores de filas
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              divide-y divide-[#e2e8f0]
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              divide-y divide-[#e2e8f0]
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              divide-y divide-[#f1f5f9]
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[11px]">
+                              <strong>HOMOLOGAR:</strong> Unificar el color de borde de fila a `#e2e8f0` en todas las tablas.
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Padding vertical celda
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              py-3.5 (14px)
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              py-3.5 (14px)
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              py-2.5 / py-2 (10px)
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[11px]">
+                              <strong>MANTENER DIFERENCIADO:</strong> Los modales tienen altura máxima restringida (max-h 90vh) y llevan inputs de 36px, por lo que py-2.5 es el espaciado óptimo.
+                            </td>
+                          </tr>
+
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Menú de acciones
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              MoreVertical flotante
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              MoreVertical flotante
+                            </td>
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              MoreVertical flotante
+                            </td>
+                            <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
+                              ✓ HOMOLOGADO: Todas las tablas utilizan el mismo botón circular de 32px con MoreVertical y menú emergente.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* Resumen de mejoras recomendadas */}
+                    <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] p-4 flex flex-col gap-2.5">
+                      <div className="flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4 text-[#d50475]" />
+                        <h4 className="text-[14px] font-bold text-black">
+                          Resumen: 3 acciones para homologar la tabla de modales
+                        </h4>
+                      </div>
+                      <ul className="text-[13px] text-[#334155] space-y-1.5 list-disc pl-5">
+                        <li>
+                          <strong>1. Cabecera limpia:</strong> Cambiar el fondo gris `bg-[#f8fafc]` a blanco `bg-white` y el texto a `text-black` negrita mayúsculas.
+                        </li>
+                        <li>
+                          <strong>2. Divisores verticales:</strong> Decidir si aplicar `border-r border-[#e2e8f0]` a la tabla de modales o, alternativamente, retirar las líneas verticales de Familiares y Mascotas si se busca un diseño más minimalista.
+                        </li>
+                        <li>
+                          <strong>3. Borde de fila consistente:</strong> Cambiar `divide-[#f1f5f9]` por `divide-[#e2e8f0]` para mantener idéntico contraste en todas las líneas.
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </StageBlock>
