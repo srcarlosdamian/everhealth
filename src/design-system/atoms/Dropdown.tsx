@@ -20,6 +20,7 @@ interface DropdownProps {
   helperText?: string;
   dropUp?: boolean;
   openUpward?: boolean;
+  size?: 'sm' | 'default';
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -34,6 +35,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   helperText,
   dropUp = false,
   openUpward = false,
+  size = 'default',
 }) => {
   const isUp = dropUp || openUpward;
   const [isOpen, setIsOpen] = useState(false);
@@ -71,12 +73,16 @@ export const Dropdown: React.FC<DropdownProps> = ({
         </label>
       )}
 
-      {/* Botón activador del Dropdown */}
+      {/* Botón activador del Dropdown con ChevronDown de Lucide homologado */}
       <button
         type="button"
         disabled={disabled}
         onClick={() => !disabled && setIsOpen(!isOpen)}
-        className={`w-full h-[44px] px-3.5 rounded-[8px] bg-white border text-left flex items-center justify-between transition-colors select-none cursor-pointer ${
+        className={`w-full ${
+          size === 'sm'
+            ? 'h-[36px] px-3 text-[13px] rounded-[6px]'
+            : 'h-[44px] px-3.5 text-[16px] rounded-[8px]'
+        } bg-white border text-left flex items-center justify-between transition-colors select-none cursor-pointer ${
           disabled ? 'opacity-60 cursor-not-allowed bg-[#f8fafc]' : ''
         } ${
           isOpen
@@ -84,9 +90,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
             : 'border-[#cbd5e1] hover:border-[#475569]'
         }`}
       >
-        <div className="flex items-center gap-2.5 truncate">
+        <div className="flex items-center gap-2 truncate flex-1 min-w-0 pr-2">
           {selectedOption?.emoji && (
-            <span className="text-[16px] shrink-0 leading-none">{selectedOption.emoji}</span>
+            <span className={`${size === 'sm' ? 'text-[14px]' : 'text-[16px]'} shrink-0 leading-none`}>
+              {selectedOption.emoji}
+            </span>
           )}
           {selectedOption?.icon && (
             <span className="w-4 h-4 text-[#64748b] shrink-0 flex items-center justify-center">
@@ -94,7 +102,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             </span>
           )}
           <span
-            className={`text-[16px] font-normal truncate ${
+            className={`${size === 'sm' ? 'text-[13px]' : 'text-[16px]'} font-normal truncate ${
               selectedOption ? 'text-black' : 'text-[#64748b]'
             }`}
           >
@@ -102,8 +110,9 @@ export const Dropdown: React.FC<DropdownProps> = ({
           </span>
         </div>
 
+        {/* Ícono ChevronDown de Lucide con margen a la derecha y rotación suave */}
         <ChevronDown
-          className={`w-4 h-4 text-[#64748b] shrink-0 transition-transform duration-200 ${
+          className={`w-4 h-4 text-[#64748b] shrink-0 transition-transform duration-200 ml-2 ${
             isOpen ? 'rotate-180 text-black' : ''
           }`}
         />
@@ -126,14 +135,16 @@ export const Dropdown: React.FC<DropdownProps> = ({
                   onChange(opt.value);
                   setIsOpen(false);
                 }}
-                className={`w-full px-3 py-2 rounded-[6px] text-[16px] font-normal text-left flex items-center justify-between transition-colors cursor-pointer select-none ${
+                className={`w-full px-3 ${
+                  size === 'sm' ? 'py-1.5 text-[13px]' : 'py-2 text-[16px]'
+                } rounded-[6px] font-normal text-left flex items-center justify-between transition-colors cursor-pointer select-none ${
                   isSelected
                     ? 'bg-[#f1f5f9] text-black font-medium'
                     : 'text-black hover:bg-[#f1f5f9]'
                 }`}
               >
                 <div className="flex items-center gap-2.5 truncate">
-                  {opt.emoji && <span className="text-[16px] shrink-0 leading-none">{opt.emoji}</span>}
+                  {opt.emoji && <span className={`${size === 'sm' ? 'text-[14px]' : 'text-[16px]'} shrink-0 leading-none`}>{opt.emoji}</span>}
                   {opt.icon && (
                     <span className="w-4 h-4 text-[#64748b] shrink-0 flex items-center justify-center">
                       {opt.icon}

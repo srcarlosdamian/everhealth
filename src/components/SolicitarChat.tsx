@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Star, ChevronDown, ChevronUp } from 'lucide-react';
+import { Dropdown } from '../design-system/atoms/Dropdown';
+import { Badge } from '../design-system/atoms/Badge';
 
 interface SolicitarChatProps {
   onOpenCalendarModal: (doctorName?: string) => void;
@@ -88,6 +90,25 @@ const SCHEDULE_DAYS = [
   { day: 'DOMINGO', date: '27 Oct', slots: ['09:30', '11:00', '12:30'] },
 ];
 
+const DISPONIBILIDAD_OPTIONS = [
+  { value: 'todas', label: 'Disponibilidad' },
+  { value: 'disponible', label: 'Disponible ahora' },
+  { value: 'limitada', label: 'Disponibilidad limitada' },
+  { value: 'no-disponible', label: 'No disponible' },
+];
+
+const ESPECIALIDAD_OPTIONS = [
+  { value: 'todas', label: 'Especialidad' },
+  { value: 'Medicina General', label: 'Medicina General' },
+  { value: 'Nutrición', label: 'Nutrición' },
+  { value: 'Psicología', label: 'Psicología' },
+  { value: 'Pediatría', label: 'Pediatría' },
+  { value: 'Dermatología', label: 'Dermatología' },
+  { value: 'Ginecología', label: 'Ginecología' },
+  { value: 'Oftalmología', label: 'Oftalmología' },
+  { value: 'Cardiología', label: 'Cardiología' },
+];
+
 export const SolicitarChat: React.FC<SolicitarChatProps> = ({
   onOpenCalendarModal,
   onOpenNowModal,
@@ -95,11 +116,22 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
   // All schedules collapsed by default as requested
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [filterTab, setFilterTab] = useState<'todos' | 'favoritos'>('todos');
+  const [filterDisponibilidad, setFilterDisponibilidad] = useState('todas');
+  const [filterEspecialidad, setFilterEspecialidad] = useState('todas');
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
   const toggleExpand = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
   };
+
+  const filteredDoctors = useMemo(() => {
+    return DOCTORS.filter((doc) => {
+      if (filterTab === 'favoritos' && !doc.isFavorite) return false;
+      if (filterDisponibilidad !== 'todas' && doc.badgeType !== filterDisponibilidad) return false;
+      if (filterEspecialidad !== 'todas' && !doc.specialties.includes(filterEspecialidad)) return false;
+      return true;
+    });
+  }, [filterTab, filterDisponibilidad, filterEspecialidad]);
 
   return (
     <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-[24px]">
@@ -136,52 +168,78 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
           </button>
         </div>
 
-        <div className="flex items-center gap-[12px]">
-          <select className="h-[36px] px-[12px] rounded-[6px] border border-[#cbd5e1] text-[13px] text-black bg-white">
-            <option>Disponibilidad</option>
-            <option>Hoy</option>
-            <option>Esta semana</option>
-          </select>
-          <select className="h-[36px] px-[12px] rounded-[6px] border border-[#cbd5e1] text-[13px] text-black bg-white">
-            <option>Especialidad</option>
-            <option>Medicina General</option>
-            <option>Pediatría</option>
-            <option>Ginecología</option>
-            <option>Nutrición</option>
-          </select>
+        {/* Filtros desplegables homologados con el Sistema de Diseño (<Dropdown size="sm" />) */}
+        <div className="flex flex-wrap items-center gap-[12px]">
+          <div className="w-[180px]">
+            <Dropdown
+              size="sm"
+              value={filterDisponibilidad}
+              onChange={setFilterDisponibilidad}
+              options={DISPONIBILIDAD_OPTIONS}
+              placeholder="Disponibilidad"
+            />
+          </div>
+          <div className="w-[180px]">
+            <Dropdown
+              size="sm"
+              value={filterEspecialidad}
+              onChange={setFilterEspecialidad}
+              options={ESPECIALIDAD_OPTIONS}
+              placeholder="Especialidad"
+            />
+          </div>
         </div>
       </div>
 
       {/* Doctor Cards Grid (2 columns matching EVR - 119) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-[20px]">
-        {DOCTORS.map((doc) => {
-          const isExpanded = expandedId === doc.id;
-          return (
-            <div
-              key={doc.id}
-              className="bg-white rounded-[10px] border border-[#e2e8f0] p-5 flex flex-col gap-4 shadow-xs"
-            >
-              {/* Doctor header */}
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-[#f1f5f9] border border-[#e2e8f0] flex items-center justify-center font-bold text-[#0f172a] shrink-0">
-                    {doc.initials || doc.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[16px] font-bold text-black">{doc.name}</span>
-                      <span
-                        className={`px-2 py-0.5 rounded-[4px] text-[11px] font-bold ${
-                          doc.badgeType === 'disponible'
-                            ? 'bg-[#dcfce7] text-[#15803d]'
-                            : doc.badgeType === 'limitada'
-                            ? 'bg-[#fef9c3] text-[#854d0e]'
-                            : 'bg-[#f1f5f9] text-[#64748b]'
-                        }`}
-                      >
-                        {doc.badge}
-                      </span>
+      {filteredDoctors.length === 0 ? (
+        <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2 bg-white rounded-[10px] border border-[#e2e8f0]">
+          <p className="text-[15px] font-bold text-black">No se encontraron especialistas</p>
+          <p className="text-[13px] text-[#64748b]">
+            Prueba a cambiar los filtros de disponibilidad o especialidad.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setFilterTab('todos');
+              setFilterDisponibilidad('todas');
+              setFilterEspecialidad('todas');
+            }}
+            className="mt-2 text-[13px] font-bold text-[#d50475] hover:underline cursor-pointer"
+          >
+            Restablecer filtros
+          </button>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[20px]">
+          {filteredDoctors.map((doc) => {
+            const isExpanded = expandedId === doc.id;
+            return (
+              <div
+                key={doc.id}
+                className="bg-white rounded-[10px] border border-[#e2e8f0] p-5 flex flex-col gap-4 shadow-xs"
+              >
+                {/* Doctor header */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-[#f1f5f9] border border-[#e2e8f0] flex items-center justify-center font-bold text-[#0f172a] shrink-0">
+                      {doc.initials || doc.name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                     </div>
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[16px] font-bold text-black">{doc.name}</span>
+                        <Badge
+                          variant={
+                            doc.badgeType === 'disponible'
+                              ? 'success'
+                              : doc.badgeType === 'limitada'
+                              ? 'warning'
+                              : 'neutral'
+                          }
+                        >
+                          {doc.badge}
+                        </Badge>
+                      </div>
                     <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[12px] text-[#475569] mt-0.5">
                       {doc.specialties.map((s, i) => (
                         <span key={i}>{s}{i < doc.specialties.length - 1 ? ' ·' : ''}</span>
@@ -271,6 +329,7 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
           );
         })}
       </div>
+      )}
     </div>
   );
 };

@@ -606,33 +606,76 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   </div>
                 </StageBlock>
 
-                {/* 3. Dropdown (con emoji/icono y texto regular) */}
+                {/* 3. Dropdown (con emoji/icono, texto regular y variante size="sm") */}
                 <StageBlock
-                  title="Selector Desplegable Unificado (Con Emojis/Iconos o Texto Plano)"
+                  title="Selector Desplegable Unificado (Con ChevronDown de Lucide y Tamaños Standard/Compacto)"
                   componentTag="<Dropdown />"
-                  usedIn={['Mascotas', 'Familiares', 'Modal Videoconsulta', 'Modal Solicitar Chat']}
-                  description="16px regular negro en el botón y en la lista desplegable. Hover gris neutro (#f1f5f9) sin colores rosas. Soporta emojis o iconos a la izquierda."
+                  usedIn={['Solicitar Chat', 'Historial de Consultas', 'Mascotas', 'Familiares', 'Modal Videoconsulta', 'Modal Solicitar Chat']}
+                  description="Componente oficial del Sistema de Diseño que reemplaza los <select> nativos del navegador. Utiliza el ícono ChevronDown de Lucide con rotación fluida, margen derecho adecuado y estados hover/focus neutros. Disponible en tamaño standard (44px) y tamaño compacto sm (36px) para barras de filtros."
                 >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[680px]">
-                    <Dropdown
-                      label="Especie (Versión con Emoji)*"
-                      value={demoEspecie}
-                      onChange={setDemoEspecie}
-                      options={[
-                        { value: 'Perro', label: 'Perro', emoji: '🐶' },
-                        { value: 'Gato', label: 'Gato', emoji: '🐱' },
-                        { value: 'Aves', label: 'Aves', emoji: '🦜' },
-                        { value: 'Roedores/Conejos', label: 'Roedores / Conejos', emoji: '🐰' },
-                        { value: 'Otros', label: 'Otros', emoji: '🐾' },
-                      ]}
-                    />
+                  <div className="flex flex-col gap-6">
+                    {/* Tamaño Standard (Formularios y Modales) */}
+                    <div className="flex flex-col gap-2">
+                      <span className="text-[13px] font-bold text-black uppercase tracking-wider">
+                        1. Tamaño Standard (size="default", h-44px) para formularios
+                      </span>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-[680px]">
+                        <Dropdown
+                          label="Especie (Versión con Emoji)*"
+                          value={demoEspecie}
+                          onChange={setDemoEspecie}
+                          options={[
+                            { value: 'Perro', label: 'Perro', emoji: '🐶' },
+                            { value: 'Gato', label: 'Gato', emoji: '🐱' },
+                            { value: 'Aves', label: 'Aves', emoji: '🦜' },
+                            { value: 'Roedores/Conejos', label: 'Roedores / Conejos', emoji: '🐰' },
+                            { value: 'Otros', label: 'Otros', emoji: '🐾' },
+                          ]}
+                        />
 
-                    <Dropdown
-                      label="Condición corporal (Versión texto regular)"
-                      value={demoCondicion}
-                      onChange={setDemoCondicion}
-                      options={['Peso Ideal', 'Delgado', 'Sobrepeso', 'Obesidad']}
-                    />
+                        <Dropdown
+                          label="Condición corporal (Versión texto regular)"
+                          value={demoCondicion}
+                          onChange={setDemoCondicion}
+                          options={['Peso Ideal', 'Delgado', 'Sobrepeso', 'Obesidad']}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Tamaño Compacto (Filtros en barras como Solicitar Chat e Historial) */}
+                    <div className="flex flex-col gap-2 pt-4 border-t border-[#f1f5f9]">
+                      <span className="text-[13px] font-bold text-black uppercase tracking-wider">
+                        2. Tamaño Compacto (size="sm", h-36px) para barras de filtros
+                      </span>
+                      <div className="flex flex-wrap items-center gap-3">
+                        <div className="w-[180px]">
+                          <Dropdown
+                            size="sm"
+                            value="disponible"
+                            onChange={() => {}}
+                            options={[
+                              { value: 'todas', label: 'Disponibilidad: Todas' },
+                              { value: 'disponible', label: 'Disponible ahora' },
+                              { value: 'limitada', label: 'Disponibilidad limitada' },
+                            ]}
+                          />
+                        </div>
+
+                        <div className="w-[180px]">
+                          <Dropdown
+                            size="sm"
+                            value="Medicina General"
+                            onChange={() => {}}
+                            options={[
+                              { value: 'todas', label: 'Especialidad: Todas' },
+                              { value: 'Medicina General', label: 'Medicina General' },
+                              { value: 'Pediatría', label: 'Pediatría' },
+                              { value: 'Nutrición', label: 'Nutrición' },
+                            ]}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </StageBlock>
 
