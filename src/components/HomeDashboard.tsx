@@ -95,6 +95,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
 
   // Top Header Info / Support Dropdown
   const [isHeaderInfoOpen, setIsHeaderInfoOpen] = useState(false);
+  const [addressCopied, setAddressCopied] = useState(false);
 
   // Mobile Drawer & Mobile User Dropdown
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
@@ -416,12 +417,32 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                     </span>
                   </a>
 
-                  {/* Dirección 16 regular */}
-                  <div className="flex items-center gap-3 px-3.5 py-2.5 rounded-[6px] text-black text-left">
-                    <MapPin className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span className="text-[16px] font-normal text-black">
-                      C/ Naciones 10, 28006 Madrid
-                    </span>
+                  {/* Dirección 16 regular con copia al portapapeles y aviso sutil */}
+                  <div
+                    onClick={() => {
+                      if (typeof navigator !== 'undefined' && navigator.clipboard) {
+                        navigator.clipboard.writeText('C/ Naciones 10, 28006 Madrid').catch(() => {});
+                      }
+                      setAddressCopied(true);
+                      setTimeout(() => setAddressCopied(false), 2000);
+                    }}
+                    className="flex items-center justify-between px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black text-left cursor-pointer transition-colors group"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <MapPin className="w-5 h-5 text-[#64748b] shrink-0" />
+                      <span className="text-[16px] font-normal text-black truncate">
+                        C/ Naciones 10, 28006 Madrid
+                      </span>
+                    </div>
+                    {addressCopied ? (
+                      <span className="text-[11px] font-medium text-[#15803d] bg-[#f0fdf4] px-1.5 py-0.5 rounded border border-[#bbf7d0] shrink-0 ml-2 animate-fadeIn">
+                        Copiado
+                      </span>
+                    ) : (
+                      <span className="text-[10px] text-[#94a3b8] opacity-0 group-hover:opacity-80 transition-opacity shrink-0 ml-2">
+                        Copiar
+                      </span>
+                    )}
                   </div>
                 </div>
               )}

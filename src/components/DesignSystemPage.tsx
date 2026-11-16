@@ -730,10 +730,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 1. ActionMenu Unificado */}
                 <StageBlock
-                  title="Menú de Acciones Unificado (2 Únicas Variantes)"
-                  componentTag="<ActionMenu />"
+                  title="Menú de Acciones Unificado (MenuAcciones / ActionMenu)"
+                  componentTag="<MenuAcciones />"
                   usedIn={['Header (+)', 'Header Soporte', 'Header Usuario', 'Sidebar', 'Biometría', 'Tablas Familiares/Mascotas']}
-                  description="Unifica todos los menús desplegables de la app en un solo componente con 2 variantes: 'solicitar-cita' (iconos rosas + mayúsculas bold) y 'standard' (icono neutro #64748b a la izquierda + texto 16px regular negro + hover neutro #f1f5f9)."
+                  description="Unifica todos los menús desplegables de la app con el mismo ancho (280px), mismo espaciado (gap-1, padding 10px), mismo tamaño de texto (16px normal) e iconos uniformes (w-5 h-5). En Variante 1 los iconos son color rosa y el texto en mayúsculas; en Variante 2 los iconos son neutros. Al hacer clic en la dirección en Variante 2, se copia automáticamente al portapapeles con un aviso sutil."
                 >
                   <div className="flex flex-wrap items-start gap-8">
                     {/* Variante 1: Solicitar una cita */}
@@ -743,7 +743,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       </span>
                       <ActionMenu
                         variant="solicitar-cita"
-                        className="w-[215px]"
+                        className="w-[280px]"
                         items={[
                           {
                             id: 'video',
@@ -766,7 +766,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       </span>
                       <ActionMenu
                         variant="standard"
-                        className="w-[260px]"
+                        className="w-[280px]"
                         items={[
                           { id: '1', label: 'Solicitar una cita', icon: <Calendar className="w-5 h-5" /> },
                           { id: '2', label: 'Solicitar una videoconsulta', icon: <Video className="w-5 h-5" /> },
@@ -788,7 +788,12 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         items={[
                           { id: 'mail', label: 'soporte@everhealth.es', icon: <Mail className="w-5 h-5" /> },
                           { id: 'tel', label: '911 23 12 14', icon: <Phone className="w-5 h-5" /> },
-                          { id: 'loc', label: 'C/ Naciones 10, 28006 Madrid', icon: <MapPin className="w-5 h-5" /> },
+                          {
+                            id: 'loc',
+                            label: 'C/ Naciones 10, 28006 Madrid',
+                            icon: <MapPin className="w-5 h-5" />,
+                            copyable: true,
+                          },
                         ]}
                       />
                     </div>
