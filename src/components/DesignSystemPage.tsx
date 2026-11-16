@@ -464,10 +464,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* 3. Botones Oficiales */}
                 <StageBlock
-                  title="Botones Estándar Figma & Píldoras de Consulta"
+                  title="Botones Estándar & Operaciones de Consulta"
                   componentTag="<Button />"
                   usedIn={['Home', 'Historial de Consultas', 'Familiares', 'Mascotas', 'Modales']}
-                  description="Variantes estándar de 8px en mayúsculas y variantes píldora (rounded-full) de Historial de Consultas. El estado 'inactive' incluye automáticamente el tooltip estilo Shadcn ('Activo 15 minutos antes')."
+                  description="Botones con radio estándar homologado de 8px (cuadrados). Incluye acciones primarias, secundarias, de consulta ('Acceder a la consulta', 'Cancelar consulta', 'Ver conversación' con borde gris claro #cbd5e1) y acción destructiva ('Dar de baja'). El estado 'inactive' incluye automáticamente el tooltip estilo Shadcn ('Activo 15 minutos antes')."
                 >
                   <div className="flex flex-col gap-6">
                     <div className="flex flex-wrap items-center gap-3">
@@ -491,7 +491,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     <div className="flex flex-wrap items-center gap-3">
                       <Button variant="pill-primary">Acceder a la consulta</Button>
                       <Button variant="pill-outline">Cancelar consulta</Button>
-                      <Button variant="pill-purple">Ver conversación</Button>
+                      <Button variant="pill-outline">Ver conversación</Button>
                       <Button variant="destructive">Dar de baja</Button>
                     </div>
                   </div>

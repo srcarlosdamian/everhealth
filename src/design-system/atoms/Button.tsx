@@ -5,6 +5,8 @@ export type ButtonVariant =
   | 'secondary'
   | 'outline'
   | 'inactive'
+  | 'consulta-primary'
+  | 'consulta-outline'
   | 'pill-primary'
   | 'pill-outline'
   | 'pill-purple'
@@ -41,14 +43,18 @@ export const Button: React.FC<ButtonProps> = ({
         return 'px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#d50475] bg-transparent text-[#d50475] text-[14px] leading-[20px] font-bold uppercase';
       case 'outline':
         return 'px-[12px] py-[4px] rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white text-black text-[14px] leading-[20px] font-bold uppercase';
+      case 'consulta-primary':
       case 'pill-primary':
-        return 'h-[38px] px-6 rounded-full bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold shadow-xs';
+        // Acceder a la consulta: cuadrado (rounded-[8px]), magenta primario
+        return 'h-[38px] px-5 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold shadow-xs';
+      case 'consulta-outline':
       case 'pill-outline':
-        return 'h-[38px] px-6 rounded-full border border-black hover:bg-[#f8fafc] bg-white text-black text-[13px] font-bold';
       case 'pill-purple':
-        return 'h-[38px] px-6 rounded-full border border-[#4a154b] text-[#4a154b] hover:bg-[#faf5ff] bg-white text-[13px] font-bold';
+        // Cancelar consulta & Ver conversación: cuadrados (rounded-[8px]), borde gris claro #cbd5e1 y texto negro
+        return 'h-[38px] px-5 rounded-[8px] border border-[#cbd5e1] hover:bg-[#f8fafc] hover:border-[#94a3b8] bg-white text-black text-[13px] font-bold';
       case 'destructive':
-        return 'px-4 h-[38px] rounded-[6px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold uppercase shadow-xs';
+        // Dar de baja: mismo formato cuadrado (rounded-[8px]), altura h-[38px] y tipografía
+        return 'h-[38px] px-5 rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold shadow-xs';
       case 'ghost':
         return 'px-2.5 py-1.5 rounded-[6px] bg-transparent hover:bg-[#f1f5f9] text-black text-[13px] font-medium';
       default:
