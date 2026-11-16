@@ -4,6 +4,7 @@ import { Dropdown } from '../design-system/atoms/Dropdown';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
 import { Checkbox } from '../design-system/atoms/Checkbox';
 import { Radio } from '../design-system/atoms/Radio';
+import { Button } from '../design-system/atoms/Button';
 import { CalendarMonthGrid } from '../design-system/molecules/CalendarMonthGrid';
 import { SelectedAppointmentBanner } from '../design-system/molecules/SelectedAppointmentBanner';
 
@@ -24,8 +25,9 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
 
   const isStep1Done = motivo.trim().length > 0;
   const isStep2Done = Boolean(selectedSpecialty);
-  const isStep3Done = Boolean(selectedDay && selectedTime);
-  const isFullyComplete = isStep1Done && isStep2Done && isStep3Done;
+  const isStep3Done = Boolean(tipoConsulta && zonaHoraria);
+  const isStep4Done = Boolean(selectedDay && selectedTime);
+  const isFullyComplete = isStep1Done && isStep2Done && isStep3Done && isStep4Done;
 
   const specialties = [
     'Psicología',
@@ -47,7 +49,6 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
         onClick={(e) => e.stopPropagation()}
         className="relative w-full max-w-[660px] bg-white rounded-[12px] shadow-2xl p-6 sm:p-[28px] my-8 flex flex-col gap-[20px] max-h-[90vh] overflow-y-auto cursor-default"
       >
-        
         {/* Header */}
         <div className="flex items-center justify-between pb-[16px] border-b border-[#e2e8f0]">
           <h2 className="text-[22px] leading-[28px] font-bold text-black">
@@ -62,36 +63,25 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
           </button>
         </div>
 
-        {/* Form Body with Stepper Column (Checks 900 + Vertical Divider Line) */}
-        <div className="flex gap-[16px]">
+        {/* Descripción general debajo de la línea divisoria superior */}
+        <p className="text-[13.5px] leading-[20px] text-[#64748b] -mt-2">
+          Completa los datos y el motivo de tu consulta para programar y confirmar tu cita médica.
+        </p>
+
+        {/* Form Body con Stepper vertical de exactamente 4 pasos */}
+        <div className="flex flex-col">
           
-          {/* Stepper Track */}
-          <div className="flex flex-col items-center pt-1 shrink-0 w-[28px]">
-            {/* Step 1 Check */}
-            <StepperCheck isCompleted={isStep1Done} />
-
-            {/* Vertical connector line 1 */}
-            <div className={`w-[2px] flex-1 min-h-[140px] my-1 transition-colors ${
-              isStep1Done ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
-            }`} />
-
-            {/* Step 2 Check */}
-            <StepperCheck isCompleted={isStep2Done} />
-
-            {/* Vertical connector line 2 */}
-            <div className={`w-[2px] flex-1 min-h-[200px] my-1 transition-colors ${
-              isStep2Done ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
-            }`} />
-
-            {/* Step 3 Check */}
-            <StepperCheck isCompleted={isStep3Done} />
-          </div>
-
-          {/* Steps Content */}
-          <div className="flex-1 flex flex-col gap-[28px]">
-            
-            {/* Step 1: Motivo de la consulta */}
-            <div className="flex flex-col gap-[8px]">
+          {/* PASO 1: Motivo de la consulta */}
+          <div className="flex gap-[16px]">
+            <div className="flex flex-col items-center shrink-0 w-[28px]">
+              <StepperCheck isCompleted={isStep1Done} />
+              <div
+                className={`w-[2px] flex-1 min-h-[30px] my-1 transition-colors ${
+                  isStep1Done ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
+                }`}
+              />
+            </div>
+            <div className="flex-1 pb-6 flex flex-col gap-[8px]">
               <label className="text-[14px] font-normal text-black leading-tight">
                 Motivo de la consulta<span className="text-[#d50475]">*</span>
               </label>
@@ -103,9 +93,19 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                 className="w-full p-3.5 rounded-[8px] border border-[#cbd5e1] text-[16px] text-black font-normal bg-white focus:outline-none focus:border-black hover:border-[#475569] transition-colors"
               />
             </div>
+          </div>
 
-            {/* Step 2: Especialidad requerida */}
-            <div className="flex flex-col gap-[14px]">
+          {/* PASO 2: Especialidad requerida */}
+          <div className="flex gap-[16px]">
+            <div className="flex flex-col items-center shrink-0 w-[28px]">
+              <StepperCheck isCompleted={isStep2Done} />
+              <div
+                className={`w-[2px] flex-1 min-h-[30px] my-1 transition-colors ${
+                  isStep2Done ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
+                }`}
+              />
+            </div>
+            <div className="flex-1 pb-6 flex flex-col gap-[12px]">
               <div className="flex flex-col">
                 <label className="text-[14px] font-normal text-black leading-tight">
                   Especialidad requerida<span className="text-[#d50475]">*</span>
@@ -130,8 +130,30 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                   </button>
                 ))}
               </div>
+            </div>
+          </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          {/* PASO 3: Tipo de consulta y zona horaria */}
+          <div className="flex gap-[16px]">
+            <div className="flex flex-col items-center shrink-0 w-[28px]">
+              <StepperCheck isCompleted={isStep3Done} />
+              <div
+                className={`w-[2px] flex-1 min-h-[30px] my-1 transition-colors ${
+                  isStep3Done ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
+                }`}
+              />
+            </div>
+            <div className="flex-1 pb-6 flex flex-col gap-[10px]">
+              <div className="flex flex-col">
+                <label className="text-[14px] font-normal text-black leading-tight">
+                  Tipo de consulta y zona horaria
+                </label>
+                <span className="text-[12px] text-[#64748b] mt-0.5">
+                  Define la modalidad y el huso horario para tu atención
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-0.5">
                 <Dropdown
                   label="Tipo de consulta"
                   value={tipoConsulta}
@@ -147,12 +169,17 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                 />
               </div>
             </div>
+          </div>
 
-            {/* Step 3: Horario disponible (Calendar + slots) */}
-            <div className="flex flex-col gap-[12px]">
+          {/* PASO 4: Horario disponible (Último paso del stepper) */}
+          <div className="flex gap-[16px]">
+            <div className="flex flex-col items-center shrink-0 w-[28px]">
+              <StepperCheck isCompleted={isStep4Done} />
+            </div>
+            <div className="flex-1 flex flex-col gap-[12px]">
               <div className="flex flex-col">
-                <span className="text-[15px] font-bold text-black">Horario disponible</span>
-                <span className="text-[13px] text-[#64748b]">Selecciona el día y horario</span>
+                <span className="text-[14px] font-normal text-black leading-tight">Horario disponible</span>
+                <span className="text-[12px] text-[#64748b] mt-0.5">Selecciona el día y horario</span>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 items-start">
@@ -182,41 +209,26 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                   ))}
                 </div>
               </div>
+
+              {/* Banner Homologado de Cita Seleccionada */}
+              <SelectedAppointmentBanner
+                dateText={`Sábado ${selectedDay} de Octubre`}
+                timeText={`${selectedTime} hrs`}
+              />
             </div>
-
-            {/* Banner Homologado de Cita Seleccionada */}
-            <SelectedAppointmentBanner
-              dateText={`Sábado ${selectedDay} de Octubre`}
-              timeText={`${selectedTime} hrs`}
-            />
-
-            {/* Confirm button (Blocked visual state if not complete, but interactive prototype) */}
-            <div className="flex items-center justify-between pt-2 border-t border-[#f1f5f9]">
-              {!isFullyComplete ? (
-                <span className="text-[12px] text-[#94a3b8] italic">
-                  * Completa el motivo de la consulta para activar tu cita
-                </span>
-              ) : (
-                <span className="text-[12px] text-[#166534] font-medium flex items-center gap-1">
-                  <Check className="w-3.5 h-3.5" /> Todos los pasos completados
-                </span>
-              )}
-
-              <button
-                type="button"
-                onClick={onClose}
-                className={`h-[40px] px-6 rounded-[8px] text-[14px] font-bold transition-all cursor-pointer ${
-                  isFullyComplete
-                    ? 'bg-[#d50475] hover:bg-[#b80364] text-white shadow-xs'
-                    : 'bg-[#cbd5e1] text-[#64748b] hover:bg-[#94a3b8] hover:text-white'
-                }`}
-                title={!isFullyComplete ? 'Prototipo: Puedes pulsar para confirmar' : 'Confirmar cita'}
-              >
-                Confirmar cita
-              </button>
-            </div>
-
           </div>
+
+        </div>
+
+        {/* Footer de confirmación: NO es un paso del stepper */}
+        <div className="flex items-center justify-end pt-3 border-t border-[#f1f5f9]">
+          <Button
+            variant="primary"
+            onClick={onClose}
+            className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px] shadow-xs"
+          >
+            Confirmar cita
+          </Button>
         </div>
 
       </div>
