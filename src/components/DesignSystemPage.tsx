@@ -1276,7 +1276,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       <span className="text-[12px] font-bold uppercase tracking-wider text-black">
                         Catálogo de Mensajes Toast del Sistema
                       </span>
-                      <div className="w-full border border-[#e2e8f0] rounded-[8px] overflow-x-auto bg-white">
+                      <div className="w-full border border-[#e2e8f0] rounded-none overflow-x-auto bg-white">
                         <table className="w-full text-left text-[12px] border-collapse bg-white">
                           <thead>
                             <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
@@ -1782,7 +1782,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     </div>
 
                     {/* Tabla comparativa técnica */}
-                    <div className="mt-2 border border-[#e2e8f0] rounded-[8px] overflow-hidden bg-white">
+                    <div className="mt-2 border border-[#e2e8f0] rounded-none overflow-hidden bg-white">
                       <table className="w-full text-left text-[12px] border-collapse bg-white">
                         <thead>
                           <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
@@ -2383,10 +2383,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   title="Tabla en Modales (Documentos Médicos)"
                   componentTag="<table className='w-full text-left border-collapse text-[13px] bg-white'>"
                   usedIn={['ModalDocumentos', 'Historia Clínica']}
-                  description="Variante modal 100% homologada con el patrón maestro de Familiares: cabecera blanca, títulos en mayúsculas, líneas divisorias grises (border-r y divide-y #e2e8f0) y esquinas redondeadas de 8px."
+                  description="Variante modal 100% homologada con el patrón maestro de Familiares: cabecera blanca, títulos en mayúsculas, líneas divisorias grises (border-r y divide-y #e2e8f0) y esquinas rectas sin redondear (rounded-none)."
                 >
                   <div className="flex flex-col gap-4">
-                    <div className="border border-[#e2e8f0] rounded-[8px] overflow-visible bg-white">
+                    <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-visible">
                       <table className="w-full text-left border-collapse text-[13px] bg-white">
                         <thead>
                           <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
@@ -2500,7 +2500,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 >
                   <div className="flex flex-col gap-6">
                     {/* Tabla comparativa técnica */}
-                    <div className="w-full border border-[#e2e8f0] rounded-[8px] overflow-x-auto bg-white">
+                    <div className="w-full border border-[#e2e8f0] rounded-none overflow-x-auto bg-white">
                       <table className="w-full text-left text-[12px] border-collapse bg-white">
                         <thead>
                           <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
@@ -2523,10 +2523,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               rounded-none
                             </td>
                             <td className="py-2.5 px-3.5 font-mono text-[11px] border-r border-[#e2e8f0]">
-                              rounded-[8px]
+                              rounded-none
                             </td>
                             <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
-                              ✓ HOMOLOGADO: En páginas completas se utiliza rounded-none, y en modales rounded-[8px] adaptado al contenedor del diálogo.
+                              ✓ HOMOLOGADO: Todas las tablas del sistema utilizan esquinas rectas sin redondear (`rounded-none`), eliminando cortes visuales en las esquinas y garantizando un marco nítido y consistente en páginas y modales.
                             </td>
                           </tr>
 

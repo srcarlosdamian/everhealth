@@ -175,7 +175,7 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
         </div>
 
         {/* Documents Table en Desktop / Cards en Mobile */}
-        <div className="border border-[#e2e8f0] rounded-[8px] overflow-visible bg-white">
+        <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-visible">
           <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left border-collapse text-[13px] bg-white">
             <thead>
