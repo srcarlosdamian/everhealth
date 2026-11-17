@@ -159,14 +159,14 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                     key={spec}
                     type="button"
                     onClick={() => setSelectedSpecialty(spec)}
-                    className={`h-[42px] px-3.5 rounded-[8px] border text-[14px] flex items-center justify-between transition-colors cursor-pointer ${
+                    className={`h-[42px] px-3.5 rounded-none border text-[14px] flex items-center gap-3 transition-colors cursor-pointer ${
                       selectedSpecialty === spec
-                        ? 'border-black bg-[#f1f5f9] text-black font-semibold'
-                        : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black font-normal'
+                        ? 'border-[#cbd5e1] bg-[#f8fafc] text-black font-semibold'
+                        : 'border-[#e2e8f0] hover:bg-[#f8fafc] hover:border-[#cbd5e1] bg-white text-black font-normal'
                     }`}
                   >
-                    <span>{spec}</span>
                     <Radio checked={selectedSpecialty === spec} size="sm" />
+                    <span>{spec}</span>
                   </button>
                 ))}
               </div>

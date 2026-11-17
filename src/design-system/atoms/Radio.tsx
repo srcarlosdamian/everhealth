@@ -16,9 +16,9 @@ export interface RadioProps {
  * Átomo Radio / Radial Homologado del Sistema de Diseño (Selección Única / Exclusiva):
  * - Forma circular (rounded-full).
  * - Tamaño estándar 'md' (20px) y compacto 'sm' (16px).
- * - Estado desmarcado: borde gris claro #cbd5e1, fondo blanco (hover: border-black).
- * - Estado marcado: borde negro neutral, punto central negro sólido (bg-black).
- * - Sin colores rosas; apariencia neutral y profesional.
+ * - Estado desmarcado: borde gris claro #cbd5e1, fondo blanco (hover: border-[#94a3b8]).
+ * - Estado marcado: borde rosa CTA #d50475, fondo blanco, punto central rosa CTA #d50475.
+ * - Los contenedores padre de selección en tarjetas son cuadrados (rounded-none).
  */
 export const Radio: React.FC<RadioProps> = ({
   checked = false,
@@ -61,11 +61,11 @@ export const Radio: React.FC<RadioProps> = ({
         }}
         className={`${outerSize} rounded-full border flex items-center justify-center transition-all shrink-0 ${
           checked
-            ? 'border-black bg-white shadow-xs'
-            : 'border-[#cbd5e1] hover:border-black bg-white'
+            ? 'border-[#d50475] bg-white shadow-2xs'
+            : 'border-[#cbd5e1] hover:border-[#94a3b8] bg-white'
         }`}
       >
-        {checked && <div className={`${innerDotSize} rounded-full bg-black shrink-0`} />}
+        {checked && <div className={`${innerDotSize} rounded-full bg-[#d50475] shrink-0`} />}
       </div>
       {label && <span className="text-[14px] text-black leading-tight">{label}</span>}
     </div>

@@ -357,10 +357,10 @@ export const Biometria: React.FC<BiometriaProps> = ({
                         <div
                           key={opt.id}
                           onClick={() => setDiabetes(opt.id)}
-                          className={`p-3.5 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
+                          className={`p-3.5 rounded-none border transition-all cursor-pointer flex items-center gap-3 select-none ${
                             isSelected
-                              ? 'border-black bg-[#f8fafc] shadow-xs'
-                              : 'border-[#cbd5e1] hover:border-black bg-white'
+                              ? 'border-[#cbd5e1] bg-[#f8fafc] shadow-xs'
+                              : 'border-[#e2e8f0] hover:border-[#cbd5e1] hover:bg-[#f8fafc] bg-white'
                           }`}
                         >
                           <Radio checked={isSelected} size="md" />
@@ -384,10 +384,10 @@ export const Biometria: React.FC<BiometriaProps> = ({
                         <div
                           key={opt.id}
                           onClick={() => setFuma(opt.id)}
-                          className={`p-3.5 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
+                          className={`p-3.5 rounded-none border transition-all cursor-pointer flex items-center gap-3 select-none ${
                             isSelected
-                              ? 'border-black bg-[#f8fafc] shadow-xs'
-                              : 'border-[#cbd5e1] hover:border-black bg-white'
+                              ? 'border-[#cbd5e1] bg-[#f8fafc] shadow-xs'
+                              : 'border-[#e2e8f0] hover:border-[#cbd5e1] hover:bg-[#f8fafc] bg-white'
                           }`}
                         >
                           <Radio checked={isSelected} size="md" />
@@ -413,10 +413,10 @@ export const Biometria: React.FC<BiometriaProps> = ({
                         <div
                           key={opt.id}
                           onClick={() => setMedicacionPresion(opt.id)}
-                          className={`p-3.5 rounded-[8px] border transition-all cursor-pointer flex items-center gap-3 select-none ${
+                          className={`p-3.5 rounded-none border transition-all cursor-pointer flex items-center gap-3 select-none ${
                             isSelected
-                              ? 'border-black bg-[#f8fafc] shadow-xs'
-                              : 'border-[#cbd5e1] hover:border-black bg-white'
+                              ? 'border-[#cbd5e1] bg-[#f8fafc] shadow-xs'
+                              : 'border-[#e2e8f0] hover:border-[#cbd5e1] hover:bg-[#f8fafc] bg-white'
                           }`}
                         >
                           <Radio checked={isSelected} size="md" />

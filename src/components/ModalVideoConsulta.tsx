@@ -119,14 +119,14 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                     key={spec}
                     type="button"
                     onClick={() => setSelectedSpecialty(spec)}
-                    className={`h-[42px] px-3.5 rounded-[8px] border flex items-center justify-between cursor-pointer transition-colors text-left ${
+                    className={`h-[42px] px-3.5 rounded-none border flex items-center gap-3 cursor-pointer transition-colors text-left ${
                       selectedSpecialty === spec
-                        ? 'border-black bg-[#f1f5f9] text-black font-semibold'
-                        : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black font-normal'
+                        ? 'border-[#cbd5e1] bg-[#f8fafc] text-black font-semibold'
+                        : 'border-[#e2e8f0] hover:bg-[#f8fafc] hover:border-[#cbd5e1] bg-white text-black font-normal'
                     }`}
                   >
-                    <span className="text-[15px]">{spec}</span>
                     <Radio checked={selectedSpecialty === spec} size="sm" />
+                    <span className="text-[14px]">{spec}</span>
                   </button>
                 ))}
               </div>

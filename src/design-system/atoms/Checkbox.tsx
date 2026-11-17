@@ -12,11 +12,11 @@ export interface CheckboxProps {
 }
 
 /**
- * Átomo Checkbox homologado del Sistema de Diseño (Estilo Biometría Neutral):
- * - Caja cuadrada con esquinas ligeramente redondeadas (rounded-[4px]).
- * - Estado desmarcado: fondo blanco, borde gris claro #cbd5e1 (hover: border-black).
- * - Estado marcado: fondo negro neutral (bg-black), borde negro (border-black), icono Check blanco centrado.
- * - Sin colores rosas para mantener una apariencia neutral y profesional.
+ * Átomo Checkbox homologado del Sistema de Diseño:
+ * - Caja con esquinas suaves (rounded-[3px] en sm, rounded-[4px] en md).
+ * - Estado desmarcado: fondo blanco/transparente, borde gris claro #cbd5e1 (hover: border-[#94a3b8]).
+ * - Estado marcado: fondo rosa CTA #d50475, borde rosa CTA #d50475, icono Check blanco centrado.
+ * - Los contenedores padre de selección en tarjetas son cuadrados (rounded-none).
  */
 export const Checkbox: React.FC<CheckboxProps> = ({
   checked = false,
@@ -29,7 +29,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 }) => {
   const boxClasses =
     size === 'sm'
-      ? 'w-4 h-4 rounded-[4px]'
+      ? 'w-4 h-4 rounded-[3px]'
       : 'w-5 h-5 rounded-[4px]';
 
   const iconClasses =
@@ -64,8 +64,8 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         }}
         className={`${boxClasses} border flex items-center justify-center transition-all shrink-0 ${
           checked
-            ? 'bg-black border-black text-white shadow-xs'
-            : 'bg-white border-[#cbd5e1] hover:border-black text-transparent'
+            ? 'bg-[#d50475] border-[#d50475] text-white shadow-2xs'
+            : 'bg-white border-[#cbd5e1] hover:border-[#94a3b8] text-transparent'
         }`}
       >
         {checked && <Check className={`${iconClasses} text-white`} />}

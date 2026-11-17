@@ -907,7 +907,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   title="Checkbox & Radio"
                   componentTag="<Checkbox /> / <Radio />"
                   usedIn={['Biometría', 'Modales de Consulta', 'Login', 'Cuestionario Médico']}
-                  description="Controles de selección múltiple (cuadrados) y única (radiales) con foco negro."
+                  description="Controles de selección múltiple (cuadrados) y única (radiales) con acento rosa CTA y contenedores de tarjeta cuadrados (rounded-none)."
                 >
                   <div className="flex flex-col gap-8">
                     {/* PARTE A: Checkboxes Cuadrados (Selección Múltiple) */}
@@ -945,14 +945,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                                       : [...prev, sintoma]
                                   );
                                 }}
-                                className={`h-[44px] px-4 rounded-[8px] border flex items-center justify-between cursor-pointer transition-colors select-none ${
+                                className={`h-[44px] px-3.5 rounded-none border flex items-center gap-3 cursor-pointer transition-colors select-none ${
                                   isChecked
-                                    ? 'border-black bg-[#f8fafc] text-black font-semibold'
-                                    : 'border-[#cbd5e1] hover:border-[#94a3b8] bg-white text-black font-normal'
+                                    ? 'border-[#cbd5e1] bg-[#f8fafc] text-black font-semibold'
+                                    : 'border-[#e2e8f0] hover:bg-[#f8fafc] hover:border-[#cbd5e1] bg-white text-black font-normal'
                                 }`}
                               >
-                                <span className="text-[14px]">{sintoma}</span>
                                 <Checkbox checked={isChecked} size="sm" />
+                                <span className="text-[14px]">{sintoma}</span>
                               </div>
                             );
                           })}
@@ -991,14 +991,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               <div
                                 key={opt}
                                 onClick={() => setDemoRadioSpecialty(opt)}
-                                className={`h-[44px] px-4 rounded-[8px] border flex items-center justify-between cursor-pointer transition-colors select-none ${
+                                className={`h-[44px] px-3.5 rounded-none border flex items-center gap-3 cursor-pointer transition-colors select-none ${
                                   isSel
-                                    ? 'border-black bg-[#f8fafc] text-black font-semibold'
-                                    : 'border-[#cbd5e1] hover:border-[#94a3b8] bg-white text-black font-normal'
+                                    ? 'border-[#cbd5e1] bg-[#f8fafc] text-black font-semibold'
+                                    : 'border-[#e2e8f0] hover:bg-[#f8fafc] hover:border-[#cbd5e1] bg-white text-black font-normal'
                                 }`}
                               >
-                                <span className="text-[14px]">{opt}</span>
                                 <Radio checked={isSel} size="sm" />
+                                <span className="text-[14px]">{opt}</span>
                               </div>
                             );
                           })}

@@ -526,8 +526,8 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                           prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
                         );
                       }}
-                      className={`p-3 rounded-[6px] border flex items-center gap-2.5 cursor-pointer text-[14px] text-black font-medium transition-colors select-none ${
-                        isChecked ? 'border-black bg-[#f8fafc]' : 'border-[#cbd5e1] hover:border-[#475569] bg-white'
+                      className={`p-3 rounded-none border flex items-center gap-2.5 cursor-pointer text-[14px] text-black font-medium transition-colors select-none ${
+                        isChecked ? 'border-[#cbd5e1] bg-[#f8fafc]' : 'border-[#e2e8f0] hover:border-[#cbd5e1] hover:bg-[#f8fafc] bg-white'
                       }`}
                     >
                       <Checkbox checked={isChecked} size="sm" />
@@ -618,8 +618,8 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                           prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
                         );
                       }}
-                      className={`p-3.5 rounded-[8px] border flex items-center gap-3 cursor-pointer text-[14px] text-black font-medium transition-colors select-none ${
-                        isChecked ? 'border-black bg-[#f8fafc]' : 'border-[#cbd5e1] hover:border-[#475569] bg-white'
+                      className={`p-3.5 rounded-none border flex items-center gap-3 cursor-pointer text-[14px] text-black font-medium transition-colors select-none ${
+                        isChecked ? 'border-[#cbd5e1] bg-[#f8fafc]' : 'border-[#e2e8f0] hover:border-[#cbd5e1] hover:bg-[#f8fafc] bg-white'
                       }`}
                     >
                       <Checkbox checked={isChecked} size="sm" />
