@@ -6,6 +6,7 @@ import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { ProgressCheckCircle } from '../design-system/atoms/ProgressCheckCircle';
 import { AutosaveIndicator } from '../design-system/atoms/AutosaveIndicator';
 import { Checkbox } from '../design-system/atoms/Checkbox';
+import { Dropdown } from '../design-system/atoms/Dropdown';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 import { CompletionMedalIllustration } from '../design-system/atoms/CompletionMedalIllustration';
 import { MisDocumentosMedicos } from './MisDocumentosMedicos';
@@ -30,6 +31,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
   const [hasSustancias, setHasSustancias] = useState<'si' | 'no'>('no');
   const [selectedSustancias, setSelectedSustancias] = useState<string[]>(['Alcohol']);
   const [hasAlimentacion, setHasAlimentacion] = useState<'si' | 'no'>('no');
+  const [situacionAlimentacion, setSituacionAlimentacion] = useState('Apetito disminuido');
   const [hasEmocional, setHasEmocional] = useState<'si' | 'no'>('no');
   const [selectedTraumas, setSelectedTraumas] = useState<string[]>([]);
 
@@ -190,12 +192,12 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
             <div className="flex items-center justify-between">
               {/* Step Pill Dropdown con navegación no lineal */}
               <div className="relative inline-block">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   <span className="text-[13px] font-bold text-black uppercase tracking-wider">PASO {step}/8</span>
                   <button
                     type="button"
                     onClick={() => setIsStepsDropdownOpen(!isStepsDropdownOpen)}
-                    className="inline-flex items-center gap-1.5 px-[10px] py-[3px] rounded-[6px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-transparent text-black text-[12px] font-bold uppercase transition-colors cursor-pointer select-none"
+                    className="inline-flex items-center gap-2 px-3 py-1 rounded-[6px] border border-[#cbd5e1] hover:border-black active:border-black bg-white text-black text-[12px] font-bold uppercase transition-colors cursor-pointer select-none"
                   >
                     <span>{stepsInfo[step - 1]}</span>
                     <ChevronDown className={`w-3.5 h-3.5 text-black transition-transform duration-200 ${isStepsDropdownOpen ? 'rotate-180' : ''}`} />
@@ -268,7 +270,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                     value={peso}
                     onChange={(e) => setPeso(e.target.value)}
                     placeholder="Ingresa tu peso"
-                    className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                    className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
@@ -278,7 +280,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                     value={altura}
                     onChange={(e) => setAltura(e.target.value)}
                     placeholder="Ingresa tu altura"
-                    className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                    className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
                   />
                 </div>
                 <div className="flex flex-col gap-1">
@@ -288,7 +290,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                     readOnly
                     value={calculateIMC()}
                     placeholder="Cálculo del peso y la altura"
-                    className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] bg-[#f8fafc] text-[14px] text-black"
+                    className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] text-[14px] text-black"
                   />
                 </div>
               </div>
@@ -306,35 +308,35 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
                   <label className="text-[14px] text-black">Tensión arterial (mmHg)</label>
-                  <input placeholder="Ingresa tu presión sistólica y diastólica" className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]" />
+                  <input placeholder="Ingresa tu presión sistólica y diastólica" className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[14px] text-black">Glucosa (mg/dl)</label>
-                  <input placeholder="Ingresa tu nivel de glucosa" className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]" />
+                  <input placeholder="Ingresa tu nivel de glucosa" className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[14px] text-black">Hemoglobina glicosilada (%)</label>
-                  <input placeholder="Ingresa tu porcentaje de HbA1c" className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]" />
+                  <input placeholder="Ingresa tu porcentaje de HbA1c" className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[14px] text-black">Colesterol LDL (mg/dl)</label>
-                  <input placeholder="Ingresa tu nivel de colesterol LDL" className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]" />
+                  <input placeholder="Ingresa tu nivel de colesterol LDL" className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[14px] text-black">Colesterol HDL (mg/dl)</label>
-                  <input placeholder="Ingresa tu nivel de colesterol HDL" className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]" />
+                  <input placeholder="Ingresa tu nivel de colesterol HDL" className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[14px] text-black">Triglicéridos (mg/dl)</label>
-                  <input placeholder="Ingresa tu nivel de triglicéridos" className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]" />
+                  <input placeholder="Ingresa tu nivel de triglicéridos" className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[14px] text-black">Creatinina (mg/dl)</label>
-                  <input placeholder="Ingresa tu nivel de creatinina" className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]" />
+                  <input placeholder="Ingresa tu nivel de creatinina" className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors" />
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-[14px] text-black">Hemoglobina (g/dl)</label>
-                  <input placeholder="Ingresa tu nivel de hemoglobina" className="h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]" />
+                  <input placeholder="Ingresa tu nivel de hemoglobina" className="h-[44px] px-3.5 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors" />
                 </div>
               </div>
             </div>
@@ -362,7 +364,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 <textarea
                   rows={3}
                   placeholder="Indica los alimentos que te causan alergia y la reacción que presentas."
-                  className="w-full p-3 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
                 />
               </div>
 
@@ -371,7 +373,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 <textarea
                   rows={3}
                   placeholder="Indica los medicamentos que te causan alergia y la reacción que presentas."
-                  className="w-full p-3 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
                 />
               </div>
 
@@ -380,7 +382,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 <textarea
                   rows={3}
                   placeholder="Indica otras sustancias que te causan alergia, como polen, ácaros o látex, y la reacción que presentas."
-                  className="w-full p-3 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
                 />
               </div>
             </div>
@@ -464,7 +466,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 <textarea
                   rows={4}
                   placeholder="Indica el tipo de intervención y la fecha aproximada. Si hubo complicaciones, descríbelas."
-                  className="w-full p-3 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
                 />
               </div>
             </div>
@@ -492,7 +494,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 <textarea
                   rows={4}
                   placeholder="Indica el nombre de cada medicamento, la dosis y la frecuencia con la que lo tomas."
-                  className="w-full p-3 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
                 />
               </div>
             </div>
@@ -542,7 +544,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 <textarea
                   rows={4}
                   placeholder="Indica la cantidad y la frecuencia de consumo de cada sustancia seleccionada."
-                  className="w-full p-3 rounded-[6px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-[#d50475]"
+                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
                 />
               </div>
             </div>
@@ -565,15 +567,18 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-[14px] font-medium text-black">¿Cuál es tu situación?</label>
-                <select className="w-full h-[44px] px-3.5 rounded-[6px] border border-[#cbd5e1] text-[14px] text-[#64748b] bg-white">
-                  <option>Selecciona una opción</option>
-                  <option>Dieta equilibrada</option>
-                  <option>Apetito disminuido</option>
-                  <option>Restricción de gluten/lactosa</option>
-                  <option>Trastorno de la conducta alimentaria</option>
-                </select>
+              <div className="max-w-[480px]">
+                <Dropdown
+                  label="¿Cuál es tu situación?"
+                  value={situacionAlimentacion}
+                  onChange={setSituacionAlimentacion}
+                  options={[
+                    'Dieta equilibrada',
+                    'Apetito disminuido',
+                    'Restricción de gluten/lactosa',
+                    'Trastorno de la conducta alimentaria',
+                  ]}
+                />
               </div>
             </div>
           )}

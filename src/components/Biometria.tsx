@@ -6,6 +6,7 @@ import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 import { Checkbox } from '../design-system/atoms/Checkbox';
 import { Radio } from '../design-system/atoms/Radio';
 import { TextInput } from '../design-system/atoms/TextInput';
+import { Dropdown } from '../design-system/atoms/Dropdown';
 import { Button } from '../design-system/atoms/Button';
 import { HelpCenter } from './HelpCenter';
 
@@ -322,21 +323,12 @@ export const Biometria: React.FC<BiometriaProps> = ({
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-1.5">
-                    <label className="text-[14px] font-normal text-black leading-tight">Sexo al nacer</label>
-                    <div className="relative">
-                      <select
-                        value={sexo}
-                        onChange={(e) => setSexo(e.target.value)}
-                        className="w-full h-[44px] px-4 pr-10 rounded-[8px] border border-[#cbd5e1] text-[15px] text-black bg-white focus:outline-none focus:border-black appearance-none cursor-pointer transition-colors"
-                      >
-                        <option value="Masculino">Masculino</option>
-                        <option value="Femenino">Femenino</option>
-                        <option value="Otro">Otro</option>
-                      </select>
-                      <ChevronDown className="w-4 h-4 text-black absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    </div>
-                  </div>
+                  <Dropdown
+                    label="Sexo al nacer"
+                    value={sexo}
+                    onChange={setSexo}
+                    options={['Masculino', 'Femenino', 'Otro']}
+                  />
                 </div>
               </div>
 
@@ -492,15 +484,12 @@ export const Biometria: React.FC<BiometriaProps> = ({
                 </button>
 
                 <div className="flex items-center gap-3 flex-1 sm:max-w-[420px]">
-                  {/* Selector de cámara con field label flotante */}
-                  <div className="relative flex-1">
-                    <span className="absolute -top-2 left-3 bg-white px-1 text-[11px] font-medium text-[#64748b] z-10">
-                      Para comenzar, seleccione una cámara
-                    </span>
-                    <select
+                  {/* Selector de cámara con Dropdown homologado */}
+                  <div className="flex-1">
+                    <Dropdown
+                      size="sm"
                       value={selectedDeviceId || selectedCamera}
-                      onChange={(e) => {
-                        const val = e.target.value;
+                      onChange={(val) => {
                         const match = availableCameras.find((c) => c.deviceId === val || c.label === val);
                         if (match) {
                           setSelectedDeviceId(match.deviceId);
@@ -509,22 +498,15 @@ export const Biometria: React.FC<BiometriaProps> = ({
                           setSelectedCamera(val);
                         }
                       }}
-                      className="w-full h-[42px] px-3.5 pr-8 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black bg-white appearance-none cursor-pointer focus:outline-none focus:border-[#d50475]"
-                    >
-                      {availableCameras.length > 0 ? (
-                        availableCameras.map((cam) => (
-                          <option key={cam.deviceId} value={cam.deviceId}>
-                            {cam.label}
-                          </option>
-                        ))
-                      ) : (
-                        <>
-                          <option value="FaceTime HD">Cámara FaceTime HD / Frontal</option>
-                          <option value="USB Cam">Cámara Externa USB 1080p</option>
-                        </>
-                      )}
-                    </select>
-                    <ChevronDown className="w-4 h-4 text-black absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      options={
+                        availableCameras.length > 0
+                          ? availableCameras.map((cam) => ({ value: cam.deviceId, label: cam.label }))
+                          : [
+                              { value: 'FaceTime HD', label: 'Cámara FaceTime HD / Frontal' },
+                              { value: 'USB Cam', label: 'Cámara Externa USB 1080p' },
+                            ]
+                      }
+                    />
                   </div>
 
                   {/* Botón Ayuda pill conectado con HelpCenter */}
@@ -555,21 +537,15 @@ export const Biometria: React.FC<BiometriaProps> = ({
                     </label>
                     <span className="text-[10px] text-[#64748b]">Control de prueba</span>
                   </div>
-                  <div className="relative">
-                    <select
-                      value={simulatedOutcome}
-                      onChange={(e) => setSimulatedOutcome(e.target.value as any)}
-                      className="w-full h-[38px] px-3 pr-8 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black bg-white appearance-none cursor-pointer focus:outline-none focus:border-[#d50475]"
-                    >
-                      <option value="blood_flow_error">
-                        Error: La medición del flujo sanguíneo no es fiable (Simular fallo)
-                      </option>
-                      <option value="success">
-                        Éxito: Medición completa al 100% (Simular escaneo exitoso)
-                      </option>
-                    </select>
-                    <ChevronDown className="w-4 h-4 text-black absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                  </div>
+                  <Dropdown
+                    size="sm"
+                    value={simulatedOutcome}
+                    onChange={(val) => setSimulatedOutcome(val as any)}
+                    options={[
+                      { value: 'blood_flow_error', label: 'Error: Flujo sanguíneo no fiable (Simular fallo)' },
+                      { value: 'success', label: 'Éxito: Medición completa al 100% (Simular escaneo)' },
+                    ]}
+                  />
                   <p className="text-[11px] text-[#64748b] leading-tight">
                     Elige si la medición debe fallar al 50% con el modal de alerta o completarse con éxito.
                   </p>

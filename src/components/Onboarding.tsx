@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Circle, CheckCircle2, ArrowLeft, ChevronDown } from 'lucide-react';
 import { LanguageSelector } from './LanguageSelector';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
+import { Dropdown } from '../design-system/atoms/Dropdown';
+import { TextInput } from '../design-system/atoms/TextInput';
 
 interface OnboardingProps {
   initialEmail: string;
@@ -366,25 +368,15 @@ export const Onboarding: React.FC<OnboardingProps> = ({
               </div>
 
               {/* ¿Qué sexo te asignaron al nacer? * */}
-              <div className="flex flex-col mb-[32px]">
-                <label className="text-[16px] leading-[24px] font-normal text-black mb-[4px]">
-                  ¿Qué sexo te asignaron al nacer? *
-                </label>
-                <div className="relative">
-                  <select
-                    value={sex}
-                    onChange={(e) => setSex(e.target.value)}
-                    className={`w-full h-[48px] px-[14px] pr-[36px] bg-white border border-[#cbd5e1] rounded-[6px] text-[16px] leading-[24px] appearance-none focus:outline-none focus:border-[#d50475] ${
-                      sex ? 'text-black' : 'text-[#64748b]'
-                    }`}
-                  >
-                    <option value="">Elige la opción que corresponda</option>
-                    <option value="Femenino">Femenino</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="Intersexual / Otro">Intersexual / Otro</option>
-                  </select>
-                  <ChevronDown className="w-[18px] h-[18px] text-[#64748b] absolute right-[14px] top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
+              <div className="mb-[32px]">
+                <Dropdown
+                  label="¿Qué sexo te asignaron al nacer? *"
+                  required
+                  value={sex}
+                  onChange={setSex}
+                  options={['Femenino', 'Masculino', 'Intersexual / Otro']}
+                  placeholder="Elige la opción que corresponda"
+                />
               </div>
 
               {/* Section: Fecha de nacimiento */}
@@ -393,77 +385,32 @@ export const Onboarding: React.FC<OnboardingProps> = ({
               </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-[16px] mb-[32px]">
-                <div className="flex flex-col">
-                  <label className="text-[16px] leading-[24px] font-normal text-black mb-[4px]">
-                    Día
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={birthDay}
-                      onChange={(e) => setBirthDay(e.target.value)}
-                      className={`w-full h-[48px] px-[14px] pr-[36px] bg-white border border-[#cbd5e1] rounded-[6px] text-[16px] leading-[24px] appearance-none focus:outline-none focus:border-[#d50475] ${
-                        birthDay ? 'text-black' : 'text-[#64748b]'
-                      }`}
-                    >
-                      <option value="">Elige el día</option>
-                      {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
-                        <option key={d} value={String(d)}>
-                          {d}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="w-[18px] h-[18px] text-[#64748b] absolute right-[14px] top-1/2 -translate-y-1/2 pointer-events-none" />
-                  </div>
-                </div>
+                <Dropdown
+                  label="Día"
+                  value={birthDay}
+                  onChange={setBirthDay}
+                  options={Array.from({ length: 31 }, (_, i) => String(i + 1))}
+                  placeholder="Elige el día"
+                />
 
-                <div className="flex flex-col">
-                  <label className="text-[16px] leading-[24px] font-normal text-black mb-[4px]">
-                    Mes
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={birthMonth}
-                      onChange={(e) => setBirthMonth(e.target.value)}
-                      className={`w-full h-[48px] px-[14px] pr-[36px] bg-white border border-[#cbd5e1] rounded-[6px] text-[16px] leading-[24px] appearance-none focus:outline-none focus:border-[#d50475] ${
-                        birthMonth ? 'text-black' : 'text-[#64748b]'
-                      }`}
-                    >
-                      <option value="">Elige el mes</option>
-                      {[
-                        'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                        'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
-                      ].map((m) => (
-                        <option key={m} value={m}>
-                          {m}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="w-[18px] h-[18px] text-[#64748b] absolute right-[14px] top-1/2 -translate-y-1/2 pointer-events-none" />
-                  </div>
-                </div>
+                <Dropdown
+                  label="Mes"
+                  value={birthMonth}
+                  onChange={setBirthMonth}
+                  options={[
+                    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+                  ]}
+                  placeholder="Elige el mes"
+                />
 
-                <div className="flex flex-col">
-                  <label className="text-[16px] leading-[24px] font-normal text-black mb-[4px]">
-                    Año
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={birthYear}
-                      onChange={(e) => setBirthYear(e.target.value)}
-                      className={`w-full h-[48px] px-[14px] pr-[36px] bg-white border border-[#cbd5e1] rounded-[6px] text-[16px] leading-[24px] appearance-none focus:outline-none focus:border-[#d50475] ${
-                        birthYear ? 'text-black' : 'text-[#64748b]'
-                      }`}
-                    >
-                      <option value="">Elige el año</option>
-                      {Array.from({ length: 90 }, (_, i) => 2008 - i).map((y) => (
-                        <option key={y} value={String(y)}>
-                          {y}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="w-[18px] h-[18px] text-[#64748b] absolute right-[14px] top-1/2 -translate-y-1/2 pointer-events-none" />
-                  </div>
-                </div>
+                <Dropdown
+                  label="Año"
+                  value={birthYear}
+                  onChange={setBirthYear}
+                  options={Array.from({ length: 90 }, (_, i) => String(2008 - i))}
+                  placeholder="Elige el año"
+                />
               </div>
 
               {/* Section: Ubicación y zona horaria */}
@@ -472,89 +419,42 @@ export const Onboarding: React.FC<OnboardingProps> = ({
               </h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] mb-[32px]">
-                <div className="flex flex-col">
-                  <label className="text-[16px] leading-[24px] font-normal text-black mb-[4px]">
-                    País
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                      className={`w-full h-[48px] px-[14px] pr-[36px] bg-white border border-[#cbd5e1] rounded-[6px] text-[16px] leading-[24px] appearance-none focus:outline-none focus:border-[#d50475] ${
-                        country ? 'text-black' : 'text-[#64748b]'
-                      }`}
-                    >
-                      <option value="">Elige tu país</option>
-                      <option value="México">México</option>
-                      <option value="España">España</option>
-                      <option value="Colombia">Colombia</option>
-                      <option value="Argentina">Argentina</option>
-                    </select>
-                    <ChevronDown className="w-[18px] h-[18px] text-[#64748b] absolute right-[14px] top-1/2 -translate-y-1/2 pointer-events-none" />
-                  </div>
-                </div>
+                <Dropdown
+                  label="País"
+                  value={country}
+                  onChange={setCountry}
+                  options={['México', 'España', 'Colombia', 'Argentina']}
+                  placeholder="Elige tu país"
+                />
 
-                <div className="flex flex-col">
-                  <label className="text-[16px] leading-[24px] font-normal text-black mb-[4px]">
-                    Ciudad
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      className={`w-full h-[48px] px-[14px] pr-[36px] bg-white border border-[#cbd5e1] rounded-[6px] text-[16px] leading-[24px] appearance-none focus:outline-none focus:border-[#d50475] ${
-                        city ? 'text-black' : 'text-[#64748b]'
-                      }`}
-                    >
-                      <option value="">Elige tu ciudad</option>
-                      <option value="Ciudad de México">Ciudad de México</option>
-                      <option value="Madrid">Madrid</option>
-                      <option value="Monterrey">Monterrey</option>
-                      <option value="Guadalajara">Guadalajara</option>
-                      <option value="Barcelona">Barcelona</option>
-                    </select>
-                    <ChevronDown className="w-[18px] h-[18px] text-[#64748b] absolute right-[14px] top-1/2 -translate-y-1/2 pointer-events-none" />
-                  </div>
-                </div>
+                <Dropdown
+                  label="Ciudad"
+                  value={city}
+                  onChange={setCity}
+                  options={['Ciudad de México', 'Madrid', 'Monterrey', 'Guadalajara', 'Barcelona']}
+                  placeholder="Elige tu ciudad"
+                />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] mb-[32px]">
-                <div className="flex flex-col">
-                  <label className="text-[16px] leading-[24px] font-normal text-black mb-[4px]">
-                    Código postal
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={postalCode}
-                      onChange={(e) => setPostalCode(e.target.value)}
-                      placeholder="Ej.: 28001"
-                      className="w-full h-[48px] px-[14px] pr-[36px] bg-white border border-[#cbd5e1] rounded-[6px] text-[16px] leading-[24px] text-black placeholder:text-[#64748b] focus:outline-none focus:border-[#d50475]"
-                    />
-                    <ChevronDown className="w-[18px] h-[18px] text-[#64748b] absolute right-[14px] top-1/2 -translate-y-1/2 pointer-events-none" />
-                  </div>
-                </div>
+                <TextInput
+                  label="Código postal"
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                  placeholder="Ej.: 28001"
+                />
 
-                <div className="flex flex-col">
-                  <label className="text-[16px] leading-[24px] font-normal text-black mb-[4px]">
-                    Zona horaria
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={timezone}
-                      onChange={(e) => setTimezone(e.target.value)}
-                      className={`w-full h-[48px] px-[14px] pr-[36px] bg-white border border-[#cbd5e1] rounded-[6px] text-[16px] leading-[24px] appearance-none focus:outline-none focus:border-[#d50475] ${
-                        timezone ? 'text-black' : 'text-[#64748b]'
-                      }`}
-                    >
-                      <option value="">Elige tu zona horaria</option>
-                      <option value="GMT-6 (Ciudad de México)">GMT-6 (Ciudad de México)</option>
-                      <option value="GMT+1 (Madrid)">GMT+1 (Madrid)</option>
-                      <option value="GMT-5 (Bogotá)">GMT-5 (Bogotá)</option>
-                    </select>
-                    <ChevronDown className="w-[18px] h-[18px] text-[#64748b] absolute right-[14px] top-1/2 -translate-y-1/2 pointer-events-none" />
-                  </div>
-                </div>
+                <Dropdown
+                  label="Zona horaria"
+                  value={timezone}
+                  onChange={setTimezone}
+                  options={[
+                    'GMT-6 (Ciudad de México)',
+                    'GMT+1 (Madrid)',
+                    'GMT-5 (Bogotá)',
+                  ]}
+                  placeholder="Elige tu zona horaria"
+                />
               </div>
 
               {/* Bottom Action Bar Reutilizable */}

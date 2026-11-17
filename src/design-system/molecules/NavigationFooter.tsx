@@ -35,7 +35,7 @@ export const NavigationFooter: React.FC<NavigationFooterProps> = ({
           <Button
             variant="outline"
             onClick={onBack}
-            className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
+            className="h-[40px] px-5 text-[14px] font-medium rounded-[8px]"
           >
             {backText}
           </Button>
@@ -50,7 +50,7 @@ export const NavigationFooter: React.FC<NavigationFooterProps> = ({
             variant="primary"
             onClick={onNext}
             disabled={isNextDisabled}
-            className={`h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px] ${
+            className={`h-[40px] px-6 text-[14px] font-medium rounded-[8px] ${
               isNextDisabled ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
