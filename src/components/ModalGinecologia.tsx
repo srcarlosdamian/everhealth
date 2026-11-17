@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { X, Check } from 'lucide-react';
+import { X } from 'lucide-react';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
+import { Checkbox } from '../design-system/atoms/Checkbox';
+import { Button } from '../design-system/atoms/Button';
 
 interface ModalGinecologiaProps {
   isOpen: boolean;
@@ -65,7 +67,7 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
           Selecciona las patologías y antecedentes ginecológicos para actualizar la historia clínica.
         </p>
 
-        {/* Patologías Section - Check neutral, hover sin cambiar fondo */}
+        {/* Patologías Section - Checkbox rosa CTA, contenedor cuadrado (rounded-none), borde gris claro y fondo sutil gris 50 */}
         <div className="flex flex-col gap-3">
           <h3 className="text-[17px] font-bold text-black">Patologías</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -75,21 +77,13 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
                 <div
                   key={item.title}
                   onClick={() => togglePatologia(item.title)}
-                  className={`p-3 rounded-[8px] border flex items-start gap-3 cursor-pointer transition-colors bg-white ${
+                  className={`p-3 rounded-none border flex items-start gap-3 cursor-pointer transition-colors ${
                     isChecked
-                      ? 'border-[#0f172a]'
-                      : 'border-[#cbd5e1] hover:border-[#475569]'
+                      ? 'border-[#cbd5e1] bg-[#f8fafc]'
+                      : 'border-[#e2e8f0] hover:bg-[#f8fafc] hover:border-[#cbd5e1] bg-white'
                   }`}
                 >
-                  <div
-                    className={`w-4 h-4 rounded-[3px] border mt-0.5 flex items-center justify-center shrink-0 ${
-                      isChecked
-                        ? 'bg-[#0f172a] border-[#0f172a] text-white'
-                        : 'border-[#cbd5e1] bg-white'
-                    }`}
-                  >
-                    {isChecked && <Check className="w-3 h-3 stroke-[3]" />}
-                  </div>
+                  <Checkbox checked={isChecked} size="sm" className="mt-0.5" />
                   <div className="flex flex-col">
                     <span className="text-[14px] font-bold text-black">{item.title}</span>
                     <span className="text-[12px] text-[#64748b]">{item.desc}</span>
@@ -100,13 +94,13 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
           </div>
         </div>
 
-        {/* Antecedentes Section - Con SegmentedToggle gris reutilizable */}
+        {/* Antecedentes Section - Con SegmentedToggle gris reutilizable y contenedores cuadrados */}
         <div className="flex flex-col gap-3">
           <h3 className="text-[17px] font-bold text-black">Antecedentes</h3>
           <div className="flex flex-col gap-3">
             
             {/* Pregunta 1 */}
-            <div className="p-3.5 rounded-[8px] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
+            <div className="p-3.5 rounded-none border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
               <div className="flex flex-col">
                 <span className="text-[14px] font-bold text-black">¿Has estado embarazada alguna vez?</span>
                 <span className="text-[12px] text-[#64748b]">Incluye partos a término, prematuros y abortos</span>
@@ -118,7 +112,7 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
             </div>
 
             {/* Pregunta 2 */}
-            <div className="p-3.5 rounded-[8px] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
+            <div className="p-3.5 rounded-none border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
               <div className="flex flex-col">
                 <span className="text-[14px] font-bold text-black">¿Has tenido algún aborto?</span>
                 <span className="text-[12px] text-[#64748b]">Ya sea de carácter espontáneo, retenido o terapéutico</span>
@@ -130,7 +124,7 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
             </div>
 
             {/* Pregunta 3 */}
-            <div className="p-3.5 rounded-[8px] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
+            <div className="p-3.5 rounded-none border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white">
               <div className="flex flex-col">
                 <span className="text-[14px] font-bold text-black">¿Tienes hijos vivos actualmente?</span>
                 <span className="text-[12px] text-[#64748b]">Partos vaginales y/o cesáreas.</span>
@@ -146,20 +140,20 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
 
         {/* Footer Actions */}
         <div className="flex justify-end items-center gap-3 pt-3 border-t border-[#e2e8f0]">
-          <button
+          <Button
+            variant="outline"
             type="button"
             onClick={onClose}
-            className="h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] bg-white text-black text-[13px] font-bold uppercase transition-colors cursor-pointer"
           >
             DESCARTAR
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="primary"
             type="button"
             onClick={onConfirm}
-            className="h-[40px] px-6 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold uppercase transition-colors cursor-pointer shadow-xs"
           >
             CONFIRMAR
-          </button>
+          </Button>
         </div>
 
       </div>
