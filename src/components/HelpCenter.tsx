@@ -6,19 +6,13 @@ import {
   Mail,
   Phone,
   MapPin,
-  ScanFace,
-  Video,
-  MessageSquare,
-  FileSpreadsheet,
-  HelpCircle,
-  Check,
   Copy,
-  Clock,
+  HelpCircle,
   ShieldCheck,
-  ExternalLink,
-  Sparkles,
 } from 'lucide-react';
 import { Toast, ToastVariant } from '../design-system/atoms/Toast';
+import { Button } from '../design-system/atoms/Button';
+import { Tabs, TabItem } from '../design-system/molecules/Tabs';
 
 export interface HelpCenterProps {
   isOpen: boolean;
@@ -29,7 +23,6 @@ export interface HelpCenterProps {
 interface FAQItem {
   id: string;
   category: 'soporte' | 'biometria' | 'videoconsulta' | 'chat' | 'historial';
-  categoryLabel: string;
   question: string;
   answer: React.ReactNode;
 }
@@ -37,7 +30,7 @@ interface FAQItem {
 export const HelpCenter: React.FC<HelpCenterProps> = ({
   isOpen,
   onClose,
-  defaultCategory = 'todos',
+  defaultCategory = 'soporte',
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>(defaultCategory);
@@ -74,9 +67,9 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     );
   };
 
-  const categories = [
-    { id: 'todos', label: 'Todo' },
-    { id: 'soporte', label: 'Soporte y contacto' },
+  // Categorías sin "Todo", comenzando siempre con Soporte técnico
+  const categories: TabItem[] = [
+    { id: 'soporte', label: 'Soporte técnico' },
     { id: 'biometria', label: 'Biometría' },
     { id: 'videoconsulta', label: 'Videoconsulta' },
     { id: 'chat', label: 'Chat médico' },
@@ -87,140 +80,138 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     {
       id: 'contact-directo',
       category: 'soporte',
-      categoryLabel: 'Soporte y contacto',
       question: '¿Necesitas ayuda con soporte o contacto directo?',
       answer: (
-        <div className="flex flex-col gap-3.5 text-[13px] text-[#475569]">
-          <p className="leading-relaxed">
-            Puedes comunicarte de manera directa con nuestro equipo técnico y de atención médica a través de los siguientes canales oficiales:
-          </p>
+        <div className="flex flex-col gap-5 text-[13px] pt-1">
+          {/* Título y descripción simples */}
+          <div className="flex flex-col gap-0.5">
+            <h4 className="text-[15px] font-bold text-black">
+              Canales de atención directa
+            </h4>
+            <p className="text-[13px] text-[var(--color-page-subtitle)] font-normal leading-relaxed">
+              Comunícate directamente con nuestro equipo de atención general o soporte técnico especializado.
+            </p>
+          </div>
 
-          {/* Bloque A: Soporte General Ever Health */}
-          <div className="p-3 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col gap-2.5">
-            <span className="text-[12px] font-bold text-black uppercase tracking-wider">
-              Atención General Ever Health
+          {/* Bloque 1: Atención General (Lineal, sin relleno, sin contenedor de tarjeta, sin badge L-D 24h) */}
+          <div className="flex flex-col gap-2.5">
+            <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+              Atención General
             </span>
 
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between py-1.5 gap-2 group">
+            <div className="flex flex-col divide-y divide-[#f1f5f9]">
+              {/* Correo general */}
+              <div className="flex items-center justify-between py-2 gap-2">
                 <a
                   href="mailto:soporte@everhealth.es"
                   className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors min-w-0"
                 >
                   <Mail className="w-4 h-4 text-[#64748b] shrink-0" />
-                  <span className="font-medium truncate">soporte@everhealth.es</span>
+                  <span className="font-normal text-[13px] truncate">soporte@everhealth.es</span>
                 </a>
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   type="button"
                   onClick={() => handleCopy('soporte@everhealth.es', 'Correo')}
-                  className="h-[28px] px-2.5 rounded-[6px] border border-[#cbd5e1] hover:border-[#d50475] hover:text-[#d50475] text-[#334155] bg-white text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
                   title="Copiar correo"
                 >
                   <Copy className="w-3.5 h-3.5" />
                   <span>Copiar</span>
-                </button>
+                </Button>
               </div>
 
-              <div className="flex items-center justify-between py-1.5 gap-2">
+              {/* Teléfono general */}
+              <div className="flex items-center justify-between py-2 gap-2">
                 <a
                   href="tel:911231214"
                   className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors"
                 >
                   <Phone className="w-4 h-4 text-[#64748b] shrink-0" />
-                  <span className="font-medium">911 23 12 14</span>
+                  <span className="font-normal text-[13px]">911 23 12 14</span>
                 </a>
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
-                    L-D 24h
-                  </span>
-                  <a
-                    href="tel:911231214"
-                    onClick={() => showToast('Iniciando llamada a 911 23 12 14...', 'info')}
-                    className="h-[28px] px-2.5 rounded-[6px] bg-[#d50475] hover:bg-[#b80364] text-white text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
-                    title="Llamar"
-                  >
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>Llamar</span>
-                  </a>
-                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  type="button"
+                  onClick={() => handleCopy('911231214', 'Teléfono')}
+                  title="Copiar teléfono"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Copiar</span>
+                </Button>
               </div>
 
-              <div className="flex items-center justify-between py-1.5 gap-2 group">
+              {/* Dirección general */}
+              <div className="flex items-center justify-between py-2 gap-2">
                 <div className="flex items-center gap-2.5 text-black min-w-0">
                   <MapPin className="w-4 h-4 text-[#64748b] shrink-0" />
-                  <span className="truncate">C/ Naciones 10, 28006 Madrid</span>
+                  <span className="font-normal text-[13px] truncate">C/ Naciones 10, 28006 Madrid</span>
                 </div>
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   type="button"
                   onClick={() => handleCopy('C/ Naciones 10, 28006 Madrid', 'Dirección')}
-                  className="h-[28px] px-2.5 rounded-[6px] border border-[#cbd5e1] hover:border-[#d50475] hover:text-[#d50475] text-[#334155] bg-white text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
                   title="Copiar dirección"
                 >
                   <Copy className="w-3.5 h-3.5" />
                   <span>Copiar</span>
-                </button>
+                </Button>
               </div>
             </div>
           </div>
 
-          {/* Línea divisoria homologada como solicitó el usuario */}
-          <hr className="border-[#f1f5f9] my-0.5" />
+          {/* Línea divisoria minimalista entre ambos bloques */}
+          <hr className="border-[#f1f5f9] my-0" />
 
-          {/* Bloque B: Soporte Especializado de Biometría Facial */}
-          <div className="p-3 rounded-[8px] bg-[#fdf2f8] border border-[#fbcfe8] flex flex-col gap-2.5">
-            <div className="flex items-center gap-2">
-              <ScanFace className="w-4 h-4 text-[#d50475]" />
-              <span className="text-[12px] font-bold text-[#d50475] uppercase tracking-wider">
-                Soporte de Biometría Facial
-              </span>
-            </div>
+          {/* Bloque 2: Soporte Biométrico (Exactamente idéntico y neutral al general: lineal, sin icono, sin texto explicativo, sin badge) */}
+          <div className="flex flex-col gap-2.5">
+            <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+              Soporte Biométrico
+            </span>
 
-            <p className="text-[12px] text-[#64748b] leading-tight">
-              Para dudas técnicas sobre escaneo facial rPPG, calibración de cámara o mediciones biométricas:
-            </p>
-
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between py-1.5 gap-2 group">
+            <div className="flex flex-col divide-y divide-[#f1f5f9]">
+              {/* Correo biométrico */}
+              <div className="flex items-center justify-between py-2 gap-2">
                 <a
                   href="mailto:biometria@everhealth.es"
                   className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors min-w-0"
                 >
-                  <Mail className="w-4 h-4 text-[#d50475] shrink-0" />
-                  <span className="font-medium text-black truncate">biometria@everhealth.es</span>
+                  <Mail className="w-4 h-4 text-[#64748b] shrink-0" />
+                  <span className="font-normal text-[13px] truncate">biometria@everhealth.es</span>
                 </a>
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   type="button"
                   onClick={() => handleCopy('biometria@everhealth.es', 'Correo de biometría')}
-                  className="h-[28px] px-2.5 rounded-[6px] border border-[#fbcfe8] hover:border-[#d50475] text-[#d50475] bg-white text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0"
                   title="Copiar correo"
                 >
                   <Copy className="w-3.5 h-3.5" />
                   <span>Copiar</span>
-                </button>
+                </Button>
               </div>
 
-              <div className="flex items-center justify-between py-1.5 gap-2">
+              {/* Teléfono biométrico */}
+              <div className="flex items-center justify-between py-2 gap-2">
                 <a
                   href="tel:918220518"
                   className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors"
                 >
-                  <Phone className="w-4 h-4 text-[#d50475] shrink-0" />
-                  <span className="font-medium text-black">918 220 518</span>
+                  <Phone className="w-4 h-4 text-[#64748b] shrink-0" />
+                  <span className="font-normal text-[13px]">918 220 518</span>
                 </a>
-                <div className="flex items-center gap-2 shrink-0">
-                  <span className="text-[11px] text-[#d50475] bg-white px-2 py-0.5 rounded border border-[#fbcfe8]">
-                    Especialistas
-                  </span>
-                  <a
-                    href="tel:918220518"
-                    onClick={() => showToast('Iniciando llamada a soporte biométrico al 918 220 518...', 'info')}
-                    className="h-[28px] px-2.5 rounded-[6px] bg-[#d50475] hover:bg-[#b80364] text-white text-[11px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
-                    title="Llamar"
-                  >
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>Llamar</span>
-                  </a>
-                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  type="button"
+                  onClick={() => handleCopy('918220518', 'Teléfono de biometría')}
+                  title="Copiar teléfono"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Copiar</span>
+                </Button>
               </div>
             </div>
           </div>
@@ -230,7 +221,6 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     {
       id: 'faq-bio-1',
       category: 'biometria',
-      categoryLabel: 'Biometría',
       question: '¿Qué es la biometría facial y cómo mide mis constantes vitales?',
       answer: (
         <div className="flex flex-col gap-2 text-[13px] text-[#475569] leading-relaxed">
@@ -249,7 +239,6 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     {
       id: 'faq-bio-2',
       category: 'biometria',
-      categoryLabel: 'Biometría',
       question: '¿Cuáles son las recomendaciones para que el escaneo sea óptimo?',
       answer: (
         <div className="flex flex-col gap-2 text-[13px] text-[#475569] leading-relaxed">
@@ -265,7 +254,6 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     {
       id: 'faq-bio-3',
       category: 'biometria',
-      categoryLabel: 'Biometría',
       question: '¿Se graban o almacenan mis imágenes o videos faciales?',
       answer: (
         <div className="flex items-start gap-3 p-3 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[13px] text-[#475569]">
@@ -279,7 +267,6 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     {
       id: 'faq-video-1',
       category: 'videoconsulta',
-      categoryLabel: 'Videoconsulta',
       question: '¿Cómo accedo a mi videoconsulta médica programada?',
       answer: (
         <div className="flex flex-col gap-2 text-[13px] text-[#475569] leading-relaxed">
@@ -295,7 +282,6 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     {
       id: 'faq-video-2',
       category: 'videoconsulta',
-      categoryLabel: 'Videoconsulta',
       question: '¿Qué hago si tengo problemas con la cámara o el micrófono?',
       answer: (
         <div className="flex flex-col gap-2 text-[13px] text-[#475569] leading-relaxed">
@@ -308,7 +294,6 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     {
       id: 'faq-chat-1',
       category: 'chat',
-      categoryLabel: 'Chat médico',
       question: '¿Para qué casos es recomendable usar el Chat Médico?',
       answer: (
         <div className="flex flex-col gap-2 text-[13px] text-[#475569] leading-relaxed">
@@ -326,7 +311,6 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     {
       id: 'faq-hist-1',
       category: 'historial',
-      categoryLabel: 'Historia clínica',
       question: '¿Dónde puedo consultar y descargar mis informes y recetas?',
       answer: (
         <div className="flex flex-col gap-2 text-[13px] text-[#475569] leading-relaxed">
@@ -339,7 +323,6 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     {
       id: 'faq-hist-2',
       category: 'historial',
-      categoryLabel: 'Historia clínica',
       question: '¿Cómo añado perfiles de familiares o mascotas?',
       answer: (
         <div className="flex flex-col gap-2 text-[13px] text-[#475569] leading-relaxed">
@@ -351,11 +334,10 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
     },
   ];
 
-  // Filtering
+  // Filtering (comienza siempre en soporte o en la categoría seleccionada)
   const filteredFaqs = useMemo(() => {
     return faqs.filter((item) => {
-      const matchCat =
-        activeCategory === 'todos' || item.category === activeCategory;
+      const matchCat = item.category === activeCategory;
       if (!matchCat) return false;
       if (!searchTerm.trim()) return true;
 
@@ -369,29 +351,21 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
 
   const contentMarkup = (
     <div className="flex flex-col h-full bg-white select-none">
-      {/* Header Panel */}
+      {/* Header Panel minimalista: Sin icono, solo Help Center, y subtítulo conservado */}
       <div className="px-5 py-4 border-b border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
-        <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 rounded-full bg-[#fdf2f8] border border-[#fbcfe8] flex items-center justify-center text-[#d50475]">
-            <HelpCircle className="w-4 h-4" />
-          </div>
-          <div className="flex flex-col">
-            <h2 className="text-[17px] font-bold text-black leading-tight flex items-center gap-1.5">
-              <span>Help Center</span>
-              <span className="text-[11px] font-normal text-[#64748b] bg-[#f1f5f9] px-2 py-0.5 rounded-[4px]">
-                Ever Health
-              </span>
-            </h2>
-            <span className="text-[12px] text-[var(--color-page-subtitle)] font-normal">
-              Preguntas frecuentes y soporte en línea
-            </span>
-          </div>
+        <div className="flex flex-col">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-black leading-tight tracking-tight">
+            Help Center
+          </h2>
+          <span className="text-[13px] text-[var(--color-page-subtitle)] font-normal mt-0.5">
+            Preguntas frecuentes y soporte en línea
+          </span>
         </div>
 
         <button
           type="button"
           onClick={onClose}
-          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] text-black flex items-center justify-center transition-colors cursor-pointer"
+          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] text-black flex items-center justify-center transition-colors cursor-pointer shrink-0 -mr-1"
           title="Cerrar Help Center"
           aria-label="Cerrar"
         >
@@ -423,25 +397,14 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
         </div>
       </div>
 
-      {/* Category Pills */}
-      <div className="px-5 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0 border-b border-[#f1f5f9]">
-        {categories.map((cat) => {
-          const isActive = activeCategory === cat.id;
-          return (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => setActiveCategory(cat.id)}
-              className={`h-[28px] px-3 rounded-full text-[12px] font-medium whitespace-nowrap transition-colors cursor-pointer ${
-                isActive
-                  ? 'bg-black text-white'
-                  : 'bg-[#f8fafc] text-[#64748b] hover:bg-[#f1f5f9] hover:text-black border border-[#e2e8f0]'
-              }`}
-            >
-              {cat.label}
-            </button>
-          );
-        })}
+      {/* Category Tabs: Deslizante horizontal minimalista, sin líneas, fondo 50/100 y texto máx 500 al seleccionar */}
+      <div className="px-5 py-2 shrink-0 border-b border-[#f1f5f9]">
+        <Tabs
+          tabs={categories}
+          activeTab={activeCategory}
+          onChange={setActiveCategory}
+          variant="minimal"
+        />
       </div>
 
       {/* Scrollable FAQ Accordion List */}
@@ -450,16 +413,15 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
           <div className="py-12 text-center flex flex-col items-center gap-2 text-[#64748b]">
             <HelpCircle className="w-8 h-8 text-[#cbd5e1]" />
             <p className="text-[14px] font-bold text-black">No se encontraron resultados</p>
-            <p className="text-[12px]">Prueba con otra palabra clave como "videoconsulta" o "teléfono".</p>
+            <p className="text-[12px]">Prueba con otra palabra clave en {categories.find((c) => c.id === activeCategory)?.label}.</p>
             <button
               type="button"
               onClick={() => {
                 setSearchTerm('');
-                setActiveCategory('todos');
               }}
               className="mt-2 text-[12px] font-bold text-[#d50475] hover:underline cursor-pointer"
             >
-              Restablecer filtros
+              Limpiar búsqueda
             </button>
           </div>
         ) : (
@@ -470,7 +432,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
                 key={faq.id}
                 className="border border-[#e2e8f0] rounded-[8px] overflow-hidden bg-white transition-all shadow-2xs"
               >
-                {/* Accordion Trigger */}
+                {/* Accordion Trigger: Solo la pregunta limpia en regular font-normal, sin etiqueta de categoría arriba */}
                 <button
                   type="button"
                   onClick={() => toggleAccordion(faq.id)}
@@ -478,16 +440,11 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
                     isOpen ? 'bg-[#f8fafc]' : 'hover:bg-[#f8fafc]'
                   }`}
                 >
-                  <div className="flex flex-col gap-1 min-w-0">
-                    <span className="text-[11px] font-bold text-[#94a3b8] uppercase tracking-wider">
-                      {faq.categoryLabel}
-                    </span>
-                    <span className="text-[13px] font-bold text-black leading-snug">
-                      {faq.question}
-                    </span>
-                  </div>
+                  <span className="text-[14px] font-normal text-black leading-snug">
+                    {faq.question}
+                  </span>
                   <ChevronDown
-                    className={`w-4 h-4 text-[#64748b] shrink-0 mt-1 transition-transform duration-200 ${
+                    className={`w-4 h-4 text-[#64748b] shrink-0 mt-0.5 transition-transform duration-200 ${
                       isOpen ? 'rotate-180 text-black' : ''
                     }`}
                   />
@@ -505,24 +462,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
         )}
       </div>
 
-      {/* Footer Support Quick Callout */}
-      <div className="px-5 py-3 border-t border-[#f1f5f9] bg-[#f8fafc] flex items-center justify-between gap-3 shrink-0">
-        <div className="flex flex-col">
-          <span className="text-[11px] font-bold text-black uppercase tracking-wider">
-            ¿Dudas urgentes?
-          </span>
-          <span className="text-[12px] text-[#64748b]">
-            Escríbenos directamente a soporte
-          </span>
-        </div>
-        <a
-          href="mailto:soporte@everhealth.es"
-          className="h-[34px] px-3.5 rounded-[6px] bg-black hover:bg-[#1e293b] text-white text-[12px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer"
-        >
-          <Mail className="w-3.5 h-3.5" />
-          <span>Enviar email</span>
-        </a>
-      </div>
+      {/* Se eliminó por completo el bloque "¿Dudas urgentes? Escríbenos directamente..." según lo solicitado */}
     </div>
   );
 

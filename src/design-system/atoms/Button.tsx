@@ -17,8 +17,11 @@ export type ButtonVariant =
   | 'pill-purple'
   | 'ghost';
 
+export type ButtonSize = 'sm' | 'md';
+
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
+  size?: ButtonSize;
   isLocked?: boolean;
   tooltipText?: string;
   children: React.ReactNode;
@@ -26,6 +29,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
+  size = 'md',
   isLocked = false,
   tooltipText,
   children,
@@ -34,10 +38,13 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const isInactive = isLocked || variant === 'inactive';
+  const isSmall = size === 'sm';
 
   const getStyles = () => {
     if (isInactive) {
-      return 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[13px] font-bold uppercase cursor-not-allowed';
+      return isSmall
+        ? 'h-[32px] px-3 rounded-[6px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[11px] sm:text-[12px] font-bold uppercase cursor-not-allowed'
+        : 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[13px] font-bold uppercase cursor-not-allowed';
     }
 
     switch (variant) {
@@ -45,24 +52,38 @@ export const Button: React.FC<ButtonProps> = ({
       case 'consulta-primary':
       case 'pill-primary':
       case 'modal-primary':
-        return 'h-[40px] px-5 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white text-[13px] font-bold uppercase border border-transparent shadow-xs';
+        return isSmall
+          ? 'h-[32px] px-3 rounded-[6px] bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white text-[11px] sm:text-[12px] font-bold uppercase border border-transparent shadow-2xs'
+          : 'h-[40px] px-5 rounded-[8px] bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white text-[13px] font-bold uppercase border border-transparent shadow-xs';
       case 'secondary':
       case 'consulta-secondary':
-        return 'h-[40px] px-5 rounded-[8px] border border-[#fbcfe8] hover:border-[#d50475] bg-white hover:bg-[#f8fafc] text-[#d50475] text-[13px] font-bold uppercase transition-colors';
+        return isSmall
+          ? 'h-[32px] px-3 rounded-[6px] border border-[#fbcfe8] hover:border-[#d50475] bg-white hover:bg-[#f8fafc] text-[#d50475] text-[11px] sm:text-[12px] font-bold uppercase transition-colors'
+          : 'h-[40px] px-5 rounded-[8px] border border-[#fbcfe8] hover:border-[#d50475] bg-white hover:bg-[#f8fafc] text-[#d50475] text-[13px] font-bold uppercase transition-colors';
       case 'outline':
       case 'consulta-outline':
       case 'pill-outline':
       case 'pill-purple':
       case 'modal-outline':
-        return 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white hover:bg-[#f8fafc] text-black text-[13px] font-bold uppercase';
+        return isSmall
+          ? 'h-[32px] px-3 rounded-[6px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white hover:bg-[#f8fafc] text-black text-[11px] sm:text-[12px] font-bold uppercase'
+          : 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] hover:border-[#475569] active:border-black bg-white hover:bg-[#f8fafc] text-black text-[13px] font-bold uppercase';
       case 'destructive':
-        return 'h-[40px] px-5 rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold uppercase shadow-xs';
+        return isSmall
+          ? 'h-[32px] px-3 rounded-[6px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[11px] sm:text-[12px] font-bold uppercase shadow-2xs'
+          : 'h-[40px] px-5 rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white text-[13px] font-bold uppercase shadow-xs';
       case 'consulta-inactive':
-        return 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[13px] font-bold uppercase cursor-not-allowed';
+        return isSmall
+          ? 'h-[32px] px-3 rounded-[6px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[11px] sm:text-[12px] font-bold uppercase cursor-not-allowed'
+          : 'h-[40px] px-5 rounded-[8px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[13px] font-bold uppercase cursor-not-allowed';
       case 'ghost':
-        return 'px-2.5 py-1.5 rounded-[6px] bg-transparent hover:bg-[#f1f5f9] text-black text-[13px] font-medium';
+        return isSmall
+          ? 'h-[28px] px-2.5 rounded-[6px] bg-transparent hover:bg-[#f1f5f9] text-black text-[11px] sm:text-[12px] font-bold uppercase border-0'
+          : 'px-2.5 py-1.5 rounded-[6px] bg-transparent hover:bg-[#f1f5f9] text-black text-[13px] font-medium border-0';
       default:
-        return 'h-[40px] px-5 rounded-[8px] bg-[#d50475] text-white text-[13px] font-bold uppercase';
+        return isSmall
+          ? 'h-[32px] px-3 rounded-[6px] bg-[#d50475] text-white text-[11px] sm:text-[12px] font-bold uppercase'
+          : 'h-[40px] px-5 rounded-[8px] bg-[#d50475] text-white text-[13px] font-bold uppercase';
     }
   };
 

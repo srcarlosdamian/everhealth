@@ -173,6 +173,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [demoConfirmModalOpen, setDemoConfirmModalOpen] = useState(false);
   const [demoLogoutModalOpen, setDemoLogoutModalOpen] = useState(false);
   const [demoActiveTab, setDemoActiveTab] = useState('datos-personales');
+  const [demoMinimalTab, setDemoMinimalTab] = useState('soporte');
   const [demoFormModalOpen, setDemoFormModalOpen] = useState(false);
   const [demoHelpCenterOpen, setDemoHelpCenterOpen] = useState(false);
   const [demoCitaMenuOpen, setDemoCitaMenuOpen] = useState(false);
@@ -1876,16 +1877,20 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 {/* Molécula: Navegación por Pestañas (Tabs) */}
                 <StageBlock
                   title="Navegación Horizontal por Pestañas (Tabs)"
-                  componentTag="<Tabs tabs={PROFILE_TABS} activeTab={activeTab} onChange={setActiveTab} />"
-                  usedIn={['MiPerfil (Configuración de Cuenta)']}
-                  description="Molécula oficial para navegación interna en vistas complejas (Perfil y Configuración de Cuenta). Cuenta con pestaña activa resaltada en rosa (#d50475) con borde indicador inferior superpuesto a la retícula #e2e8f0, y pestañas inactivas en gris slate (#475569) con transición a negro."
+                  componentTag="<Tabs tabs={TABS} activeTab={activeTab} onChange={setActiveTab} variant='line' | 'minimal' />"
+                  usedIn={['MiPerfil (Configuración de Cuenta)', 'HelpCenter']}
+                  description="Molécula oficial para navegación horizontal por pestañas. Soporta variante 'line' (maestra con indicador rosa) y variante 'minimal' (deslizante ligero sin líneas, tonos 50/100 y texto 500 al seleccionar)."
                 >
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-8">
+                    {/* Variante 1: Estándar con Línea */}
                     <div className="w-full bg-white p-6 border border-[#e2e8f0] rounded-[10px]">
                       <div className="flex flex-col gap-1 mb-4">
-                        <span className="text-[20px] font-bold text-black">Perfil</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[17px] font-bold text-black">Variante 1: Línea (Estándar / Perfil)</span>
+                          <span className="px-2 py-0.5 rounded bg-[#fce7f3] text-[#d50475] text-[11px] font-bold">variant="line"</span>
+                        </div>
                         <span className="text-[13px] text-[var(--color-page-subtitle)] font-normal">
-                          En esta sección puedes revisar y actualizar tu información
+                          Pestaña activa en rosa (#d50475) con indicador inferior de 2.5px superpuesto al borde continuo #e2e8f0.
                         </span>
                       </div>
 
@@ -1901,15 +1906,47 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         ]}
                         activeTab={demoActiveTab}
                         onChange={setDemoActiveTab}
+                        variant="line"
                       />
 
-                      <div className="mt-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
-                        <span className="text-[12px] font-bold uppercase tracking-wider text-[#64748b]">
-                          Contenido de la pestaña activa:
+                      <div className="mt-4 p-3 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
+                          Pestaña activa: <strong className="text-black capitalize">{demoActiveTab.replace('-', ' ')}</strong>
                         </span>
-                        <p className="text-[15px] font-bold text-black mt-1 capitalize">
-                          {demoActiveTab.replace('-', ' ')}
-                        </p>
+                      </div>
+                    </div>
+
+                    {/* Variante 2: Minimalista sin Líneas (Help Center) */}
+                    <div className="w-full bg-white p-6 border border-[#e2e8f0] rounded-[10px]">
+                      <div className="flex flex-col gap-1 mb-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[17px] font-bold text-black">Variante 2: Minimalista Deslizante (Help Center)</span>
+                          <span className="px-2 py-0.5 rounded bg-[#f1f5f9] text-[#475569] text-[11px] font-bold">variant="minimal"</span>
+                        </div>
+                        <span className="text-[13px] text-[var(--color-page-subtitle)] font-normal">
+                          Sin línea inferior. Fondo en escala gris 50/100 suave, texto inactivo en gris 400 y activo en gris 500 máximo (sin negro).
+                        </span>
+                      </div>
+
+                      <div className="p-3 bg-[#ffffff] border border-[#f1f5f9] rounded-[8px]">
+                        <Tabs
+                          tabs={[
+                            { id: 'soporte', label: 'Soporte técnico' },
+                            { id: 'biometria', label: 'Biometría' },
+                            { id: 'videoconsulta', label: 'Videoconsulta' },
+                            { id: 'chat', label: 'Chat médico' },
+                            { id: 'historial', label: 'Historia clínica' },
+                          ]}
+                          activeTab={demoMinimalTab}
+                          onChange={setDemoMinimalTab}
+                          variant="minimal"
+                        />
+                      </div>
+
+                      <div className="mt-4 p-3 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
+                          Categoría Help Center seleccionada: <strong className="text-slate-600 capitalize">{demoMinimalTab}</strong>
+                        </span>
                       </div>
                     </div>
                   </div>
