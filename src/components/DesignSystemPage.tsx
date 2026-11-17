@@ -65,6 +65,7 @@ import { HelpCenter } from './HelpCenter';
 import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
 import { TablePagination } from '../design-system/molecules/TablePagination';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
+import { ModalActionGroup } from '../design-system/molecules/ModalActionGroup';
 import { Toast, ToastVariant } from '../design-system/atoms/Toast';
 
 interface DesignSystemPageProps {
@@ -843,214 +844,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                             Atrás navegación
                           </span>
                         </div>
-                      </div>
-                    </div>
-
-                    <div className="h-[1px] bg-[#f1f5f9] w-full" />
-
-                    {/* 4. Modal Action Buttons & Comparison */}
-                    <div className="flex flex-col gap-3">
-                      <div className="flex flex-col">
-                        <span className="text-[13px] font-bold text-black">
-                          4. Botones de Modales y Diálogos (Comparativa de Acciones en Ventanas Modales)
-                        </span>
-                        <span className="text-[12px] text-[#64748b]">
-                          Conjunto de botones utilizados en ventanas emergentes. Homologados estrictamente bajo la regla: <strong>mismo peso (bold), mismo tamaño (40px de altura, esquinas de 8px) y ambos en MAYÚSCULAS</strong>, con orden estándar (cancelar/secundario a la izquierda, acción primaria a la derecha).
-                        </span>
-                      </div>
-
-                      {/* Muestrario de Botones de Modal */}
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
-                        {/* Tarjeta A: Confirmar Cita (Activo vs Deshabilitado) */}
-                        <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] flex flex-col gap-3">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[12px] font-bold text-black">
-                              A. Modal de Citas (Video / Chat)
-                            </span>
-                            <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
-                              h: 40px · r: 8px
-                            </span>
-                          </div>
-                          <div className="flex flex-wrap items-center gap-3">
-                            <Button variant="modal-primary" className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]">
-                              CONFIRMAR CITA
-                            </Button>
-                            <button
-                              type="button"
-                              disabled
-                              className="h-[40px] px-6 rounded-[8px] bg-[#cbd5e1] text-[#64748b] text-[13px] font-bold uppercase cursor-not-allowed select-none"
-                              title="Estado incompleto / bloqueado"
-                            >
-                              CONFIRMAR CITA (BLOQUEADO)
-                            </button>
-                          </div>
-                          <span className="text-[11px] text-[#64748b]">
-                            Usado en <code>ModalVideoConsulta</code> y <code>ModalSolicitarChat</code>.
-                          </span>
-                        </div>
-
-                        {/* Tarjeta B: Formulario Guardar / Cancelar */}
-                        <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] flex flex-col gap-3">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[12px] font-bold text-black">
-                              B. Formularios de Datos (Familiares / Mascotas)
-                            </span>
-                            <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
-                              h: 40px · r: 8px
-                            </span>
-                          </div>
-                          <div className="flex flex-wrap items-center gap-3">
-                            <Button variant="outline" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
-                              CANCELAR
-                            </Button>
-                            <Button variant="primary" className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]">
-                              GUARDAR
-                            </Button>
-                          </div>
-                          <span className="text-[11px] text-[#64748b]">
-                            Mismo tamaño, mismo peso bold y ambos en mayúsculas en formularios.
-                          </span>
-                        </div>
-
-                        {/* Tarjeta C: Diálogo Crítico de Baja */}
-                        <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] flex flex-col gap-3">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[12px] font-bold text-black">
-                              C. Diálogo Crítico de Confirmación (Baja)
-                            </span>
-                            <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
-                              h: 40px · r: 8px
-                            </span>
-                          </div>
-                          <div className="flex flex-wrap items-center gap-3">
-                            <Button variant="outline" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
-                              CANCELAR
-                            </Button>
-                            <Button variant="destructive" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white">
-                              DAR DE BAJA
-                            </Button>
-                          </div>
-                          <span className="text-[11px] text-[#64748b]">
-                            Usado en <code>ConfirmDeactivateModal</code> para acciones destructivas.
-                          </span>
-                        </div>
-
-                        {/* Tarjeta D: Clínico & Documental */}
-                        <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] flex flex-col gap-3">
-                          <div className="flex items-center justify-between">
-                            <span className="text-[12px] font-bold text-black">
-                              D. Modales Clínicos & Documentales
-                            </span>
-                            <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
-                              h: 40px · r: 8px
-                            </span>
-                          </div>
-                          <div className="flex flex-wrap items-center gap-2.5">
-                            <Button variant="outline" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
-                              DESCARTAR
-                            </Button>
-                            <Button variant="primary" className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]">
-                              CONFIRMAR
-                            </Button>
-                            <Button variant="outline" className="h-[40px] px-4 text-[13px] font-bold uppercase rounded-[8px] border-[#d50475] text-[#d50475] hover:bg-[#fdf2f8] flex items-center gap-1.5">
-                              <Plus className="w-3.5 h-3.5" />
-                              <span>SUBIR DOC</span>
-                            </Button>
-                          </div>
-                          <span className="text-[11px] text-[#64748b]">
-                            Usado en <code>ModalGinecologia</code> y <code>ModalDocumentos</code>.
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Tabla comparativa técnica */}
-                      <div className="mt-2 border border-[#e2e8f0] rounded-[8px] overflow-hidden">
-                        <table className="w-full text-left text-[12px]">
-                          <thead className="bg-[#f8fafc] text-[#475569] border-b border-[#e2e8f0] font-bold">
-                            <tr>
-                              <th className="py-2.5 px-3">Botón / Acción</th>
-                              <th className="py-2.5 px-3">Altura</th>
-                              <th className="py-2.5 px-3">Borde</th>
-                              <th className="py-2.5 px-3">Tipografía</th>
-                              <th className="py-2.5 px-3">Fondo / Color</th>
-                              <th className="py-2.5 px-3">Modal de Uso</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-[#f1f5f9] text-[#334155]">
-                            <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black uppercase">CONFIRMAR CITA</td>
-                              <td className="py-2 px-3 font-mono">40px</td>
-                              <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                              <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Blanco texto)</td>
-                              <td className="py-2 px-3 text-[#64748b]">VideoConsulta / SolicitarChat</td>
-                            </tr>
-                            <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-[#64748b] uppercase">CONFIRMAR CITA (BLOQUEADO)</td>
-                              <td className="py-2 px-3 font-mono">40px</td>
-                              <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                              <td className="py-2 px-3 text-[#64748b]">#cbd5e1 (Gris deshabilitado)</td>
-                              <td className="py-2 px-3 text-[#64748b]">VideoConsulta (incompleto)</td>
-                            </tr>
-                            <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black uppercase">GUARDAR</td>
-                              <td className="py-2 px-3 font-mono">40px</td>
-                              <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                              <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Primario)</td>
-                              <td className="py-2 px-3 text-[#64748b]">Familiares / Mascotas</td>
-                            </tr>
-                            <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black uppercase">CANCELAR</td>
-                              <td className="py-2 px-3 font-mono">40px</td>
-                              <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                              <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
-                              <td className="py-2 px-3 text-[#64748b]">Familiares / Mascotas</td>
-                            </tr>
-                            <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-[#ef4444] uppercase">DAR DE BAJA</td>
-                              <td className="py-2 px-3 font-mono">40px</td>
-                              <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                              <td className="py-2 px-3 text-[#ef4444] font-medium">#ef4444 (Destructivo)</td>
-                              <td className="py-2 px-3 text-[#64748b]">ConfirmDeactivateModal</td>
-                            </tr>
-                            <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black uppercase">CANCELAR</td>
-                              <td className="py-2 px-3 font-mono">40px</td>
-                              <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                              <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
-                              <td className="py-2 px-3 text-[#64748b]">ConfirmDeactivateModal</td>
-                            </tr>
-                            <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black uppercase">DESCARTAR</td>
-                              <td className="py-2 px-3 font-mono">40px</td>
-                              <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                              <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
-                              <td className="py-2 px-3 text-[#64748b]">Ginecología / Documentos</td>
-                            </tr>
-                            <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black uppercase">CONFIRMAR</td>
-                              <td className="py-2 px-3 font-mono">40px</td>
-                              <td className="py-2 px-3 font-mono">8px</td>
-                              <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                              <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Primario)</td>
-                              <td className="py-2 px-3 text-[#64748b]">Ginecología / Documentos</td>
-                            </tr>
-                            <tr className="hover:bg-[#f8fafc]/50">
-                              <td className="py-2 px-3 font-bold text-black">Cerrar modal (X)</td>
-                              <td className="py-2 px-3 font-mono">32px (w-8 h-8)</td>
-                              <td className="py-2 px-3 font-mono">Circular (full)</td>
-                              <td className="py-2 px-3">Icono Lucide X</td>
-                              <td className="py-2 px-3">Hover #f1f5f9</td>
-                              <td className="py-2 px-3 text-[#64748b]">Cabecera de todos los modales</td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </div>
                   </div>
@@ -1845,6 +1638,219 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   description="Ilustración vectorial de medalla al finalizar cuestionarios."
                 >
                   <CompletionMedalIllustration size={140} />
+                </StageBlock>
+
+                {/* 8. ModalActionGroup (Composición de Botones de Modal) */}
+                <StageBlock
+                  title="Barras de Acción de Modal & Diálogos (Composición de Botones)"
+                  componentTag="<ModalActionGroup /> + <Button />"
+                  usedIn={['ModalVideoConsulta', 'ModalSolicitarChat', 'Familiares', 'Mascotas', 'ModalDocumentos', 'ConfirmDeactivateModal']}
+                  description="Composición homologada de botones para modales y diálogos. Clasificada como Molécula (composición de átomos) y construida exclusivamente con nuestro componente <Button /> del sistema, garantizando mismo peso bold, altura de 40px, esquinas de 8px y todas las acciones en MAYÚSCULAS."
+                >
+                  <div className="flex flex-col gap-6">
+                    {/* Demostración interactiva de la Molécula ModalActionGroup */}
+                    <div className="p-4 rounded-[10px] border border-[#e2e8f0] bg-[#f8fafc] flex flex-col gap-3">
+                      <span className="text-[12px] font-bold text-black uppercase tracking-wider">
+                        Demostración del Componente Reutilizable &lt;ModalActionGroup /&gt;
+                      </span>
+                      <ModalActionGroup
+                        infoText="* Todos los campos son obligatorios"
+                        onCancel={() => alert('Cancelar pulsado')}
+                        onConfirm={() => alert('Guardar pulsado')}
+                        cancelText="CANCELAR"
+                        confirmText="GUARDAR"
+                      />
+                    </div>
+
+                    {/* Muestrario de Composiciones de Botones de Modal (Tarjetas A, B, C, D) */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 pt-1">
+                      {/* Tarjeta A: Modal de Citas (Video / Chat) */}
+                      <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] flex flex-col gap-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[12px] font-bold text-black">
+                            A. Modal de Citas (Video / Chat)
+                          </span>
+                          <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
+                            h: 40px · r: 8px
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <Button variant="primary">
+                            CONFIRMAR CITA
+                          </Button>
+                          <Button variant="inactive" tooltipText="Estado incompleto / bloqueado">
+                            CONFIRMAR CITA (BLOQUEADO)
+                          </Button>
+                        </div>
+                        <span className="text-[11px] text-[#64748b]">
+                          Usado en <code>ModalVideoConsulta</code> y <code>ModalSolicitarChat</code>.
+                        </span>
+                      </div>
+
+                      {/* Tarjeta B: Formulario Guardar / Cancelar */}
+                      <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] flex flex-col gap-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[12px] font-bold text-black">
+                            B. Formularios de Datos (Familiares / Mascotas)
+                          </span>
+                          <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
+                            h: 40px · r: 8px
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <Button variant="outline">
+                            CANCELAR
+                          </Button>
+                          <Button variant="primary">
+                            GUARDAR
+                          </Button>
+                        </div>
+                        <span className="text-[11px] text-[#64748b]">
+                          Mismo tamaño, mismo peso bold y ambos en mayúsculas en formularios.
+                        </span>
+                      </div>
+
+                      {/* Tarjeta C: Diálogo Crítico de Baja */}
+                      <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] flex flex-col gap-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[12px] font-bold text-black">
+                            C. Diálogo Crítico de Confirmación (Baja)
+                          </span>
+                          <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
+                            h: 40px · r: 8px
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <Button variant="outline">
+                            CANCELAR
+                          </Button>
+                          <Button variant="destructive">
+                            DAR DE BAJA
+                          </Button>
+                        </div>
+                        <span className="text-[11px] text-[#64748b]">
+                          Usado en <code>ConfirmDeactivateModal</code> para acciones destructivas.
+                        </span>
+                      </div>
+
+                      {/* Tarjeta D: Clínico & Documental */}
+                      <div className="p-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] flex flex-col gap-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[12px] font-bold text-black">
+                            D. Modales Clínicos & Documentales
+                          </span>
+                          <span className="text-[11px] text-[#64748b] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">
+                            h: 40px · r: 8px
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-2.5">
+                          <Button variant="outline">
+                            DESCARTAR
+                          </Button>
+                          <Button variant="primary">
+                            CONFIRMAR
+                          </Button>
+                          <Button variant="secondary">
+                            <Plus className="w-4 h-4 text-[#d50475]" />
+                            <span>SUBIR DOC</span>
+                          </Button>
+                        </div>
+                        <span className="text-[11px] text-[#64748b]">
+                          Usado en <code>ModalGinecologia</code> y <code>ModalDocumentos</code>.
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Tabla comparativa técnica */}
+                    <div className="mt-2 border border-[#e2e8f0] rounded-[8px] overflow-hidden">
+                      <table className="w-full text-left text-[12px]">
+                        <thead className="bg-[#f8fafc] text-[#475569] border-b border-[#e2e8f0] font-bold">
+                          <tr>
+                            <th className="py-2.5 px-3">Botón / Acción</th>
+                            <th className="py-2.5 px-3">Altura</th>
+                            <th className="py-2.5 px-3">Borde</th>
+                            <th className="py-2.5 px-3">Tipografía</th>
+                            <th className="py-2.5 px-3">Fondo / Color</th>
+                            <th className="py-2.5 px-3">Modal de Uso</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-[#f1f5f9] text-[#334155]">
+                          <tr className="hover:bg-[#f8fafc]/50">
+                            <td className="py-2 px-3 font-bold text-black uppercase">CONFIRMAR CITA</td>
+                            <td className="py-2 px-3 font-mono">40px</td>
+                            <td className="py-2 px-3 font-mono">8px</td>
+                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Blanco texto)</td>
+                            <td className="py-2 px-3 text-[#64748b]">VideoConsulta / SolicitarChat</td>
+                          </tr>
+                          <tr className="hover:bg-[#f8fafc]/50">
+                            <td className="py-2 px-3 font-bold text-[#64748b] uppercase">CONFIRMAR CITA (BLOQUEADO)</td>
+                            <td className="py-2 px-3 font-mono">40px</td>
+                            <td className="py-2 px-3 font-mono">8px</td>
+                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 text-[#64748b]">#cbd5e1 (Gris deshabilitado)</td>
+                            <td className="py-2 px-3 text-[#64748b]">VideoConsulta (incompleto)</td>
+                          </tr>
+                          <tr className="hover:bg-[#f8fafc]/50">
+                            <td className="py-2 px-3 font-bold text-black uppercase">GUARDAR</td>
+                            <td className="py-2 px-3 font-mono">40px</td>
+                            <td className="py-2 px-3 font-mono">8px</td>
+                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Primario)</td>
+                            <td className="py-2 px-3 text-[#64748b]">Familiares / Mascotas</td>
+                          </tr>
+                          <tr className="hover:bg-[#f8fafc]/50">
+                            <td className="py-2 px-3 font-bold text-black uppercase">CANCELAR</td>
+                            <td className="py-2 px-3 font-mono">40px</td>
+                            <td className="py-2 px-3 font-mono">8px</td>
+                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
+                            <td className="py-2 px-3 text-[#64748b]">Familiares / Mascotas</td>
+                          </tr>
+                          <tr className="hover:bg-[#f8fafc]/50">
+                            <td className="py-2 px-3 font-bold text-[#ef4444] uppercase">DAR DE BAJA</td>
+                            <td className="py-2 px-3 font-mono">40px</td>
+                            <td className="py-2 px-3 font-mono">8px</td>
+                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 text-[#ef4444] font-medium">#ef4444 (Destructivo)</td>
+                            <td className="py-2 px-3 text-[#64748b]">ConfirmDeactivateModal</td>
+                          </tr>
+                          <tr className="hover:bg-[#f8fafc]/50">
+                            <td className="py-2 px-3 font-bold text-black uppercase">CANCELAR</td>
+                            <td className="py-2 px-3 font-mono">40px</td>
+                            <td className="py-2 px-3 font-mono">8px</td>
+                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
+                            <td className="py-2 px-3 text-[#64748b]">ConfirmDeactivateModal</td>
+                          </tr>
+                          <tr className="hover:bg-[#f8fafc]/50">
+                            <td className="py-2 px-3 font-bold text-black uppercase">DESCARTAR</td>
+                            <td className="py-2 px-3 font-mono">40px</td>
+                            <td className="py-2 px-3 font-mono">8px</td>
+                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
+                            <td className="py-2 px-3 text-[#64748b]">Ginecología / Documentos</td>
+                          </tr>
+                          <tr className="hover:bg-[#f8fafc]/50">
+                            <td className="py-2 px-3 font-bold text-black uppercase">CONFIRMAR</td>
+                            <td className="py-2 px-3 font-mono">40px</td>
+                            <td className="py-2 px-3 font-mono">8px</td>
+                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Primario)</td>
+                            <td className="py-2 px-3 text-[#64748b]">Ginecología / Documentos</td>
+                          </tr>
+                          <tr className="hover:bg-[#f8fafc]/50">
+                            <td className="py-2 px-3 font-bold text-black">Cerrar modal (X)</td>
+                            <td className="py-2 px-3 font-mono">32px (w-8 h-8)</td>
+                            <td className="py-2 px-3 font-mono">Circular (full)</td>
+                            <td className="py-2 px-3">Icono Lucide X</td>
+                            <td className="py-2 px-3">Hover #f1f5f9</td>
+                            <td className="py-2 px-3 text-[#64748b]">Cabecera de todos los modales</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </StageBlock>
               </div>
             )}
@@ -2714,10 +2720,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </StageBlock>
 
                 <StageBlock
-                  title="Footers de Modales"
-                  componentTag="Modal Footers & Actions"
+                  title="Footers de Modales (Composiciones)"
+                  componentTag="<ModalActionGroup />"
                   usedIn={['Videoconsulta', 'Solicitar Chat', 'Familiares', 'Mascotas', 'Documentos']}
-                  description="Regla obligatoria de modales: mismo peso (font-bold), mismo tamaño (altura 40px, esquinas de 8px) y ambos en MAYÚSCULAS en todas las acciones."
+                  description="Composiciones de barra inferior en ventanas modales. Construidas íntegramente con nuestro sistema de botones (<Button />), garantizando mismo peso bold, altura de 40px, esquinas de 8px y todas las acciones en MAYÚSCULAS."
                 >
                   <div className="flex flex-col gap-6">
                     {/* 1. Footer Citas */}
