@@ -49,7 +49,7 @@ const INITIAL_MASCOTAS: Mascota[] = [
     condicionCorporal: 'Peso Ideal',
     colorPrimario: '#d4a373',
     colorSecundario: '#ffffff',
-    familiarRelacionado: 'Carlos Damian',
+    familiarRelacionado: 'Alejandro Navarro',
     numeroChip: '985141002345678',
   },
   {
@@ -119,7 +119,7 @@ const CONDICION_OPTIONS = [
 ];
 
 const FAMILIARES_RESPONSABLES = [
-  'Carlos Damian (Titular)',
+  'Alejandro Navarro (Titular)',
   'Elena Ruiz Morales (Cónyuge)',
   'Mateo Damian Ruiz (Hijo)',
   'Lucía Damian Ruiz (Hija)',
@@ -191,7 +191,7 @@ export const Mascotas: React.FC = () => {
       condicionCorporal: formCondicion || 'Peso Ideal',
       colorPrimario: formColorPrimario,
       colorSecundario: formColorSecundario,
-      familiarRelacionado: formFamiliar || 'Carlos Damian',
+      familiarRelacionado: formFamiliar || 'Alejandro Navarro',
       numeroChip: formChip.trim() || 'No registrado',
     };
 
@@ -270,7 +270,7 @@ export const Mascotas: React.FC = () => {
       {/* Contenedor de datos (Tabla en Desktop / Cards tipo tabla en Mobile) */}
       <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-visible">
         {/* VISTA DESKTOP: TABLA COMPLETA */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto min-h-[420px] pb-16">
           <table className="w-full text-left border-collapse bg-white">
           <thead>
             <tr className="bg-white border-b border-[#e2e8f0] text-[12px] font-bold uppercase tracking-wider text-black">
@@ -292,7 +292,7 @@ export const Mascotas: React.FC = () => {
                 </td>
               </tr>
             ) : (
-              filtered.map((item) => (
+              filtered.map((item, index) => (
                 <tr key={item.id} className="hover:bg-[#f8fafc] transition-colors">
                   <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
                     <div className="flex items-center gap-3">
@@ -364,7 +364,7 @@ export const Mascotas: React.FC = () => {
                         <ActionMenu
                           variant="standard"
                           onClose={() => setActiveMenuId(null)}
-                          className="absolute right-0 top-[calc(100%+4px)] z-50 w-[235px] text-left"
+                          className={`absolute right-0 ${index >= filtered.length - 1 ? 'bottom-[calc(100%+4px)]' : 'top-[calc(100%+4px)]'} z-50 w-[235px] text-left`}
                           items={[
                             {
                               id: 'historial',

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Info, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { Button } from '../atoms/Button';
 
 interface ConfirmDeactivateModalProps {
@@ -34,10 +34,10 @@ export const ConfirmDeactivateModal: React.FC<ConfirmDeactivateModalProps> = ({
   const dialogContent = (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-[480px] bg-white rounded-[16px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6 sm:p-7 border border-[#e2e8f0] flex flex-col gap-4 cursor-default"
+      className="w-full max-w-[480px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6 sm:p-7 border border-[#e2e8f0] flex flex-col gap-4 cursor-default font-[family-name:Helvetica]"
     >
-      {/* Header sin icono inicial y botón cerrar circular */}
-      <div className="flex items-start justify-between gap-3">
+      {/* Header alineado con la X y con línea divisoria abajo */}
+      <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
         <h3 className="text-[18px] sm:text-[19px] font-bold text-black tracking-tight leading-snug">
           {title}
         </h3>
@@ -51,20 +51,19 @@ export const ConfirmDeactivateModal: React.FC<ConfirmDeactivateModalProps> = ({
         </button>
       </div>
 
-      {/* Descripción clara y destacada */}
-      <p className="text-[14px] leading-[22px] text-[var(--color-page-subtitle)] font-normal">
-        {descriptionPrefix}{' '}
-        <strong className="text-black font-bold">{entityName}</strong>{' '}
-        {descriptionSuffix}
-      </p>
-
-      {/* Callout de consecuencia / aclaración con icono informativo */}
-      {consequenceNote && (
-        <div className="p-3.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] flex items-start gap-2.5 text-[12.5px] text-[var(--color-text-description)] leading-[19px]">
-          <Info className="w-4 h-4 text-[#64748b] shrink-0 mt-0.5" />
-          <div>{consequenceNote}</div>
-        </div>
-      )}
+      {/* Descripción clara y directa como texto (sin recuadro de help text ni icono) */}
+      <div className="flex flex-col gap-2 pt-1 text-[14px] leading-[22px] text-black font-normal">
+        <p>
+          {descriptionPrefix}{' '}
+          <strong className="text-black font-bold">{entityName}</strong>{' '}
+          {descriptionSuffix}
+        </p>
+        {consequenceNote && (
+          <p className="text-[#475569]">
+            {consequenceNote}
+          </p>
+        )}
+      </div>
 
       {/* Botones de acción homologados: mismo peso, misma altura (40px) y mayúsculas */}
       <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#f1f5f9]">

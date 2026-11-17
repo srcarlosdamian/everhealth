@@ -53,7 +53,7 @@ export const Biometria: React.FC<BiometriaProps> = ({
   const [loadProgress, setLoadProgress] = useState(30);
 
   // Form states
-  const [nombre, setNombre] = useState('Carlos Damian');
+  const [nombre, setNombre] = useState('Alejandro Navarro');
   const [apellidos, setApellidos] = useState('descarlosdamian');
   const [email, setEmail] = useState('contact@carlosdamian.com');
   const [edad, setEdad] = useState('35');
@@ -566,57 +566,6 @@ export const Biometria: React.FC<BiometriaProps> = ({
                         </div>
                       </div>
                     )}
-                  </div>
-                </div>
-              </div>
-
-              {/* ================= BARRA DE CONTROLES DEL PROTOTIPO ================= */}
-              {/* Dropdowns para simular: tipo de error en la prueba + distancia de rostro */}
-              <div className="w-full bg-[#f8fafc] border border-dashed border-[#94a3b8] rounded-[10px] p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-                
-                {/* Dropdown de Resultado / Error del prototipo */}
-                <div className="flex-1 flex flex-col gap-1">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[12px] font-bold text-black uppercase tracking-wider">
-                      Simulación de resultado (Solo prototipo)
-                    </label>
-                    <span className="text-[10px] text-[#64748b]">Control de prueba</span>
-                  </div>
-                  <Dropdown
-                    size="sm"
-                    value={simulatedOutcome}
-                    onChange={(val) => setSimulatedOutcome(val as any)}
-                    options={[
-                      { value: 'blood_flow_error', label: 'Error: Flujo sanguíneo no fiable (Simular fallo)' },
-                      { value: 'success', label: 'Éxito: Medición completa al 100% (Simular escaneo)' },
-                    ]}
-                  />
-                  <p className="text-[11px] text-[#64748b] leading-tight">
-                    Elige si la medición debe fallar al 50% con el modal de alerta o completarse con éxito.
-                  </p>
-                </div>
-
-                {/* Toggles rápidos de posición y estado de cámara en vivo */}
-                <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPositionState(positionState === 'far' ? 'ready' : 'far');
-                      if (measureStatus === 'measuring') handleResetScan();
-                    }}
-                    className={`h-[38px] px-3 rounded-[6px] border text-[12px] font-bold uppercase transition-all cursor-pointer ${
-                      positionState === 'ready'
-                        ? 'border-[#2563eb] bg-[#eff6ff] text-[#2563eb]'
-                        : 'border-[#94a3b8] bg-white text-[#64748b]'
-                    }`}
-                    title="Alternar entre distancia correcta o 'Su cara está demasiado lejos'"
-                  >
-                    {positionState === 'ready' ? 'Distancia: Centrado' : 'Distancia: Lejos'}
-                  </button>
-
-                  <div className="h-[38px] px-3 rounded-[6px] border border-[#10b981] bg-[#ecfdf5] text-[#10b981] text-[12px] font-bold uppercase flex items-center gap-1.5 select-none">
-                    <Camera className="w-4 h-4" />
-                    <span>Cámara en vivo</span>
                   </div>
                 </div>
               </div>

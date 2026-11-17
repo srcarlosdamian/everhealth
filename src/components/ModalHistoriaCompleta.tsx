@@ -58,7 +58,7 @@ const CLINICAL_SECTIONS: AccordionSection[] = [
 export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
   isOpen,
   onClose,
-  patientName = 'Carlos Damian descarlosdamian',
+  patientName = 'Alejandro Navarro',
   patientGenderBirth = 'Masculino, nacido el 28/05/1991',
   initials = 'CD',
 }) => {

@@ -52,7 +52,7 @@ const INITIAL_FAMILIARES: Familiar[] = [
     edad: 8,
     sexo: 'Masculino',
     parentesco: 'Hijo/a',
-    tutorAsignado: 'Carlos Damian (Titular)',
+    tutorAsignado: 'Alejandro Navarro (Titular)',
   },
   {
     id: '3',

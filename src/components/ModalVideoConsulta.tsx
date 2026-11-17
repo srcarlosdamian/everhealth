@@ -7,6 +7,7 @@ import { Radio } from '../design-system/atoms/Radio';
 import { Button } from '../design-system/atoms/Button';
 import { CalendarMonthGrid } from '../design-system/molecules/CalendarMonthGrid';
 import { SelectedAppointmentBanner } from '../design-system/molecules/SelectedAppointmentBanner';
+import { ModalCitaConfirmada } from './ModalCitaConfirmada';
 
 interface ModalVideoConsultaProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
   const [motivo, setMotivo] = useState<string>('');
   const [tipoConsulta, setTipoConsulta] = useState<string>('Primera vez');
   const [zonaHoraria, setZonaHoraria] = useState<string>('GMT-6 (Ciudad de México)');
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   if (!isOpen) return null;
 
@@ -220,12 +222,35 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
         <div className="flex items-center justify-end pt-3 border-t border-[#f1f5f9]">
           <Button
             variant="primary"
-            onClick={onClose}
+            onClick={() => setIsSuccessModalOpen(true)}
             className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px] shadow-xs"
           >
             CONFIRMAR CITA
           </Button>
         </div>
+
+        {/* Modal de Cita Confirmada */}
+        <ModalCitaConfirmada
+          isOpen={isSuccessModalOpen}
+          onClose={() => {
+            setIsSuccessModalOpen(false);
+            onClose();
+          }}
+          tipoCita="Videoconsulta"
+          profesional={`Especialista en ${selectedSpecialty}`}
+          fecha={`Sábado ${selectedDay} de Octubre`}
+          hora={`${selectedTime} hrs`}
+          onGoHome={() => {
+            setIsSuccessModalOpen(false);
+            onClose();
+            window.location.hash = '#/home';
+          }}
+          onGoHistory={() => {
+            setIsSuccessModalOpen(false);
+            onClose();
+            window.location.hash = '#/historial-consultas';
+          }}
+        />
 
       </div>
     </div>

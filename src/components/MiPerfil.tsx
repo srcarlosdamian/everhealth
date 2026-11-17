@@ -508,19 +508,19 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col gap-1">
+              <div className="p-4 rounded-[8px] bg-white border border-[#e2e8f0] flex flex-col gap-1">
                 <span className="text-[12px] text-[#64748b] font-medium uppercase tracking-wider">Plan contratado</span>
                 <span className="text-[16px] font-bold text-black">Ever Health Familiar Plus</span>
                 <span className="text-[13px] text-[#475569]">199,00 € / año</span>
               </div>
 
-              <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col gap-1">
+              <div className="p-4 rounded-[8px] bg-white border border-[#e2e8f0] flex flex-col gap-1">
                 <span className="text-[12px] text-[#64748b] font-medium uppercase tracking-wider">Próxima renovación</span>
                 <span className="text-[16px] font-bold text-black">14 de Mayo de 2027</span>
                 <span className="text-[13px] text-[#16a34a] font-medium">Renovación automática</span>
               </div>
 
-              <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col justify-between gap-3">
+              <div className="p-4 rounded-[8px] bg-white border border-[#e2e8f0] flex flex-col justify-between gap-3">
                 <div className="flex flex-col gap-0.5">
                   <span className="text-[12px] text-[#64748b] font-medium uppercase tracking-wider">Cobertura</span>
                   <span className="text-[14px] font-bold text-black">Titular + 3 beneficiarios</span>
@@ -530,7 +530,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                     variant="outline"
                     type="button"
                     className="h-[36px] text-[13px]"
-                    onClick={() => showSuccess('Planes disponibles cargados.')}
+                    onClick={() => {}}
                   >
                     Cambiar plan
                   </Button>
@@ -545,7 +545,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
               Método de pago
             </h2>
 
-            <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-4 rounded-[8px] bg-white border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-[6px] bg-white border border-[#cbd5e1] flex items-center justify-center shrink-0">
                   <CreditCard className="w-5 h-5 text-black" />
@@ -561,7 +561,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   variant="outline"
                   type="button"
                   className="h-[36px] text-[13px]"
-                  onClick={() => showSuccess('Ventana para cambiar tarjeta abierta.')}
+                  onClick={() => {}}
                 >
                   Actualizar tarjeta
                 </Button>
@@ -632,29 +632,29 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
               Historial de facturas
             </h2>
 
-            <div className="border border-[#e2e8f0] rounded-[8px] overflow-hidden bg-white">
-              <table className="w-full text-left text-[14px]">
-                <thead className="bg-[#f8fafc] border-b border-[#e2e8f0] text-[#64748b] text-[12px] font-semibold uppercase">
-                  <tr>
-                    <th className="py-3 px-4">Fecha</th>
-                    <th className="py-3 px-4">Concepto</th>
-                    <th className="py-3 px-4">Importe</th>
-                    <th className="py-3 px-4">Estado</th>
-                    <th className="py-3 px-4 text-right">Factura</th>
+            <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-x-auto">
+              <table className="w-full text-left border-collapse bg-white">
+                <thead>
+                  <tr className="bg-white border-b border-[#e2e8f0] text-[12px] font-bold uppercase tracking-wider text-black">
+                    <th className="py-3.5 px-4 border-r border-[#e2e8f0]">FECHA</th>
+                    <th className="py-3.5 px-4 border-r border-[#e2e8f0]">CONCEPTO</th>
+                    <th className="py-3.5 px-4 border-r border-[#e2e8f0]">IMPORTE</th>
+                    <th className="py-3.5 px-4 border-r border-[#e2e8f0]">ESTADO</th>
+                    <th className="py-3.5 px-4 text-right w-[100px]">FACTURA</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#f1f5f9]">
-                  <tr>
-                    <td className="py-3.5 px-4 font-medium text-black">14/05/2026</td>
-                    <td className="py-3.5 px-4 text-black">Suscripción Ever Health Anual</td>
-                    <td className="py-3.5 px-4 font-bold text-black">199,00 €</td>
-                    <td className="py-3.5 px-4">
+                <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black bg-white">
+                  <tr className="hover:bg-[#f8fafc] transition-colors">
+                    <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-black">14/05/2026</td>
+                    <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-black">Suscripción Ever Health Anual</td>
+                    <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-bold text-black">199,00 €</td>
+                    <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
                       <Badge variant="success">Pagada</Badge>
                     </td>
                     <td className="py-3.5 px-4 text-right">
                       <button
                         type="button"
-                        onClick={() => showSuccess('Descargando factura 2026-05-14.pdf...')}
+                        onClick={() => {}}
                         className="inline-flex items-center gap-1.5 text-[13px] font-bold text-[#d50475] hover:underline cursor-pointer"
                       >
                         <Download className="w-4 h-4" />
@@ -662,17 +662,17 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                       </button>
                     </td>
                   </tr>
-                  <tr>
-                    <td className="py-3.5 px-4 font-medium text-black">14/05/2025</td>
-                    <td className="py-3.5 px-4 text-black">Suscripción Ever Health Anual</td>
-                    <td className="py-3.5 px-4 font-bold text-black">189,00 €</td>
-                    <td className="py-3.5 px-4">
+                  <tr className="hover:bg-[#f8fafc] transition-colors">
+                    <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-black">14/05/2025</td>
+                    <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-black">Suscripción Ever Health Anual</td>
+                    <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-bold text-black">189,00 €</td>
+                    <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
                       <Badge variant="success">Pagada</Badge>
                     </td>
                     <td className="py-3.5 px-4 text-right">
                       <button
                         type="button"
-                        onClick={() => showSuccess('Descargando factura 2025-05-14.pdf...')}
+                        onClick={() => {}}
                         className="inline-flex items-center gap-1.5 text-[13px] font-bold text-[#d50475] hover:underline cursor-pointer"
                       >
                         <Download className="w-4 h-4" />

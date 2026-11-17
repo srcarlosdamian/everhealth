@@ -7,6 +7,7 @@ import { Button } from '../design-system/atoms/Button';
 import { CalendarDaySlots } from '../design-system/molecules/CalendarDaySlots';
 import { SelectedAppointmentBanner } from '../design-system/molecules/SelectedAppointmentBanner';
 import { AssignedDoctorCard } from '../design-system/molecules/AssignedDoctorCard';
+import { ModalCitaConfirmada } from './ModalCitaConfirmada';
 
 interface ModalSolicitarChatProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
   defaultTab = 'agendar',
 }) => {
   const [modalidad, setModalidad] = useState<'agendar' | 'ahora'>(defaultTab);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   // Campos obligatorios solicitados con asterisco (*)
   const [selectedSpecialty, setSelectedSpecialty] = useState<string>('Medicina General');
@@ -277,12 +279,35 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
           <Button
             variant="primary"
             type="button"
-            onClick={onClose}
+            onClick={() => setIsSuccessModalOpen(true)}
             className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
           >
             CONFIRMAR CITA
           </Button>
         </div>
+
+        {/* Modal de Cita Confirmada con ilustración y opciones de navegación */}
+        <ModalCitaConfirmada
+          isOpen={isSuccessModalOpen}
+          onClose={() => {
+            setIsSuccessModalOpen(false);
+            onClose();
+          }}
+          tipoCita="Chat médico"
+          profesional="Dr. Bruno Peñas (Medicina General)"
+          fecha={selectedDay}
+          hora={`${selectedTime} hrs`}
+          onGoHome={() => {
+            setIsSuccessModalOpen(false);
+            onClose();
+            window.location.hash = '#/home';
+          }}
+          onGoHistory={() => {
+            setIsSuccessModalOpen(false);
+            onClose();
+            window.location.hash = '#/historial-consultas';
+          }}
+        />
 
       </div>
     </div>

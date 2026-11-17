@@ -37,13 +37,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const userMenuRef = useRef<HTMLDivElement>(null);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
-  const displayName = userName.trim() || 'Carlos Damián';
+  const displayName = userName.trim() || 'Alejandro Navarro';
   const initials = displayName
     .split(' ')
     .filter(Boolean)
     .slice(0, 2)
     .map((p) => p[0]?.toUpperCase())
-    .join('') || 'CD';
+    .join('') || 'AN';
 
   // Close dropdowns when clicking outside
   useEffect(() => {

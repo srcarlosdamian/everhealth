@@ -62,8 +62,8 @@ const getInitialRoute = (): string => {
 
 export function App() {
   const [route, setRoute] = useState<string>(() => getInitialRoute());
-  const [email, setEmail] = useState<string>('contact@carlosdamian.com');
-  const [userName, setUserName] = useState<string>('Carlos Damián');
+  const [email, setEmail] = useState<string>('alejandro.navarro@everhealth.es');
+  const [userName, setUserName] = useState<string>('Alejandro Navarro');
 
   // Sincronizar ruta y escuchar cambios de hash en el navegador para permitir enlaces directos compartibles
   useEffect(() => {

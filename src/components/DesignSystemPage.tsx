@@ -2183,7 +2183,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               <Badge variant="success" className="w-fit">Menor a cargo</Badge>
                             </td>
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0] text-[13px] font-medium text-black">
-                              Carlos Damian (Titular)
+                              Alejandro Navarro (Titular)
                             </td>
                             <td className="py-3.5 px-4 text-right">
                               <button

@@ -108,13 +108,13 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
-  const displayName = userName.trim() || 'Carlos Damián';
+  const displayName = userName.trim() || 'Alejandro Navarro';
   const initials = displayName
     .split(' ')
     .filter(Boolean)
     .slice(0, 2)
     .map((p) => p[0]?.toUpperCase())
-    .join('') || 'CD';
+    .join('') || 'AN';
 
   // If in biometria mode, render full-page Biometria
   if (currentView === 'biometria') {
