@@ -13,6 +13,10 @@ import {
   Smartphone,
   ExternalLink,
   Upload,
+  CreditCard,
+  MapPin,
+  Phone,
+  Hash,
 } from 'lucide-react';
 import { Tabs, TabItem } from '../design-system/molecules/Tabs';
 import { Button } from '../design-system/atoms/Button';
@@ -128,25 +132,35 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
 
   const handleSavePersonal = (e: React.FormEvent) => {
     e.preventDefault();
-    showSuccess('Datos de información personal actualizados correctamente.');
+    showSuccess('Datos de perfil actualizados con éxito.');
   };
 
   const handleSaveEmail = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!newEmail || !repeatEmail) {
+      alert('Por favor introduce el nuevo correo en ambos campos.');
+      return;
+    }
     if (newEmail !== repeatEmail) {
       alert('Los correos electrónicos no coinciden.');
       return;
     }
-    if (newEmail) {
-      setCurrentEmail(newEmail);
-      setNewEmail('');
-      setRepeatEmail('');
-      showSuccess('Correo electrónico de la cuenta actualizado con éxito.');
-    }
+    setCurrentEmail(newEmail);
+    setNewEmail('');
+    setRepeatEmail('');
+    showSuccess('Correo de la cuenta actualizado correctamente.');
   };
 
   const handleSavePassword = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!currentPassword) {
+      alert('Introduce tu contraseña actual.');
+      return;
+    }
+    if (!newPassword || !repeatPassword) {
+      alert('Introduce y confirma la nueva contraseña.');
+      return;
+    }
     if (newPassword !== repeatPassword) {
       alert('Las contraseñas no coinciden.');
       return;
@@ -160,7 +174,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
   return (
     <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-6 animate-fadeIn font-[family-name:Helvetica]">
       
-      {/* Encabezado Principal: Perfil (Idéntico a media_1794879823647_96c655c7.png) */}
+      {/* Encabezado Principal: Perfil */}
       <div className="flex flex-col gap-1">
         <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
           Perfil
@@ -187,195 +201,262 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
 
       {/* ================= PESTAÑA 1: DATOS PERSONALES ================= */}
       {activeTab === 'datos-personales' && (
-        <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs animate-fadeIn">
-          <div className="bg-[#f8fafc] px-6 py-4 border-b border-[#e2e8f0]">
-            <h2 className="text-[18px] sm:text-[20px] font-bold text-black">
-              Información personal
-            </h2>
-            <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
-              Gestiona tu foto de perfil y tus datos personales y de contacto registrados en Ever Health.
-            </p>
-          </div>
+        <div className="flex flex-col gap-6 animate-fadeIn">
+          
+          {/* Tarjeta 1: Perfil Básico (Resumen de Identificación) */}
+          <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs">
+            <div className="bg-[#f8fafc] px-6 py-3.5 border-b border-[#e2e8f0] flex items-center justify-between">
+              <span className="text-[13px] font-bold uppercase tracking-wider text-black">
+                Perfil Básico
+              </span>
+              <Badge variant="success">Cuenta Titular</Badge>
+            </div>
 
-          <form onSubmit={handleSavePersonal} className="p-6 sm:p-8 flex flex-col gap-6">
-            {/* Foto de perfil */}
-            <div className="flex flex-col sm:flex-row items-center gap-5 pb-6 border-b border-[#f1f5f9]">
-              <div className="w-[84px] h-[84px] rounded-full bg-[#cbd5e1] flex items-center justify-center text-white shrink-0 shadow-inner">
-                <User className="w-12 h-12 text-[#94a3b8]" />
-              </div>
-              <div className="flex flex-col items-center sm:items-start gap-2">
-                <span className="text-[17px] font-bold text-black">
-                  {profileNombre} {profileApellidos}
-                </span>
-                <span className="text-[13px] text-[#64748b]">
-                  {currentEmail} · Póliza #{profilePoliza}
-                </span>
-                <div className="mt-1">
-                  <Button variant="outline" type="button" className="h-[36px] text-[12px] px-4">
-                    <Upload className="w-3.5 h-3.5" />
-                    <span>Seleccionar foto de perfil</span>
-                  </Button>
+            <div className="p-6 flex flex-col sm:flex-row items-center sm:items-start justify-between gap-6">
+              <div className="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+                {/* Avatar C D */}
+                <div className="w-[76px] h-[76px] rounded-full bg-[#f1f5f9] text-[#0f172a] font-bold text-[22px] flex items-center justify-center shrink-0 border border-[#cbd5e1] shadow-xs">
+                  C D
                 </div>
-              </div>
-            </div>
-
-            {/* Fila 1: Nombre* y Apellidos* */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <TextInput
-                label="Nombre*"
-                required
-                value={profileNombre}
-                onChange={(e) => setProfileNombre(e.target.value)}
-                placeholder="Nombre"
-              />
-              <TextInput
-                label="Apellidos*"
-                required
-                value={profileApellidos}
-                onChange={(e) => setProfileApellidos(e.target.value)}
-                placeholder="Apellidos"
-              />
-            </div>
-
-            {/* Fila 2: Fecha de nacimiento y Sexo al nacer */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[14px] font-normal text-black leading-tight">
-                  Fecha de nacimiento*
-                </label>
-                <div className="grid grid-cols-3 gap-2">
-                  <TextInput
-                    type="number"
-                    value={profileDia}
-                    onChange={(e) => setProfileDia(e.target.value)}
-                    placeholder="Día"
-                    min={1}
-                    max={31}
-                  />
-                  <Dropdown
-                    options={MESES_OPTIONS}
-                    value={profileMes}
-                    onChange={setProfileMes}
-                    placeholder="Mes"
-                  />
-                  <TextInput
-                    type="number"
-                    value={profileAno}
-                    onChange={(e) => setProfileAno(e.target.value)}
-                    placeholder="Año"
-                    min={1900}
-                    max={2026}
-                  />
+                <div className="flex flex-col gap-1">
+                  <h2 className="text-[20px] font-bold text-black leading-tight">
+                    {profileNombre} {profileApellidos}
+                  </h2>
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-x-4 gap-y-1 text-[13px] text-black">
+                    <span className="flex items-center gap-1.5 font-normal">
+                      <Phone className="w-3.5 h-3.5 text-black" />
+                      Teléfono {profileTelefono1}
+                    </span>
+                    <span className="flex items-center gap-1.5 font-normal">
+                      <MapPin className="w-3.5 h-3.5 text-black" />
+                      {profileCiudad}, {profilePais}
+                    </span>
+                    <span className="flex items-center gap-1.5 font-normal">
+                      <Hash className="w-3.5 h-3.5 text-black" />
+                      Póliza #{profilePoliza}
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <Dropdown
-                label="Sexo al nacer*"
-                required
-                options={SEXO_OPTIONS}
-                value={profileSexo}
-                onChange={setProfileSexo}
-                placeholder="Selecciona el sexo"
-              />
-            </div>
-
-            {/* Fila 3: País y Ciudad */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Dropdown
-                label="País*"
-                required
-                options={PAIS_OPTIONS}
-                value={profilePais}
-                onChange={setProfilePais}
-                placeholder="Selecciona el país"
-              />
-              <TextInput
-                label="Ciudad*"
-                required
-                value={profileCiudad}
-                onChange={(e) => setProfileCiudad(e.target.value)}
-                placeholder="Ciudad"
-              />
-            </div>
-
-            {/* Fila 4: Código Postal y Zona Horaria */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <TextInput
-                label="Código postal"
-                value={profileCodigoPostal}
-                onChange={(e) => setProfileCodigoPostal(e.target.value)}
-                placeholder="Código postal"
-              />
-              <Dropdown
-                label="Zona horaria*"
-                required
-                options={ZONA_HORARIA_OPTIONS}
-                value={profileZonaHoraria}
-                onChange={setProfileZonaHoraria}
-                placeholder="Selecciona zona horaria"
-              />
-            </div>
-
-            {/* Fila 5: Teléfono 1 y Teléfono 2 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <TextInput
-                label="Teléfono 1*"
-                required
-                type="tel"
-                value={profileTelefono1}
-                onChange={(e) => setProfileTelefono1(e.target.value)}
-                placeholder="Teléfono móvil principal"
-              />
-              <TextInput
-                label="Teléfono 2"
-                type="tel"
-                value={profileTelefono2}
-                onChange={(e) => setProfileTelefono2(e.target.value)}
-                placeholder="Teléfono secundario (opcional)"
-              />
-            </div>
-
-            {/* Fila 6: Número de Póliza */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <TextInput
-                label="Número de póliza"
-                value={profilePoliza}
-                onChange={(e) => setProfilePoliza(e.target.value)}
-                placeholder="Póliza asociada"
-              />
-            </div>
-
-            {/* Botones de acción homologados */}
-            <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#f1f5f9]">
+              {/* Botón Selecciona Foto */}
               <Button
                 variant="outline"
                 type="button"
-                onClick={() => showSuccess('Cambios cancelados.')}
+                className="shrink-0 self-center sm:self-auto"
+                onClick={() => showSuccess('Ventana para seleccionar foto abierta.')}
               >
-                CANCELAR
-              </Button>
-              <Button
-                variant="primary"
-                type="submit"
-              >
-                GUARDAR CAMBIOS
+                <Upload className="w-3.5 h-3.5" />
+                <span>SELECCIONA FOTO</span>
               </Button>
             </div>
-          </form>
+          </div>
+
+          {/* Tarjeta 2: Formulario Completo Editar datos de perfil */}
+          <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs">
+            <div className="bg-[#f8fafc] px-6 py-4 border-b border-[#e2e8f0]">
+              <h2 className="text-[18px] sm:text-[20px] font-bold text-black">
+                Editar datos de perfil
+              </h2>
+              <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
+                Revisa y actualiza tus datos identificativos, de residencia y de contacto clínico.
+              </p>
+            </div>
+
+            <form onSubmit={handleSavePersonal} className="p-6 sm:p-8 flex flex-col gap-6">
+              
+              {/* Fila 1: Nombre* y Apellidos* */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <TextInput
+                  label="Nombre*"
+                  required
+                  value={profileNombre}
+                  onChange={(e) => setProfileNombre(e.target.value)}
+                  placeholder="Carlos Damian"
+                />
+                <TextInput
+                  label="Apellidos*"
+                  required
+                  value={profileApellidos}
+                  onChange={(e) => setProfileApellidos(e.target.value)}
+                  placeholder="descarlosdamian"
+                />
+              </div>
+
+              {/* Fila 2: Fecha de nacimiento* (Día*, Mes*, Año*) y Sexo* */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <label className="text-[14px] font-normal text-black leading-tight">
+                    Fecha de nacimiento*
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    <TextInput
+                      type="number"
+                      required
+                      value={profileDia}
+                      onChange={(e) => setProfileDia(e.target.value)}
+                      placeholder="Día*"
+                      min={1}
+                      max={31}
+                    />
+                    <Dropdown
+                      options={MESES_OPTIONS}
+                      value={profileMes}
+                      onChange={setProfileMes}
+                      placeholder="Mes*"
+                    />
+                    <TextInput
+                      type="number"
+                      required
+                      value={profileAno}
+                      onChange={(e) => setProfileAno(e.target.value)}
+                      placeholder="Año*"
+                      min={1900}
+                      max={2026}
+                    />
+                  </div>
+                </div>
+
+                <Dropdown
+                  label="Sexo*"
+                  required
+                  options={SEXO_OPTIONS}
+                  value={profileSexo}
+                  onChange={setProfileSexo}
+                  placeholder="Selecciona el sexo"
+                />
+              </div>
+
+              {/* Fila 3: País y Ciudad* */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <Dropdown
+                  label="País"
+                  options={PAIS_OPTIONS}
+                  value={profilePais}
+                  onChange={setProfilePais}
+                  placeholder="Selecciona el país"
+                />
+                <TextInput
+                  label="Ciudad*"
+                  required
+                  value={profileCiudad}
+                  onChange={(e) => setProfileCiudad(e.target.value)}
+                  placeholder="Veracruz"
+                />
+              </div>
+
+              {/* Fila 4: Código postal y Zona horaria* */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <TextInput
+                  label="Código postal"
+                  value={profileCodigoPostal}
+                  onChange={(e) => setProfileCodigoPostal(e.target.value)}
+                  placeholder="91700"
+                />
+                <Dropdown
+                  label="Zona horaria*"
+                  required
+                  options={ZONA_HORARIA_OPTIONS}
+                  value={profileZonaHoraria}
+                  onChange={setProfileZonaHoraria}
+                  placeholder="America/Mexico_City"
+                />
+              </div>
+
+              {/* Fila 5: Teléfono 1* y Teléfono 2 */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <TextInput
+                  label="Teléfono 1*"
+                  required
+                  type="tel"
+                  value={profileTelefono1}
+                  onChange={(e) => setProfileTelefono1(e.target.value)}
+                  placeholder="2281381278"
+                />
+                <TextInput
+                  label="Teléfono 2"
+                  type="tel"
+                  value={profileTelefono2}
+                  onChange={(e) => setProfileTelefono2(e.target.value)}
+                  placeholder="Teléfono secundario (opcional)"
+                />
+              </div>
+
+              {/* Fila 6: Número de póliza */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <TextInput
+                  label="Número de póliza"
+                  value={profilePoliza}
+                  onChange={(e) => setProfilePoliza(e.target.value)}
+                  placeholder="486205"
+                />
+              </div>
+
+              {/* Botones de acción homologados: Cancelar y Guardar Cambios */}
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#f1f5f9]">
+                <Button
+                  variant="outline"
+                  type="button"
+                  onClick={() => showSuccess('Edición cancelada.')}
+                >
+                  CANCELAR
+                </Button>
+                <Button
+                  variant="primary"
+                  type="submit"
+                >
+                  GUARDAR CAMBIOS
+                </Button>
+              </div>
+            </form>
+          </div>
+
         </div>
       )}
 
-      {/* ================= PESTAÑA 2: SEGURIDAD ================= */}
+      {/* ================= PESTAÑA 2: SEGURIDAD (CUENTA & SUSCRIPCIÓN) ================= */}
       {activeTab === 'seguridad' && (
         <div className="flex flex-col gap-6 animate-fadeIn">
-          {/* Card 1: Correo electrónico */}
+          
+          {/* Card 1: Suscripción y facturación */}
+          <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs">
+            <div className="bg-[#f8fafc] px-6 py-3.5 border-b border-[#e2e8f0] flex items-center justify-between">
+              <span className="text-[13px] font-bold uppercase tracking-wider text-black">
+                Suscripción y facturación
+              </span>
+              <Badge variant="success">Suscripción Activa</Badge>
+            </div>
+
+            <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex flex-col gap-1">
+                <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                  Correo de la cuenta
+                </span>
+                <span className="text-[17px] font-bold text-black">
+                  {currentEmail}
+                </span>
+                <span className="text-[13px] text-black font-normal mt-0.5">
+                  Plan de salud Ever Health Total · Póliza #{profilePoliza}
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                type="button"
+                onClick={() => showSuccess('Detalles de facturación descargados.')}
+              >
+                VER FACTURACIÓN
+              </Button>
+            </div>
+          </div>
+
+          {/* Card 2: Cambiar correo de la cuenta */}
           <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs">
             <div className="bg-[#f8fafc] px-6 py-4 border-b border-[#e2e8f0]">
               <h2 className="text-[18px] font-bold text-black">
-                Correo electrónico de la cuenta
+                Cambiar correo de la cuenta
               </h2>
               <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
-                Dirección utilizada para iniciar sesión y recibir notificaciones oficiales.
+                Actualiza la dirección utilizada para iniciar sesión y recibir comunicaciones oficiales.
               </p>
             </div>
 
@@ -388,13 +469,13 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   type="email"
                   disabled
                   value={currentEmail}
-                  className="w-full h-[44px] px-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] text-[15px] text-[#64748b]"
+                  className="w-full h-[44px] px-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] text-[15px] font-medium text-black"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <TextInput
-                  label="Nuevo correo electrónico*"
+                  label="Nuevo email*"
                   required
                   type="email"
                   value={newEmail}
@@ -402,7 +483,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   placeholder="nuevo@correo.com"
                 />
                 <TextInput
-                  label="Repetir nuevo correo electrónico*"
+                  label="Repetir email*"
                   required
                   type="email"
                   value={repeatEmail}
@@ -413,13 +494,13 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
 
               <div className="flex justify-end pt-2">
                 <Button variant="primary" type="submit">
-                  ACTUALIZAR EMAIL
+                  CAMBIAR CORREO DE LA CUENTA
                 </Button>
               </div>
             </form>
           </div>
 
-          {/* Card 2: Contraseña */}
+          {/* Card 3: Cambiar contraseña */}
           <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs">
             <div className="bg-[#f8fafc] px-6 py-4 border-b border-[#e2e8f0]">
               <h2 className="text-[18px] font-bold text-black">
@@ -450,7 +531,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   placeholder="••••••••••••"
                 />
                 <TextInput
-                  label="Repetir nueva contraseña*"
+                  label="Repetir contraseña*"
                   required
                   type="password"
                   value={repeatPassword}
@@ -467,7 +548,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
             </form>
           </div>
 
-          {/* Card 3: 2FA */}
+          {/* Card 4: Autenticación en dos pasos (2FA) */}
           <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] p-6 sm:p-8 flex items-center justify-between gap-4">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-3">
@@ -477,13 +558,14 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                 <Badge variant="success">Activado</Badge>
               </div>
               <p className="text-[13px] text-[var(--color-text-description)] font-normal">
-                Protege tu cuenta enviando un código de confirmación a tu teléfono móvil y correo en cada inicio de sesión desde un nuevo dispositivo.
+                Protege tu cuenta enviando un código de confirmación a tu teléfono {profileTelefono1} y correo en cada inicio de sesión.
               </p>
             </div>
             <Button variant="outline" type="button" className="shrink-0">
               CONFIGURAR 2FA
             </Button>
           </div>
+
         </div>
       )}
 
@@ -517,12 +599,12 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                 <Checkbox
                   checked={remindEmail}
                   onChange={setRemindEmail}
-                  label="Notificaciones por correo electrónico (24 horas y 1 hora antes de la cita)"
+                  label={`Notificaciones por correo electrónico (${currentEmail}) 24 horas y 1 hora antes`}
                 />
                 <Checkbox
                   checked={remindSms}
                   onChange={setRemindSms}
-                  label="Recordatorio vía SMS a tu número de teléfono móvil registrado"
+                  label={`Recordatorio vía SMS a tu número principal (${profileTelefono1})`}
                 />
                 <Checkbox
                   checked={remindWhatsapp}
@@ -571,24 +653,24 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
           <div className="p-6 sm:p-8 flex flex-col gap-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <span className="text-[15px] font-bold text-black">Firma digital registrada</span>
+                <span className="text-[15px] font-bold text-black">Firma registrada</span>
                 <Badge variant="success">Verificada y activa</Badge>
               </div>
-              <span className="text-[13px] text-[#64748b]">ID: SIG-2026-98412-MX</span>
+              <span className="text-[13px] text-black font-mono">ID: SIG-2026-98412-MX</span>
             </div>
 
             {/* Lienzo visual de muestra de firma */}
             <div className="w-full h-[180px] bg-[#fafafa] border-2 border-dashed border-[#cbd5e1] rounded-[8px] flex flex-col items-center justify-center p-4">
-              <span className="font-serif italic text-[36px] text-[#1e293b] select-none tracking-wide">
-                Carlos Damián Ruiz
+              <span className="font-serif italic text-[36px] text-black select-none tracking-wide">
+                {profileNombre} {profileApellidos}
               </span>
-              <span className="text-[11px] text-[#94a3b8] mt-2 font-mono">
+              <span className="text-[11px] text-black mt-2 font-mono">
                 Huella criptográfica: 8f4b29c91a02e64b73... (Certificada por Ever Health Trust)
               </span>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-              <span className="text-[13px] text-[#64748b]">
+              <span className="text-[13px] text-black font-normal">
                 Última actualización: 12 de Marzo de 2026 a las 10:45 hrs
               </span>
               <div className="flex items-center gap-3">
@@ -635,7 +717,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   <span className="text-[14px] font-bold text-black">
                     Certificado de Validación Ever Health Trust
                   </span>
-                  <span className="text-[12px] text-[#64748b]">
+                  <span className="text-[12px] text-black font-normal">
                     Algoritmo SHA-256 · RSA 2048-bit · Válido hasta 31/12/2028
                   </span>
                 </div>
@@ -687,14 +769,14 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
           <div className="p-6 sm:p-8 flex flex-col gap-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px]">
               <div className="flex flex-col gap-1">
-                <span className="text-[12px] font-bold uppercase tracking-wider text-[#64748b]">
+                <span className="text-[12px] font-bold uppercase tracking-wider text-black">
                   Plan Contratado
                 </span>
                 <span className="text-[20px] font-bold text-black">
                   Ever Health Total Familiar Plus
                 </span>
-                <span className="text-[13px] text-[#475569]">
-                  Póliza vinculada: <strong>#486205</strong> · Renovación anual activa
+                <span className="text-[13px] text-black font-normal">
+                  Póliza vinculada: <strong>#{profilePoliza}</strong> · Renovación anual activa
                 </span>
               </div>
               <Badge variant="success">Póliza Activa</Badge>
@@ -760,7 +842,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
           <div className="p-6 sm:p-8 flex flex-col gap-6">
             <div className="flex items-center justify-between p-4 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px]">
               <div className="flex flex-col">
-                <span className="text-[12px] font-bold uppercase tracking-wider text-[#64748b]">
+                <span className="text-[12px] font-bold uppercase tracking-wider text-black">
                   Identificador de Receta Electrónica (RE)
                 </span>
                 <span className="text-[16px] font-bold text-black font-mono mt-0.5">
@@ -775,7 +857,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                 label="Farmacia habitual preferente"
                 value={rxPharmacy}
                 onChange={(e) => setRxPharmacy(e.target.value)}
-                placeholder="Nombre o cadena de farmacia preferida"
+                placeholder="Farmacias del Ahorro / Farmacias San Pablo"
               />
             </div>
 
@@ -787,7 +869,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                 <Checkbox
                   checked={rxSms}
                   onChange={setRxSms}
-                  label="SMS inmediato con enlace cifrado y código QR para dispensación en farmacia"
+                  label={`SMS inmediato con enlace cifrado y código QR al número ${profileTelefono1}`}
                 />
                 <Checkbox
                   checked={rxPush}
