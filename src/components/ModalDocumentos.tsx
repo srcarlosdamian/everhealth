@@ -13,6 +13,7 @@ import {
   FileText,
   Check,
 } from 'lucide-react';
+import { Button } from '../design-system/atoms/Button';
 
 interface ModalDocumentosProps {
   isOpen: boolean;
@@ -163,14 +164,14 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
               {docs.length}
             </span>
           </div>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             onClick={() => fileInputRef.current?.click()}
-            className="h-[36px] px-4 rounded-[6px] border border-[#d50475] text-[#d50475] hover:bg-[#fdf2f8] text-[13px] font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+            className="h-[40px] px-4 text-[13px] font-bold"
           >
             <Plus className="w-4 h-4" />
-            <span>Subir documento</span>
-          </button>
+            <span>SUBIR DOCUMENTO</span>
+          </Button>
         </div>
 
         {/* Documents Table en Desktop / Cards en Mobile */}

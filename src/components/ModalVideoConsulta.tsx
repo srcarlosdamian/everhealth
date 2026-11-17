@@ -194,18 +194,14 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
                 {/* Columna de Franjas Horarias */}
                 <div className="flex flex-col gap-2 w-full sm:w-[140px]">
                   {times.map((time) => (
-                    <button
+                    <Button
                       key={time}
-                      type="button"
+                      variant={selectedTime === time ? 'primary' : 'outline'}
                       onClick={() => setSelectedTime(time)}
-                      className={`h-[36px] rounded-[6px] border text-[13px] font-bold transition-all cursor-pointer ${
-                        selectedTime === time
-                          ? 'border-[#f472b6] bg-[#fce7f3] text-[#d50475] shadow-xs'
-                          : 'border-[#cbd5e1] hover:border-[#f472b6] hover:text-[#d50475] bg-white text-black'
-                      }`}
+                      className="w-full h-[40px] text-[13px] font-bold rounded-[8px]"
                     >
                       {time}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               </div>

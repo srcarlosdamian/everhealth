@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '../atoms/Button';
 
 export interface DaySlotColumn {
   dayName: string;
@@ -18,9 +19,9 @@ export interface CalendarDaySlotsProps {
 /**
  * Selector de Citas en Columnas de Días y Horarios:
  * - Tarjetas por día con nombre (Lun, Mar, etc.) y fecha (17 Oct).
- * - Franjas horarias seleccionables con botones táctiles.
- * - Columna activa en rosa claro (#fdf2f8) con borde rosa suave (#f472b6).
- * - Franja seleccionada estilo secundario (fondo rosa claro #fce7f3, texto rosa CTA #d50475 y borde #f472b6).
+ * - Franjas horarias 100% integradas con <Button /> estándar (altura 40px, esquinas 8px, texto 13px bold).
+ * - Columna activa con borde magenta (#d50475) sobre fondo blanco limpio (sin fondos rosa claro).
+ * - Franja seleccionada con botón primario magenta (#d50475) y texto blanco; inactivo con botón outline (#cbd5e1).
  */
 export const CalendarDaySlots: React.FC<CalendarDaySlotsProps> = ({
   days,
@@ -44,10 +45,10 @@ export const CalendarDaySlots: React.FC<CalendarDaySlotsProps> = ({
                 onSelectSlot?.(fullDayKey, col.slots[0]);
               }
             }}
-            className={`p-2.5 rounded-[8px] border flex flex-col gap-1.5 text-center cursor-pointer transition-all ${
+            className={`p-2.5 rounded-[8px] flex flex-col gap-1.5 text-center cursor-pointer transition-all ${
               isColumnActive
-                ? 'border-[#f472b6] bg-[#fdf2f8] shadow-xs'
-                : 'border-[#cbd5e1] hover:border-[#94a3b8] bg-white'
+                ? 'border-2 border-[#d50475] bg-white shadow-xs'
+                : 'border border-[#cbd5e1] hover:border-[#94a3b8] bg-white'
             }`}
           >
             <span
@@ -70,21 +71,17 @@ export const CalendarDaySlots: React.FC<CalendarDaySlotsProps> = ({
                 const isSlotSelected = isColumnActive && selectedTime === slot;
 
                 return (
-                  <button
+                  <Button
                     key={sIdx}
-                    type="button"
+                    variant={isSlotSelected ? 'primary' : 'outline'}
                     onClick={(e) => {
                       e.stopPropagation();
                       onSelectSlot?.(fullDayKey, slot);
                     }}
-                    className={`h-[28px] rounded-[6px] border text-[11px] font-bold transition-all cursor-pointer ${
-                      isSlotSelected
-                        ? 'bg-[#fce7f3] text-[#d50475] border-[#f472b6] shadow-xs'
-                        : 'bg-white text-black border-[#cbd5e1] hover:border-[#f472b6] hover:text-[#d50475]'
-                    }`}
+                    className="w-full h-[40px] px-2 text-[13px] font-bold rounded-[8px]"
                   >
                     {slot}
-                  </button>
+                  </Button>
                 );
               })}
             </div>

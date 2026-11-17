@@ -988,7 +988,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   title="Calendario y Horarios"
                   componentTag="<CalendarMonthGrid /> / <CalendarDaySlots />"
                   usedIn={['Modal Videoconsulta', 'Modal Solicitar Chat']}
-                  description="Calendario mensual y turnos en columnas con selección en rosa suave y banner de confirmación sin línea."
+                  description="Calendario mensual y turnos en columnas integrados con el sistema de botones estándar (altura 40px, esquinas 8px, texto 13px bold, primario #d50475 al seleccionar, sin fondos rosa claro)."
                 >
                   <div className="flex flex-col gap-8">
                     {/* Modelo 1: Calendario Mensual + Franjas de Hora Adyacentes */}
@@ -998,7 +998,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           1. Calendario Mensual con Franjas de Hora Adyacentes (Videoconsulta)
                         </span>
                         <span className="text-[12px] text-[#64748b]">
-                          Navegación de mes con chevrons discretos y cuadrícula de días (D L M M J V S). Día seleccionado con fondo rosa claro (#fce7f3), borde (#f472b6) y texto oscuro 950 (#0f172a). Franja horaria seleccionada en botón secundario rosa CTA (#d50475).
+                          Navegación de mes con chevrons discretos y cuadrícula de días (D L M M J V S). Día seleccionado homologado con botón primario magenta (#d50475) y texto blanco. Franja horaria con botones estándar &lt;Button /&gt; (40px de altura, esquinas 8px, texto 13px bold, primario activo y outline inactivo). Sin fondos rosa claro.
                         </span>
                       </div>
 
@@ -1013,18 +1013,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         <div className="flex flex-col gap-2 w-full sm:w-[140px]">
                           <span className="text-[12px] font-bold text-[#64748b]">Horario disponible</span>
                           {['09:30', '11:00', '16:15', '18:00'].map((time) => (
-                            <button
+                            <Button
                               key={time}
-                              type="button"
+                              variant={demoCalendarTime === time ? 'primary' : 'outline'}
                               onClick={() => setDemoCalendarTime(time)}
-                              className={`h-[36px] rounded-[6px] border text-[13px] font-bold transition-all cursor-pointer ${
-                                demoCalendarTime === time
-                                  ? 'border-[#f472b6] bg-[#fce7f3] text-[#d50475] shadow-xs'
-                                  : 'border-[#cbd5e1] hover:border-black bg-white text-black'
-                              }`}
+                              className="w-full h-[40px] text-[13px] font-bold rounded-[8px]"
                             >
                               {time}
-                            </button>
+                            </Button>
                           ))}
                         </div>
                       </div>
@@ -1046,7 +1042,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           2. Selector de Días y Turnos en Columnas (Solicitar Chat / Turnos Médicos)
                         </span>
                         <span className="text-[12px] text-[#64748b]">
-                          Visualización por días de la semana con franjas horarias directas. Columna activa con fondo rosa claro (#fdf2f8), cabecera rosa CTA (#d50475), fecha oscuro 950 (#0f172a) y franja seleccionada con botón secundario rosa (#fce7f3) y texto rosa CTA (#d50475).
+                          Visualización por días de la semana con franjas horarias directas. Columna activa con borde magenta (#d50475) sobre fondo blanco limpio. Franjas horarias 100% integradas con &lt;Button /&gt; estándar (altura 40px, esquinas 8px, texto 13px bold, primario activo #d50475 y outline inactivo #cbd5e1). Sin fondos rosa claro.
                         </span>
                       </div>
 

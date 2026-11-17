@@ -283,7 +283,7 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
                             onClick={() => setSelectedSlot(`${doc.id}-${col.date}-${slot}`)}
                             className={`h-[28px] rounded-[4px] border text-[11px] font-medium transition-colors cursor-pointer ${
                               selectedSlot === `${doc.id}-${col.date}-${slot}`
-                                ? 'border-[#d50475] text-[#d50475] bg-[#fdf2f8] font-bold'
+                                ? 'border-[#d50475] text-white bg-[#d50475] font-bold shadow-xs'
                                 : 'border-[#cbd5e1] hover:bg-[#f8fafc] text-black'
                             }`}
                           >
