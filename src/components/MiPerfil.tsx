@@ -2,8 +2,11 @@ import React, { useState } from 'react';
 import {
   Upload,
   Check,
-  ShieldCheck,
   CreditCard,
+  Download,
+  Calendar,
+  ShieldCheck,
+  FileText,
 } from 'lucide-react';
 import { Tabs, TabItem } from '../design-system/molecules/Tabs';
 import { Button } from '../design-system/atoms/Button';
@@ -19,6 +22,7 @@ interface MiPerfilProps {
 const PROFILE_TABS: TabItem[] = [
   { id: 'datos-personales', label: 'Datos personales' },
   { id: 'seguridad', label: 'Seguridad' },
+  { id: 'suscripcion-facturacion', label: 'Suscripción y facturación' },
 ];
 
 const MESES_OPTIONS: DropdownOption[] = [
@@ -42,8 +46,8 @@ const SEXO_OPTIONS: DropdownOption[] = [
 ];
 
 const PREFIJO_OPTIONS: DropdownOption[] = [
-  { value: '+52', label: 'México - 52+' },
   { value: '+34', label: 'España - 34+' },
+  { value: '+52', label: 'México - 52+' },
   { value: '+57', label: 'Colombia - 57+' },
   { value: '+54', label: 'Argentina - 54+' },
   { value: '+56', label: 'Chile - 56+' },
@@ -52,8 +56,8 @@ const PREFIJO_OPTIONS: DropdownOption[] = [
 ];
 
 const PAIS_OPTIONS: DropdownOption[] = [
-  { value: 'México', label: 'México' },
   { value: 'España', label: 'España' },
+  { value: 'México', label: 'México' },
   { value: 'Colombia', label: 'Colombia' },
   { value: 'Argentina', label: 'Argentina' },
   { value: 'Chile', label: 'Chile' },
@@ -61,33 +65,34 @@ const PAIS_OPTIONS: DropdownOption[] = [
 ];
 
 const ZONA_HORARIA_OPTIONS: DropdownOption[] = [
-  { value: 'America/Mexico_City', label: 'America / México' },
   { value: 'Europe/Madrid', label: 'Europe / Madrid' },
+  { value: 'America/Mexico_City', label: 'America / México' },
   { value: 'America/Bogota', label: 'America / Bogotá' },
   { value: 'America/Argentina/Buenos_Aires', label: 'America / Buenos Aires' },
 ];
 
 export const MiPerfil: React.FC<MiPerfilProps> = ({
-  userName = 'Carlos Damian descarlosdamian',
-  userEmail = 'contact@carlosdamian.com',
+  userName = 'Alejandro Navarro García',
+  userEmail = 'alejandro.navarro@gmail.com',
 }) => {
   const [activeTab, setActiveTab] = useState('datos-personales');
 
-  // Datos Personales Form State (información existente de Carlos Damián)
-  const [profileNombre, setProfileNombre] = useState('Carlos Damian');
-  const [profileApellidos, setProfileApellidos] = useState('descarlosdamian');
-  const [profileDia, setProfileDia] = useState('28');
+  // Datos Personales Form State (Usuario genérico español hombre)
+  const [profileNombre, setProfileNombre] = useState('Alejandro');
+  const [profileApellidos, setProfileApellidos] = useState('Navarro García');
+  const [profileDia, setProfileDia] = useState('14');
   const [profileMes, setProfileMes] = useState('Mayo');
-  const [profileAno, setProfileAno] = useState('1991');
+  const [profileAno, setProfileAno] = useState('1988');
   const [profileSexo, setProfileSexo] = useState('Masculino');
-  const [profilePrefijo, setProfilePrefijo] = useState('+52');
-  const [profileTelefono1, setProfileTelefono1] = useState('2281381278');
-  const [profileTelefono2, setProfileTelefono2] = useState('');
-  const [profilePoliza, setProfilePoliza] = useState('486205');
-  const [profilePais, setProfilePais] = useState('México');
-  const [profileCiudad, setProfileCiudad] = useState('Veracruz');
-  const [profileCodigoPostal, setProfileCodigoPostal] = useState('91700');
-  const [profileZonaHoraria, setProfileZonaHoraria] = useState('America/Mexico_City');
+  const [profilePrefijo, setProfilePrefijo] = useState('+34');
+  const [profileTelefono1, setProfileTelefono1] = useState('620184932');
+  const [profileTelefono2, setProfileTelefono2] = useState('915220518');
+  const [profilePoliza, setProfilePoliza] = useState('AS-9842019-M');
+  const [profilePais, setProfilePais] = useState('España');
+  const [profileCiudad, setProfileCiudad] = useState('Madrid');
+  const [profileDireccion, setProfileDireccion] = useState('Calle de Serrano 48, 2º Izq.');
+  const [profileCodigoPostal, setProfileCodigoPostal] = useState('28001');
+  const [profileZonaHoraria, setProfileZonaHoraria] = useState('Europe/Madrid');
 
   // Seguridad Form State
   const [currentEmail, setCurrentEmail] = useState(userEmail);
@@ -96,6 +101,14 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
+
+  // Facturación Form State
+  const [billingRazonSocial, setBillingRazonSocial] = useState('Alejandro Navarro García');
+  const [billingNif, setBillingNif] = useState('47291845K');
+  const [billingDireccion, setBillingDireccion] = useState('Calle de Serrano 48, 2º Izq.');
+  const [billingCiudad, setBillingCiudad] = useState('Madrid');
+  const [billingCp, setBillingCp] = useState('28001');
+  const [billingPais, setBillingPais] = useState('España');
 
   // Toast / feedback message
   const [notificationMsg, setNotificationMsg] = useState<string | null>(null);
@@ -107,7 +120,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
 
   const handleSavePersonal = (e: React.FormEvent) => {
     e.preventDefault();
-    showSuccess('Datos de perfil actualizados con éxito.');
+    showSuccess('Datos personales actualizados correctamente.');
   };
 
   const handleSaveEmail = (e: React.FormEvent) => {
@@ -146,6 +159,11 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
     showSuccess('Contraseña cambiada con éxito.');
   };
 
+  const handleSaveBilling = (e: React.FormEvent) => {
+    e.preventDefault();
+    showSuccess('Datos de facturación guardados con éxito.');
+  };
+
   return (
     <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-6 animate-fadeIn font-[family-name:Helvetica]">
       
@@ -159,7 +177,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
         </p>
       </div>
 
-      {/* Navegación por Pestañas: Únicamente Datos personales y Seguridad */}
+      {/* Navegación por Pestañas */}
       <Tabs
         tabs={PROFILE_TABS}
         activeTab={activeTab}
@@ -174,7 +192,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
         </div>
       )}
 
-      {/* ================= PESTAÑA 1: DATOS PERSONALES (RE-ACOMODO INSPIRADO EN LA REFERENCIA) ================= */}
+      {/* ================= PESTAÑA 1: DATOS PERSONALES ================= */}
       {activeTab === 'datos-personales' && (
         <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] p-6 sm:p-8 shadow-xs animate-fadeIn">
           <form onSubmit={handleSavePersonal} className="flex flex-col gap-8">
@@ -187,7 +205,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
 
               {/* Fila 1: Imagen de perfil, Nombre *, Apellidos * */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {/* Imagen de perfil integrada */}
+                {/* Imagen de perfil integrada con iniciales AN */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[14px] font-normal text-black leading-tight">
                     Imagen de perfil
@@ -198,7 +216,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <div className="w-[28px] h-[28px] rounded-[4px] bg-[#f1f5f9] text-[#0f172a] font-bold text-[11px] flex items-center justify-center shrink-0 border border-[#cbd5e1]">
-                        CD
+                        AN
                       </div>
                       <span className="text-[14px] text-[#475569] truncate">Actualizar imagen</span>
                     </div>
@@ -212,7 +230,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   required
                   value={profileNombre}
                   onChange={(e) => setProfileNombre(e.target.value)}
-                  placeholder="Carlos Damian"
+                  placeholder="Alejandro"
                 />
 
                 {/* Apellidos * */}
@@ -221,7 +239,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   required
                   value={profileApellidos}
                   onChange={(e) => setProfileApellidos(e.target.value)}
-                  placeholder="descarlosdamian"
+                  placeholder="Navarro García"
                 />
               </div>
 
@@ -275,7 +293,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   label="Número de póliza *"
                   value={profilePoliza}
                   onChange={(e) => setProfilePoliza(e.target.value)}
-                  placeholder="486205"
+                  placeholder="AS-9842019-M"
                 />
               </div>
             </div>
@@ -296,7 +314,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   options={PREFIJO_OPTIONS}
                   value={profilePrefijo}
                   onChange={setProfilePrefijo}
-                  placeholder="México - 52+"
+                  placeholder="España - 34+"
                 />
 
                 {/* Teléfono 1 * */}
@@ -306,7 +324,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   type="tel"
                   value={profileTelefono1}
                   onChange={(e) => setProfileTelefono1(e.target.value)}
-                  placeholder="2281381278"
+                  placeholder="620 184 932"
                 />
 
                 {/* Teléfono 2 (opcional) */}
@@ -315,7 +333,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   type="tel"
                   value={profileTelefono2}
                   onChange={(e) => setProfileTelefono2(e.target.value)}
-                  placeholder="Teléfono 2 (opcional)"
+                  placeholder="915 220 518 (opcional)"
                 />
               </div>
             </div>
@@ -343,45 +361,55 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   required
                   value={profileCiudad}
                   onChange={(e) => setProfileCiudad(e.target.value)}
-                  placeholder="Veracruz"
+                  placeholder="Madrid"
                 />
                 <TextInput
-                  label="Código postal"
+                  label="Código postal *"
+                  required
                   value={profileCodigoPostal}
                   onChange={(e) => setProfileCodigoPostal(e.target.value)}
-                  placeholder="91700"
+                  placeholder="28001"
                 />
               </div>
 
-              {/* Fila 2: Zona horaria * */}
+              {/* Fila 2: Dirección y Zona horaria */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div className="md:col-span-2">
+                  <TextInput
+                    label="Dirección *"
+                    required
+                    value={profileDireccion}
+                    onChange={(e) => setProfileDireccion(e.target.value)}
+                    placeholder="Calle de Serrano 48, 2º Izq."
+                  />
+                </div>
                 <Dropdown
                   label="Zona horaria *"
                   required
                   options={ZONA_HORARIA_OPTIONS}
                   value={profileZonaHoraria}
                   onChange={setProfileZonaHoraria}
-                  placeholder="America / México"
+                  placeholder="Europe / Madrid"
                 />
               </div>
             </div>
 
             <div className="h-[1px] bg-[#f1f5f9] w-full" />
 
-            {/* Fila de Acciones: Cancelar y Actualizar datos (CTA Rosa) */}
+            {/* Fila de Acciones: Cancelar y Actualizar datos */}
             <div className="flex items-center justify-end gap-3 pt-2">
               <Button
                 variant="outline"
                 type="button"
                 onClick={() => showSuccess('Edición cancelada.')}
               >
-                CANCELAR
+                Cancelar
               </Button>
               <Button
                 variant="primary"
                 type="submit"
               >
-                ACTUALIZAR DATOS
+                Actualizar datos
               </Button>
             </div>
 
@@ -389,49 +417,11 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
         </div>
       )}
 
-      {/* ================= PESTAÑA 2: SEGURIDAD (MISMO ESTILO A 3 COLUMNAS Y CONTENEDOR UNIFICADO) ================= */}
+      {/* ================= PESTAÑA 2: SEGURIDAD (EXCLUSIVO CONTRASEÑA Y 2FA) ================= */}
       {activeTab === 'seguridad' && (
         <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] p-6 sm:p-8 shadow-xs animate-fadeIn flex flex-col gap-8">
           
-          {/* SECCIÓN 1: Suscripción y facturación */}
-          <div className="flex flex-col gap-5">
-            <div className="flex items-center justify-between">
-              <h2 className="text-[18px] font-bold text-black tracking-tight">
-                Suscripción y facturación
-              </h2>
-              <Badge variant="success">Suscripción Activa</Badge>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <TextInput
-                label="Correo de la cuenta"
-                disabled
-                value={currentEmail}
-              />
-              <TextInput
-                label="Plan contratado"
-                disabled
-                value={`Ever Health Total · Póliza #${profilePoliza}`}
-              />
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[14px] font-normal text-black leading-tight">
-                  Comprobantes
-                </label>
-                <Button
-                  variant="outline"
-                  type="button"
-                  className="w-full h-[44px] justify-center"
-                  onClick={() => showSuccess('Detalles de facturación descargados.')}
-                >
-                  VER FACTURACIÓN
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="h-[1px] bg-[#f1f5f9] w-full" />
-
-          {/* SECCIÓN 2: Cambiar correo de la cuenta */}
+          {/* SECCIÓN 1: Cambiar correo de la cuenta */}
           <form onSubmit={handleSaveEmail} className="flex flex-col gap-5">
             <h2 className="text-[18px] font-bold text-black tracking-tight">
               Cambiar correo de la cuenta
@@ -463,14 +453,14 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
 
             <div className="flex justify-end pt-1">
               <Button variant="primary" type="submit">
-                CAMBIAR CORREO DE LA CUENTA
+                Cambiar correo de la cuenta
               </Button>
             </div>
           </form>
 
           <div className="h-[1px] bg-[#f1f5f9] w-full" />
 
-          {/* SECCIÓN 3: Cambiar contraseña */}
+          {/* SECCIÓN 2: Cambiar contraseña */}
           <form onSubmit={handleSavePassword} className="flex flex-col gap-5">
             <h2 className="text-[18px] font-bold text-black tracking-tight">
               Cambiar contraseña
@@ -505,14 +495,14 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
 
             <div className="flex justify-end pt-1">
               <Button variant="primary" type="submit">
-                CAMBIAR CONTRASEÑA
+                Cambiar contraseña
               </Button>
             </div>
           </form>
 
           <div className="h-[1px] bg-[#f1f5f9] w-full" />
 
-          {/* SECCIÓN 4: Autenticación en dos pasos (2FA) */}
+          {/* SECCIÓN 3: Autenticación en dos pasos (2FA) */}
           <div className="flex flex-col gap-5">
             <div className="flex items-center justify-between">
               <h2 className="text-[18px] font-bold text-black tracking-tight">
@@ -530,7 +520,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
               <TextInput
                 label="Canales de confirmación"
                 disabled
-                value={`SMS (${profileTelefono1}) y correo`}
+                value={`SMS (+34 ${profileTelefono1}) y correo`}
               />
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-normal text-black leading-tight">
@@ -542,9 +532,216 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   className="w-full h-[44px] justify-center"
                   onClick={() => showSuccess('Configuración de 2FA actualizada.')}
                 >
-                  CONFIGURAR 2FA
+                  Configurar 2FA
                 </Button>
               </div>
+            </div>
+          </div>
+
+        </div>
+      )}
+
+      {/* ================= PESTAÑA 3: SUSCRIPCIÓN Y FACTURACIÓN ================= */}
+      {activeTab === 'suscripcion-facturacion' && (
+        <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] p-6 sm:p-8 shadow-xs animate-fadeIn flex flex-col gap-8">
+          
+          {/* SECCIÓN 1: Plan y suscripción activa */}
+          <div className="flex flex-col gap-5">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <h2 className="text-[18px] font-bold text-black tracking-tight">
+                  Plan de suscripción activo
+                </h2>
+                <Badge variant="success">Suscripción Activa</Badge>
+              </div>
+              <span className="text-[13px] text-[#64748b]">
+                Póliza: <strong className="text-black font-semibold">{profilePoliza}</strong>
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col gap-1">
+                <span className="text-[12px] text-[#64748b] font-medium uppercase tracking-wider">Plan contratado</span>
+                <span className="text-[16px] font-bold text-black">Ever Health Familiar Plus</span>
+                <span className="text-[13px] text-[#475569]">199,00 € / año</span>
+              </div>
+
+              <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col gap-1">
+                <span className="text-[12px] text-[#64748b] font-medium uppercase tracking-wider">Próxima renovación</span>
+                <span className="text-[16px] font-bold text-black">14 de Mayo de 2027</span>
+                <span className="text-[13px] text-[#16a34a] font-medium">Renovación automática</span>
+              </div>
+
+              <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col justify-between gap-3">
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-[12px] text-[#64748b] font-medium uppercase tracking-wider">Cobertura</span>
+                  <span className="text-[14px] font-bold text-black">Titular + 3 beneficiarios</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    type="button"
+                    className="h-[36px] text-[13px]"
+                    onClick={() => showSuccess('Planes disponibles cargados.')}
+                  >
+                    Cambiar plan
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="h-[1px] bg-[#f1f5f9] w-full" />
+
+          {/* SECCIÓN 2: Método de pago */}
+          <div className="flex flex-col gap-5">
+            <h2 className="text-[18px] font-bold text-black tracking-tight">
+              Método de pago
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <div className="p-4 rounded-[8px] bg-white border border-[#cbd5e1] flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-[6px] bg-[#f1f5f9] flex items-center justify-center shrink-0">
+                    <CreditCard className="w-5 h-5 text-black" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-[14px] font-bold text-black">Visa terminada en 4821</span>
+                    <span className="text-[12px] text-[#64748b]">Caduca 05/29</span>
+                  </div>
+                </div>
+                <Badge variant="neutral">Predeterminado</Badge>
+              </div>
+
+              <div className="flex flex-col justify-center">
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="w-fit h-[40px] text-[13px]"
+                  onClick={() => showSuccess('Modal para actualizar tarjeta abierto.')}
+                >
+                  Actualizar método de pago
+                </Button>
+              </div>
+            </div>
+          </div>
+
+          <div className="h-[1px] bg-[#f1f5f9] w-full" />
+
+          {/* SECCIÓN 3: Datos de facturación */}
+          <form onSubmit={handleSaveBilling} className="flex flex-col gap-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-[18px] font-bold text-black tracking-tight">
+                Datos de facturación
+              </h2>
+              <span className="text-[12px] text-[#64748b]">Para emisión de facturas y recibos oficiales</span>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <TextInput
+                label="Nombre o Razón social *"
+                required
+                value={billingRazonSocial}
+                onChange={(e) => setBillingRazonSocial(e.target.value)}
+                placeholder="Alejandro Navarro García"
+              />
+              <TextInput
+                label="NIF / CIF / DNI *"
+                required
+                value={billingNif}
+                onChange={(e) => setBillingNif(e.target.value)}
+                placeholder="47291845K"
+              />
+              <TextInput
+                label="Dirección fiscal *"
+                required
+                value={billingDireccion}
+                onChange={(e) => setBillingDireccion(e.target.value)}
+                placeholder="Calle de Serrano 48, 2º Izq."
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <TextInput
+                label="Código postal *"
+                required
+                value={billingCp}
+                onChange={(e) => setBillingCp(e.target.value)}
+                placeholder="28001"
+              />
+              <TextInput
+                label="Ciudad / Población *"
+                required
+                value={billingCiudad}
+                onChange={(e) => setBillingCiudad(e.target.value)}
+                placeholder="Madrid"
+              />
+              <Dropdown
+                label="País fiscal *"
+                required
+                options={PAIS_OPTIONS}
+                value={billingPais}
+                onChange={setBillingPais}
+                placeholder="España"
+              />
+            </div>
+
+            <div className="flex justify-end pt-1">
+              <Button variant="primary" type="submit">
+                Guardar datos de facturación
+              </Button>
+            </div>
+          </form>
+
+          <div className="h-[1px] bg-[#f1f5f9] w-full" />
+
+          {/* SECCIÓN 4: Historial de facturas */}
+          <div className="flex flex-col gap-4">
+            <h2 className="text-[18px] font-bold text-black tracking-tight">
+              Historial de facturas y recibos
+            </h2>
+
+            <div className="w-full border border-[#e2e8f0] rounded-[8px] overflow-hidden">
+              <table className="w-full text-left border-collapse text-[13px]">
+                <thead>
+                  <tr className="bg-[#f8fafc] border-b border-[#e2e8f0] text-[12px] font-bold text-black uppercase tracking-wider">
+                    <th className="py-3 px-4">Factura</th>
+                    <th className="py-3 px-4">Fecha</th>
+                    <th className="py-3 px-4">Importe</th>
+                    <th className="py-3 px-4">Estado</th>
+                    <th className="py-3 px-4 text-right">Descargar</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#f1f5f9] bg-white">
+                  {[
+                    { id: 'EVR-2026-0089', date: '14/05/2026', amount: '199,00 €', status: 'Cobrado' },
+                    { id: 'EVR-2025-0062', date: '14/05/2025', amount: '189,00 €', status: 'Cobrado' },
+                    { id: 'EVR-2024-0034', date: '14/05/2024', amount: '189,00 €', status: 'Cobrado' },
+                  ].map((inv) => (
+                    <tr key={inv.id} className="hover:bg-[#f8fafc]/60 transition-colors">
+                      <td className="py-3 px-4 font-semibold text-black flex items-center gap-2">
+                        <FileText className="w-4 h-4 text-[#64748b]" />
+                        <span>#{inv.id}</span>
+                      </td>
+                      <td className="py-3 px-4 text-[#475569]">{inv.date}</td>
+                      <td className="py-3 px-4 font-bold text-black">{inv.amount}</td>
+                      <td className="py-3 px-4">
+                        <Badge variant="success">{inv.status}</Badge>
+                      </td>
+                      <td className="py-3 px-4 text-right">
+                        <button
+                          type="button"
+                          onClick={() => showSuccess(`Descargando factura #${inv.id}.pdf...`)}
+                          className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#2563eb] hover:underline cursor-pointer"
+                        >
+                          <Download className="w-3.5 h-3.5" />
+                          <span>PDF</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
 
