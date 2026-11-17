@@ -180,7 +180,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
               <ActionMenu
                 variant="solicitar-cita"
                 onClose={() => setSolicitaDropdownOpen(false)}
-                className="absolute right-0 top-[calc(100%+6px)] z-50 w-[200px]"
+                className="absolute right-0 top-[calc(100%+6px)] z-50 min-w-[225px] w-auto shadow-xl"
                 items={[
                   {
                     id: 'video',

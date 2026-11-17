@@ -238,7 +238,7 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
             <ActionMenu
               variant="solicitar-cita"
               onClose={() => setCrearMenuOpen(false)}
-              className="absolute right-0 top-[calc(100%+6px)] z-50 w-[210px]"
+              className="absolute right-0 top-[calc(100%+6px)] z-50 min-w-[225px] w-auto shadow-xl"
               items={[
                 {
                   id: 'video',

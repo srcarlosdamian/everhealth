@@ -106,8 +106,8 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({
                 </span>
               )}
               <span
-                className={`text-[16px] leading-[24px] font-normal text-black transition-colors truncate ${
-                  isSpecial ? 'uppercase' : ''
+                className={`text-[15px] sm:text-[16px] leading-[24px] font-normal text-black transition-colors whitespace-nowrap ${
+                  isSpecial ? 'uppercase tracking-wide' : 'truncate'
                 }`}
               >
                 {item.label}
