@@ -1898,11 +1898,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         tabs={[
                           { id: 'datos-personales', label: 'Datos personales' },
                           { id: 'seguridad', label: 'Seguridad' },
-                          { id: 'agenda', label: 'Agenda' },
-                          { id: 'firma', label: 'Firma' },
-                          { id: 'sello', label: 'Sello' },
-                          { id: 'servicios', label: 'Servicios' },
-                          { id: 'receta-electronica', label: 'Receta electrónica' },
                         ]}
                         activeTab={demoActiveTab}
                         onChange={setDemoActiveTab}
