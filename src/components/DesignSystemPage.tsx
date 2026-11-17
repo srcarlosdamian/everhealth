@@ -66,6 +66,7 @@ import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
 import { TablePagination } from '../design-system/molecules/TablePagination';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
 import { ModalActionGroup } from '../design-system/molecules/ModalActionGroup';
+import { Tabs } from '../design-system/molecules/Tabs';
 import { Toast, ToastVariant } from '../design-system/atoms/Toast';
 
 interface DesignSystemPageProps {
@@ -169,6 +170,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [demoColor, setDemoColor] = useState('#d4a373');
   const [demoPaginationExpanded, setDemoPaginationExpanded] = useState(false);
   const [demoConfirmModalOpen, setDemoConfirmModalOpen] = useState(false);
+  const [demoActiveTab, setDemoActiveTab] = useState('datos-personales');
   const [demoFormModalOpen, setDemoFormModalOpen] = useState(false);
   const [demoHelpCenterOpen, setDemoHelpCenterOpen] = useState(false);
   const [demoCitaMenuOpen, setDemoCitaMenuOpen] = useState(false);
@@ -1845,6 +1847,48 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           </tr>
                         </tbody>
                       </table>
+                    </div>
+                  </div>
+                </StageBlock>
+
+                {/* Molécula: Navegación por Pestañas (Tabs) */}
+                <StageBlock
+                  title="Navegación Horizontal por Pestañas (Tabs)"
+                  componentTag="<Tabs tabs={PROFILE_TABS} activeTab={activeTab} onChange={setActiveTab} />"
+                  usedIn={['MiPerfil (Configuración de Cuenta)']}
+                  description="Molécula oficial para navegación interna en vistas complejas (Perfil y Configuración de Cuenta). Cuenta con pestaña activa resaltada en rosa (#d50475) con borde indicador inferior superpuesto a la retícula #e2e8f0, y pestañas inactivas en gris slate (#475569) con transición a negro."
+                >
+                  <div className="flex flex-col gap-4">
+                    <div className="w-full bg-white p-6 border border-[#e2e8f0] rounded-[10px]">
+                      <div className="flex flex-col gap-1 mb-4">
+                        <span className="text-[20px] font-bold text-black">Perfil</span>
+                        <span className="text-[13px] text-[#475569]">
+                          En esta sección puedes revisar y actualizar tu información
+                        </span>
+                      </div>
+
+                      <Tabs
+                        tabs={[
+                          { id: 'datos-personales', label: 'Datos personales' },
+                          { id: 'seguridad', label: 'Seguridad' },
+                          { id: 'agenda', label: 'Agenda' },
+                          { id: 'firma', label: 'Firma' },
+                          { id: 'sello', label: 'Sello' },
+                          { id: 'servicios', label: 'Servicios' },
+                          { id: 'receta-electronica', label: 'Receta electrónica' },
+                        ]}
+                        activeTab={demoActiveTab}
+                        onChange={setDemoActiveTab}
+                      />
+
+                      <div className="mt-6 p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                        <span className="text-[12px] font-bold uppercase tracking-wider text-[#64748b]">
+                          Contenido de la pestaña activa:
+                        </span>
+                        <p className="text-[15px] font-bold text-black mt-1 capitalize">
+                          {demoActiveTab.replace('-', ' ')}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </StageBlock>
