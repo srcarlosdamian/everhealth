@@ -793,81 +793,36 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                     <div className="h-[1px] bg-[#f1f5f9] w-full my-2" />
 
-                    {/* 3. Circular Icon Buttons */}
+                    {/* 3. Avatar de Usuario / Iniciales (Homologado) */}
                     <div className="flex flex-col gap-2">
                       <div className="flex flex-col">
                         <span className="text-[13px] font-bold text-black">
-                          3. Botones Circulares de Acción e Icono (Rounded-full)
+                          3. Avatar con Iniciales (Cuadrado / Homologado)
                         </span>
                         <span className="text-[12px] text-[#64748b]">
-                          Uso reservado exclusivamente para interacción con iconos: chevrons de acordeón, cierre de modales y navegación.
+                          Elemento estándar para identificar usuarios y dependientes en Sidebar, Perfil y Fichas. Alineación vertical centrada con fondo neutral #f1f5f9 y borde #cbd5e1.
                         </span>
                       </div>
                       <div className="flex flex-wrap items-center gap-4 pt-1">
-                        <div className="flex items-center gap-2 border border-[#e2e8f0] rounded-[8px] p-2 bg-[#f8fafc]">
-                          <button
-                            type="button"
-                            className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-black transition-colors cursor-pointer"
-                            title="Desplegar acordeón"
-                          >
-                            <ChevronDown className="w-5 h-5 text-black" />
-                          </button>
-                          <button
-                            type="button"
-                            className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-black transition-colors cursor-pointer"
-                            title="Plegar acordeón"
-                          >
-                            <ChevronUp className="w-5 h-5 text-black" />
-                          </button>
-                          <span className="text-[12px] text-[#475569] font-medium pr-2">
-                            Acordeón tabla consultas
-                          </span>
+                        <div className="flex items-center gap-3 p-3 border border-[#e2e8f0] rounded-[8px] bg-white">
+                          <div className="w-[30px] h-[30px] rounded-[6px] bg-[#f1f5f9] text-[#0f172a] font-bold text-[12px] flex items-center justify-center shrink-0 border border-[#cbd5e1] leading-none text-center">
+                            <span className="leading-none select-none">AN</span>
+                          </div>
+                          <span className="text-[13px] font-medium text-black">Small (30x30px - Inputs)</span>
                         </div>
 
-                        <div className="flex items-center gap-2 border border-[#e2e8f0] rounded-[8px] p-2 bg-[#f8fafc]">
-                          <button
-                            type="button"
-                            className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-black transition-colors cursor-pointer"
-                            title="Cerrar modal"
-                          >
-                            <X className="w-5 h-5 text-black" />
-                          </button>
-                          <span className="text-[12px] text-[#475569] font-medium pr-2">
-                            Cerrar modal
-                          </span>
+                        <div className="flex items-center gap-3 p-3 border border-[#e2e8f0] rounded-[8px] bg-white">
+                          <div className="w-[40px] h-[40px] rounded-[6px] bg-[#f1f5f9] text-[#0f172a] font-bold text-[14px] flex items-center justify-center shrink-0 border border-[#cbd5e1] leading-none text-center">
+                            <span className="leading-none select-none">AN</span>
+                          </div>
+                          <span className="text-[13px] font-medium text-black">Medium (40x40px - Sidebar)</span>
                         </div>
 
-                        <div className="flex items-center gap-2 border border-[#e2e8f0] rounded-[8px] p-2 bg-[#f8fafc]">
-                          <button
-                            type="button"
-                            className="w-6 h-6 rounded-full hover:bg-white flex items-center justify-center text-[#64748b] transition-colors cursor-pointer"
-                            title="Mes anterior"
-                          >
-                            <ChevronLeft className="w-4 h-4" />
-                          </button>
-                          <button
-                            type="button"
-                            className="w-6 h-6 rounded-full hover:bg-white flex items-center justify-center text-[#64748b] transition-colors cursor-pointer"
-                            title="Mes siguiente"
-                          >
-                            <ChevronRight className="w-4 h-4" />
-                          </button>
-                          <span className="text-[12px] text-[#475569] font-medium pr-2">
-                            Navegador de calendario
-                          </span>
-                        </div>
-
-                        <div className="flex items-center gap-2 border border-[#e2e8f0] rounded-[8px] p-2 bg-[#f8fafc]">
-                          <button
-                            type="button"
-                            className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-black transition-colors cursor-pointer"
-                            title="Volver atrás"
-                          >
-                            <ArrowLeft className="w-5 h-5 text-black" />
-                          </button>
-                          <span className="text-[12px] text-[#475569] font-medium pr-2">
-                            Atrás navegación
-                          </span>
+                        <div className="flex items-center gap-3 p-3 border border-[#e2e8f0] rounded-[8px] bg-white">
+                          <div className="w-[56px] h-[56px] rounded-[8px] bg-[#f1f5f9] text-[#0f172a] font-bold text-[18px] flex items-center justify-center shrink-0 border border-[#cbd5e1] leading-none text-center">
+                            <span className="leading-none select-none">AN</span>
+                          </div>
+                          <span className="text-[13px] font-medium text-black">Large (56x56px - Historia Clínica)</span>
                         </div>
                       </div>
                     </div>

@@ -21,6 +21,8 @@ import { ColorPickerDropdown } from '../design-system/atoms/ColorPickerDropdown'
 import { ActionMenu } from '../design-system/molecules/ActionMenu';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
 import { TablePagination } from '../design-system/molecules/TablePagination';
+import { ModalHistoriaCompleta } from './ModalHistoriaCompleta';
+import { ModalVideoConsulta } from './ModalVideoConsulta';
 
 export interface Mascota {
   id: string;
@@ -131,8 +133,15 @@ export const Mascotas: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterEspecie, setFilterEspecie] = useState('todas');
 
-  // Modal Añadir Mascota
+  // Modal Añadir / Editar Mascota
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingMascota, setEditingMascota] = useState<Mascota | null>(null);
+
+  // Modal Historial Clínico de Mascota
+  const [selectedHistoryMascota, setSelectedHistoryMascota] = useState<Mascota | null>(null);
+
+  // Modal Cita Veterinaria
+  const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
 
   // Modal Confirmación Dar de baja
   const [mascotaToDelete, setMascotaToDelete] = useState<Mascota | null>(null);
@@ -155,6 +164,7 @@ export const Mascotas: React.FC = () => {
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
   const handleOpenModal = () => {
+    setEditingMascota(null);
     setFormNombre('');
     setFormEspecie('');
     setFormDia('');
@@ -170,6 +180,27 @@ export const Mascotas: React.FC = () => {
     setIsModalOpen(true);
   };
 
+  const handleEditMascota = (item: Mascota) => {
+    setEditingMascota(item);
+    setFormNombre(item.nombre);
+    setFormEspecie(item.especie);
+    const parts = item.fechaNacimiento.split('/');
+    if (parts.length === 3) {
+      setFormDia(parts[0]);
+      setFormMes(parts[1].replace(/^0/, ''));
+      setFormAno(parts[2]);
+    }
+    setFormSexo(item.sexo);
+    setFormRaza(item.raza);
+    setFormCondicion(item.condicionCorporal);
+    setFormColorPrimario(item.colorPrimario || '#d4a373');
+    setFormColorSecundario(item.colorSecundario || '#ffffff');
+    setFormFamiliar(item.familiarRelacionado);
+    setFormChip(item.numeroChip === 'No registrado' ? '' : item.numeroChip);
+    setIsModalOpen(true);
+    setActiveMenuId(null);
+  };
+
   const handleSaveMascota = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formNombre.trim() || !formEspecie) {
@@ -180,22 +211,46 @@ export const Mascotas: React.FC = () => {
     const fechaNac = `${formDia.padStart(2, '0') || '01'}/${formMes.padStart(2, '0') || '01'}/${formAno || '2023'}`;
     const calculatedYears = formAno ? Math.max(0, 2026 - parseInt(formAno, 10)) : 1;
 
-    const nueva: Mascota = {
-      id: Date.now().toString(),
-      nombre: formNombre.trim(),
-      especie: formEspecie,
-      fechaNacimiento: fechaNac,
-      edad: `${calculatedYears} ${calculatedYears === 1 ? 'año' : 'años'}`,
-      sexo: (formSexo as 'Femenino' | 'Masculino') || 'Femenino',
-      raza: formRaza.trim() || 'Mestizo',
-      condicionCorporal: formCondicion || 'Peso Ideal',
-      colorPrimario: formColorPrimario,
-      colorSecundario: formColorSecundario,
-      familiarRelacionado: formFamiliar || 'Alejandro Navarro',
-      numeroChip: formChip.trim() || 'No registrado',
-    };
+    if (editingMascota) {
+      setMascotas(
+        mascotas.map((m) =>
+          m.id === editingMascota.id
+            ? {
+                ...m,
+                nombre: formNombre.trim(),
+                especie: formEspecie,
+                fechaNacimiento: fechaNac,
+                edad: `${calculatedYears} ${calculatedYears === 1 ? 'año' : 'años'}`,
+                sexo: (formSexo as 'Femenino' | 'Masculino') || m.sexo,
+                raza: formRaza.trim() || 'Mestizo',
+                condicionCorporal: formCondicion || m.condicionCorporal,
+                colorPrimario: formColorPrimario,
+                colorSecundario: formColorSecundario,
+                familiarRelacionado: formFamiliar || 'Alejandro Navarro',
+                numeroChip: formChip.trim() || 'No registrado',
+              }
+            : m
+        )
+      );
+      setEditingMascota(null);
+    } else {
+      const nueva: Mascota = {
+        id: Date.now().toString(),
+        nombre: formNombre.trim(),
+        especie: formEspecie,
+        fechaNacimiento: fechaNac,
+        edad: `${calculatedYears} ${calculatedYears === 1 ? 'año' : 'años'}`,
+        sexo: (formSexo as 'Femenino' | 'Masculino') || 'Femenino',
+        raza: formRaza.trim() || 'Mestizo',
+        condicionCorporal: formCondicion || 'Peso Ideal',
+        colorPrimario: formColorPrimario,
+        colorSecundario: formColorSecundario,
+        familiarRelacionado: formFamiliar || 'Alejandro Navarro',
+        numeroChip: formChip.trim() || 'No registrado',
+      };
 
-    setMascotas([nueva, ...mascotas]);
+      setMascotas([nueva, ...mascotas]);
+    }
     setIsModalOpen(false);
   };
 
@@ -371,7 +426,7 @@ export const Mascotas: React.FC = () => {
                               label: 'Ver historial clínico',
                               icon: <FileText className="w-5 h-5" />,
                               onClick: () => {
-                                alert(`Consultar historial de ${item.nombre}`);
+                                setSelectedHistoryMascota(item);
                                 setActiveMenuId(null);
                               },
                             },
@@ -380,7 +435,7 @@ export const Mascotas: React.FC = () => {
                               label: 'Pedir cita veterinaria',
                               icon: <Calendar className="w-5 h-5" />,
                               onClick: () => {
-                                alert(`Solicitar cita para ${item.nombre}`);
+                                setIsAppointmentModalOpen(true);
                                 setActiveMenuId(null);
                               },
                             },
@@ -389,8 +444,7 @@ export const Mascotas: React.FC = () => {
                               label: 'Editar datos',
                               icon: <Edit2 className="w-5 h-5" />,
                               onClick: () => {
-                                alert(`Editar datos de ${item.nombre}`);
-                                setActiveMenuId(null);
+                                handleEditMascota(item);
                               },
                             },
                             {
@@ -463,7 +517,7 @@ export const Mascotas: React.FC = () => {
                             label: 'Ver historial clínico',
                             icon: <FileText className="w-5 h-5" />,
                             onClick: () => {
-                              alert(`Consultar historial de ${item.nombre}`);
+                              setSelectedHistoryMascota(item);
                               setActiveMenuId(null);
                             },
                           },
@@ -472,7 +526,7 @@ export const Mascotas: React.FC = () => {
                             label: 'Pedir cita veterinaria',
                             icon: <Calendar className="w-5 h-5" />,
                             onClick: () => {
-                              alert(`Solicitar cita para ${item.nombre}`);
+                              setIsAppointmentModalOpen(true);
                               setActiveMenuId(null);
                             },
                           },
@@ -481,8 +535,7 @@ export const Mascotas: React.FC = () => {
                             label: 'Editar datos',
                             icon: <Edit2 className="w-5 h-5" />,
                             onClick: () => {
-                              alert(`Editar datos de ${item.nombre}`);
-                              setActiveMenuId(null);
+                              handleEditMascota(item);
                             },
                           },
                           {
@@ -562,10 +615,15 @@ export const Mascotas: React.FC = () => {
             className="w-full max-w-[820px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 overflow-visible relative animate-scaleUp cursor-default"
           >
             <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
-              <h2 className="text-[20px] font-bold text-black">Añadir mascota</h2>
+              <h2 className="text-[20px] font-bold text-black">
+                {editingMascota ? 'Editar mascota' : 'Añadir mascota'}
+              </h2>
               <button
                 type="button"
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setEditingMascota(null);
+                }}
                 className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black cursor-pointer transition-colors"
               >
                 <X className="w-5 h-5" />
@@ -693,7 +751,10 @@ export const Mascotas: React.FC = () => {
               <div className="pt-2 flex justify-end gap-3">
                 <Button
                   variant="outline"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setEditingMascota(null);
+                  }}
                   className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
                 >
                   CANCELAR
@@ -703,13 +764,30 @@ export const Mascotas: React.FC = () => {
                   variant="primary"
                   className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
                 >
-                  GUARDAR
+                  {editingMascota ? 'GUARDAR CAMBIOS' : 'GUARDAR'}
                 </Button>
               </div>
             </form>
           </div>
         </div>
       )}
+
+      {/* ================= MODAL HISTORIAL CLÍNICO DE MASCOTA ================= */}
+      {selectedHistoryMascota && (
+        <ModalHistoriaCompleta
+          isOpen={!!selectedHistoryMascota}
+          onClose={() => setSelectedHistoryMascota(null)}
+          patientName={`${selectedHistoryMascota.nombre} (${selectedHistoryMascota.especie})`}
+          patientGenderBirth={`${selectedHistoryMascota.sexo}, nacida el ${selectedHistoryMascota.fechaNacimiento} (${selectedHistoryMascota.edad}) · Raza: ${selectedHistoryMascota.raza} · Chip: ${selectedHistoryMascota.numeroChip}`}
+          initials={selectedHistoryMascota.nombre.slice(0, 2).toUpperCase()}
+        />
+      )}
+
+      {/* ================= MODAL CITA VETERINARIA ================= */}
+      <ModalVideoConsulta
+        isOpen={isAppointmentModalOpen}
+        onClose={() => setIsAppointmentModalOpen(false)}
+      />
 
       {/* ================= MODAL DAR DE BAJA MASCOTA ================= */}
       {mascotaToDelete && (

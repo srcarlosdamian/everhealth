@@ -202,22 +202,21 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
               {/* Fila 1: Imagen de perfil, Nombre *, Apellidos * */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                 {/* Imagen de perfil integrada con botón de actualizar imagen */}
+                {/* Imagen de perfil con avatar bien alineado y sin toast innecesario */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[14px] font-normal text-black leading-tight">
                     Imagen de perfil
                   </label>
-                  <div
-                    onClick={() => showSuccess('Ventana para seleccionar imagen abierta.')}
-                    className="h-[42px] px-3 rounded-[6px] border border-[#cbd5e1] hover:border-[#94a3b8] bg-white flex items-center justify-between gap-3 cursor-pointer transition-colors select-none"
-                  >
+                  <label className="h-[42px] px-3 rounded-[6px] border border-[#cbd5e1] hover:border-[#94a3b8] bg-white flex items-center justify-between gap-3 cursor-pointer transition-colors select-none">
+                    <input type="file" accept="image/*" className="hidden" />
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="w-[28px] h-[28px] rounded-[4px] bg-[#f1f5f9] text-[#0f172a] font-bold text-[11px] flex items-center justify-center shrink-0 border border-[#cbd5e1]">
-                        AN
+                      <div className="w-[30px] h-[30px] rounded-[6px] bg-[#f1f5f9] text-[#0f172a] font-bold text-[12px] flex items-center justify-center shrink-0 border border-[#cbd5e1] leading-none text-center">
+                        <span className="leading-none select-none">AN</span>
                       </div>
                       <span className="text-[14px] text-[#475569] truncate">Actualizar imagen</span>
                     </div>
                     <Upload className="w-4 h-4 text-[#64748b] shrink-0" />
-                  </div>
+                  </label>
                 </div>
 
                 {/* Nombre * */}

@@ -39,7 +39,7 @@ export const Tabs: React.FC<TabsProps> = ({
 }) => {
   if (variant === 'minimal') {
     return (
-      <div className={`w-full overflow-x-auto no-scrollbar scroll-smooth flex items-center gap-1.5 py-1 ${className}`}>
+      <div className={`w-full overflow-x-auto custom-scrollbar-minimal scroll-smooth flex items-center gap-2 py-1.5 pb-2.5 ${className}`}>
         {tabs.map((tab) => {
           const isActive = tab.id === activeTab;
           return (
@@ -47,17 +47,17 @@ export const Tabs: React.FC<TabsProps> = ({
               key={tab.id}
               type="button"
               onClick={() => onChange(tab.id)}
-              className={`px-3 py-1.5 rounded-[6px] text-[13px] leading-[18px] transition-colors cursor-pointer select-none whitespace-nowrap flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-[6px] text-[13px] leading-[18px] transition-colors cursor-pointer select-none whitespace-nowrap flex items-center gap-1.5 shrink-0 ${
                 isActive
-                  ? 'bg-slate-100 text-slate-500 font-medium'
-                  : 'bg-slate-50 text-slate-400 hover:bg-slate-100/70 hover:text-slate-500 font-normal'
+                  ? 'bg-[#f1f5f9] text-black font-semibold border border-[#cbd5e1]'
+                  : 'bg-transparent text-[#334155] hover:text-black hover:bg-[#f8fafc] font-normal border border-transparent'
               }`}
             >
               <span>{tab.label}</span>
               {tab.badge !== undefined && (
                 <span
                   className={`text-[11px] px-1.5 py-0.2 rounded font-medium ${
-                    isActive ? 'bg-slate-200 text-slate-600' : 'bg-slate-100 text-slate-400'
+                    isActive ? 'bg-[#e2e8f0] text-black' : 'bg-[#f1f5f9] text-[#64748b]'
                   }`}
                 >
                   {tab.badge}

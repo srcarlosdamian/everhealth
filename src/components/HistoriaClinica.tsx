@@ -121,12 +121,9 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
 
   return (
     <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-6 animate-fadeIn font-[family-name:Helvetica]">
-      {/* Encabezado con título y botón de acción superior derecho */}
+      {/* Encabezado con título y botón de acción superior derecho (sin texto Historial repetido) */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <span className="text-[13px] text-[#64748b] font-medium tracking-wide">
-            Historial
-          </span>
           <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
             Historia clínica
           </h1>
@@ -139,14 +136,17 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
         <div className="self-start sm:self-auto shrink-0">
           <Button
             variant="secondary"
-            onClick={() => setIsHistoriaCompletaOpen(true)}
+            onClick={() => {
+              setSelectedSection(null);
+              setIsHistoriaCompletaOpen(true);
+            }}
           >
             <span>VER HISTORIA COMPLETA</span>
           </Button>
         </div>
       </div>
 
-      {/* Grid de categorías clínicas con iconos 100% neutros */}
+      {/* Grid de categorías clínicas con iconos 100% neutros: al hacer clic en cada uno se abre el modal */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
         {sections.map((sec) => (
           <div
@@ -155,8 +155,8 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
               if (sec.id === 'documentos') {
                 onOpenDocumentsModal?.();
               } else {
-                setSelectedSection(selectedSection === sec.id ? null : sec.id);
-                onNavigateToSection?.(sec.id);
+                setSelectedSection(sec.id);
+                setIsHistoriaCompletaOpen(true);
               }
             }}
             className="p-4 rounded-[10px] border border-[#e2e8f0] hover:border-[#475569] active:border-black bg-white flex flex-col gap-2.5 cursor-pointer transition-all hover:shadow-xs group"
@@ -187,7 +187,11 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       {/* Modal Historia Completa basada en el boceto y ficha médica oficial */}
       <ModalHistoriaCompleta
         isOpen={isHistoriaCompletaOpen}
-        onClose={() => setIsHistoriaCompletaOpen(false)}
+        onClose={() => {
+          setIsHistoriaCompletaOpen(false);
+          setSelectedSection(null);
+        }}
+        initialSectionId={selectedSection || undefined}
       />
     </div>
   );

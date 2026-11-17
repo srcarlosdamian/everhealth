@@ -20,6 +20,8 @@ import { Dropdown } from '../design-system/atoms/Dropdown';
 import { ActionMenu } from '../design-system/molecules/ActionMenu';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
 import { TablePagination } from '../design-system/molecules/TablePagination';
+import { ModalHistoriaCompleta } from './ModalHistoriaCompleta';
+import { ModalVideoConsulta } from './ModalVideoConsulta';
 
 export interface Familiar {
   id: string;
@@ -91,8 +93,15 @@ export const Familiares: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [filterParentesco, setFilterParentesco] = useState('todos');
 
-  // Modal Añadir Familiar
+  // Modal Añadir / Editar Familiar
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingFamiliar, setEditingFamiliar] = useState<Familiar | null>(null);
+
+  // Modal Historial Completo
+  const [selectedHistoryMember, setSelectedHistoryMember] = useState<Familiar | null>(null);
+
+  // Modal Pedir Cita
+  const [isAppointmentModalOpen, setIsAppointmentModalOpen] = useState(false);
 
   // Modal Confirmación Dar de baja
   const [familiarToDelete, setFamiliarToDelete] = useState<Familiar | null>(null);
@@ -108,12 +117,29 @@ export const Familiares: React.FC = () => {
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
   const handleOpenModal = () => {
+    setEditingFamiliar(null);
     setFormNombre('');
     setFormApellidos('');
     setFormFechaNac('');
     setFormSexo('');
     setFormParentesco('');
     setIsModalOpen(true);
+  };
+
+  const handleEditFamiliar = (item: Familiar) => {
+    setEditingFamiliar(item);
+    setFormNombre(item.nombre);
+    setFormApellidos(item.apellidos);
+    const dateParts = item.fechaNacimiento.split('/');
+    if (dateParts.length === 3) {
+      setFormFechaNac(`${dateParts[2]}-${dateParts[1].padStart(2, '0')}-${dateParts[0].padStart(2, '0')}`);
+    } else {
+      setFormFechaNac(item.fechaNacimiento);
+    }
+    setFormSexo(item.sexo);
+    setFormParentesco(item.parentesco);
+    setIsModalOpen(true);
+    setActiveMenuId(null);
   };
 
   const handleSaveFamiliar = (e: React.FormEvent) => {
@@ -123,18 +149,40 @@ export const Familiares: React.FC = () => {
       return;
     }
 
-    const nuevo: Familiar = {
-      id: Date.now().toString(),
-      nombre: formNombre.trim(),
-      apellidos: formApellidos.trim(),
-      fechaNacimiento: formFechaNac || '01/01/2000',
-      edad: formFechaNac ? calculateAge(formFechaNac) : 25,
-      sexo: formSexo || 'No especificado',
-      parentesco: formParentesco || 'Otro',
-      esTutor: formParentesco === 'Cónyuge',
-    };
+    if (editingFamiliar) {
+      setFamiliares(
+        familiares.map((f) =>
+          f.id === editingFamiliar.id
+            ? {
+                ...f,
+                nombre: formNombre.trim(),
+                apellidos: formApellidos.trim(),
+                fechaNacimiento: formFechaNac
+                  ? formFechaNac.split('-').reverse().join('/')
+                  : f.fechaNacimiento,
+                edad: formFechaNac ? calculateAge(formFechaNac) : f.edad,
+                sexo: formSexo || f.sexo,
+                parentesco: formParentesco || f.parentesco,
+                esTutor: formParentesco === 'Cónyuge',
+              }
+            : f
+        )
+      );
+      setEditingFamiliar(null);
+    } else {
+      const nuevo: Familiar = {
+        id: Date.now().toString(),
+        nombre: formNombre.trim(),
+        apellidos: formApellidos.trim(),
+        fechaNacimiento: formFechaNac ? formFechaNac.split('-').reverse().join('/') : '01/01/2000',
+        edad: formFechaNac ? calculateAge(formFechaNac) : 25,
+        sexo: formSexo || 'No especificado',
+        parentesco: formParentesco || 'Otro',
+        esTutor: formParentesco === 'Cónyuge',
+      };
 
-    setFamiliares([nuevo, ...familiares]);
+      setFamiliares([nuevo, ...familiares]);
+    }
     setIsModalOpen(false);
   };
 
@@ -315,7 +363,7 @@ export const Familiares: React.FC = () => {
                               label: 'Ver historial clínico',
                               icon: <FileText className="w-5 h-5" />,
                               onClick: () => {
-                                alert(`Consultar historial de ${item.nombre}`);
+                                setSelectedHistoryMember(item);
                                 setActiveMenuId(null);
                               },
                             },
@@ -324,7 +372,7 @@ export const Familiares: React.FC = () => {
                               label: 'Pedir cita médica',
                               icon: <Calendar className="w-5 h-5" />,
                               onClick: () => {
-                                alert(`Solicitar cita para ${item.nombre}`);
+                                setIsAppointmentModalOpen(true);
                                 setActiveMenuId(null);
                               },
                             },
@@ -333,8 +381,7 @@ export const Familiares: React.FC = () => {
                               label: 'Editar datos',
                               icon: <Edit2 className="w-5 h-5" />,
                               onClick: () => {
-                                alert(`Editar datos de ${item.nombre}`);
-                                setActiveMenuId(null);
+                                handleEditFamiliar(item);
                               },
                             },
                             {
@@ -408,7 +455,7 @@ export const Familiares: React.FC = () => {
                             label: 'Ver historial clínico',
                             icon: <FileText className="w-5 h-5" />,
                             onClick: () => {
-                              alert(`Consultar historial de ${item.nombre}`);
+                              setSelectedHistoryMember(item);
                               setActiveMenuId(null);
                             },
                           },
@@ -417,7 +464,7 @@ export const Familiares: React.FC = () => {
                             label: 'Pedir cita médica',
                             icon: <Calendar className="w-5 h-5" />,
                             onClick: () => {
-                              alert(`Solicitar cita para ${item.nombre}`);
+                              setIsAppointmentModalOpen(true);
                               setActiveMenuId(null);
                             },
                           },
@@ -426,8 +473,7 @@ export const Familiares: React.FC = () => {
                             label: 'Editar datos',
                             icon: <Edit2 className="w-5 h-5" />,
                             onClick: () => {
-                              alert(`Editar datos de ${item.nombre}`);
-                              setActiveMenuId(null);
+                              handleEditFamiliar(item);
                             },
                           },
                           {
@@ -496,10 +542,15 @@ export const Familiares: React.FC = () => {
             className="w-full max-w-[800px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 animate-scaleUp max-h-[90vh] overflow-y-auto cursor-default"
           >
             <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
-              <h2 className="text-[20px] font-bold text-black">Añadir familiar</h2>
+              <h2 className="text-[20px] font-bold text-black">
+                {editingFamiliar ? 'Editar familiar' : 'Añadir familiar'}
+              </h2>
               <button
                 type="button"
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setEditingFamiliar(null);
+                }}
                 className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black cursor-pointer transition-colors"
               >
                 <X className="w-5 h-5" />
@@ -556,7 +607,10 @@ export const Familiares: React.FC = () => {
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-[#f1f5f9]">
                 <Button
                   variant="outline"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setEditingFamiliar(null);
+                  }}
                   className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
                 >
                   CANCELAR
@@ -566,13 +620,30 @@ export const Familiares: React.FC = () => {
                   variant="primary"
                   className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
                 >
-                  GUARDAR
+                  {editingFamiliar ? 'GUARDAR CAMBIOS' : 'GUARDAR'}
                 </Button>
               </div>
             </form>
           </div>
         </div>
       )}
+
+      {/* ================= MODAL HISTORIAL CLÍNICO COMPLETO ================= */}
+      {selectedHistoryMember && (
+        <ModalHistoriaCompleta
+          isOpen={!!selectedHistoryMember}
+          onClose={() => setSelectedHistoryMember(null)}
+          patientName={`${selectedHistoryMember.nombre} ${selectedHistoryMember.apellidos}`}
+          patientGenderBirth={`${selectedHistoryMember.sexo}, nacido/a el ${selectedHistoryMember.fechaNacimiento} (${selectedHistoryMember.edad} años)`}
+          initials={`${selectedHistoryMember.nombre[0]}${selectedHistoryMember.apellidos[0]}`}
+        />
+      )}
+
+      {/* ================= MODAL PEDIR CITA MÉDICA ================= */}
+      <ModalVideoConsulta
+        isOpen={isAppointmentModalOpen}
+        onClose={() => setIsAppointmentModalOpen(false)}
+      />
 
       {/* ================= MODAL DAR DE BAJA FAMILIAR ================= */}
       {familiarToDelete && (

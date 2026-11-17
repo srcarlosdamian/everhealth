@@ -526,43 +526,57 @@ export const Biometria: React.FC<BiometriaProps> = ({
                     />
                   </div>
 
-                  {/* Botón Ayuda con Popover flotante de instrucciones biométricas */}
+                  {/* Botón Ayuda con Popover homologado al sistema de diseño */}
                   <div className="relative" ref={helpPopoverRef}>
                     <button
                       type="button"
                       onClick={() => setIsHelpPopoverOpen(!isHelpPopoverOpen)}
                       className={`h-[40px] px-3.5 rounded-[8px] border bg-white flex items-center gap-1.5 text-[13px] font-bold cursor-pointer transition-colors shrink-0 ${
                         isHelpPopoverOpen
-                          ? 'border-[#38bdf8] text-[#0284c7] ring-1 ring-[#38bdf8]'
+                          ? 'border-black text-black ring-1 ring-black'
                           : 'border-[#cbd5e1] hover:border-black text-black'
                       }`}
                       title="Instrucciones para la medición"
                     >
-                      <HelpCircle className="w-4 h-4" />
+                      <HelpCircle className="w-4 h-4 text-[#64748b]" />
                       <span>Ayuda</span>
                     </button>
 
                     {isHelpPopoverOpen && (
-                      <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[290px] sm:w-[330px] bg-white rounded-[12px] border-2 border-[#38bdf8] p-4 shadow-xl animate-fadeIn flex flex-col gap-4 text-left">
-                        <div className="flex items-start gap-3">
-                          <Camera className="w-5 h-5 text-[#0284c7] shrink-0 mt-0.5" />
-                          <p className="text-[13px] text-black font-normal leading-snug">
-                            Mire a la cámara y sitúe su cara dentro del círculo durante toda la medición.
-                          </p>
+                      <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[300px] sm:w-[340px] bg-white rounded-[10px] border border-[#e2e8f0] p-4 shadow-[0_12px_32px_rgba(0,0,0,0.12)] animate-fadeIn flex flex-col gap-3 text-left">
+                        <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
+                          <span className="text-[13px] font-bold text-black uppercase tracking-wider">
+                            Instrucciones
+                          </span>
                         </div>
 
-                        <div className="flex items-start gap-3">
-                          <Glasses className="w-5 h-5 text-[#0284c7] shrink-0 mt-0.5" />
-                          <p className="text-[13px] text-black font-normal leading-snug">
-                            Quite todos los complementos como gafas y sombreros, incluido cualquier producto de maquillaje de su cara antes de la medición.
-                          </p>
-                        </div>
+                        <div className="flex flex-col gap-3 text-[13px]">
+                          <div className="flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-[6px] bg-[#f8fafc] border border-[#e2e8f0] flex items-center justify-center shrink-0 mt-0.5">
+                              <Camera className="w-4 h-4 text-[#64748b]" />
+                            </div>
+                            <p className="text-black font-normal leading-snug">
+                              Mire a la cámara y sitúe su cara dentro del círculo durante toda la medición.
+                            </p>
+                          </div>
 
-                        <div className="flex items-start gap-3">
-                          <Timer className="w-5 h-5 text-[#0284c7] shrink-0 mt-0.5" />
-                          <p className="text-[13px] text-black font-normal leading-snug">
-                            Una vez comenzada la medición, permanezca quieto/a durante 30 segundos hasta que se haya completado la medición.
-                          </p>
+                          <div className="flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-[6px] bg-[#f8fafc] border border-[#e2e8f0] flex items-center justify-center shrink-0 mt-0.5">
+                              <Glasses className="w-4 h-4 text-[#64748b]" />
+                            </div>
+                            <p className="text-black font-normal leading-snug">
+                              Quite todos los complementos como gafas y sombreros, incluido cualquier producto de maquillaje.
+                            </p>
+                          </div>
+
+                          <div className="flex items-start gap-3">
+                            <div className="w-7 h-7 rounded-[6px] bg-[#f8fafc] border border-[#e2e8f0] flex items-center justify-center shrink-0 mt-0.5">
+                              <Timer className="w-4 h-4 text-[#64748b]" />
+                            </div>
+                            <p className="text-black font-normal leading-snug">
+                              Una vez comenzada, permanezca quieto/a durante 30 segundos hasta finalizar el escaneo.
+                            </p>
+                          </div>
                         </div>
                       </div>
                     )}
