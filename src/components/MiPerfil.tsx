@@ -389,104 +389,94 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
         </div>
       )}
 
-      {/* ================= PESTAÑA 2: SEGURIDAD (CUENTA & SUSCRIPCIÓN) ================= */}
+      {/* ================= PESTAÑA 2: SEGURIDAD (MISMO ESTILO A 3 COLUMNAS Y CONTENEDOR UNIFICADO) ================= */}
       {activeTab === 'seguridad' && (
-        <div className="flex flex-col gap-6 animate-fadeIn">
+        <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] p-6 sm:p-8 shadow-xs animate-fadeIn flex flex-col gap-8">
           
-          {/* Card 1: Suscripción y facturación */}
-          <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs">
-            <div className="bg-[#f8fafc] px-6 py-3.5 border-b border-[#e2e8f0] flex items-center justify-between">
-              <span className="text-[13px] font-bold uppercase tracking-wider text-black">
+          {/* SECCIÓN 1: Suscripción y facturación */}
+          <div className="flex flex-col gap-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-[18px] font-bold text-black tracking-tight">
                 Suscripción y facturación
-              </span>
+              </h2>
               <Badge variant="success">Suscripción Activa</Badge>
             </div>
 
-            <div className="p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex flex-col gap-1">
-                <span className="text-[12px] font-bold uppercase tracking-wider text-black">
-                  Correo de la cuenta
-                </span>
-                <span className="text-[17px] font-bold text-black">
-                  {currentEmail}
-                </span>
-                <span className="text-[13px] text-black font-normal mt-0.5">
-                  Plan de salud Ever Health Total · Póliza #{profilePoliza}
-                </span>
-              </div>
-              <Button
-                variant="outline"
-                type="button"
-                onClick={() => showSuccess('Detalles de facturación descargados.')}
-              >
-                VER FACTURACIÓN
-              </Button>
-            </div>
-          </div>
-
-          {/* Card 2: Cambiar correo de la cuenta */}
-          <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs">
-            <div className="bg-[#f8fafc] px-6 py-4 border-b border-[#e2e8f0]">
-              <h2 className="text-[18px] font-bold text-black">
-                Cambiar correo de la cuenta
-              </h2>
-              <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
-                Actualiza la dirección utilizada para iniciar sesión y recibir comunicaciones oficiales.
-              </p>
-            </div>
-
-            <form onSubmit={handleSaveEmail} className="p-6 sm:p-8 flex flex-col gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <TextInput
+                label="Correo de la cuenta"
+                disabled
+                value={currentEmail}
+              />
+              <TextInput
+                label="Plan contratado"
+                disabled
+                value={`Ever Health Total · Póliza #${profilePoliza}`}
+              />
               <div className="flex flex-col gap-1.5">
                 <label className="text-[14px] font-normal text-black leading-tight">
-                  Correo actual
+                  Comprobantes
                 </label>
-                <input
-                  type="email"
-                  disabled
-                  value={currentEmail}
-                  className="w-full h-[44px] px-4 rounded-[8px] border border-[#e2e8f0] bg-[#f8fafc] text-[15px] font-medium text-black"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <TextInput
-                  label="Nuevo email *"
-                  required
-                  type="email"
-                  value={newEmail}
-                  onChange={(e) => setNewEmail(e.target.value)}
-                  placeholder="nuevo@correo.com"
-                />
-                <TextInput
-                  label="Repetir email *"
-                  required
-                  type="email"
-                  value={repeatEmail}
-                  onChange={(e) => setRepeatEmail(e.target.value)}
-                  placeholder="nuevo@correo.com"
-                />
-              </div>
-
-              <div className="flex justify-end pt-2">
-                <Button variant="primary" type="submit">
-                  CAMBIAR CORREO DE LA CUENTA
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="w-full h-[44px] justify-center"
+                  onClick={() => showSuccess('Detalles de facturación descargados.')}
+                >
+                  VER FACTURACIÓN
                 </Button>
               </div>
-            </form>
+            </div>
           </div>
 
-          {/* Card 3: Cambiar contraseña */}
-          <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] overflow-hidden shadow-xs">
-            <div className="bg-[#f8fafc] px-6 py-4 border-b border-[#e2e8f0]">
-              <h2 className="text-[18px] font-bold text-black">
-                Cambiar contraseña
-              </h2>
-              <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
-                Asegúrate de utilizar una contraseña segura con mayúsculas, números y caracteres especiales.
-              </p>
+          <div className="h-[1px] bg-[#f1f5f9] w-full" />
+
+          {/* SECCIÓN 2: Cambiar correo de la cuenta */}
+          <form onSubmit={handleSaveEmail} className="flex flex-col gap-5">
+            <h2 className="text-[18px] font-bold text-black tracking-tight">
+              Cambiar correo de la cuenta
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <TextInput
+                label="Correo actual"
+                disabled
+                value={currentEmail}
+              />
+              <TextInput
+                label="Nuevo email *"
+                required
+                type="email"
+                value={newEmail}
+                onChange={(e) => setNewEmail(e.target.value)}
+                placeholder="nuevo@correo.com"
+              />
+              <TextInput
+                label="Repetir email *"
+                required
+                type="email"
+                value={repeatEmail}
+                onChange={(e) => setRepeatEmail(e.target.value)}
+                placeholder="nuevo@correo.com"
+              />
             </div>
 
-            <form onSubmit={handleSavePassword} className="p-6 sm:p-8 flex flex-col gap-5">
+            <div className="flex justify-end pt-1">
+              <Button variant="primary" type="submit">
+                CAMBIAR CORREO DE LA CUENTA
+              </Button>
+            </div>
+          </form>
+
+          <div className="h-[1px] bg-[#f1f5f9] w-full" />
+
+          {/* SECCIÓN 3: Cambiar contraseña */}
+          <form onSubmit={handleSavePassword} className="flex flex-col gap-5">
+            <h2 className="text-[18px] font-bold text-black tracking-tight">
+              Cambiar contraseña
+            </h2>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <TextInput
                 label="Contraseña actual *"
                 required
@@ -495,50 +485,67 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                 onChange={(e) => setCurrentPassword(e.target.value)}
                 placeholder="••••••••••••"
               />
+              <TextInput
+                label="Nueva contraseña *"
+                required
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="••••••••••••"
+              />
+              <TextInput
+                label="Repetir contraseña *"
+                required
+                type="password"
+                value={repeatPassword}
+                onChange={(e) => setRepeatPassword(e.target.value)}
+                placeholder="••••••••••••"
+              />
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <TextInput
-                  label="Nueva contraseña *"
-                  required
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  placeholder="••••••••••••"
-                />
-                <TextInput
-                  label="Repetir contraseña *"
-                  required
-                  type="password"
-                  value={repeatPassword}
-                  onChange={(e) => setRepeatPassword(e.target.value)}
-                  placeholder="••••••••••••"
-                />
-              </div>
+            <div className="flex justify-end pt-1">
+              <Button variant="primary" type="submit">
+                CAMBIAR CONTRASEÑA
+              </Button>
+            </div>
+          </form>
 
-              <div className="flex justify-end pt-2">
-                <Button variant="primary" type="submit">
-                  CAMBIAR CONTRASEÑA
+          <div className="h-[1px] bg-[#f1f5f9] w-full" />
+
+          {/* SECCIÓN 4: Autenticación en dos pasos (2FA) */}
+          <div className="flex flex-col gap-5">
+            <div className="flex items-center justify-between">
+              <h2 className="text-[18px] font-bold text-black tracking-tight">
+                Autenticación en dos pasos (2FA)
+              </h2>
+              <Badge variant="success">Activado</Badge>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <TextInput
+                label="Estado de protección"
+                disabled
+                value="2FA Habilitado en cada inicio"
+              />
+              <TextInput
+                label="Canales de confirmación"
+                disabled
+                value={`SMS (${profileTelefono1}) y correo`}
+              />
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[14px] font-normal text-black leading-tight">
+                  Ajustes de seguridad
+                </label>
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="w-full h-[44px] justify-center"
+                  onClick={() => showSuccess('Configuración de 2FA actualizada.')}
+                >
+                  CONFIGURAR 2FA
                 </Button>
               </div>
-            </form>
-          </div>
-
-          {/* Card 4: Autenticación en dos pasos (2FA) */}
-          <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] p-6 sm:p-8 flex items-center justify-between gap-4">
-            <div className="flex flex-col gap-1">
-              <div className="flex items-center gap-3">
-                <h3 className="text-[16px] font-bold text-black">
-                  Autenticación en dos pasos (2FA)
-                </h3>
-                <Badge variant="success">Activado</Badge>
-              </div>
-              <p className="text-[13px] text-[var(--color-text-description)] font-normal">
-                Protege tu cuenta enviando un código de confirmación a tu teléfono {profileTelefono1} y correo en cada inicio de sesión.
-              </p>
             </div>
-            <Button variant="outline" type="button" className="shrink-0">
-              CONFIGURAR 2FA
-            </Button>
           </div>
 
         </div>
