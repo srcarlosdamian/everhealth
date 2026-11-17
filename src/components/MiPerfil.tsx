@@ -4,8 +4,6 @@ import {
   Check,
   CreditCard,
   Download,
-  Calendar,
-  ShieldCheck,
   FileText,
 } from 'lucide-react';
 import { Tabs, TabItem } from '../design-system/molecules/Tabs';
@@ -72,8 +70,7 @@ const ZONA_HORARIA_OPTIONS: DropdownOption[] = [
 ];
 
 export const MiPerfil: React.FC<MiPerfilProps> = ({
-  userName = 'Alejandro Navarro García',
-  userEmail = 'alejandro.navarro@gmail.com',
+  userEmail = 'alejandro.navarro@everhealth.es',
 }) => {
   const [activeTab, setActiveTab] = useState('datos-personales');
 
@@ -86,11 +83,10 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
   const [profileSexo, setProfileSexo] = useState('Masculino');
   const [profilePrefijo, setProfilePrefijo] = useState('+34');
   const [profileTelefono1, setProfileTelefono1] = useState('620184932');
-  const [profileTelefono2, setProfileTelefono2] = useState('915220518');
-  const [profilePoliza, setProfilePoliza] = useState('AS-9842019-M');
+  const [profileTelefono2, setProfileTelefono2] = useState('');
+  const [profilePoliza, setProfilePoliza] = useState('486205');
   const [profilePais, setProfilePais] = useState('España');
   const [profileCiudad, setProfileCiudad] = useState('Madrid');
-  const [profileDireccion, setProfileDireccion] = useState('Calle de Serrano 48, 2º Izq.');
   const [profileCodigoPostal, setProfileCodigoPostal] = useState('28001');
   const [profileZonaHoraria, setProfileZonaHoraria] = useState('Europe/Madrid');
 
@@ -192,9 +188,9 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
         </div>
       )}
 
-      {/* ================= PESTAÑA 1: DATOS PERSONALES ================= */}
+      {/* ================= PESTAÑA 1: DATOS PERSONALES (SIN CONTENEDOR CON LÍNEA) ================= */}
       {activeTab === 'datos-personales' && (
-        <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] p-6 sm:p-8 shadow-xs animate-fadeIn">
+        <div className="w-full animate-fadeIn">
           <form onSubmit={handleSavePersonal} className="flex flex-col gap-8">
             
             {/* SECCIÓN 1: Información personal */}
@@ -205,7 +201,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
 
               {/* Fila 1: Imagen de perfil, Nombre *, Apellidos * */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {/* Imagen de perfil integrada con iniciales AN */}
+                {/* Imagen de perfil integrada con botón de actualizar imagen */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[14px] font-normal text-black leading-tight">
                     Imagen de perfil
@@ -293,12 +289,10 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   label="Número de póliza *"
                   value={profilePoliza}
                   onChange={(e) => setProfilePoliza(e.target.value)}
-                  placeholder="AS-9842019-M"
+                  placeholder="486205"
                 />
               </div>
             </div>
-
-            <div className="h-[1px] bg-[#f1f5f9] w-full" />
 
             {/* SECCIÓN 2: Contacto */}
             <div className="flex flex-col gap-5">
@@ -324,7 +318,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   type="tel"
                   value={profileTelefono1}
                   onChange={(e) => setProfileTelefono1(e.target.value)}
-                  placeholder="620 184 932"
+                  placeholder="620184932"
                 />
 
                 {/* Teléfono 2 (opcional) */}
@@ -333,12 +327,10 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   type="tel"
                   value={profileTelefono2}
                   onChange={(e) => setProfileTelefono2(e.target.value)}
-                  placeholder="915 220 518 (opcional)"
+                  placeholder="Teléfono 2 (opcional)"
                 />
               </div>
             </div>
-
-            <div className="h-[1px] bg-[#f1f5f9] w-full" />
 
             {/* SECCIÓN 3: Ubicación */}
             <div className="flex flex-col gap-5">
@@ -364,25 +356,15 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                   placeholder="Madrid"
                 />
                 <TextInput
-                  label="Código postal *"
-                  required
+                  label="Código postal"
                   value={profileCodigoPostal}
                   onChange={(e) => setProfileCodigoPostal(e.target.value)}
                   placeholder="28001"
                 />
               </div>
 
-              {/* Fila 2: Dirección y Zona horaria */}
+              {/* Fila 2: Zona horaria */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                <div className="md:col-span-2">
-                  <TextInput
-                    label="Dirección *"
-                    required
-                    value={profileDireccion}
-                    onChange={(e) => setProfileDireccion(e.target.value)}
-                    placeholder="Calle de Serrano 48, 2º Izq."
-                  />
-                </div>
                 <Dropdown
                   label="Zona horaria *"
                   required
@@ -394,22 +376,20 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
               </div>
             </div>
 
-            <div className="h-[1px] bg-[#f1f5f9] w-full" />
-
             {/* Fila de Acciones: Cancelar y Actualizar datos */}
-            <div className="flex items-center justify-end gap-3 pt-2">
+            <div className="flex items-center justify-end gap-3 pt-4">
               <Button
                 variant="outline"
                 type="button"
                 onClick={() => showSuccess('Edición cancelada.')}
               >
-                Cancelar
+                CANCELAR
               </Button>
               <Button
                 variant="primary"
                 type="submit"
               >
-                Actualizar datos
+                ACTUALIZAR DATOS
               </Button>
             </div>
 
@@ -417,9 +397,9 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
         </div>
       )}
 
-      {/* ================= PESTAÑA 2: SEGURIDAD (EXCLUSIVO CONTRASEÑA Y 2FA) ================= */}
+      {/* ================= PESTAÑA 2: SEGURIDAD (SIN 2FA, SIN CONTENEDOR CON LÍNEA) ================= */}
       {activeTab === 'seguridad' && (
-        <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] p-6 sm:p-8 shadow-xs animate-fadeIn flex flex-col gap-8">
+        <div className="w-full animate-fadeIn flex flex-col gap-8">
           
           {/* SECCIÓN 1: Cambiar correo de la cuenta */}
           <form onSubmit={handleSaveEmail} className="flex flex-col gap-5">
@@ -451,14 +431,16 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
               />
             </div>
 
-            <div className="flex justify-end pt-1">
-              <Button variant="primary" type="submit">
-                Cambiar correo de la cuenta
+            <div className="flex justify-end pt-2">
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={!newEmail || !repeatEmail}
+              >
+                ACTUALIZAR CORREO
               </Button>
             </div>
           </form>
-
-          <div className="h-[1px] bg-[#f1f5f9] w-full" />
 
           {/* SECCIÓN 2: Cambiar contraseña */}
           <form onSubmit={handleSavePassword} className="flex flex-col gap-5">
@@ -481,69 +463,35 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                placeholder="••••••••••••"
+                placeholder="Mínimo 8 caracteres"
               />
               <TextInput
-                label="Repetir contraseña *"
+                label="Repetir nueva contraseña *"
                 required
                 type="password"
                 value={repeatPassword}
                 onChange={(e) => setRepeatPassword(e.target.value)}
-                placeholder="••••••••••••"
+                placeholder="Confirma la contraseña"
               />
             </div>
 
-            <div className="flex justify-end pt-1">
-              <Button variant="primary" type="submit">
-                Cambiar contraseña
+            <div className="flex justify-end pt-2">
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={!currentPassword || !newPassword || !repeatPassword}
+              >
+                CAMBIAR CONTRASEÑA
               </Button>
             </div>
           </form>
 
-          <div className="h-[1px] bg-[#f1f5f9] w-full" />
-
-          {/* SECCIÓN 3: Autenticación en dos pasos (2FA) */}
-          <div className="flex flex-col gap-5">
-            <div className="flex items-center justify-between">
-              <h2 className="text-[18px] font-bold text-black tracking-tight">
-                Autenticación en dos pasos (2FA)
-              </h2>
-              <Badge variant="success">Activado</Badge>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <TextInput
-                label="Estado de protección"
-                disabled
-                value="2FA Habilitado en cada inicio"
-              />
-              <TextInput
-                label="Canales de confirmación"
-                disabled
-                value={`SMS (+34 ${profileTelefono1}) y correo`}
-              />
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[14px] font-normal text-black leading-tight">
-                  Ajustes de seguridad
-                </label>
-                <Button
-                  variant="outline"
-                  type="button"
-                  className="w-full h-[44px] justify-center"
-                  onClick={() => showSuccess('Configuración de 2FA actualizada.')}
-                >
-                  Configurar 2FA
-                </Button>
-              </div>
-            </div>
-          </div>
-
         </div>
       )}
 
-      {/* ================= PESTAÑA 3: SUSCRIPCIÓN Y FACTURACIÓN ================= */}
+      {/* ================= PESTAÑA 3: SUSCRIPCIÓN Y FACTURACIÓN (SIN CONTENEDOR CON LÍNEA) ================= */}
       {activeTab === 'suscripcion-facturacion' && (
-        <div className="w-full bg-white border border-[#e2e8f0] rounded-[10px] p-6 sm:p-8 shadow-xs animate-fadeIn flex flex-col gap-8">
+        <div className="w-full animate-fadeIn flex flex-col gap-8">
           
           {/* SECCIÓN 1: Plan y suscripción activa */}
           <div className="flex flex-col gap-5">
@@ -591,59 +539,49 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
             </div>
           </div>
 
-          <div className="h-[1px] bg-[#f1f5f9] w-full" />
-
           {/* SECCIÓN 2: Método de pago */}
           <div className="flex flex-col gap-5">
             <h2 className="text-[18px] font-bold text-black tracking-tight">
               Método de pago
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div className="p-4 rounded-[8px] bg-white border border-[#cbd5e1] flex items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-[6px] bg-[#f1f5f9] flex items-center justify-center shrink-0">
-                    <CreditCard className="w-5 h-5 text-black" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[14px] font-bold text-black">Visa terminada en 4821</span>
-                    <span className="text-[12px] text-[#64748b]">Caduca 05/29</span>
-                  </div>
+            <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-[6px] bg-white border border-[#cbd5e1] flex items-center justify-center shrink-0">
+                  <CreditCard className="w-5 h-5 text-black" />
                 </div>
-                <Badge variant="neutral">Predeterminado</Badge>
+                <div className="flex flex-col">
+                  <span className="text-[14px] font-bold text-black">Visa terminada en 4242</span>
+                  <span className="text-[12px] text-[#64748b]">Caduca 08/2028 · Método predeterminado</span>
+                </div>
               </div>
 
-              <div className="flex flex-col justify-center">
+              <div className="flex items-center gap-2 self-end sm:self-auto">
                 <Button
                   variant="outline"
                   type="button"
-                  className="w-fit h-[40px] text-[13px]"
-                  onClick={() => showSuccess('Modal para actualizar tarjeta abierto.')}
+                  className="h-[36px] text-[13px]"
+                  onClick={() => showSuccess('Ventana para cambiar tarjeta abierta.')}
                 >
-                  Actualizar método de pago
+                  Actualizar tarjeta
                 </Button>
               </div>
             </div>
           </div>
 
-          <div className="h-[1px] bg-[#f1f5f9] w-full" />
-
-          {/* SECCIÓN 3: Datos de facturación */}
+          {/* SECCIÓN 3: Datos de Facturación */}
           <form onSubmit={handleSaveBilling} className="flex flex-col gap-5">
-            <div className="flex items-center justify-between">
-              <h2 className="text-[18px] font-bold text-black tracking-tight">
-                Datos de facturación
-              </h2>
-              <span className="text-[12px] text-[#64748b]">Para emisión de facturas y recibos oficiales</span>
-            </div>
+            <h2 className="text-[18px] font-bold text-black tracking-tight">
+              Datos de facturación
+            </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <TextInput
-                label="Nombre o Razón social *"
+                label="Razón social / Nombre *"
                 required
                 value={billingRazonSocial}
                 onChange={(e) => setBillingRazonSocial(e.target.value)}
-                placeholder="Alejandro Navarro García"
+                placeholder="Nombre o empresa"
               />
               <TextInput
                 label="NIF / CIF / DNI *"
@@ -652,16 +590,23 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                 onChange={(e) => setBillingNif(e.target.value)}
                 placeholder="47291845K"
               />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <TextInput
                 label="Dirección fiscal *"
                 required
                 value={billingDireccion}
                 onChange={(e) => setBillingDireccion(e.target.value)}
-                placeholder="Calle de Serrano 48, 2º Izq."
+                placeholder="Calle y número"
               />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              <TextInput
+                label="Ciudad *"
+                required
+                value={billingCiudad}
+                onChange={(e) => setBillingCiudad(e.target.value)}
+                placeholder="Madrid"
+              />
               <TextInput
                 label="Código postal *"
                 required
@@ -669,77 +614,72 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                 onChange={(e) => setBillingCp(e.target.value)}
                 placeholder="28001"
               />
-              <TextInput
-                label="Ciudad / Población *"
-                required
-                value={billingCiudad}
-                onChange={(e) => setBillingCiudad(e.target.value)}
-                placeholder="Madrid"
-              />
-              <Dropdown
-                label="País fiscal *"
-                required
-                options={PAIS_OPTIONS}
-                value={billingPais}
-                onChange={setBillingPais}
-                placeholder="España"
-              />
             </div>
 
-            <div className="flex justify-end pt-1">
-              <Button variant="primary" type="submit">
-                Guardar datos de facturación
+            <div className="flex justify-end pt-2">
+              <Button
+                variant="primary"
+                type="submit"
+              >
+                GUARDAR FACTURACIÓN
               </Button>
             </div>
           </form>
 
-          <div className="h-[1px] bg-[#f1f5f9] w-full" />
-
-          {/* SECCIÓN 4: Historial de facturas */}
+          {/* SECCIÓN 4: Historial de facturas descargables */}
           <div className="flex flex-col gap-4">
             <h2 className="text-[18px] font-bold text-black tracking-tight">
-              Historial de facturas y recibos
+              Historial de facturas
             </h2>
 
-            <div className="w-full border border-[#e2e8f0] rounded-[8px] overflow-hidden">
-              <table className="w-full text-left border-collapse text-[13px]">
-                <thead>
-                  <tr className="bg-[#f8fafc] border-b border-[#e2e8f0] text-[12px] font-bold text-black uppercase tracking-wider">
-                    <th className="py-3 px-4">Factura</th>
+            <div className="border border-[#e2e8f0] rounded-[8px] overflow-hidden bg-white">
+              <table className="w-full text-left text-[14px]">
+                <thead className="bg-[#f8fafc] border-b border-[#e2e8f0] text-[#64748b] text-[12px] font-semibold uppercase">
+                  <tr>
                     <th className="py-3 px-4">Fecha</th>
+                    <th className="py-3 px-4">Concepto</th>
                     <th className="py-3 px-4">Importe</th>
                     <th className="py-3 px-4">Estado</th>
-                    <th className="py-3 px-4 text-right">Descargar</th>
+                    <th className="py-3 px-4 text-right">Factura</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#f1f5f9] bg-white">
-                  {[
-                    { id: 'EVR-2026-0089', date: '14/05/2026', amount: '199,00 €', status: 'Cobrado' },
-                    { id: 'EVR-2025-0062', date: '14/05/2025', amount: '189,00 €', status: 'Cobrado' },
-                    { id: 'EVR-2024-0034', date: '14/05/2024', amount: '189,00 €', status: 'Cobrado' },
-                  ].map((inv) => (
-                    <tr key={inv.id} className="hover:bg-[#f8fafc]/60 transition-colors">
-                      <td className="py-3 px-4 font-semibold text-black flex items-center gap-2">
-                        <FileText className="w-4 h-4 text-[#64748b]" />
-                        <span>#{inv.id}</span>
-                      </td>
-                      <td className="py-3 px-4 text-[#475569]">{inv.date}</td>
-                      <td className="py-3 px-4 font-bold text-black">{inv.amount}</td>
-                      <td className="py-3 px-4">
-                        <Badge variant="success">{inv.status}</Badge>
-                      </td>
-                      <td className="py-3 px-4 text-right">
-                        <button
-                          type="button"
-                          onClick={() => showSuccess(`Descargando factura #${inv.id}.pdf...`)}
-                          className="inline-flex items-center gap-1.5 text-[12px] font-medium text-[#2563eb] hover:underline cursor-pointer"
-                        >
-                          <Download className="w-3.5 h-3.5" />
-                          <span>PDF</span>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                <tbody className="divide-y divide-[#f1f5f9]">
+                  <tr>
+                    <td className="py-3.5 px-4 font-medium text-black">14/05/2026</td>
+                    <td className="py-3.5 px-4 text-black">Suscripción Ever Health Anual</td>
+                    <td className="py-3.5 px-4 font-bold text-black">199,00 €</td>
+                    <td className="py-3.5 px-4">
+                      <Badge variant="success">Pagada</Badge>
+                    </td>
+                    <td className="py-3.5 px-4 text-right">
+                      <button
+                        type="button"
+                        onClick={() => showSuccess('Descargando factura 2026-05-14.pdf...')}
+                        className="inline-flex items-center gap-1.5 text-[13px] font-bold text-[#d50475] hover:underline cursor-pointer"
+                      >
+                        <Download className="w-4 h-4" />
+                        PDF
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="py-3.5 px-4 font-medium text-black">14/05/2025</td>
+                    <td className="py-3.5 px-4 text-black">Suscripción Ever Health Anual</td>
+                    <td className="py-3.5 px-4 font-bold text-black">189,00 €</td>
+                    <td className="py-3.5 px-4">
+                      <Badge variant="success">Pagada</Badge>
+                    </td>
+                    <td className="py-3.5 px-4 text-right">
+                      <button
+                        type="button"
+                        onClick={() => showSuccess('Descargando factura 2025-05-14.pdf...')}
+                        className="inline-flex items-center gap-1.5 text-[13px] font-bold text-[#d50475] hover:underline cursor-pointer"
+                      >
+                        <Download className="w-4 h-4" />
+                        PDF
+                      </button>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>

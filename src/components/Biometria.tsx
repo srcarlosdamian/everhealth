@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, Info, Mail, Phone, ChevronDown, HelpCircle, AlertCircle, Camera, VideoOff, Heart, RefreshCw, Check, X, ScanFace } from 'lucide-react';
+import { ArrowLeft, Info, Mail, Phone, ChevronDown, HelpCircle, AlertCircle, Camera, VideoOff, Heart, RefreshCw, Check, X, ScanFace, Glasses, Timer } from 'lucide-react';
 import { LanguageSelector } from './LanguageSelector';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
@@ -27,6 +27,23 @@ export const Biometria: React.FC<BiometriaProps> = ({
 }) => {
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
   const [isHelpCenterOpen, setIsHelpCenterOpen] = useState(false);
+  const [isHelpPopoverOpen, setIsHelpPopoverOpen] = useState(false);
+  const helpPopoverRef = useRef<HTMLDivElement>(null);
+
+  // Close help popover on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (helpPopoverRef.current && !helpPopoverRef.current.contains(e.target as Node)) {
+        setIsHelpPopoverOpen(false);
+      }
+    };
+    if (isHelpPopoverOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isHelpPopoverOpen]);
 
   // Flow stages:
   // 1: Formulario (Datos personales + clínicos con toggles)
@@ -509,19 +526,47 @@ export const Biometria: React.FC<BiometriaProps> = ({
                     />
                   </div>
 
-                  {/* Botón Ayuda pill conectado con HelpCenter */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (onOpenHelpCenter) onOpenHelpCenter();
-                      else setIsHelpCenterOpen(true);
-                    }}
-                    className="h-[40px] px-3.5 rounded-[8px] border border-[#cbd5e1] hover:border-black bg-white flex items-center gap-1.5 text-[13px] font-bold text-black cursor-pointer transition-colors shrink-0"
-                    title="Centro de ayuda y soporte"
-                  >
-                    <HelpCircle className="w-4 h-4 text-black" />
-                    <span>Ayuda</span>
-                  </button>
+                  {/* Botón Ayuda con Popover flotante de instrucciones biométricas */}
+                  <div className="relative" ref={helpPopoverRef}>
+                    <button
+                      type="button"
+                      onClick={() => setIsHelpPopoverOpen(!isHelpPopoverOpen)}
+                      className={`h-[40px] px-3.5 rounded-[8px] border bg-white flex items-center gap-1.5 text-[13px] font-bold cursor-pointer transition-colors shrink-0 ${
+                        isHelpPopoverOpen
+                          ? 'border-[#38bdf8] text-[#0284c7] ring-1 ring-[#38bdf8]'
+                          : 'border-[#cbd5e1] hover:border-black text-black'
+                      }`}
+                      title="Instrucciones para la medición"
+                    >
+                      <HelpCircle className="w-4 h-4" />
+                      <span>Ayuda</span>
+                    </button>
+
+                    {isHelpPopoverOpen && (
+                      <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[290px] sm:w-[330px] bg-white rounded-[12px] border-2 border-[#38bdf8] p-4 shadow-xl animate-fadeIn flex flex-col gap-4 text-left">
+                        <div className="flex items-start gap-3">
+                          <Camera className="w-5 h-5 text-[#0284c7] shrink-0 mt-0.5" />
+                          <p className="text-[13px] text-black font-normal leading-snug">
+                            Mire a la cámara y sitúe su cara dentro del círculo durante toda la medición.
+                          </p>
+                        </div>
+
+                        <div className="flex items-start gap-3">
+                          <Glasses className="w-5 h-5 text-[#0284c7] shrink-0 mt-0.5" />
+                          <p className="text-[13px] text-black font-normal leading-snug">
+                            Quite todos los complementos como gafas y sombreros, incluido cualquier producto de maquillaje de su cara antes de la medición.
+                          </p>
+                        </div>
+
+                        <div className="flex items-start gap-3">
+                          <Timer className="w-5 h-5 text-[#0284c7] shrink-0 mt-0.5" />
+                          <p className="text-[13px] text-black font-normal leading-snug">
+                            Una vez comenzada la medición, permanezca quieto/a durante 30 segundos hasta que se haya completado la medición.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 

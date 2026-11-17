@@ -118,10 +118,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
         />
       </button>
 
-      {/* Menú flotante de opciones (100% neutro, sin rosas en hover) */}
+      {/* Menú flotante de opciones (100% neutro, scroll minimalista sin fondo de pista) */}
       {isOpen && (
         <div
-          className={`absolute left-0 z-50 w-full bg-white rounded-[8px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1 border border-[#e2e8f0] max-h-[240px] overflow-y-auto flex flex-col gap-[2px] animate-fadeIn ${
+          className={`absolute left-0 z-50 w-full bg-white rounded-[8px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1 border border-[#e2e8f0] max-h-[240px] overflow-y-auto custom-scrollbar-minimal flex flex-col gap-[2px] animate-fadeIn ${
             isUp ? 'bottom-[calc(100%+6px)]' : 'top-[calc(100%+6px)]'
           }`}
         >

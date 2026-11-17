@@ -12,6 +12,7 @@ import {
   ScanFace,
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
+import { ModalHistoriaCompleta } from './ModalHistoriaCompleta';
 
 interface HistoriaClinicaProps {
   onOpenDocumentsModal?: () => void;
@@ -32,6 +33,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
   onNavigateToSection,
 }) => {
   const [selectedSection, setSelectedSection] = useState<string | null>(null);
+  const [isHistoriaCompletaOpen, setIsHistoriaCompletaOpen] = useState(false);
 
   // Todos los iconos 100% neutros (#64748b) solicitados por el usuario
   const sections: ClinicalSection[] = [
@@ -137,7 +139,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
         <div className="self-start sm:self-auto shrink-0">
           <Button
             variant="secondary"
-            onClick={() => onOpenDocumentsModal?.()}
+            onClick={() => setIsHistoriaCompletaOpen(true)}
           >
             <span>VER HISTORIA COMPLETA</span>
           </Button>
@@ -182,6 +184,11 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
           </div>
         ))}
       </div>
+      {/* Modal Historia Completa basada en el boceto y ficha médica oficial */}
+      <ModalHistoriaCompleta
+        isOpen={isHistoriaCompletaOpen}
+        onClose={() => setIsHistoriaCompletaOpen(false)}
+      />
     </div>
   );
 };

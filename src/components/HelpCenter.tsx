@@ -241,13 +241,13 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       category: 'biometria',
       question: '¿Cuáles son las recomendaciones para que el escaneo sea óptimo?',
       answer: (
-        <div className="flex flex-col gap-2 text-[13px] text-[#475569] leading-relaxed">
-          <p>Para asegurar una lectura precisa de 25 segundos:</p>
-          <ol className="list-decimal list-inside space-y-1 pl-1">
-            <li><strong>Luz frontal uniforme:</strong> Evita ventanas a tu espalda o luces fluorescentes parpadeantes.</li>
-            <li><strong>Rostro despejado:</strong> Retira gafas de sol, sombreros o mascarillas.</li>
-            <li><strong>Posición fija:</strong> Mantén tu cabeza dentro del óvalo guía sin hablar ni moverte.</li>
-          </ol>
+        <div className="flex flex-col gap-2.5 text-[13px] text-[#475569] leading-relaxed">
+          <p>Para asegurar una medición biométrica precisa de 30 segundos:</p>
+          <ul className="list-disc list-inside space-y-1.5 pl-1">
+            <li><strong>Encuadre facial:</strong> Mire a la cámara y sitúe su cara dentro del círculo durante toda la medición.</li>
+            <li><strong>Sin complementos ni maquillaje:</strong> Quite todos los complementos como gafas y sombreros, incluido cualquier producto de maquillaje de su cara antes de la medición.</li>
+            <li><strong>Inmovilidad total:</strong> Una vez comenzada la medición, permanezca quieto/a durante 30 segundos hasta que se haya completado la medición.</li>
+          </ul>
         </div>
       ),
     },
