@@ -301,7 +301,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                         </button>
                       )}
                     </div>
-                    <p className="text-[12px] text-[#64748b]">
+                    <p className="text-[12px] text-[var(--color-text-description)] font-normal">
                       Aquí puedes ver tus consultas pendientes de hoy
                     </p>
                   </div>

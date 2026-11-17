@@ -52,7 +52,7 @@ export const ConfirmDeactivateModal: React.FC<ConfirmDeactivateModalProps> = ({
       </div>
 
       {/* Descripción clara y destacada */}
-      <p className="text-[14px] leading-[22px] text-[#475569]">
+      <p className="text-[14px] leading-[22px] text-[var(--color-page-subtitle)] font-normal">
         {descriptionPrefix}{' '}
         <strong className="text-black font-bold">{entityName}</strong>{' '}
         {descriptionSuffix}
@@ -60,7 +60,7 @@ export const ConfirmDeactivateModal: React.FC<ConfirmDeactivateModalProps> = ({
 
       {/* Callout de consecuencia / aclaración con icono informativo */}
       {consequenceNote && (
-        <div className="p-3.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] flex items-start gap-2.5 text-[12.5px] text-[#475569] leading-[19px]">
+        <div className="p-3.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] flex items-start gap-2.5 text-[12.5px] text-[var(--color-text-description)] leading-[19px]">
           <Info className="w-4 h-4 text-[#64748b] shrink-0 mt-0.5" />
           <div>{consequenceNote}</div>
         </div>

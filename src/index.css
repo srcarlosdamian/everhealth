@@ -6,6 +6,9 @@
   /* Ever Health Design System Tokens (from Figma) */
   --base-black: #000000;
   --base-white: #ffffff;
+  --text-dark: #000000;
+  --color-page-subtitle: #000000;
+  --color-text-description: #000000;
   --pink-700: #d50475;
   --pink-500: #ff34b2;
   --pink-300: #ff9edf;

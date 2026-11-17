@@ -177,7 +177,7 @@ export const Familiares: React.FC = () => {
           <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
             Familiares
           </h1>
-          <p className="text-[14px] leading-[22px] text-[#475569]">
+          <p className="text-[14px] leading-[22px] text-[var(--color-page-subtitle)] font-normal">
             Gestiona los miembros de tu unidad familiar y administra sus tutores médicos.
           </p>
         </div>
@@ -506,8 +506,8 @@ export const Familiares: React.FC = () => {
               </button>
             </div>
 
-            <p className="text-[13.5px] leading-[20px] text-[#64748b] -mt-2">
-              Si vas a añadir familiares adultos y menores, es recomendable empezar por <strong className="font-semibold text-[#334155]">los adultos</strong>. Así luego, si es el caso, es más fácil seleccionarlos como tutores de los menores.
+            <p className="text-[13.5px] leading-[20px] text-[var(--color-text-description)] font-normal -mt-2">
+              Si vas a añadir familiares adultos y menores, es recomendable empezar por <strong className="font-semibold text-black">los adultos</strong>. Así luego, si es el caso, es más fácil seleccionarlos como tutores de los menores.
             </p>
 
             <form onSubmit={handleSaveFamiliar} className="flex flex-col gap-5">

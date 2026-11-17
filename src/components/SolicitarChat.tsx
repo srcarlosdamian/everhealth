@@ -141,7 +141,7 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
         <h1 className="text-[32px] sm:text-[36px] font-bold text-black tracking-tight">
           Solicitar chat
         </h1>
-        <p className="text-[14px] leading-[22px] text-[#475569] max-w-[700px]">
+        <p className="text-[14px] leading-[22px] text-[var(--color-page-subtitle)] max-w-[700px] font-normal">
           El chat es perfecto para preguntas generales. Para obtener recetas o informes médicos, agenda una videoconsulta con nuestro servicio médico.
         </p>
       </div>

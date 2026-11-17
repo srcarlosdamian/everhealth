@@ -218,7 +218,7 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
           <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
             Consultas
           </h1>
-          <p className="text-[14px] leading-[22px] text-[#475569]">
+          <p className="text-[14px] leading-[22px] text-[var(--color-page-subtitle)] font-normal">
             Gestiona las consultas programadas y revisa tu historial clínico.
           </p>
         </div>

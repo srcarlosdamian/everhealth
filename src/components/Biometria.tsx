@@ -246,7 +246,7 @@ export const Biometria: React.FC<BiometriaProps> = ({
                 <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
                   Biometría
                 </h1>
-                <p className="text-[15px] leading-[22px] text-[#475569] font-normal">
+                <p className="text-[15px] leading-[22px] text-[var(--color-page-subtitle)] font-normal">
                   Bienvenido al sistema inteligente de diagnosis por imagen. Completa tus datos para estimar tus constantes biométricas en tiempo real.
                 </p>
               </div>

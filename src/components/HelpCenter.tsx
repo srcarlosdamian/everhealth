@@ -382,7 +382,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
                 Ever Health
               </span>
             </h2>
-            <span className="text-[12px] text-[#64748b]">
+            <span className="text-[12px] text-[var(--color-page-subtitle)] font-normal">
               Preguntas frecuentes y soporte en línea
             </span>
           </div>

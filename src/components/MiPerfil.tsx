@@ -165,7 +165,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
         <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
           Perfil
         </h1>
-        <p className="text-[14px] leading-[22px] text-[#475569]">
+        <p className="text-[14px] leading-[22px] text-[var(--color-page-subtitle)] font-normal">
           En esta sección puedes revisar y actualizar tu información
         </p>
       </div>
@@ -192,7 +192,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
             <h2 className="text-[18px] sm:text-[20px] font-bold text-black">
               Información personal
             </h2>
-            <p className="text-[13px] text-[#64748b] mt-0.5">
+            <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
               Gestiona tu foto de perfil y tus datos personales y de contacto registrados en Ever Health.
             </p>
           </div>
@@ -374,7 +374,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
               <h2 className="text-[18px] font-bold text-black">
                 Correo electrónico de la cuenta
               </h2>
-              <p className="text-[13px] text-[#64748b] mt-0.5">
+              <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
                 Dirección utilizada para iniciar sesión y recibir notificaciones oficiales.
               </p>
             </div>
@@ -425,7 +425,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
               <h2 className="text-[18px] font-bold text-black">
                 Cambiar contraseña
               </h2>
-              <p className="text-[13px] text-[#64748b] mt-0.5">
+              <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
                 Asegúrate de utilizar una contraseña segura con mayúsculas, números y caracteres especiales.
               </p>
             </div>
@@ -476,7 +476,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
                 </h3>
                 <Badge variant="success">Activado</Badge>
               </div>
-              <p className="text-[13px] text-[#64748b]">
+              <p className="text-[13px] text-[var(--color-text-description)] font-normal">
                 Protege tu cuenta enviando un código de confirmación a tu teléfono móvil y correo en cada inicio de sesión desde un nuevo dispositivo.
               </p>
             </div>
@@ -494,7 +494,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
             <h2 className="text-[18px] sm:text-[20px] font-bold text-black">
               Preferencias de agenda y citas médicas
             </h2>
-            <p className="text-[13px] text-[#64748b] mt-0.5">
+            <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
               Personaliza cómo recibes recordatorios de tus citas y la sincronización con tus calendarios externos.
             </p>
           </div>
@@ -563,7 +563,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
             <h2 className="text-[18px] sm:text-[20px] font-bold text-black">
               Firma digital médica del paciente
             </h2>
-            <p className="text-[13px] text-[#64748b] mt-0.5">
+            <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
               Firma digital autorizada utilizada para consentimientos informados y validación de trámites clínicos.
             </p>
           </div>
@@ -620,7 +620,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
             <h2 className="text-[18px] sm:text-[20px] font-bold text-black">
               Sello digital y certificación
             </h2>
-            <p className="text-[13px] text-[#64748b] mt-0.5">
+            <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
               Validación criptográfica y sellos de autenticidad para documentos médicos y recetas.
             </p>
           </div>
@@ -679,7 +679,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
             <h2 className="text-[18px] sm:text-[20px] font-bold text-black">
               Servicios y plan de cobertura
             </h2>
-            <p className="text-[13px] text-[#64748b] mt-0.5">
+            <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
               Consulta los servicios asistenciales disponibles en tu póliza médica Ever Health.
             </p>
           </div>
@@ -752,7 +752,7 @@ export const MiPerfil: React.FC<MiPerfilProps> = ({
             <h2 className="text-[18px] sm:text-[20px] font-bold text-black">
               Configuración de receta electrónica
             </h2>
-            <p className="text-[13px] text-[#64748b] mt-0.5">
+            <p className="text-[13px] text-[var(--color-text-description)] mt-0.5 font-normal">
               Preferencias para la emisión, recepción y dispensación de tus medicamentos prescritos.
             </p>
           </div>

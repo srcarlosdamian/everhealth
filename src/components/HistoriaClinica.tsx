@@ -128,7 +128,7 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
           <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
             Historia clínica
           </h1>
-          <p className="text-[14px] leading-[22px] text-[#64748b]">
+          <p className="text-[14px] leading-[22px] text-[var(--color-page-subtitle)] font-normal">
             Consulta y edita tus antecedentes médicos, alergias, medicación y documentación clínica.
           </p>
         </div>

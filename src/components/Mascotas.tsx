@@ -230,7 +230,7 @@ export const Mascotas: React.FC = () => {
           <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
             Mascotas
           </h1>
-          <p className="text-[14px] leading-[22px] text-[#475569]">
+          <p className="text-[14px] leading-[22px] text-[var(--color-page-subtitle)] font-normal">
             Gestiona la información veterinaria de tus mascotas y sus responsables familiares.
           </p>
         </div>
@@ -572,7 +572,7 @@ export const Mascotas: React.FC = () => {
               </button>
             </div>
 
-            <p className="text-[13.5px] leading-[20px] text-[#64748b] -mt-2">
+            <p className="text-[13.5px] leading-[20px] text-[var(--color-text-description)] font-normal -mt-2">
               Registra los datos de tu mascota para asociarla a tu unidad familiar y dar seguimiento a su historial veterinario.
             </p>
 

@@ -10,6 +10,8 @@ export default {
         sans: ['Helvetica'],
       },
       colors: {
+        'page-subtitle': 'var(--color-page-subtitle, #000000)',
+        'text-description': 'var(--color-text-description, #000000)',
         ever: {
           pink: {
             50: '#fdf2f8',

@@ -140,7 +140,7 @@ const StageBlock: React.FC<StageBlockProps> = ({
             ))}
           </div>
         </div>
-        <p className="text-[13px] text-[#64748b] leading-relaxed">{description}</p>
+        <p className="text-[13px] text-[var(--color-text-description)] leading-relaxed font-normal">{description}</p>
       </div>
 
       {/* Lienzo (Stage Canvas): Siempre fondo blanco limpio */}
@@ -279,7 +279,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
               <div className="flex flex-col gap-8">
                 <div>
                   <h1 className="text-[28px] font-bold text-black">1. Tokens de Color & Tipografía</h1>
-                  <p className="text-[14px] text-[#64748b] mt-1">
+                  <p className="text-[14px] text-[var(--color-page-subtitle)] mt-1 font-normal">
                     Única fuente de verdad para colores y tipografía Helvetica en toda la aplicación.
                   </p>
                 </div>
@@ -343,6 +343,26 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     ))}
                   </div>
                 </StageBlock>
+
+                <StageBlock
+                  title="Tokens de Subtítulos y Descripciones (Variables CSS)"
+                  componentTag="--color-page-subtitle / --color-text-description"
+                  usedIn={['Todas las páginas (Perfil, Familiares, Mascotas, Consultas, Chat, Biometría)']}
+                  description="Variables CSS para subtítulos y descripciones de página homologados en color negro (#000000) o tono oscuro por defecto, sustituyendo cualquier gris claro previo."
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div className="flex flex-col gap-1 p-3 rounded-[6px] border border-[#e2e8f0] bg-white">
+                      <div className="w-full h-8 rounded-[4px] bg-black" />
+                      <span className="text-[13px] font-bold text-black">--color-page-subtitle</span>
+                      <span className="text-[12px] font-mono text-black">#000000 (Negro para subtítulos de página)</span>
+                    </div>
+                    <div className="flex flex-col gap-1 p-3 rounded-[6px] border border-[#e2e8f0] bg-white">
+                      <div className="w-full h-8 rounded-[4px] bg-black" />
+                      <span className="text-[13px] font-bold text-black">--color-text-description</span>
+                      <span className="text-[12px] font-mono text-black">#000000 (Negro para descripciones de bloque)</span>
+                    </div>
+                  </div>
+                </StageBlock>
               </div>
             )}
 
@@ -351,7 +371,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
               <div className="flex flex-col gap-8">
                 <div>
                   <h1 className="text-[28px] font-bold text-black">2. Átomos del Sistema</h1>
-                  <p className="text-[14px] text-[#64748b] mt-1">
+                  <p className="text-[14px] text-[var(--color-page-subtitle)] mt-1 font-normal">
                     Cada elemento aquí es el componente React real importado desde <code>src/design-system/atoms/</code>, mostrado tal cual es sobre el lienzo sin contenedores adicionales.
                   </p>
                 </div>
@@ -1370,7 +1390,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
               <div className="flex flex-col gap-8">
                 <div>
                   <h1 className="text-[28px] font-bold text-black">3. Inputs & Dropdowns Reutilizables</h1>
-                  <p className="text-[14px] text-[#64748b] mt-1">
+                  <p className="text-[14px] text-[var(--color-page-subtitle)] mt-1 font-normal">
                     Todos los campos comparten altura de 44px, fondo blanco puro (<code>bg-white</code>), título regular negro, texto 16px regular negro, borde de foco oscuro neutro (<code>focus:border-black</code>) y hover neutral sin rosas.
                   </p>
                 </div>
@@ -1508,7 +1528,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
               <div className="flex flex-col gap-8">
                 <div>
                   <h1 className="text-[28px] font-bold text-black">4. Moléculas & Menús Unificados</h1>
-                  <p className="text-[14px] text-[#64748b] mt-1">
+                  <p className="text-[14px] text-[var(--color-page-subtitle)] mt-1 font-normal">
                     Componentes compuestos importados directamente desde <code>src/design-system/molecules/</code> y mostrados sin contenedores envolventes.
                   </p>
                 </div>
@@ -1862,7 +1882,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     <div className="w-full bg-white p-6 border border-[#e2e8f0] rounded-[10px]">
                       <div className="flex flex-col gap-1 mb-4">
                         <span className="text-[20px] font-bold text-black">Perfil</span>
-                        <span className="text-[13px] text-[#475569]">
+                        <span className="text-[13px] text-[var(--color-page-subtitle)] font-normal">
                           En esta sección puedes revisar y actualizar tu información
                         </span>
                       </div>
@@ -1900,7 +1920,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
               <div className="flex flex-col gap-8">
                 <div>
                   <h1 className="text-[28px] font-bold text-black">5. Organismos Ensamblados</h1>
-                  <p className="text-[14px] text-[#64748b] mt-1">
+                  <p className="text-[14px] text-[var(--color-page-subtitle)] mt-1 font-normal">
                     Bloques del Home e Historial de Consultas construidos combinando los átomos y moléculas anteriores.
                   </p>
                 </div>
@@ -2703,7 +2723,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
               <div className="flex flex-col gap-8">
                 <div>
                   <h1 className="text-[28px] font-bold text-black">6. Modales del Sistema</h1>
-                  <p className="text-[14px] text-[#64748b] mt-1">
+                  <p className="text-[14px] text-[var(--color-page-subtitle)] mt-1 font-normal">
                     Componentes modales y estándares de interacción homologados en toda la aplicación.
                   </p>
                 </div>
@@ -2870,7 +2890,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 <div className="flex items-center justify-between">
                   <div>
                     <h1 className="text-[28px] font-bold text-black">7. Catálogo de Íconos Lucide Nativos</h1>
-                    <p className="text-[14px] text-[#64748b] mt-1">
+                    <p className="text-[14px] text-[var(--color-page-subtitle)] mt-1 font-normal">
                       Todos los iconos del sistema usan color neutro <code>#64748b</code> por defecto, excepto el icono <code>PlusCircle</code> del header y los iconos de <code>Solicitar una cita</code>.
                     </p>
                   </div>
