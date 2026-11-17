@@ -1106,7 +1106,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   title="Notificaciones Toast de Estado"
                   componentTag="<Toast variant='info' | 'success' | 'warning' | 'error' />"
                   usedIn={['Help Center', 'Modal Documentos', 'Historia Clínica', 'Familiares', 'Mascotas']}
-                  description="Mensajes flotantes no invasivos de retroalimentación para acciones como copiar datos (correo, dirección), iniciar llamadas telefónicas, guardar cambios o eliminar archivos. Reemplazan los checks en línea garantizando consistencia visual."
+                  description="Mensajes flotantes de retroalimentación sin bordes (border-0), con sombra flotante y textos neutrales negros (#000000) tanto en título como en descripción. Reemplazan los checks en línea garantizando consistencia visual."
                 >
                   <div className="flex flex-col gap-6">
                     {/* Botones para probar toasts flotantes en vivo */}
@@ -1124,7 +1124,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               message: 'Correo copiado: soporte@everhealth.es',
                             })
                           }
-                          className="h-[36px] text-[12px]"
+                          className="h-[40px] text-[13px] font-bold uppercase"
                         >
                           Probar Copiar Correo (Info)
                         </Button>
@@ -1138,7 +1138,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               message: 'Iniciando llamada al 911 23 12 14...',
                             })
                           }
-                          className="h-[36px] text-[12px]"
+                          className="h-[40px] text-[13px] font-bold uppercase"
                         >
                           Probar Llamada (Info)
                         </Button>
@@ -1152,7 +1152,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               message: 'Documento guardado correctamente.',
                             })
                           }
-                          className="h-[36px] text-[12px]"
+                          className="h-[40px] text-[13px] font-bold uppercase"
                         >
                           Probar Guardado (Success)
                         </Button>
@@ -1166,7 +1166,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               message: 'Verifica la iluminación frontal de tu cámara.',
                             })
                           }
-                          className="h-[36px] text-[12px]"
+                          className="h-[40px] text-[13px] font-bold uppercase"
                         >
                           Probar Alerta (Warning)
                         </Button>
@@ -1180,7 +1180,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               message: 'Archivo eliminado de tu historia clínica.',
                             })
                           }
-                          className="h-[36px] text-[12px]"
+                          className="h-[40px] text-[13px] font-bold uppercase"
                         >
                           Probar Eliminación (Error)
                         </Button>
@@ -1194,7 +1194,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       </span>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                         {/* 1. Info */}
-                        <div className="flex flex-col gap-1.5">
+                        <div className="flex flex-col gap-1.5 p-3 rounded-[8px] bg-[#f8fafc]">
                           <span className="text-[11px] font-bold text-[#0284c7] uppercase">
                             Info (Copiar datos & Llamadas)
                           </span>
@@ -1207,7 +1207,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         </div>
 
                         {/* 2. Success */}
-                        <div className="flex flex-col gap-1.5">
+                        <div className="flex flex-col gap-1.5 p-3 rounded-[8px] bg-[#f8fafc]">
                           <span className="text-[11px] font-bold text-[#16a34a] uppercase">
                             Success (Confirmación & Guardado)
                           </span>
@@ -1220,7 +1220,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         </div>
 
                         {/* 3. Warning */}
-                        <div className="flex flex-col gap-1.5">
+                        <div className="flex flex-col gap-1.5 p-3 rounded-[8px] bg-[#f8fafc]">
                           <span className="text-[11px] font-bold text-[#d97706] uppercase">
                             Warning (Recomendaciones & Permisos)
                           </span>
@@ -1233,7 +1233,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         </div>
 
                         {/* 4. Error */}
-                        <div className="flex flex-col gap-1.5">
+                        <div className="flex flex-col gap-1.5 p-3 rounded-[8px] bg-[#f8fafc]">
                           <span className="text-[11px] font-bold text-[#e11d48] uppercase">
                             Error (Eliminación & Bajas)
                           </span>
