@@ -309,7 +309,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({
               onSubmit={(e) => {
                 e.preventDefault();
                 onFinishOnboarding({
-                  name: firstName || 'Carlos Damián',
+                  name: firstName || 'Alejandro Navarro',
                   lastName: lastName || '',
                   email: email || 'carlos@everhealth.com',
                 });

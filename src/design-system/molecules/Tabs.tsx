@@ -47,10 +47,10 @@ export const Tabs: React.FC<TabsProps> = ({
               key={tab.id}
               type="button"
               onClick={() => onChange(tab.id)}
-              className={`px-3 py-1.5 rounded-[6px] text-[13px] leading-[18px] transition-colors cursor-pointer select-none whitespace-nowrap flex items-center gap-1.5 shrink-0 ${
+              className={`px-3 py-1.5 rounded-[6px] text-[13px] leading-[18px] transition-colors cursor-pointer select-none whitespace-nowrap flex items-center gap-1.5 shrink-0 outline-none focus:outline-none focus-visible:outline-none ${
                 isActive
-                  ? 'bg-[#f1f5f9] text-black font-semibold border border-[#cbd5e1]'
-                  : 'bg-transparent text-[#334155] hover:text-black hover:bg-[#f8fafc] font-normal border border-transparent'
+                  ? 'bg-[#f1f5f9] text-black font-semibold border-0 shadow-2xs'
+                  : 'bg-transparent text-[#334155] hover:text-black hover:bg-[#f8fafc] font-normal border-0'
               }`}
             >
               <span>{tab.label}</span>

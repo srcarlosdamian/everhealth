@@ -24,15 +24,15 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
   // Form states
   const [peso, setPeso] = useState('');
   const [altura, setAltura] = useState('');
-  const [hasAlergias, setHasAlergias] = useState<'si' | 'no'>('no');
+  const [hasAlergias, setHasAlergias] = useState<'si' | 'no'>('si');
   const [hasEnfermedades, setHasEnfermedades] = useState<'si' | 'no'>('si');
-  const [hasCirugias, setHasCirugias] = useState<'si' | 'no'>('no');
-  const [hasMedicamentos, setHasMedicamentos] = useState<'si' | 'no'>('no');
-  const [hasSustancias, setHasSustancias] = useState<'si' | 'no'>('no');
+  const [hasCirugias, setHasCirugias] = useState<'si' | 'no'>('si');
+  const [hasMedicamentos, setHasMedicamentos] = useState<'si' | 'no'>('si');
+  const [hasSustancias, setHasSustancias] = useState<'si' | 'no'>('si');
   const [selectedSustancias, setSelectedSustancias] = useState<string[]>(['Alcohol']);
-  const [hasAlimentacion, setHasAlimentacion] = useState<'si' | 'no'>('no');
+  const [hasAlimentacion, setHasAlimentacion] = useState<'si' | 'no'>('si');
   const [situacionAlimentacion, setSituacionAlimentacion] = useState('Apetito disminuido');
-  const [hasEmocional, setHasEmocional] = useState<'si' | 'no'>('no');
+  const [hasEmocional, setHasEmocional] = useState<'si' | 'no'>('si');
   const [selectedTraumas, setSelectedTraumas] = useState<string[]>([]);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
@@ -359,32 +359,40 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-[14px] font-medium text-black">Alergias alimentarias</label>
-                <textarea
-                  rows={3}
-                  placeholder="Indica los alimentos que te causan alergia y la reacción que presentas."
-                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
-                />
-              </div>
+              {hasAlergias === 'si' ? (
+                <>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[14px] font-medium text-black">Alergias alimentarias</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Indica los alimentos que te causan alergia y la reacción que presentas."
+                      className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
+                    />
+                  </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-[14px] font-medium text-black">Alergias a medicamentos</label>
-                <textarea
-                  rows={3}
-                  placeholder="Indica los medicamentos que te causan alergia y la reacción que presentas."
-                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
-                />
-              </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[14px] font-medium text-black">Alergias a medicamentos</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Indica los medicamentos que te causan alergia y la reacción que presentas."
+                      className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
+                    />
+                  </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-[14px] font-medium text-black">Otras alergias</label>
-                <textarea
-                  rows={3}
-                  placeholder="Indica otras sustancias que te causan alergia, como polen, ácaros o látex, y la reacción que presentas."
-                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
-                />
-              </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[14px] font-medium text-black">Otras alergias</label>
+                    <textarea
+                      rows={3}
+                      placeholder="Indica otras sustancias que te causan alergia, como polen, ácaros o látex, y la reacción que presentas."
+                      className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569]">
+                  Sin alergias conocidas registradas. Puedes continuar directamente sin rellenar nada.
+                </div>
+              )}
             </div>
           )}
 
@@ -405,42 +413,46 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 />
               </div>
 
-              {/* Disease Cards: sin bordes redondeados, progreso circular, icono modal expand */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                {[
-                  { title: 'Enfermedades cardíacas, pulmonares o vasculares', desc: 'Indica el diagnóstico y el tratamiento recibido, si lo hubo', progress: 35 },
-                  { title: 'Enfermedades metabólicas o digestivas', desc: 'Indica el diagnóstico y el tratamiento recibido, si lo hubo', progress: 35 },
-                  { title: 'Enfermedades reumatológicas, óseas o musculares', desc: 'Describe la enfermedad y las zonas del cuerpo afectadas', checked: true },
-                  { title: 'Enfermedades del sistema nervioso, los ojos o el oído', desc: 'Indica el diagnóstico y los síntomas principales', progress: 35 },
-                  { title: 'Enfermedades hematológicas', desc: 'Indica la enfermedad de la sangre y el tratamiento recibido, si lo hubo', checked: true },
-                  { title: 'Enfermedades renales o urológicas', desc: 'Indica la enfermedad de los riñones o las vías urinarias', progress: 35 },
-                  { title: 'Salud mental', desc: 'Indica el diagnóstico y el tratamiento psicológico o psiquiátrico recibido, si lo hubo', progress: 35 },
-                  { title: 'Enfermedades infecciosas', desc: 'Indica la infección y cuándo la tuviste, si lo recuerdas', checked: true },
-                  { title: 'Enfermedades dermatológicas', desc: 'Describe la enfermedad de la piel y las zonas afectadas', checked: true },
-                  { title: 'Enfermedades ginecológicas', desc: 'Indica el diagnóstico y el tratamiento recibido, si lo hubo', isGineco: true, progress: 35 },
-                  { title: 'Cáncer', desc: 'Indica el tipo de cáncer, la fecha aproximada del diagnóstico y el tratamiento recibido.', progress: 35 },
-                ].map((item, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => setIsGinecologiaOpen(true)}
-                    className="p-3.5 rounded-none border border-[#e2e8f0] hover:border-[#475569] active:border-black bg-white flex items-start justify-between gap-3 cursor-pointer transition-colors"
-                  >
-                    <div className="flex items-start gap-3">
-                      <ProgressCheckCircle
-                        isCompleted={item.checked}
-                        progress={item.progress || 35}
-                        size={22}
-                        className="mt-0.5"
-                      />
-                      <div className="flex flex-col">
-                        <span className="text-[14px] font-bold text-black">{item.title}</span>
-                        <span className="text-[12px] text-[#64748b] leading-tight mt-0.5">{item.desc}</span>
+              {hasEnfermedades === 'si' ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {[
+                    { title: 'Enfermedades cardíacas, pulmonares o vasculares', desc: 'Indica el diagnóstico y el tratamiento recibido, si lo hubo', progress: 35 },
+                    { title: 'Enfermedades metabólicas o digestivas', desc: 'Indica el diagnóstico y el tratamiento recibido, si lo hubo', progress: 35 },
+                    { title: 'Enfermedades reumatológicas, óseas o musculares', desc: 'Describe la enfermedad y las zonas del cuerpo afectadas', checked: true },
+                    { title: 'Enfermedades del sistema nervioso, los ojos o el oído', desc: 'Indica el diagnóstico y los síntomas principales', progress: 35 },
+                    { title: 'Enfermedades hematológicas', desc: 'Indica la enfermedad de la sangre y el tratamiento recibido, si lo hubo', checked: true },
+                    { title: 'Enfermedades renales o urológicas', desc: 'Indica la enfermedad de los riñones o las vías urinarias', progress: 35 },
+                    { title: 'Salud mental', desc: 'Indica el diagnóstico y el tratamiento psicológico o psiquiátrico recibido, si lo hubo', progress: 35 },
+                    { title: 'Enfermedades infecciosas', desc: 'Indica la infección y cuándo la tuviste, si lo recuerdas', checked: true },
+                    { title: 'Enfermedades dermatológicas', desc: 'Describe la enfermedad de la piel y las zonas afectadas', checked: true },
+                    { title: 'Enfermedades ginecológicas', desc: 'Indica el diagnóstico y el tratamiento recibido, si lo hubo', isGineco: true, progress: 35 },
+                    { title: 'Cáncer', desc: 'Indica el tipo de cáncer, la fecha aproximada del diagnóstico y el tratamiento recibido.', progress: 35 },
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      onClick={() => setIsGinecologiaOpen(true)}
+                      className="p-3.5 rounded-none border border-[#e2e8f0] hover:border-[#475569] active:border-black bg-white flex items-start justify-between gap-3 cursor-pointer transition-colors"
+                    >
+                      <div className="flex items-start gap-3">
+                        <ProgressCheckCircle
+                          isCompleted={item.checked}
+                          progress={item.progress || 35}
+                          size={22}
+                          className="mt-0.5"
+                        />
+                        <div className="flex flex-col">
+                          <span className="text-[14px] font-bold text-black">{item.title}</span>
+                          <span className="text-[12px] text-[#64748b] leading-tight mt-0.5">{item.desc}</span>
+                        </div>
                       </div>
                     </div>
-                    <Maximize2 className="w-[24px] h-[24px] text-black shrink-0" />
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569]">
+                  Sin antecedentes de enfermedades crónicas ni patologías relevantes. Puedes continuar directamente.
+                </div>
+              )}
             </div>
           )}
 
@@ -461,14 +473,20 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-[14px] font-medium text-black">¿Qué intervenciones quirúrgicas te han realizado?</label>
-                <textarea
-                  rows={4}
-                  placeholder="Indica el tipo de intervención y la fecha aproximada. Si hubo complicaciones, descríbelas."
-                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
-                />
-              </div>
+              {hasCirugias === 'si' ? (
+                <div className="flex flex-col gap-1">
+                  <label className="text-[14px] font-medium text-black">¿Qué intervenciones quirúrgicas te han realizado?</label>
+                  <textarea
+                    rows={4}
+                    placeholder="Indica el tipo de intervención y la fecha aproximada. Si hubo complicaciones, descríbelas."
+                    className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
+                  />
+                </div>
+              ) : (
+                <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569]">
+                  Sin cirugías previas registradas. Puedes continuar directamente.
+                </div>
+              )}
             </div>
           )}
 
@@ -489,14 +507,20 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-[14px] font-medium text-black">¿Qué medicamentos tomas?</label>
-                <textarea
-                  rows={4}
-                  placeholder="Indica el nombre de cada medicamento, la dosis y la frecuencia con la que lo tomas."
-                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
-                />
-              </div>
+              {hasMedicamentos === 'si' ? (
+                <div className="flex flex-col gap-1">
+                  <label className="text-[14px] font-medium text-black">¿Qué medicamentos tomas?</label>
+                  <textarea
+                    rows={4}
+                    placeholder="Indica el nombre de cada medicamento, la dosis y la frecuencia con la que lo tomas."
+                    className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
+                  />
+                </div>
+              ) : (
+                <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569]">
+                  No tomas medicación habitual. Puedes continuar directamente.
+                </div>
+              )}
             </div>
           )}
 
@@ -517,36 +541,44 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {['Alcohol', 'Tabaco', 'Otras drogas'].map((item) => {
-                  const isChecked = selectedSustancias.includes(item);
-                  return (
-                    <label
-                      key={item}
-                      onClick={() => {
-                        setSelectedSustancias((prev) =>
-                          prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
-                        );
-                      }}
-                      className={`p-3 rounded-none border flex items-center gap-2.5 cursor-pointer text-[14px] text-black font-medium transition-colors select-none ${
-                        isChecked ? 'border-[#cbd5e1] bg-[#f8fafc]' : 'border-[#e2e8f0] hover:border-[#cbd5e1] hover:bg-[#f8fafc] bg-white'
-                      }`}
-                    >
-                      <Checkbox checked={isChecked} size="sm" />
-                      <span>{item}</span>
-                    </label>
-                  );
-                })}
-              </div>
+              {hasSustancias === 'si' ? (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {['Alcohol', 'Tabaco', 'Otras drogas'].map((item) => {
+                      const isChecked = selectedSustancias.includes(item);
+                      return (
+                        <label
+                          key={item}
+                          onClick={() => {
+                            setSelectedSustancias((prev) =>
+                              prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+                            );
+                          }}
+                          className={`p-3 rounded-none border flex items-center gap-2.5 cursor-pointer text-[14px] text-black font-medium transition-colors select-none ${
+                            isChecked ? 'border-[#cbd5e1] bg-[#f8fafc]' : 'border-[#e2e8f0] hover:border-[#cbd5e1] hover:bg-[#f8fafc] bg-white'
+                          }`}
+                        >
+                          <Checkbox checked={isChecked} size="sm" />
+                          <span>{item}</span>
+                        </label>
+                      );
+                    })}
+                  </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-[14px] font-medium text-black">¿Qué cantidad consumes y con qué frecuencia?</label>
-                <textarea
-                  rows={4}
-                  placeholder="Indica la cantidad y la frecuencia de consumo de cada sustancia seleccionada."
-                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
-                />
-              </div>
+                  <div className="flex flex-col gap-1">
+                    <label className="text-[14px] font-medium text-black">¿Qué cantidad consumes y con qué frecuencia?</label>
+                    <textarea
+                      rows={4}
+                      placeholder="Indica la cantidad y la frecuencia de consumo de cada sustancia seleccionada."
+                      className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[14px] text-black focus:outline-none focus:border-black transition-colors"
+                    />
+                  </div>
+                </>
+              ) : (
+                <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569]">
+                  No consumes sustancias tóxicas, alcohol ni tabaco. Puedes continuar directamente.
+                </div>
+              )}
             </div>
           )}
 
@@ -567,19 +599,25 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 />
               </div>
 
-              <div className="max-w-[480px]">
-                <Dropdown
-                  label="¿Cuál es tu situación?"
-                  value={situacionAlimentacion}
-                  onChange={setSituacionAlimentacion}
-                  options={[
-                    'Dieta equilibrada',
-                    'Apetito disminuido',
-                    'Restricción de gluten/lactosa',
-                    'Trastorno de la conducta alimentaria',
-                  ]}
-                />
-              </div>
+              {hasAlimentacion === 'si' ? (
+                <div className="max-w-[480px]">
+                  <Dropdown
+                    label="¿Cuál es tu situación?"
+                    value={situacionAlimentacion}
+                    onChange={setSituacionAlimentacion}
+                    options={[
+                      'Dieta equilibrada',
+                      'Apetito disminuido',
+                      'Restricción de gluten/lactosa',
+                      'Trastorno de la conducta alimentaria',
+                    ]}
+                  />
+                </div>
+              ) : (
+                <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569]">
+                  Alimentación equilibrada sin dificultades reportadas. Puedes continuar directamente.
+                </div>
+              )}
             </div>
           )}
 
@@ -600,39 +638,45 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                 />
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {[
-                  'Dificultades familiares',
-                  'Dificultades con un hijo o una hija',
-                  'Dificultades de pareja',
-                  'Dificultades en el entorno laboral',
-                  'Violencia física',
-                  'Violencia psicológica',
-                  'Abuso sexual',
-                  'Accidente',
-                  'Desastre natural',
-                  'Atentado o conflicto armado',
-                  'Duelo por la pérdida de un ser querido',
-                ].map((item) => {
-                  const isChecked = selectedTraumas.includes(item);
-                  return (
-                    <label
-                      key={item}
-                      onClick={() => {
-                        setSelectedTraumas((prev) =>
-                          prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
-                        );
-                      }}
-                      className={`p-3.5 rounded-none border flex items-center gap-3 cursor-pointer text-[14px] text-black font-medium transition-colors select-none ${
-                        isChecked ? 'border-[#cbd5e1] bg-[#f8fafc]' : 'border-[#e2e8f0] hover:border-[#cbd5e1] hover:bg-[#f8fafc] bg-white'
-                      }`}
-                    >
-                      <Checkbox checked={isChecked} size="sm" />
-                      <span>{item}</span>
-                    </label>
-                  );
-                })}
-              </div>
+              {hasEmocional === 'si' ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {[
+                    'Dificultades familiares',
+                    'Dificultades con un hijo o una hija',
+                    'Dificultades de pareja',
+                    'Dificultades en el entorno laboral',
+                    'Violencia física',
+                    'Violencia psicológica',
+                    'Abuso sexual',
+                    'Accidente',
+                    'Desastre natural',
+                    'Atentado o conflicto armado',
+                    'Duelo por la pérdida de un ser querido',
+                  ].map((item) => {
+                    const isChecked = selectedTraumas.includes(item);
+                    return (
+                      <label
+                        key={item}
+                        onClick={() => {
+                          setSelectedTraumas((prev) =>
+                            prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+                          );
+                        }}
+                        className={`p-3.5 rounded-none border flex items-center gap-3 cursor-pointer text-[14px] text-black font-medium transition-colors select-none ${
+                          isChecked ? 'border-[#cbd5e1] bg-[#f8fafc]' : 'border-[#e2e8f0] hover:border-[#cbd5e1] hover:bg-[#f8fafc] bg-white'
+                        }`}
+                      >
+                        <Checkbox checked={isChecked} size="sm" />
+                        <span>{item}</span>
+                      </label>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569]">
+                  Sin situaciones difíciles en los últimos dos años. Puedes finalizar el cuestionario directamente.
+                </div>
+              )}
             </div>
           )}
 

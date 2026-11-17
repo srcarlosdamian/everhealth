@@ -297,32 +297,37 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
               </div>
 
               {/* Card Footer Actions */}
-              <div className="flex items-center justify-between pt-2 border-t border-[#f1f5f9]">
+              <div className="flex items-center justify-between pt-2 border-t border-[#f1f5f9] gap-2">
                 {doc.badgeType === 'disponible' ? (
-                  <button
+                  <Button
+                    variant="secondary"
+                    size="sm"
                     type="button"
                     onClick={() => onOpenNowModal(doc.name)}
-                    className="text-[12px] font-bold text-[#d50475] hover:underline tracking-wide uppercase cursor-pointer"
+                    className="h-[34px] px-3.5 text-[12px] font-bold tracking-wide"
                   >
-                    Hablemos ahora
-                  </button>
+                    HABLEMOS AHORA
+                  </Button>
                 ) : (
-                  <button
+                  <Button
+                    variant="secondary"
+                    size="sm"
                     type="button"
                     onClick={() => onOpenCalendarModal(doc.name)}
-                    className="text-[12px] font-bold text-[#d50475] hover:underline tracking-wide uppercase cursor-pointer"
+                    className="h-[34px] px-3.5 text-[12px] font-bold tracking-wide"
                   >
-                    Agendar cita
-                  </button>
+                    AGENDAR CITA
+                  </Button>
                 )}
 
                 {/* VER CALENDARIO: opens modal EVR - 9 as requested */}
                 <Button
                   variant="outline"
+                  size="sm"
                   onClick={() => onOpenCalendarModal(doc.name)}
                   className="h-[34px] px-3.5 text-[12px] font-bold tracking-wide"
                 >
-                  Ver calendario
+                  VER CALENDARIO
                 </Button>
               </div>
 

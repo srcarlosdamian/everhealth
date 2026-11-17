@@ -9,6 +9,7 @@ import { ModalVideoConsulta } from './ModalVideoConsulta';
 import { ModalSolicitarChat } from './ModalSolicitarChat';
 import { ModalDocumentos } from './ModalDocumentos';
 import { ModalBiometria } from './ModalBiometria';
+import { ModalChatMedicoActivo } from './ModalChatMedicoActivo';
 import { HelpCenter } from './HelpCenter';
 import { Biometria } from './Biometria';
 import { HistorialConsultas } from './HistorialConsultas';
@@ -73,6 +74,10 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   const [isBiometriaModalOpen, setIsBiometriaModalOpen] = useState(false);
   const [isHelpCenterOpen, setIsHelpCenterOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [isChatActivoOpen, setIsChatActivoOpen] = useState(false);
+  const [selectedChatDoctor, setSelectedChatDoctor] = useState('Dr. Bruno Peñas');
+  const [triggerAddFamiliar, setTriggerAddFamiliar] = useState(false);
+  const [triggerAddMascota, setTriggerAddMascota] = useState(false);
 
   // Top Header Notifications State & Dropdown
   const [isQuickActionsOpen, setIsQuickActionsOpen] = useState(false);
@@ -246,6 +251,8 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                     onClick={() => {
                       setIsQuickActionsOpen(false);
                       setCurrentView('familiares');
+                      setTriggerAddFamiliar(true);
+                      setTimeout(() => setTriggerAddFamiliar(false), 300);
                     }}
                     className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
                   >
@@ -258,6 +265,8 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                     onClick={() => {
                       setIsQuickActionsOpen(false);
                       setCurrentView('mascotas');
+                      setTriggerAddMascota(true);
+                      setTimeout(() => setTriggerAddMascota(false), 300);
                     }}
                     className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
                   >
@@ -704,13 +713,14 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
 
             {currentView === 'solicitar-chat' && (
               <SolicitarChat
-                onOpenCalendarModal={() => {
+                onOpenCalendarModal={(docName) => {
+                  setSelectedChatDoctor(docName || 'Dr. Bruno Peñas');
                   setChatModalTab('agendar');
                   setIsChatModalOpen(true);
                 }}
-                onOpenNowModal={() => {
-                  setChatModalTab('ahora');
-                  setIsChatModalOpen(true);
+                onOpenNowModal={(docName) => {
+                  setSelectedChatDoctor(docName || 'Dr. Bruno Peñas');
+                  setIsChatActivoOpen(true);
                 }}
               />
             )}
@@ -719,8 +729,8 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
               <HistorialConsultas
                 onOpenVideoModal={() => setIsVideoModalOpen(true)}
                 onOpenChatModal={() => {
-                  setChatModalTab('ahora');
-                  setIsChatModalOpen(true);
+                  setSelectedChatDoctor('Dr. Bruno Peñas');
+                  setIsChatActivoOpen(true);
                 }}
                 onOpenDocumentsModal={() => setIsDocsModalOpen(true)}
               />
@@ -733,11 +743,11 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
             )}
 
             {currentView === 'familiares' && (
-              <Familiares />
+              <Familiares autoOpenAddModal={triggerAddFamiliar} />
             )}
 
             {currentView === 'mascotas' && (
-              <Mascotas />
+              <Mascotas autoOpenAddModal={triggerAddMascota} />
             )}
 
             {currentView === 'mi-perfil' && (
@@ -777,6 +787,21 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
         isOpen={isChatModalOpen}
         onClose={() => setIsChatModalOpen(false)}
         defaultTab={chatModalTab}
+        onStartImmediateChat={() => {
+          setIsChatModalOpen(false);
+          setIsChatActivoOpen(true);
+        }}
+      />
+
+      {/* Modal de Chat Médico en Vivo (compacto y proporcionado con botón destructivo de Finalizar estilo Google Meet) */}
+      <ModalChatMedicoActivo
+        isOpen={isChatActivoOpen}
+        onClose={() => setIsChatActivoOpen(false)}
+        doctorName={selectedChatDoctor}
+        onEndChat={() => {
+          setIsChatActivoOpen(false);
+          setCurrentView('historial-consultas');
+        }}
       />
 
       <ModalDocumentos

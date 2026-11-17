@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { ModalHistoriaCompleta } from './ModalHistoriaCompleta';
+import { ModalEditarHistoriaClinica } from './ModalEditarHistoriaClinica';
 
 interface HistoriaClinicaProps {
   onOpenDocumentsModal?: () => void;
@@ -32,11 +33,11 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
   onOpenDocumentsModal,
   onNavigateToSection,
 }) => {
-  const [selectedSection, setSelectedSection] = useState<string | null>(null);
+  const [editingSectionId, setEditingSectionId] = useState<string | null>(null);
   const [isHistoriaCompletaOpen, setIsHistoriaCompletaOpen] = useState(false);
 
   // Todos los iconos 100% neutros (#64748b) solicitados por el usuario
-  const sections: ClinicalSection[] = [
+  const [sectionsList, setSectionsList] = useState<ClinicalSection[]>([
     {
       id: 'documentos',
       title: 'Mis documentos médicos',
@@ -117,7 +118,22 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
       summary: 'PPG facial: 71 LPM regular. Estimación de constantes en rango óptimo.',
       status: 'Actualizado',
     },
-  ];
+  ]);
+
+  const handleSaveSection = (id: string, updatedSummary: string) => {
+    setSectionsList((prev) =>
+      prev.map((sec) =>
+        sec.id === id
+          ? {
+              ...sec,
+              summary: updatedSummary,
+              lastEdited: `Última edición el ${new Date().toLocaleDateString('es-ES')}`,
+              status: 'Actualizado',
+            }
+          : sec
+      )
+    );
+  };
 
   return (
     <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-6 animate-fadeIn font-[family-name:Helvetica]">
@@ -137,7 +153,6 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
           <Button
             variant="secondary"
             onClick={() => {
-              setSelectedSection(null);
               setIsHistoriaCompletaOpen(true);
             }}
           >
@@ -146,17 +161,16 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
         </div>
       </div>
 
-      {/* Grid de categorías clínicas con iconos 100% neutros: al hacer clic en cada uno se abre el modal */}
+      {/* Grid de categorías clínicas: al hacer clic se abre el modal editable */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
-        {sections.map((sec) => (
+        {sectionsList.map((sec) => (
           <div
             key={sec.id}
             onClick={() => {
               if (sec.id === 'documentos') {
                 onOpenDocumentsModal?.();
               } else {
-                setSelectedSection(sec.id);
-                setIsHistoriaCompletaOpen(true);
+                setEditingSectionId(sec.id);
               }
             }}
             className="p-4 rounded-[10px] border border-[#e2e8f0] hover:border-[#475569] active:border-black bg-white flex flex-col gap-2.5 cursor-pointer transition-all hover:shadow-xs group"
@@ -184,14 +198,19 @@ export const HistoriaClinica: React.FC<HistoriaClinicaProps> = ({
           </div>
         ))}
       </div>
-      {/* Modal Historia Completa basada en el boceto y ficha médica oficial */}
+
+      {/* Modal Editable con formulario idéntico a Onboarding */}
+      <ModalEditarHistoriaClinica
+        isOpen={!!editingSectionId}
+        sectionId={editingSectionId}
+        onClose={() => setEditingSectionId(null)}
+        onSaveSection={handleSaveSection}
+      />
+
+      {/* Modal Historia Completa basada en el boceto oficial */}
       <ModalHistoriaCompleta
         isOpen={isHistoriaCompletaOpen}
-        onClose={() => {
-          setIsHistoriaCompletaOpen(false);
-          setSelectedSection(null);
-        }}
-        initialSectionId={selectedSection || undefined}
+        onClose={() => setIsHistoriaCompletaOpen(false)}
       />
     </div>
   );

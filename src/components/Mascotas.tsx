@@ -128,13 +128,36 @@ const FAMILIARES_RESPONSABLES = [
   'Sin asignar',
 ];
 
-export const Mascotas: React.FC = () => {
+interface MascotasProps {
+  autoOpenAddModal?: boolean;
+}
+
+export const Mascotas: React.FC<MascotasProps> = ({ autoOpenAddModal = false }) => {
   const [mascotas, setMascotas] = useState<Mascota[]>(INITIAL_MASCOTAS);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterEspecie, setFilterEspecie] = useState('todas');
 
   // Modal Añadir / Editar Mascota
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (autoOpenAddModal) {
+      setEditingMascota(null);
+      setFormNombre('');
+      setFormEspecie('');
+      setFormDia('');
+      setFormMes('');
+      setFormAno('');
+      setFormSexo('');
+      setFormRaza('');
+      setFormCondicion('Peso Ideal');
+      setFormColorPrimario('#d4a373');
+      setFormColorSecundario('#ffffff');
+      setFormFamiliar('Alejandro Navarro');
+      setFormChip('');
+      setIsModalOpen(true);
+    }
+  }, [autoOpenAddModal]);
   const [editingMascota, setEditingMascota] = useState<Mascota | null>(null);
 
   // Modal Historial Clínico de Mascota
@@ -324,8 +347,8 @@ export const Mascotas: React.FC = () => {
 
       {/* Contenedor de datos (Tabla en Desktop / Cards tipo tabla en Mobile) */}
       <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-visible">
-        {/* VISTA DESKTOP: TABLA COMPLETA */}
-        <div className="hidden md:block overflow-x-auto min-h-[420px] pb-16">
+        {/* VISTA DESKTOP: TABLA COMPLETA (sin espacio extra forzado) */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse bg-white">
           <thead>
             <tr className="bg-white border-b border-[#e2e8f0] text-[12px] font-bold uppercase tracking-wider text-black">

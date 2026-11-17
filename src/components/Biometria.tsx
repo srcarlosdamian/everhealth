@@ -20,7 +20,7 @@ interface BiometriaProps {
 
 export const Biometria: React.FC<BiometriaProps> = ({
   onBackToHome,
-  userName = 'Carlos Damián',
+  userName = 'Alejandro Navarro',
   isModal = false,
   onClose,
   onOpenHelpCenter,

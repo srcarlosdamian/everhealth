@@ -15,6 +15,7 @@ import { Dropdown } from '../design-system/atoms/Dropdown';
 import { ActionMenu } from '../design-system/molecules/ActionMenu';
 import { TablePagination } from '../design-system/molecules/TablePagination';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
+import { ModalConversacionChat } from './ModalConversacionChat';
 
 interface HistorialConsultasProps {
   onOpenVideoModal?: () => void;
@@ -47,12 +48,12 @@ const INITIAL_CONSULTAS: ConsultaCardItem[] = [
     id: 'c1',
     type: 'chat',
     specialty: 'Medicina General',
-    status: 'Pendiente de recomendación',
+    status: 'Pendiente',
     date: '27/10/2026',
     time: '10:40',
     reason: 'Consulta sobre dudas de medicación y evolución de síntomas leves.',
     doctor: 'Bruno Peñas',
-    hasInforme: true,
+    hasInforme: false,
   },
   {
     id: 'c2',
@@ -91,7 +92,7 @@ const INITIAL_CONSULTAS: ConsultaCardItem[] = [
     id: 'c5',
     type: 'video',
     specialty: 'Pediatría',
-    status: 'Pendiente de informe',
+    status: 'Terminada',
     date: '10/09/2026',
     time: '09:15',
     reason: 'Consulta de control general de salud infantil y calendario vacunal.',
@@ -102,9 +103,8 @@ const INITIAL_CONSULTAS: ConsultaCardItem[] = [
 
 const STATUS_FILTER_OPTIONS = [
   { value: 'todos', label: 'Todos los estados' },
-  { value: 'Pendiente de recomendación', label: 'Pendiente de recomendación' },
+  { value: 'Pendiente', label: 'Pendiente' },
   { value: 'En proceso', label: 'En proceso' },
-  { value: 'Pendiente de informe', label: 'Pendiente de informe' },
   { value: 'Terminada', label: 'Terminada' },
   { value: 'Cancelada', label: 'Cancelada' },
 ];
@@ -177,6 +177,9 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
 
   // Cancelar consulta
   const [cancellingConsultaId, setCancellingConsultaId] = useState<string | null>(null);
+
+  // Ver historial de conversación tipo chat
+  const [selectedChatConsulta, setSelectedChatConsulta] = useState<ConsultaCardItem | null>(null);
 
   const handleToggleRow = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
@@ -353,10 +356,10 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                     {/* Columna 3: Paciente / Solicitante */}
                     <div className="flex flex-col sm:pl-4">
                       <span className="text-[15px] font-bold text-black leading-tight">
-                        Carlos Damián
+                        Alejandro Navarro
                       </span>
                       <span className="text-[12px] text-[#64748b] mt-0.5">
-                        Titular · contact@carlosdamian.com
+                        Titular · alejandro.navarro@email.com
                       </span>
                     </div>
 
@@ -400,7 +403,7 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                 </div>
 
                 {/* CONTENIDO EXPANDIDO DEL ACORDEÓN:
-                    Fondo blanco puro (sin fondo gris), motivo y SOLO las acciones reales del paciente */}
+                    Fondo blanco puro, motivo y SOLO las acciones correspondientes al estado real */}
                 {isExpanded && (
                   <div className="px-4 sm:px-6 pb-5 pt-2 flex flex-col gap-4 border-t border-[#f1f5f9] bg-white animate-fadeIn">
                     <div className="flex flex-col gap-1">
@@ -412,10 +415,25 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                       </p>
                     </div>
 
-                    {/* Botones de acción reales del paciente (sin botones internos clínicos que no van) */}
+                    {/* Botones de acción según el estado */}
                     <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#f8fafc]">
                       <div className="flex flex-wrap items-center gap-2.5">
-                        {/* Botón principal según el estado */}
+                        {/* 1. CASO PENDIENTE (No ha sucedido): Inactivo hasta 15 min antes (como en Home) */}
+                        {c.status === 'Pendiente' && (
+                          <div className="flex items-center gap-2">
+                            <Button
+                              variant="inactive"
+                              tooltipText="Activo 15 minutos antes de la cita"
+                            >
+                              {c.type === 'video' ? 'Acceder a la videoconsulta' : 'Acceder al chat'}
+                            </Button>
+                            <span className="text-[12px] text-[#64748b] hidden sm:inline">
+                              La sala se activará 15 minutos antes de la cita.
+                            </span>
+                          </div>
+                        )}
+
+                        {/* 2. CASO EN PROCESO (En curso ahora): Acceso inmediato */}
                         {c.status === 'En proceso' && (
                           <Button
                             variant="consulta-primary"
@@ -428,31 +446,39 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                           </Button>
                         )}
 
-                        {/* Ver conversación / historial si es chat o consulta terminada */}
-                        {(c.type === 'chat' || c.status === 'Terminada' || c.status === 'Pendiente de recomendación') && (
-                          <Button
-                            variant="consulta-outline"
-                            onClick={() => onOpenChatModal?.()}
-                          >
-                            <MessageSquare className="w-4 h-4 text-[#64748b]" />
-                            <span>Ver conversación</span>
-                          </Button>
+                        {/* 3. CASO TERMINADA (Ya concluyó): Historial de conversación tipo chat e informe médico */}
+                        {c.status === 'Terminada' && (
+                          <>
+                            <Button
+                              variant="consulta-outline"
+                              onClick={() => setSelectedChatConsulta(c)}
+                            >
+                              <MessageSquare className="w-4 h-4 text-[#64748b]" />
+                              <span>Ver conversación</span>
+                            </Button>
+
+                            {c.hasInforme && (
+                              <Button
+                                variant="consulta-outline"
+                                onClick={() => onOpenDocumentsModal?.()}
+                              >
+                                <FileText className="w-4 h-4 text-[#64748b]" />
+                                <span>Ver informe médico</span>
+                              </Button>
+                            )}
+                          </>
                         )}
 
-                        {/* Ver informe médico si tiene informe */}
-                        {c.hasInforme && (
-                          <Button
-                            variant="consulta-outline"
-                            onClick={() => onOpenDocumentsModal?.()}
-                          >
-                            <FileText className="w-4 h-4 text-[#64748b]" />
-                            <span>Ver informe médico</span>
-                          </Button>
+                        {/* 4. CASO CANCELADA */}
+                        {c.status === 'Cancelada' && (
+                          <span className="text-[13px] text-[#94a3b8] italic">
+                            Esta consulta fue cancelada.
+                          </span>
                         )}
                       </div>
 
-                      {/* Botón de Cancelar consulta si está en proceso o pendiente */}
-                      {(c.status === 'En proceso' || c.status === 'Pendiente' || c.status === 'Pendiente de recomendación' || c.status === 'Pendiente de informe') && (
+                      {/* Botón de Cancelar consulta: SOLO para citas pendientes o en proceso */}
+                      {(c.status === 'En proceso' || c.status === 'Pendiente') && (
                         <Button
                           variant="consulta-outline"
                           onClick={() => setCancellingConsultaId(c.id)}
@@ -489,6 +515,23 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
           confirmText="Sí, cancelar consulta"
           onCancel={() => setCancellingConsultaId(null)}
           onConfirm={handleConfirmCancel}
+        />
+      )}
+      {/* ================= MODAL HISTORIAL DE CONVERSACIÓN TIPO CHAT ================= */}
+      {selectedChatConsulta && (
+        <ModalConversacionChat
+          isOpen={!!selectedChatConsulta}
+          onClose={() => setSelectedChatConsulta(null)}
+          doctorName={`Dr. ${selectedChatConsulta.doctor}`}
+          specialty={selectedChatConsulta.specialty}
+          date={selectedChatConsulta.date}
+          time={selectedChatConsulta.time}
+          reason={selectedChatConsulta.reason}
+          hasInforme={selectedChatConsulta.hasInforme}
+          onViewReport={() => {
+            setSelectedChatConsulta(null);
+            onOpenDocumentsModal?.();
+          }}
         />
       )}
     </div>

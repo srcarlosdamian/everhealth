@@ -82,32 +82,32 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       category: 'soporte',
       question: '¿Necesitas ayuda con soporte o contacto directo?',
       answer: (
-        <div className="flex flex-col gap-5 text-[16px] pt-1">
-          {/* Título y descripción simples */}
+        <div className="flex flex-col gap-4 text-[14px] pt-1">
+          {/* Título y descripción simples a 14px */}
           <div className="flex flex-col gap-0.5">
-            <h4 className="text-[16px] font-bold text-black">
+            <h4 className="text-[14px] font-bold text-black">
               Canales de atención directa
             </h4>
-            <p className="text-[16px] text-[var(--color-page-subtitle)] font-normal leading-relaxed">
+            <p className="text-[14px] text-[var(--color-page-subtitle)] font-normal leading-relaxed">
               Comunícate directamente con nuestro equipo de atención general o soporte técnico especializado.
             </p>
           </div>
 
-          {/* Bloque 1: Atención General (Lineal, sin relleno, sin contenedor de tarjeta, sin badge L-D 24h) */}
-          <div className="flex flex-col gap-2.5">
-            <span className="text-[13px] font-bold uppercase tracking-wider text-black">
+          {/* Bloque 1: Atención General a 14px */}
+          <div className="flex flex-col gap-2">
+            <span className="text-[12px] font-bold uppercase tracking-wider text-black">
               Atención General
             </span>
 
             <div className="flex flex-col divide-y divide-[#f1f5f9]">
               {/* Correo general */}
-              <div className="flex items-center justify-between py-2 gap-2">
+              <div className="flex items-center justify-between py-1.5 gap-2">
                 <a
                   href="mailto:soporte@everhealth.es"
                   className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors min-w-0"
                 >
                   <Mail className="w-4 h-4 text-[#64748b] shrink-0" />
-                  <span className="font-normal text-[16px] truncate">soporte@everhealth.es</span>
+                  <span className="font-normal text-[14px] truncate">soporte@everhealth.es</span>
                 </a>
                 <Button
                   variant="ghost"
@@ -122,13 +122,13 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
               </div>
 
               {/* Teléfono general */}
-              <div className="flex items-center justify-between py-2 gap-2">
+              <div className="flex items-center justify-between py-1.5 gap-2">
                 <a
                   href="tel:911231214"
                   className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors"
                 >
                   <Phone className="w-4 h-4 text-[#64748b] shrink-0" />
-                  <span className="font-normal text-[16px]">911 23 12 14</span>
+                  <span className="font-normal text-[14px]">911 23 12 14</span>
                 </a>
                 <Button
                   variant="ghost"
@@ -143,10 +143,10 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
               </div>
 
               {/* Dirección general */}
-              <div className="flex items-center justify-between py-2 gap-2">
+              <div className="flex items-center justify-between py-1.5 gap-2">
                 <div className="flex items-center gap-2.5 text-black min-w-0">
                   <MapPin className="w-4 h-4 text-[#64748b] shrink-0" />
-                  <span className="font-normal text-[16px] truncate">C/ Naciones 10, 28006 Madrid</span>
+                  <span className="font-normal text-[14px] truncate">C/ Naciones 10, 28006 Madrid</span>
                 </div>
                 <Button
                   variant="ghost"
@@ -165,21 +165,21 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
           {/* Línea divisoria minimalista entre ambos bloques */}
           <hr className="border-[#f1f5f9] my-0" />
 
-          {/* Bloque 2: Soporte Biométrico (Exactamente idéntico y neutral al general: lineal, sin icono, sin texto explicativo, sin badge) */}
-          <div className="flex flex-col gap-2.5">
-            <span className="text-[13px] font-bold uppercase tracking-wider text-black">
+          {/* Bloque 2: Soporte Biométrico a 14px */}
+          <div className="flex flex-col gap-2">
+            <span className="text-[12px] font-bold uppercase tracking-wider text-black">
               Soporte Biométrico
             </span>
 
             <div className="flex flex-col divide-y divide-[#f1f5f9]">
               {/* Correo biométrico */}
-              <div className="flex items-center justify-between py-2 gap-2">
+              <div className="flex items-center justify-between py-1.5 gap-2">
                 <a
                   href="mailto:biometria@everhealth.es"
                   className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors min-w-0"
                 >
                   <Mail className="w-4 h-4 text-[#64748b] shrink-0" />
-                  <span className="font-normal text-[16px] truncate">biometria@everhealth.es</span>
+                  <span className="font-normal text-[14px] truncate">biometria@everhealth.es</span>
                 </a>
                 <Button
                   variant="ghost"
@@ -194,13 +194,13 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
               </div>
 
               {/* Teléfono biométrico */}
-              <div className="flex items-center justify-between py-2 gap-2">
+              <div className="flex items-center justify-between py-1.5 gap-2">
                 <a
                   href="tel:918220518"
                   className="flex items-center gap-2.5 text-black hover:text-[#d50475] transition-colors"
                 >
                   <Phone className="w-4 h-4 text-[#64748b] shrink-0" />
-                  <span className="font-normal text-[16px]">918 220 518</span>
+                  <span className="font-normal text-[14px]">918 220 518</span>
                 </a>
                 <Button
                   variant="ghost"
@@ -432,13 +432,13 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
                 key={faq.id}
                 className="border border-[#e2e8f0] rounded-none overflow-hidden bg-white transition-all shadow-2xs"
               >
-                {/* Accordion Trigger: Solo la pregunta limpia en regular font-normal a 16px, sin fondo al estar abierto */}
+                {/* Accordion Trigger: Pregunta limpia a 14px */}
                 <button
                   type="button"
                   onClick={() => toggleAccordion(faq.id)}
-                  className="w-full px-4 py-4 flex items-start justify-between gap-3 text-left transition-colors cursor-pointer bg-white hover:bg-[#fafafa]"
+                  className="w-full px-4 py-3.5 flex items-start justify-between gap-3 text-left transition-colors cursor-pointer bg-white hover:bg-[#fafafa]"
                 >
-                  <span className="text-[16px] font-bold text-black leading-snug">
+                  <span className="text-[14px] font-bold text-black leading-snug">
                     {faq.question}
                   </span>
                   <ChevronDown
@@ -448,9 +448,9 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
                   />
                 </button>
 
-                {/* Accordion Content */}
+                {/* Accordion Content a 14px */}
                 {isOpen && (
-                  <div className="px-4 pb-4 pt-2 border-t border-[#f1f5f9] animate-fadeIn bg-white text-[16px]">
+                  <div className="px-4 pb-4 pt-2 border-t border-[#f1f5f9] animate-fadeIn bg-white text-[14px]">
                     {faq.answer}
                   </div>
                 )}

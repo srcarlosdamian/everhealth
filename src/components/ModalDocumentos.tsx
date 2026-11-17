@@ -31,12 +31,12 @@ export interface DocumentItem {
 }
 
 const CATEGORY_OPTIONS = [
-  { value: 'Informes médicos', label: 'Informes médicos (Máx. 100Mb)' },
-  { value: 'Analíticas', label: 'Analíticas (Máx. 100Mb)' },
-  { value: 'Imágenes radiológicas', label: 'Imágenes radiológicas (Máx. 100Mb)' },
-  { value: 'Psicología sanitaria', label: 'Psicología sanitaria (Máx. 100Mb)' },
-  { value: 'Nutrición', label: 'Nutrición (Máx. 100Mb)' },
-  { value: 'Coaching', label: 'Coaching (Máx. 100Mb)' },
+  { value: 'Informes médicos', label: 'Informes médicos' },
+  { value: 'Analíticas', label: 'Analíticas' },
+  { value: 'Imágenes radiológicas', label: 'Imágenes radiológicas' },
+  { value: 'Psicología sanitaria', label: 'Psicología sanitaria' },
+  { value: 'Nutrición', label: 'Nutrición' },
+  { value: 'Coaching', label: 'Coaching' },
   { value: 'Otros documentos', label: 'Otros documentos' },
 ];
 
@@ -213,22 +213,22 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
           </Button>
         </div>
 
-        {/* TABLA OFICIAL HOMOLOGADA DE DOCUMENTOS */}
-        <div className="w-full border border-[#e2e8f0] rounded-none overflow-x-auto min-h-[320px]">
+        {/* TABLA OFICIAL HOMOLOGADA DE DOCUMENTOS (más compacta y limpia) */}
+        <div className="w-full border border-[#e2e8f0] rounded-none overflow-x-auto">
           <table className="w-full text-left border-collapse bg-white">
             <thead>
-              <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
-                <th className="py-3 px-3.5 border-r border-[#e2e8f0]">ARCHIVO ADJUNTO</th>
-                <th className="py-3 px-3.5 border-r border-[#e2e8f0] min-w-[210px]">CATEGORÍA / TIPO</th>
-                <th className="py-3 px-3.5 border-r border-[#e2e8f0]">NOMBRE PERSONALIZADO *</th>
-                <th className="py-3 px-3.5 border-r border-[#e2e8f0] whitespace-nowrap">FECHA</th>
-                <th className="py-3 px-3.5 text-right w-[80px]">ACCIONES</th>
+              <tr className="bg-white border-b border-[#e2e8f0] text-[11px] font-bold uppercase tracking-wider text-black">
+                <th className="py-2.5 px-3 border-r border-[#e2e8f0]">ARCHIVO ADJUNTO</th>
+                <th className="py-2.5 px-3 border-r border-[#e2e8f0] min-w-[190px]">CATEGORÍA / TIPO</th>
+                <th className="py-2.5 px-3 border-r border-[#e2e8f0]">NOMBRE *</th>
+                <th className="py-2.5 px-3 border-r border-[#e2e8f0] whitespace-nowrap">FECHA</th>
+                <th className="py-2.5 px-3 text-right w-[76px]">ACCIONES</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#e2e8f0] text-[13px] text-black">
               {filteredDocs.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-12 text-center text-[#64748b]">
+                  <td colSpan={5} className="py-10 text-center text-[#64748b]">
                     No se encontraron documentos registrados.
                   </td>
                 </tr>
@@ -238,17 +238,17 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
                   return (
                     <tr key={doc.id} className="hover:bg-[#f8fafc] transition-colors">
                       {/* Archivo adjunto */}
-                      <td className="py-3 px-3.5 border-r border-[#e2e8f0]">
+                      <td className="py-2 px-3 border-r border-[#e2e8f0]">
                         <div className="flex items-center gap-2">
                           <FileText className="w-4 h-4 text-[#64748b] shrink-0" />
-                          <span className="font-semibold text-black truncate max-w-[150px]">
+                          <span className="font-semibold text-black truncate max-w-[150px] text-[12px]">
                             {doc.fileName}
                           </span>
                         </div>
                       </td>
 
                       {/* Dropdown de Categoría oficial de 7 tipos */}
-                      <td className="py-2.5 px-3 border-r border-[#e2e8f0]">
+                      <td className="py-1.5 px-2.5 border-r border-[#e2e8f0]">
                         <Dropdown
                           size="sm"
                           options={CATEGORY_OPTIONS}
@@ -264,8 +264,8 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
                         />
                       </td>
 
-                      {/* Nombre descriptivo editable */}
-                      <td className="py-2.5 px-3 border-r border-[#e2e8f0]">
+                      {/* Nombre descriptivo editable compacto */}
+                      <td className="py-1.5 px-2.5 border-r border-[#e2e8f0]">
                         <input
                           type="text"
                           value={doc.name}
@@ -275,13 +275,13 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
                               prev.map((d) => (d.id === doc.id ? { ...d, name: val } : d))
                             );
                           }}
-                          placeholder="Descripción del documento..."
-                          className="w-full h-[36px] px-2.5 rounded-[6px] border border-[#cbd5e1] hover:border-black focus:border-black text-[13px] text-black focus:outline-none transition-colors"
+                          placeholder="Nombre del documento..."
+                          className="w-full h-[32px] px-2 rounded-[6px] border border-[#cbd5e1] hover:border-black focus:border-black text-[12px] text-black focus:outline-none transition-colors"
                         />
                       </td>
 
                       {/* Fecha */}
-                      <td className="py-3 px-3.5 border-r border-[#e2e8f0] text-[#64748b] whitespace-nowrap">
+                      <td className="py-2 px-3 border-r border-[#e2e8f0] text-[#64748b] whitespace-nowrap text-[12px]">
                         {doc.date}
                       </td>
 

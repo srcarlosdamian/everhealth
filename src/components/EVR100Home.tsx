@@ -88,7 +88,7 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
   const [solicitaDropdownOpen, setSolicitaDropdownOpen] = useState(false);
   const solicitaDropdownRef = useRef<HTMLDivElement>(null);
 
-  const displayName = userName.trim() || 'Carlos Damián';
+  const displayName = userName.trim() || 'Alejandro Navarro';
   
   // Close dropdown when clicking outside
   useEffect(() => {

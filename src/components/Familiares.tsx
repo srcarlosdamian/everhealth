@@ -88,13 +88,33 @@ const INITIAL_FAMILIARES: Familiar[] = [
   },
 ];
 
-export const Familiares: React.FC = () => {
+interface FamiliaresProps {
+  autoOpenAddModal?: boolean;
+}
+
+export const Familiares: React.FC<FamiliaresProps> = ({ autoOpenAddModal = false }) => {
   const [familiares, setFamiliares] = useState<Familiar[]>(INITIAL_FAMILIARES);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterParentesco, setFilterParentesco] = useState('todos');
 
   // Modal Añadir / Editar Familiar
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (autoOpenAddModal) {
+      setEditingFamiliar(null);
+      setFormNombre('');
+      setFormApellidos('');
+      setFormDia('');
+      setFormMes('');
+      setFormAno('');
+      setFormSexo('');
+      setFormParentesco('');
+      setFormEsTutor(false);
+      setFormTutorAsignado('Alejandro Navarro (Titular)');
+      setIsModalOpen(true);
+    }
+  }, [autoOpenAddModal]);
   const [editingFamiliar, setEditingFamiliar] = useState<Familiar | null>(null);
 
   // Modal Historial Completo

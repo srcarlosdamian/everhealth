@@ -13,12 +13,14 @@ interface ModalSolicitarChatProps {
   isOpen: boolean;
   onClose: () => void;
   defaultTab?: 'agendar' | 'ahora';
+  onStartImmediateChat?: () => void;
 }
 
 export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
   isOpen,
   onClose,
   defaultTab = 'agendar',
+  onStartImmediateChat,
 }) => {
   const [modalidad, setModalidad] = useState<'agendar' | 'ahora'>(defaultTab);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -279,10 +281,17 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
           <Button
             variant="primary"
             type="button"
-            onClick={() => setIsSuccessModalOpen(true)}
+            onClick={() => {
+              if (modalidad === 'ahora') {
+                onClose();
+                onStartImmediateChat?.();
+              } else {
+                setIsSuccessModalOpen(true);
+              }
+            }}
             className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
           >
-            CONFIRMAR CITA
+            {modalidad === 'ahora' ? 'INICIAR CHAT AHORA' : 'CONFIRMAR CITA'}
           </Button>
         </div>
 
