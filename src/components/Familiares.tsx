@@ -224,14 +224,14 @@ export const Familiares: React.FC = () => {
           <table className="w-full text-left border-collapse bg-white">
           <thead>
             <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
-              <th className="py-3 px-4 border-r border-[#e2e8f0]">Nombre y Apellidos</th>
-              <th className="py-3 px-4 border-r border-[#e2e8f0]">Parentesco</th>
-              <th className="py-3 px-4 border-r border-[#e2e8f0]">Nacimiento</th>
-              <th className="py-3 px-4 border-r border-[#e2e8f0]">Edad</th>
-              <th className="py-3 px-4 border-r border-[#e2e8f0]">Sexo al nacer</th>
-              <th className="py-3 px-4 border-r border-[#e2e8f0]">Condición</th>
-              <th className="py-3 px-4 border-r border-[#e2e8f0]">Tutor Asignado</th>
-              <th className="py-3 px-4 text-right w-[88px] min-w-[88px]">Acciones</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">NOMBRE Y APELLIDOS</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">PARENTESCO</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">NACIMIENTO</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">EDAD</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">SEXO AL NACER</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">CONDICIÓN</th>
+              <th className="py-3 px-4 border-r border-[#e2e8f0]">TUTOR ASIGNADO</th>
+              <th className="py-3 px-4 text-right w-[88px] min-w-[88px]">ACCIONES</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black bg-white">

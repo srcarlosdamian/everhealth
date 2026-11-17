@@ -1253,14 +1253,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                         Catálogo de Mensajes Toast del Sistema
                       </span>
                       <div className="w-full border border-[#e2e8f0] rounded-[8px] overflow-x-auto bg-white">
-                        <table className="w-full text-left text-[12px] border-collapse">
-                          <thead className="bg-[#f8fafc] text-black border-b border-[#e2e8f0] font-bold">
-                            <tr>
-                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">Evento / Acción</th>
-                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">Variante</th>
-                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">Mensaje Oficial</th>
-                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">Ubicación</th>
-                              <th className="py-2.5 px-3">Duración</th>
+                        <table className="w-full text-left text-[12px] border-collapse bg-white">
+                          <thead>
+                            <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
+                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">EVENTO / ACCIÓN</th>
+                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">VARIANTE</th>
+                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">MENSAJE OFICIAL</th>
+                              <th className="py-2.5 px-3 border-r border-[#e2e8f0]">UBICACIÓN</th>
+                              <th className="py-2.5 px-3">DURACIÓN</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-[#e2e8f0] text-[#334155]">
@@ -1758,89 +1758,89 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     </div>
 
                     {/* Tabla comparativa técnica */}
-                    <div className="mt-2 border border-[#e2e8f0] rounded-[8px] overflow-hidden">
-                      <table className="w-full text-left text-[12px]">
-                        <thead className="bg-[#f8fafc] text-[#475569] border-b border-[#e2e8f0] font-bold">
-                          <tr>
-                            <th className="py-2.5 px-3">Botón / Acción</th>
-                            <th className="py-2.5 px-3">Altura</th>
-                            <th className="py-2.5 px-3">Borde</th>
-                            <th className="py-2.5 px-3">Tipografía</th>
-                            <th className="py-2.5 px-3">Fondo / Color</th>
-                            <th className="py-2.5 px-3">Modal de Uso</th>
+                    <div className="mt-2 border border-[#e2e8f0] rounded-[8px] overflow-hidden bg-white">
+                      <table className="w-full text-left text-[12px] border-collapse bg-white">
+                        <thead>
+                          <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
+                            <th className="py-2.5 px-3 border-r border-[#e2e8f0]">BOTÓN / ACCIÓN</th>
+                            <th className="py-2.5 px-3 border-r border-[#e2e8f0]">ALTURA</th>
+                            <th className="py-2.5 px-3 border-r border-[#e2e8f0]">BORDE</th>
+                            <th className="py-2.5 px-3 border-r border-[#e2e8f0]">TIPOGRAFÍA</th>
+                            <th className="py-2.5 px-3 border-r border-[#e2e8f0]">FONDO / COLOR</th>
+                            <th className="py-2.5 px-3">MODAL DE USO</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#f1f5f9] text-[#334155]">
-                          <tr className="hover:bg-[#f8fafc]/50">
-                            <td className="py-2 px-3 font-bold text-black uppercase">CONFIRMAR CITA</td>
-                            <td className="py-2 px-3 font-mono">40px</td>
-                            <td className="py-2 px-3 font-mono">8px</td>
-                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                            <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Blanco texto)</td>
+                        <tbody className="divide-y divide-[#e2e8f0] text-[#334155] bg-white">
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2 px-3 font-bold text-black uppercase border-r border-[#e2e8f0]">CONFIRMAR CITA</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">40px</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">8px</td>
+                            <td className="py-2 px-3 uppercase border-r border-[#e2e8f0]">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 text-[#d50475] font-medium border-r border-[#e2e8f0]">#d50475 (Blanco texto)</td>
                             <td className="py-2 px-3 text-[#64748b]">VideoConsulta / SolicitarChat</td>
                           </tr>
-                          <tr className="hover:bg-[#f8fafc]/50">
-                            <td className="py-2 px-3 font-bold text-[#64748b] uppercase">CONFIRMAR CITA (BLOQUEADO)</td>
-                            <td className="py-2 px-3 font-mono">40px</td>
-                            <td className="py-2 px-3 font-mono">8px</td>
-                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                            <td className="py-2 px-3 text-[#64748b]">#cbd5e1 (Gris deshabilitado)</td>
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2 px-3 font-bold text-[#64748b] uppercase border-r border-[#e2e8f0]">CONFIRMAR CITA (BLOQUEADO)</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">40px</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">8px</td>
+                            <td className="py-2 px-3 uppercase border-r border-[#e2e8f0]">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 text-[#64748b] border-r border-[#e2e8f0]">#cbd5e1 (Gris deshabilitado)</td>
                             <td className="py-2 px-3 text-[#64748b]">VideoConsulta (incompleto)</td>
                           </tr>
-                          <tr className="hover:bg-[#f8fafc]/50">
-                            <td className="py-2 px-3 font-bold text-black uppercase">GUARDAR</td>
-                            <td className="py-2 px-3 font-mono">40px</td>
-                            <td className="py-2 px-3 font-mono">8px</td>
-                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                            <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Primario)</td>
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2 px-3 font-bold text-black uppercase border-r border-[#e2e8f0]">GUARDAR</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">40px</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">8px</td>
+                            <td className="py-2 px-3 uppercase border-r border-[#e2e8f0]">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 text-[#d50475] font-medium border-r border-[#e2e8f0]">#d50475 (Primario)</td>
                             <td className="py-2 px-3 text-[#64748b]">Familiares / Mascotas</td>
                           </tr>
-                          <tr className="hover:bg-[#f8fafc]/50">
-                            <td className="py-2 px-3 font-bold text-black uppercase">CANCELAR</td>
-                            <td className="py-2 px-3 font-mono">40px</td>
-                            <td className="py-2 px-3 font-mono">8px</td>
-                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                            <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2 px-3 font-bold text-black uppercase border-r border-[#e2e8f0]">CANCELAR</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">40px</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">8px</td>
+                            <td className="py-2 px-3 uppercase border-r border-[#e2e8f0]">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 border-r border-[#e2e8f0]">Borde #cbd5e1 / Blanco</td>
                             <td className="py-2 px-3 text-[#64748b]">Familiares / Mascotas</td>
                           </tr>
-                          <tr className="hover:bg-[#f8fafc]/50">
-                            <td className="py-2 px-3 font-bold text-[#ef4444] uppercase">DAR DE BAJA</td>
-                            <td className="py-2 px-3 font-mono">40px</td>
-                            <td className="py-2 px-3 font-mono">8px</td>
-                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                            <td className="py-2 px-3 text-[#ef4444] font-medium">#ef4444 (Destructivo)</td>
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2 px-3 font-bold text-[#ef4444] uppercase border-r border-[#e2e8f0]">DAR DE BAJA</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">40px</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">8px</td>
+                            <td className="py-2 px-3 uppercase border-r border-[#e2e8f0]">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 text-[#ef4444] font-medium border-r border-[#e2e8f0]">#ef4444 (Destructivo)</td>
                             <td className="py-2 px-3 text-[#64748b]">ConfirmDeactivateModal</td>
                           </tr>
-                          <tr className="hover:bg-[#f8fafc]/50">
-                            <td className="py-2 px-3 font-bold text-black uppercase">CANCELAR</td>
-                            <td className="py-2 px-3 font-mono">40px</td>
-                            <td className="py-2 px-3 font-mono">8px</td>
-                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                            <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2 px-3 font-bold text-black uppercase border-r border-[#e2e8f0]">CANCELAR</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">40px</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">8px</td>
+                            <td className="py-2 px-3 uppercase border-r border-[#e2e8f0]">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 border-r border-[#e2e8f0]">Borde #cbd5e1 / Blanco</td>
                             <td className="py-2 px-3 text-[#64748b]">ConfirmDeactivateModal</td>
                           </tr>
-                          <tr className="hover:bg-[#f8fafc]/50">
-                            <td className="py-2 px-3 font-bold text-black uppercase">DESCARTAR</td>
-                            <td className="py-2 px-3 font-mono">40px</td>
-                            <td className="py-2 px-3 font-mono">8px</td>
-                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                            <td className="py-2 px-3">Borde #cbd5e1 / Blanco</td>
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2 px-3 font-bold text-black uppercase border-r border-[#e2e8f0]">DESCARTAR</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">40px</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">8px</td>
+                            <td className="py-2 px-3 uppercase border-r border-[#e2e8f0]">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 border-r border-[#e2e8f0]">Borde #cbd5e1 / Blanco</td>
                             <td className="py-2 px-3 text-[#64748b]">Ginecología / Documentos</td>
                           </tr>
-                          <tr className="hover:bg-[#f8fafc]/50">
-                            <td className="py-2 px-3 font-bold text-black uppercase">CONFIRMAR</td>
-                            <td className="py-2 px-3 font-mono">40px</td>
-                            <td className="py-2 px-3 font-mono">8px</td>
-                            <td className="py-2 px-3 uppercase">Mayúsculas 13px bold</td>
-                            <td className="py-2 px-3 text-[#d50475] font-medium">#d50475 (Primario)</td>
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2 px-3 font-bold text-black uppercase border-r border-[#e2e8f0]">CONFIRMAR</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">40px</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">8px</td>
+                            <td className="py-2 px-3 uppercase border-r border-[#e2e8f0]">Mayúsculas 13px bold</td>
+                            <td className="py-2 px-3 text-[#d50475] font-medium border-r border-[#e2e8f0]">#d50475 (Primario)</td>
                             <td className="py-2 px-3 text-[#64748b]">Ginecología / Documentos</td>
                           </tr>
-                          <tr className="hover:bg-[#f8fafc]/50">
-                            <td className="py-2 px-3 font-bold text-black">Cerrar modal (X)</td>
-                            <td className="py-2 px-3 font-mono">32px (w-8 h-8)</td>
-                            <td className="py-2 px-3 font-mono">Circular (full)</td>
-                            <td className="py-2 px-3">Icono Lucide X</td>
-                            <td className="py-2 px-3">Hover #f1f5f9</td>
+                          <tr className="hover:bg-[#fafafa]">
+                            <td className="py-2 px-3 font-bold text-black uppercase border-r border-[#e2e8f0]">CERRAR MODAL (X)</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">32px (w-8 h-8)</td>
+                            <td className="py-2 px-3 font-mono border-r border-[#e2e8f0]">Circular (full)</td>
+                            <td className="py-2 px-3 border-r border-[#e2e8f0]">Icono Lucide X</td>
+                            <td className="py-2 px-3 border-r border-[#e2e8f0]">Hover #f1f5f9</td>
                             <td className="py-2 px-3 text-[#64748b]">Cabecera de todos los modales</td>
                           </tr>
                         </tbody>
@@ -1989,14 +1989,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       <table className="w-full text-left border-collapse bg-white">
                         <thead>
                           <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
-                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Nombre y Apellidos</th>
-                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Parentesco</th>
-                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Nacimiento</th>
-                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Edad</th>
-                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Sexo al nacer</th>
-                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Condición</th>
-                            <th className="py-3 px-4 border-r border-[#e2e8f0]">Tutor Asignado</th>
-                            <th className="py-3 px-4 text-right">Acciones</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">NOMBRE Y APELLIDOS</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">PARENTESCO</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">NACIMIENTO</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">EDAD</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">SEXO AL NACER</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">CONDICIÓN</th>
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">TUTOR ASIGNADO</th>
+                            <th className="py-3 px-4 text-right">ACCIONES</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black bg-white">
@@ -2199,20 +2199,20 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 >
                   <div className="flex flex-col gap-4">
                     <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-x-auto">
-                      <table className="w-full text-left border-collapse table-auto">
+                      <table className="w-full text-left border-collapse table-auto bg-white">
                         <thead>
                           <tr className="bg-white border-b border-[#e2e8f0] text-[12px] font-bold uppercase tracking-wider text-black">
-                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Mascota</th>
-                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Especie y Raza</th>
-                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Edad</th>
-                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Sexo</th>
-                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Condición Corporal</th>
-                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Familiar Asignado</th>
-                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Nº Chip</th>
-                            <th className="py-3.5 px-4 text-right">Acciones</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">MASCOTA</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">ESPECIE Y RAZA</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">EDAD</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">SEXO</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">CONDICIÓN CORPORAL</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">FAMILIAR ASIGNADO</th>
+                            <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Nº CHIP</th>
+                            <th className="py-3.5 px-4 text-right">ACCIONES</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black">
+                        <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black bg-white">
                           <tr className="hover:bg-[#f8fafc] transition-colors">
                             <td className="py-3.5 px-4 border-r border-[#e2e8f0]">
                               <div className="flex items-center gap-3">
@@ -2315,35 +2315,35 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 {/* Organismo 5: Tabla de Modales (ModalDocumentos) */}
                 <StageBlock
                   title="Tabla en Modales (Documentos Médicos)"
-                  componentTag="<table className='w-full text-left text-[13px]'>"
+                  componentTag="<table className='w-full text-left border-collapse text-[13px] bg-white'>"
                   usedIn={['ModalDocumentos', 'Historia Clínica']}
-                  description="Variante compacta para diálogos modales. Nota: Presenta divergencias visuales con respecto a Familiares (cabecera gris, sin divisores verticales y bordes redondeados)."
+                  description="Variante modal 100% homologada con el patrón maestro de Familiares: cabecera blanca, títulos en mayúsculas, líneas divisorias grises (border-r y divide-y #e2e8f0) y esquinas redondeadas de 8px."
                 >
                   <div className="flex flex-col gap-4">
-                    <div className="border border-[#e2e8f0] rounded-[10px] overflow-visible bg-white">
-                      <table className="w-full text-left text-[13px]">
-                        <thead className="bg-[#f8fafc] text-[#64748b] border-b border-[#e2e8f0]">
-                          <tr>
-                            <th className="py-2.5 px-4 font-bold uppercase tracking-wider text-[11px]">
+                    <div className="border border-[#e2e8f0] rounded-[8px] overflow-visible bg-white">
+                      <table className="w-full text-left border-collapse text-[13px] bg-white">
+                        <thead>
+                          <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">
                               DOCUMENTO
                             </th>
-                            <th className="py-2.5 px-4 font-bold uppercase tracking-wider text-[11px]">
+                            <th className="py-3 px-4 border-r border-[#e2e8f0]">
                               NOMBRE PERSONALIZADO*
                             </th>
-                            <th className="py-2.5 px-4 font-bold uppercase tracking-wider text-[11px] text-right">
+                            <th className="py-3 px-4 text-right w-[88px] min-w-[88px]">
                               ACCIONES
                             </th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#f1f5f9]">
-                          <tr className="hover:bg-[#f8fafc]/70 transition-colors">
-                            <td className="py-3 px-4 font-medium text-[#334155] max-w-[220px]">
+                        <tbody className="divide-y divide-[#e2e8f0] text-[13px] text-black bg-white">
+                          <tr className="hover:bg-[#fafafa] bg-white transition-colors">
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-black max-w-[220px]">
                               <div className="flex items-center gap-2">
                                 <FileText className="w-4 h-4 text-[#94a3b8] shrink-0" />
                                 <span className="truncate">ecografia_tiroidea.jpg</span>
                               </div>
                             </td>
-                            <td className="py-2 px-4">
+                            <td className="py-2.5 px-4 border-r border-[#e2e8f0]">
                               <input
                                 type="text"
                                 value={demoDocInputName}
@@ -2352,7 +2352,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                                 className="w-full h-[36px] px-3 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#d50475]"
                               />
                             </td>
-                            <td className="py-3 px-4 text-right relative">
+                            <td className="py-3.5 px-4 text-right relative">
                               <div className="inline-block relative">
                                 <button
                                   type="button"
@@ -2387,21 +2387,21 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               </div>
                             </td>
                           </tr>
-                          <tr className="hover:bg-[#f8fafc]/70 transition-colors">
-                            <td className="py-3 px-4 font-medium text-[#334155]">
+                          <tr className="hover:bg-[#fafafa] bg-white transition-colors">
+                            <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-black">
                               <div className="flex items-center gap-2">
                                 <FileText className="w-4 h-4 text-[#94a3b8] shrink-0" />
                                 <span className="truncate">analitica_sangre.pdf</span>
                               </div>
                             </td>
-                            <td className="py-2 px-4">
+                            <td className="py-2.5 px-4 border-r border-[#e2e8f0]">
                               <input
                                 type="text"
                                 defaultValue="Analítica general y bioquímica"
                                 className="w-full h-[36px] px-3 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#d50475]"
                               />
                             </td>
-                            <td className="py-3 px-4 text-right">
+                            <td className="py-3.5 px-4 text-right">
                               <button
                                 type="button"
                                 className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer"
@@ -2415,14 +2415,11 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     </div>
 
                     <div className="flex flex-wrap gap-2 text-[12px]">
-                      <span className="px-2.5 py-1 rounded bg-[#fff1f2] border border-[#fecdd3] text-[#9f1239] font-medium">
-                        Divergencia 1: Cabecera gris (bg-[#f8fafc]) y texto gris (#64748b)
+                      <span className="px-2.5 py-1 rounded bg-[#f0fdf4] border border-[#bbf7d0] text-[#166534] font-medium">
+                        ✓ Homologado: Cabecera blanca y títulos en mayúsculas (text-black).
                       </span>
-                      <span className="px-2.5 py-1 rounded bg-[#fff1f2] border border-[#fecdd3] text-[#9f1239] font-medium">
-                        Divergencia 2: Sin divisores verticales de columna (no tiene border-r)
-                      </span>
-                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
-                        Divergencia 3: Contenedor rounded-[10px] (adaptado a la ventana modal)
+                      <span className="px-2.5 py-1 rounded bg-[#f0fdf4] border border-[#bbf7d0] text-[#166534] font-medium">
+                        ✓ Homologado: Líneas grises divisorias verticales (border-r #e2e8f0) y horizontales (divide-y #e2e8f0).
                       </span>
                     </div>
                   </div>
@@ -2438,17 +2435,17 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   <div className="flex flex-col gap-6">
                     {/* Tabla comparativa técnica */}
                     <div className="w-full border border-[#e2e8f0] rounded-[8px] overflow-x-auto bg-white">
-                      <table className="w-full text-left text-[12px] border-collapse">
-                        <thead className="bg-[#f8fafc] text-black border-b border-[#e2e8f0] font-bold">
-                          <tr>
-                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">Atributo Visual</th>
-                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">Tabla Familiares (Maestra)</th>
-                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">Tabla Mascotas</th>
-                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">Tabla en Modales</th>
-                            <th className="py-3 px-3.5 font-bold text-[#d50475]">Diagnóstico & Qué Hacer</th>
+                      <table className="w-full text-left text-[12px] border-collapse bg-white">
+                        <thead>
+                          <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
+                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">ATRIBUTO VISUAL</th>
+                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">TABLA FAMILIARES (MAESTRA)</th>
+                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">TABLA MASCOTAS</th>
+                            <th className="py-3 px-3.5 border-r border-[#e2e8f0]">TABLA EN MODALES</th>
+                            <th className="py-3 px-3.5">ESTADO DE HOMOLOGACIÓN</th>
                           </tr>
                         </thead>
-                        <tbody className="divide-y divide-[#e2e8f0] text-[#334155]">
+                        <tbody className="divide-y divide-[#e2e8f0] text-[#334155] bg-white">
                           <tr className="hover:bg-[#fafafa]">
                             <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
                               Bordes exteriores
@@ -2459,11 +2456,11 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                             <td className="py-2.5 px-3.5 font-mono text-[11px] border-r border-[#e2e8f0]">
                               rounded-none
                             </td>
-                            <td className="py-2.5 px-3.5 font-mono text-[11px] text-[#d50475] font-bold border-r border-[#e2e8f0]">
-                              rounded-[10px]
+                            <td className="py-2.5 px-3.5 font-mono text-[11px] border-r border-[#e2e8f0]">
+                              rounded-[8px]
                             </td>
-                            <td className="py-2.5 px-3.5 text-[11px]">
-                              <strong>Mantener o estandarizar a 8px:</strong> En páginas completas encaja `rounded-none`, pero en modales debe ser redondeada para respetar el radio del diálogo.
+                            <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
+                              ✓ HOMOLOGADO: En páginas completas se utiliza rounded-none, y en modales rounded-[8px] adaptado al contenedor del diálogo.
                             </td>
                           </tr>
 
@@ -2477,11 +2474,11 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                             <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
                               Blanco (bg-white)
                             </td>
-                            <td className="py-2.5 px-3.5 text-[#d50475] font-bold border-r border-[#e2e8f0]">
-                              Gris (bg-[#f8fafc])
+                            <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
+                              Blanco (bg-white)
                             </td>
-                            <td className="py-2.5 px-3.5 text-[11px]">
-                              <span className="text-[#d50475] font-bold">CAMBIAR:</span> Cambiar el fondo del modal a blanco (`bg-white`) con borde inferior `#e2e8f0` para máxima coherencia con Familiares.
+                            <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
+                              ✓ HOMOLOGADO: Todas las tablas utilizan fondo blanco (`bg-white`) con borde inferior gris `#e2e8f0`.
                             </td>
                           </tr>
 
@@ -2495,11 +2492,11 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                             <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
                               Negro (text-black 12px)
                             </td>
-                            <td className="py-2.5 px-3.5 text-[#64748b] border-r border-[#e2e8f0]">
-                              Gris (#64748b 11px)
+                            <td className="py-2.5 px-3.5 font-bold text-black border-r border-[#e2e8f0]">
+                              Negro (text-black 12px)
                             </td>
-                            <td className="py-2.5 px-3.5 text-[11px]">
-                              <span className="text-[#d50475] font-bold">CAMBIAR:</span> Estandarizar cabecera en modales a `text-black` font-bold uppercase para evitar que se vea apagada.
+                            <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
+                              ✓ HOMOLOGADO: Títulos en mayúsculas con texto en negro negrita (`text-black font-bold uppercase`) en todas las tablas.
                             </td>
                           </tr>
 
@@ -2513,11 +2510,11 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                             <td className="py-2.5 px-3.5 text-[#16a34a] font-bold border-r border-[#e2e8f0]">
                               Sí (border-r #e2e8f0)
                             </td>
-                            <td className="py-2.5 px-3.5 text-[#ef4444] font-bold border-r border-[#e2e8f0]">
-                              No tiene líneas verticales
+                            <td className="py-2.5 px-3.5 text-[#16a34a] font-bold border-r border-[#e2e8f0]">
+                              Sí (border-r #e2e8f0)
                             </td>
-                            <td className="py-2.5 px-3.5 text-[11px]">
-                              <span className="text-[#d50475] font-bold">DECISIÓN:</span> Es la diferencia más notoria. Se puede: <strong>A)</strong> Agregar `border-r` al modal, o <strong>B)</strong> Quitar `border-r` de Familiares para un look más moderno y limpio sin cuadrícula rígida.
+                            <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
+                              ✓ HOMOLOGADO: Todas las tablas cuentan con líneas grises divisorias verticales (`border-r border-[#e2e8f0]`).
                             </td>
                           </tr>
 
@@ -2532,10 +2529,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               divide-y divide-[#e2e8f0]
                             </td>
                             <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
-                              divide-y divide-[#f1f5f9]
+                              divide-y divide-[#e2e8f0]
                             </td>
-                            <td className="py-2.5 px-3.5 text-[11px]">
-                              <strong>HOMOLOGAR:</strong> Unificar el color de borde de fila a `#e2e8f0` en todas las tablas.
+                            <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
+                              ✓ HOMOLOGADO: Líneas grises horizontales unificadas con `divide-y divide-[#e2e8f0]` en todas las filas.
                             </td>
                           </tr>
 
@@ -2550,10 +2547,10 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                               py-3.5 (14px)
                             </td>
                             <td className="py-2.5 px-3.5 border-r border-[#e2e8f0]">
-                              py-2.5 / py-2 (10px)
+                              py-2.5 / py-3.5 (12-14px)
                             </td>
-                            <td className="py-2.5 px-3.5 text-[11px]">
-                              <strong>MANTENER DIFERENCIADO:</strong> Los modales tienen altura máxima restringida (max-h 90vh) y llevan inputs de 36px, por lo que py-2.5 es el espaciado óptimo.
+                            <td className="py-2.5 px-3.5 text-[11px] text-[#16a34a] font-bold">
+                              ✓ HOMOLOGADO: Espaciado homogéneo manteniendo legibilidad con inputs modales de 36px.
                             </td>
                           </tr>
 
@@ -2632,23 +2629,23 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       </table>
                     </div>
 
-                    {/* Resumen de mejoras recomendadas */}
-                    <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px] p-4 flex flex-col gap-2.5">
+                    {/* Resumen de homologación completada */}
+                    <div className="bg-[#f0fdf4] border border-[#bbf7d0] rounded-[8px] p-4 flex flex-col gap-2.5">
                       <div className="flex items-center gap-2">
-                        <AlertCircle className="w-4 h-4 text-[#d50475]" />
-                        <h4 className="text-[14px] font-bold text-black">
-                          Resumen: 3 acciones para homologar la tabla de modales
+                        <Check className="w-4 h-4 text-[#16a34a]" />
+                        <h4 className="text-[14px] font-bold text-[#166534]">
+                          Resumen: 100% de tablas homologadas con el formato maestro de Familiares
                         </h4>
                       </div>
-                      <ul className="text-[13px] text-[#334155] space-y-1.5 list-disc pl-5">
+                      <ul className="text-[13px] text-[#166534] space-y-1.5 list-disc pl-5">
                         <li>
-                          <strong>1. Cabecera limpia:</strong> Cambiar el fondo gris `bg-[#f8fafc]` a blanco `bg-white` y el texto a `text-black` negrita mayúsculas.
+                          <strong>1. Cabecera limpia y títulos en mayúsculas:</strong> Todas las tablas (Familiares, Mascotas, Modales y Comparativas) tienen cabecera blanca (`bg-white`) con texto en negrita, negro y mayúsculas (`text-black font-bold uppercase`).
                         </li>
                         <li>
-                          <strong>2. Divisores verticales:</strong> Decidir si aplicar `border-r border-[#e2e8f0]` a la tabla de modales o, alternativamente, retirar las líneas verticales de Familiares y Mascotas si se busca un diseño más minimalista.
+                          <strong>2. Líneas grises divisorias verticales:</strong> Se implementó `border-r border-[#e2e8f0]` en todas las columnas tanto en cabeceras como en celdas para una estructura reticular homogénea.
                         </li>
                         <li>
-                          <strong>3. Borde de fila consistente:</strong> Cambiar `divide-[#f1f5f9]` por `divide-[#e2e8f0]` para mantener idéntico contraste en todas las líneas.
+                          <strong>3. Divisores de filas consistentes:</strong> Se unificó `divide-y divide-[#e2e8f0]` en todas las tablas garantizando líneas grises idénticas.
                         </li>
                       </ul>
                     </div>

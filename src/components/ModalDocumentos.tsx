@@ -175,23 +175,23 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
         </div>
 
         {/* Documents Table en Desktop / Cards en Mobile */}
-        <div className="border border-[#e2e8f0] rounded-[10px] overflow-visible bg-white">
+        <div className="border border-[#e2e8f0] rounded-[8px] overflow-visible bg-white">
           <div className="hidden sm:block overflow-x-auto">
-            <table className="w-full text-left text-[13px]">
-            <thead className="bg-[#f8fafc] text-[#64748b] border-b border-[#e2e8f0]">
-              <tr>
-                <th className="py-2.5 px-4 font-bold uppercase tracking-wider text-[11px]">
+            <table className="w-full text-left border-collapse text-[13px] bg-white">
+            <thead>
+              <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
+                <th className="py-3 px-4 border-r border-[#e2e8f0]">
                   DOCUMENTO
                 </th>
-                <th className="py-2.5 px-4 font-bold uppercase tracking-wider text-[11px]">
+                <th className="py-3 px-4 border-r border-[#e2e8f0]">
                   NOMBRE PERSONALIZADO*
                 </th>
-                <th className="py-2.5 px-4 font-bold uppercase tracking-wider text-[11px] text-right">
+                <th className="py-3 px-4 text-right w-[88px] min-w-[88px]">
                   ACCIONES
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#f1f5f9]">
+            <tbody className="divide-y divide-[#e2e8f0] text-[13px] text-black bg-white">
               {filteredDocs.length === 0 ? (
                 <tr>
                   <td colSpan={3} className="py-8 text-center text-[#64748b]">
@@ -211,8 +211,8 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
                   const isLastRow = idx === filteredDocs.length - 1 && filteredDocs.length > 2;
 
                   return (
-                    <tr key={doc.id} className="hover:bg-[#f8fafc]/70 transition-colors">
-                      <td className="py-3 px-4 font-medium text-[#334155] max-w-[220px]">
+                    <tr key={doc.id} className="hover:bg-[#fafafa] bg-white transition-colors">
+                      <td className="py-3.5 px-4 border-r border-[#e2e8f0] font-medium text-black max-w-[220px]">
                         <div className="flex items-center gap-2">
                           <FileText className="w-4 h-4 text-[#94a3b8] shrink-0" />
                           <span className="truncate" title={doc.file}>
@@ -220,7 +220,7 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
                           </span>
                         </div>
                       </td>
-                      <td className="py-2 px-4">
+                      <td className="py-2.5 px-4 border-r border-[#e2e8f0]">
                         <input
                           type="text"
                           value={doc.name}
@@ -229,7 +229,7 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
                           className="w-full h-[36px] px-3 rounded-[6px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-[#d50475] transition-colors"
                         />
                       </td>
-                      <td className="py-3 px-4 text-right relative">
+                      <td className="py-3.5 px-4 text-right relative">
                         <div className="inline-block relative">
                           <button
                             type="button"

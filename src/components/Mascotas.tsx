@@ -275,20 +275,20 @@ export const Mascotas: React.FC = () => {
       <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-visible">
         {/* VISTA DESKTOP: TABLA COMPLETA */}
         <div className="hidden md:block overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+          <table className="w-full text-left border-collapse bg-white">
           <thead>
             <tr className="bg-white border-b border-[#e2e8f0] text-[12px] font-bold uppercase tracking-wider text-black">
-              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Mascota</th>
-              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Especie y Raza</th>
-              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Edad</th>
-              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Sexo</th>
-              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Condición Corporal</th>
-              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Familiar Asignado</th>
-              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Nº Chip</th>
-              <th className="py-3.5 px-4 text-right w-[88px] min-w-[88px]">Acciones</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">MASCOTA</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">ESPECIE Y RAZA</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">EDAD</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">SEXO</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">CONDICIÓN CORPORAL</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">FAMILIAR ASIGNADO</th>
+              <th className="py-3.5 px-4 border-r border-[#e2e8f0]">Nº CHIP</th>
+              <th className="py-3.5 px-4 text-right w-[88px] min-w-[88px]">ACCIONES</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black">
+          <tbody className="divide-y divide-[#e2e8f0] text-[14px] text-black bg-white">
             {filtered.length === 0 ? (
               <tr>
                 <td colSpan={8} className="py-12 text-center text-[#64748b]">
