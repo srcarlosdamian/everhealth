@@ -72,7 +72,7 @@ export const Tabs: React.FC<TabsProps> = ({
 
   // Variante 'line' estándar
   return (
-    <div className={`w-full border-b border-[#e2e8f0] overflow-x-auto no-scrollbar ${className}`}>
+    <div className={`w-full border-b border-[#e2e8f0] overflow-x-auto overflow-y-hidden no-scrollbar ${className}`}>
       <div className="flex items-center gap-6 sm:gap-8 min-w-max">
         {tabs.map((tab) => {
           const isActive = tab.id === activeTab;

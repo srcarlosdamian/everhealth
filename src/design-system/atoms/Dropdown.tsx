@@ -69,7 +69,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
       {label && (
         <label className="text-[14px] font-normal text-black leading-tight flex items-center gap-1">
           <span>{label}</span>
-          {required && <span className="text-[#d50475]">*</span>}
+          {required && !label.includes('*') && <span className="text-[#d50475]">*</span>}
         </label>
       )}
 
