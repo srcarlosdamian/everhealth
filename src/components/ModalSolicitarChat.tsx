@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { X, Calendar as CalendarIcon } from 'lucide-react';
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
@@ -9,17 +9,25 @@ import { SelectedAppointmentBanner } from '../design-system/molecules/SelectedAp
 import { AssignedDoctorCard } from '../design-system/molecules/AssignedDoctorCard';
 import { ModalCitaConfirmada } from './ModalCitaConfirmada';
 
+export interface ImmediateChatPayload {
+  doctorName: string;
+  specialty: string;
+  reason: string;
+}
+
 interface ModalSolicitarChatProps {
   isOpen: boolean;
   onClose: () => void;
   defaultTab?: 'agendar' | 'ahora';
-  onStartImmediateChat?: () => void;
+  doctorName?: string;
+  onStartImmediateChat?: (payload?: ImmediateChatPayload) => void;
 }
 
 export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
   isOpen,
   onClose,
   defaultTab = 'agendar',
+  doctorName = 'Dra. María Fernández',
   onStartImmediateChat,
 }) => {
   const [modalidad, setModalidad] = useState<'agendar' | 'ahora'>(defaultTab);
@@ -36,6 +44,39 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
       setModalidad(defaultTab);
     }
   }, [isOpen, defaultTab]);
+
+  // Doctor asignado dinámico
+  const docInfo = useMemo(() => {
+    const raw = doctorName || 'Dra. María Fernández';
+    const clean = raw.replace(/^Dr\.\s*|^Dra\.\s*/i, '');
+    const isFemale =
+      raw.startsWith('Dra.') ||
+      clean.startsWith('María') ||
+      clean.startsWith('Ana') ||
+      clean.startsWith('Fernanda') ||
+      clean.startsWith('Clara') ||
+      clean.startsWith('Sofía');
+    const title = isFemale ? 'Dra. ' : 'Dr. ';
+    const fullName = raw.startsWith('Dr.') || raw.startsWith('Dra.') ? raw : `${title}${clean}`;
+    const initials =
+      clean
+        .split(' ')
+        .filter(Boolean)
+        .slice(0, 2)
+        .map((p) => p[0]?.toUpperCase())
+        .join('') || 'MF';
+
+    let specialty = 'Medicina General · Nutrición';
+    if (/Luis/i.test(clean)) specialty = 'Pediatría · Dermatología';
+    else if (/Javier/i.test(clean)) specialty = 'Oftalmología · Otorrinolaringología';
+    else if (/Clara/i.test(clean)) specialty = 'Ginecología · Fisioterapia';
+    else if (/Bruno/i.test(clean)) specialty = 'Medicina General · Sexología';
+    else if (/Ana/i.test(clean)) specialty = 'Medicina General · Psicología';
+    else if (/Benito/i.test(clean)) specialty = 'Pediatría · Psiquiatría';
+    else if (/Sofía/i.test(clean)) specialty = 'Ginecología · Cardiología';
+
+    return { fullName, initials, specialty };
+  }, [doctorName]);
 
   if (!isOpen) return null;
 
@@ -128,9 +169,9 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
               </span>
 
               <AssignedDoctorCard
-                initials="MF"
-                name="Dra. María Fernández"
-                specialty="Medicina General · Nutrición"
+                initials={docInfo.initials}
+                name={docInfo.fullName}
+                specialty={docInfo.specialty}
                 badgeText="Disponible ahora"
                 badgeVariant="disponible-ahora"
               />
@@ -143,7 +184,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
               <StepperCheck isCompleted={isSpecialtyDone} />
               <div
                 className={`w-[2px] flex-1 my-1 transition-colors min-h-[30px] ${
-                  isMotivoDone ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
+                  isSpecialtyDone ? 'bg-[#831843]/30' : 'bg-[#e2e8f0]'
                 }`}
               />
             </div>
@@ -284,7 +325,11 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
             onClick={() => {
               if (modalidad === 'ahora') {
                 onClose();
-                onStartImmediateChat?.();
+                onStartImmediateChat?.({
+                  doctorName: docInfo.fullName,
+                  specialty: selectedSpecialty,
+                  reason: motivoChat.trim() || 'Consulta médica inmediata',
+                });
               } else {
                 setIsSuccessModalOpen(true);
               }

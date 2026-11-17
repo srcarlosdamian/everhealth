@@ -75,7 +75,9 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   const [isHelpCenterOpen, setIsHelpCenterOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isChatActivoOpen, setIsChatActivoOpen] = useState(false);
-  const [selectedChatDoctor, setSelectedChatDoctor] = useState('Dr. Bruno Peñas');
+  const [selectedChatDoctor, setSelectedChatDoctor] = useState('Dra. María Fernández');
+  const [chatDoctorSpecialty, setChatDoctorSpecialty] = useState('');
+  const [chatConsultationReason, setChatConsultationReason] = useState('');
   const [triggerAddFamiliar, setTriggerAddFamiliar] = useState(false);
   const [triggerAddMascota, setTriggerAddMascota] = useState(false);
 
@@ -719,8 +721,9 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                   setIsChatModalOpen(true);
                 }}
                 onOpenNowModal={(docName) => {
-                  setSelectedChatDoctor(docName || 'Dr. Bruno Peñas');
-                  setIsChatActivoOpen(true);
+                  setSelectedChatDoctor(docName || 'Dra. María Fernández');
+                  setChatModalTab('ahora');
+                  setIsChatModalOpen(true);
                 }}
               />
             )}
@@ -787,7 +790,13 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
         isOpen={isChatModalOpen}
         onClose={() => setIsChatModalOpen(false)}
         defaultTab={chatModalTab}
-        onStartImmediateChat={() => {
+        doctorName={selectedChatDoctor}
+        onStartImmediateChat={(payload) => {
+          if (payload) {
+            setSelectedChatDoctor(payload.doctorName);
+            setChatDoctorSpecialty(payload.specialty);
+            setChatConsultationReason(payload.reason);
+          }
           setIsChatModalOpen(false);
           setIsChatActivoOpen(true);
         }}
@@ -798,6 +807,8 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
         isOpen={isChatActivoOpen}
         onClose={() => setIsChatActivoOpen(false)}
         doctorName={selectedChatDoctor}
+        doctorSpecialty={chatDoctorSpecialty || 'Medicina General · Ever Health'}
+        initialReason={chatConsultationReason}
         onEndChat={() => {
           setIsChatActivoOpen(false);
           setCurrentView('historial-consultas');

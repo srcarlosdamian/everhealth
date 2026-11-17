@@ -14,6 +14,7 @@ interface ModalChatMedicoActivoProps {
   onClose: () => void;
   doctorName?: string;
   doctorSpecialty?: string;
+  initialReason?: string;
   onEndChat?: () => void;
 }
 
@@ -22,16 +23,36 @@ export const ModalChatMedicoActivo: React.FC<ModalChatMedicoActivoProps> = ({
   onClose,
   doctorName = 'Dr. Bruno Peñas',
   doctorSpecialty = 'Medicina General · Ever Health Doctor',
+  initialReason,
   onEndChat,
 }) => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 'm-1',
-      sender: 'doctor',
-      text: 'Hola Alejandro, soy el Dr. Bruno Peñas. Acabo de recibir tu solicitud de chat prioritario. Cuéntame, ¿qué síntomas o dudas presentas en este momento?',
-      time: '10:41',
-    },
-  ]);
+  const doctorInitials = (doctorName || 'Dr. Bruno Peñas')
+    .replace(/^Dr\.\s*|^Dra\.\s*/i, '')
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase())
+    .join('') || 'BP';
+
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  useEffect(() => {
+    if (isOpen) {
+      const nowTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const initialGreeting = initialReason
+        ? `Hola Alejandro, soy ${doctorName}. Acabo de recibir tu consulta respecto a: "${initialReason}". Cuéntame un poco más con calma para valorar tu situación.`
+        : `Hola Alejandro, soy ${doctorName}. Acabo de recibir tu solicitud de chat médico inmediato. Cuéntame, ¿qué síntomas o dudas presentas en este momento?`;
+
+      setMessages([
+        {
+          id: 'm-1',
+          sender: 'doctor',
+          text: initialGreeting,
+          time: nowTime,
+        },
+      ]);
+    }
+  }, [isOpen, doctorName, initialReason]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -98,7 +119,7 @@ export const ModalChatMedicoActivo: React.FC<ModalChatMedicoActivoProps> = ({
           <div className="flex items-center gap-3 min-w-0">
             <div className="relative">
               <div className="w-10 h-10 rounded-full bg-[#f1f5f9] text-black font-bold text-[14px] flex items-center justify-center border border-[#cbd5e1] shrink-0">
-                BP
+                {doctorInitials}
               </div>
               <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full" />
             </div>
