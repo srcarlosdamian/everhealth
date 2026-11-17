@@ -8,7 +8,6 @@ import {
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-  PawPrint,
   Edit2,
   Trash2,
   FileText,
@@ -228,12 +227,9 @@ export const Mascotas: React.FC = () => {
       {/* Header Row: Title, Description & Action Button */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-2">
-            <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
-              Mascotas
-            </h1>
-            <PawPrint className="w-6 h-6 text-[#64748b]" />
-          </div>
+          <h1 className="text-[28px] sm:text-[32px] leading-[38px] font-bold text-black tracking-tight">
+            Mascotas
+          </h1>
           <p className="text-[14px] leading-[22px] text-[#475569]">
             Gestiona la información veterinaria de tus mascotas y sus responsables familiares.
           </p>
