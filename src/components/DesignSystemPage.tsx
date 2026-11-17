@@ -65,6 +65,7 @@ import { HelpCenter } from './HelpCenter';
 import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
 import { TablePagination } from '../design-system/molecules/TablePagination';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
+import { LogoutConfirmModal } from '../design-system/molecules/LogoutConfirmModal';
 import { ModalActionGroup } from '../design-system/molecules/ModalActionGroup';
 import { Tabs } from '../design-system/molecules/Tabs';
 import { Toast, ToastVariant } from '../design-system/atoms/Toast';
@@ -170,6 +171,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [demoColor, setDemoColor] = useState('#d4a373');
   const [demoPaginationExpanded, setDemoPaginationExpanded] = useState(false);
   const [demoConfirmModalOpen, setDemoConfirmModalOpen] = useState(false);
+  const [demoLogoutModalOpen, setDemoLogoutModalOpen] = useState(false);
   const [demoActiveTab, setDemoActiveTab] = useState('datos-personales');
   const [demoFormModalOpen, setDemoFormModalOpen] = useState(false);
   const [demoHelpCenterOpen, setDemoHelpCenterOpen] = useState(false);
@@ -2766,6 +2768,25 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </StageBlock>
 
                 <StageBlock
+                  title="Modal Minimalista de Cierre de Sesión"
+                  componentTag="<LogoutConfirmModal />"
+                  usedIn={['Sidebar', 'HomeDashboard (Header & Mobile Drawer)']}
+                  description="Modal minimalista de confirmación de salida. Diseño ligero con título, descripción en negro y botones homologados CANCELAR / CERRAR SESIÓN."
+                >
+                  <div className="flex flex-col items-start gap-4">
+                    <LogoutConfirmModal
+                      inlinePreview
+                      isOpen={true}
+                      onCancel={() => {}}
+                      onConfirm={() => setDemoLogoutModalOpen(true)}
+                    />
+                    <Button variant="primary" onClick={() => setDemoLogoutModalOpen(true)}>
+                      Abrir modal de cierre de sesión en vivo
+                    </Button>
+                  </div>
+                </StageBlock>
+
+                <StageBlock
                   title="Modal de Formulario"
                   componentTag="<TextInput /> + <Dropdown /> + <Button />"
                   usedIn={['Familiares', 'Mascotas']}
@@ -2938,6 +2959,13 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
         entityName="Elena Ruiz Morales"
         onCancel={() => setDemoConfirmModalOpen(false)}
         onConfirm={() => setDemoConfirmModalOpen(false)}
+      />
+
+      {/* Modal Interactivo de Demostración: LogoutConfirmModal */}
+      <LogoutConfirmModal
+        isOpen={demoLogoutModalOpen}
+        onCancel={() => setDemoLogoutModalOpen(false)}
+        onConfirm={() => setDemoLogoutModalOpen(false)}
       />
 
       {/* Modal Interactivo de Demostración: Formulario usando TextInput y Dropdown reales */}

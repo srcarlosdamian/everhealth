@@ -4,6 +4,7 @@ import { EVR100Home } from './EVR100Home';
 import { SolicitarChat } from './SolicitarChat';
 import { CuestionarioMedico } from './CuestionarioMedico';
 import { DesignSystemPage } from './DesignSystemPage';
+import { LogoutConfirmModal } from '../design-system/molecules/LogoutConfirmModal';
 import { ModalVideoConsulta } from './ModalVideoConsulta';
 import { ModalSolicitarChat } from './ModalSolicitarChat';
 import { ModalDocumentos } from './ModalDocumentos';
@@ -71,6 +72,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   const [isDocsModalOpen, setIsDocsModalOpen] = useState(false);
   const [isBiometriaModalOpen, setIsBiometriaModalOpen] = useState(false);
   const [isHelpCenterOpen, setIsHelpCenterOpen] = useState(false);
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   // Top Header Notifications State & Dropdown
   const [isQuickActionsOpen, setIsQuickActionsOpen] = useState(false);
@@ -144,7 +146,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
         onOpenVideoModal={() => setIsVideoModalOpen(true)}
         onOpenBiometriaModal={() => setIsBiometriaModalOpen(true)}
         userName={userName}
-        onLogout={onLogout}
+        onLogout={() => setIsLogoutModalOpen(true)}
       />
 
       {/* Main Content Area */}
@@ -428,7 +430,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                     type="button"
                     onClick={() => {
                       setUserMenuOpen(false);
-                      onLogout();
+                      setIsLogoutModalOpen(true);
                     }}
                     className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] flex items-center gap-3 text-[16px] font-normal text-black text-left transition-colors cursor-pointer"
                   >
@@ -674,7 +676,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                     type="button"
                     onClick={() => {
                       setMobileDrawerOpen(false);
-                      onLogout();
+                      setIsLogoutModalOpen(true);
                     }}
                     className="h-[34px] px-3 rounded-[6px] border border-[#cbd5e1] hover:border-[#ef4444] text-[12px] font-bold text-[#ef4444] flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                   >
@@ -792,6 +794,16 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
       <HelpCenter
         isOpen={isHelpCenterOpen}
         onClose={() => setIsHelpCenterOpen(false)}
+      />
+
+      {/* Modal Minimalista de Confirmación de Cierre de Sesión */}
+      <LogoutConfirmModal
+        isOpen={isLogoutModalOpen}
+        onCancel={() => setIsLogoutModalOpen(false)}
+        onConfirm={() => {
+          setIsLogoutModalOpen(false);
+          onLogout();
+        }}
       />
     </div>
   );
