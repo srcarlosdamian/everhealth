@@ -212,9 +212,8 @@ export const ModalConversacionChat: React.FC<ModalConversacionChatProps> = ({
                   if (onViewReport) onViewReport();
                   else alert('Descargando informe médico en PDF...');
                 }}
-                className="h-[38px] px-4 text-[13px] font-bold uppercase rounded-[8px]"
               >
-                <FileText className="w-4 h-4 text-[#d50475]" />
+                <FileText className="w-4 h-4 text-[#64748b]" />
                 <span>VER INFORME MÉDICO</span>
               </Button>
             )}
@@ -222,7 +221,6 @@ export const ModalConversacionChat: React.FC<ModalConversacionChatProps> = ({
             <Button
               variant="primary"
               onClick={onClose}
-              className="h-[38px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
             >
               CERRAR
             </Button>

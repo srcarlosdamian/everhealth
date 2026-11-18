@@ -190,6 +190,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [demoButtonsWithIcons, setDemoButtonsWithIcons] = useState(true);
   const [demoForceTooltips, setDemoForceTooltips] = useState(false);
   const [demoChatActivoOpen, setDemoChatActivoOpen] = useState(false);
+  const [demoConsultaRowState, setDemoConsultaRowState] = useState<'proceso' | 'terminada' | 'pendiente'>('proceso');
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
@@ -2100,59 +2101,134 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                 {/* Organismo 2: Fila de Consulta */}
                 <StageBlock
-                  title="Fila de Consulta"
+                  title="Fila de Consulta Médica (Historial & Operativa)"
                   componentTag="<Badge /> + <Button />"
-                  usedIn={['Historial de Consultas']}
-                  description="Fila de tabla con hora, profesional, badge de estado y panel desplegable."
+                  usedIn={['Historial de Consultas', 'Inicio (EVR100Home)']}
+                  description="Fila de consulta médica con desglose reticular unificado (hora, especialidad, paciente, profesional y badge de estado). Integra estrictamente los botones operativos y variantes homologados idénticos a los átomos del sistema y botones estándar de la aplicación: altura 40px, esquinas 8px, texto 13px bold en mayúsculas e iconos de 16px."
                 >
-                  <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-hidden flex flex-col">
-                    <div className="w-full py-4 px-4 sm:px-6 flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-white">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 flex-1 items-center gap-4 lg:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-[#e2e8f0]">
-                        <div className="flex flex-col pr-2">
-                          <span className="text-[16px] font-bold text-black leading-tight">10:40</span>
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b] mt-0.5">27 OCT</span>
-                        </div>
-                        <div className="flex flex-col sm:pl-4">
-                          <span className="text-[15px] font-bold text-black leading-tight">Videoconsulta</span>
-                          <span className="text-[12px] text-[#64748b] mt-0.5">Medicina General · Ever Health</span>
-                        </div>
-                        <div className="flex flex-col sm:pl-4">
-                          <span className="text-[15px] font-bold text-black leading-tight">Alejandro Navarro</span>
-                          <span className="text-[12px] text-[#64748b] mt-0.5">Titular · contact@carlosdamian.com</span>
-                        </div>
-                        <div className="flex flex-col sm:pl-4">
-                          <span className="text-[15px] font-bold text-black leading-tight">Dr. Bruno Peñas</span>
-                          <span className="text-[12px] text-[#64748b] mt-0.5">Medicina General · Ever Health Doctor</span>
+                  <div className="flex flex-col gap-4">
+                    {/* Selector de estado interactivo para validar los botones operativos */}
+                    <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-[#f8fafc] border border-[#e2e8f0]">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                          Estado en demostración:
+                        </span>
+                        <div className="flex items-center gap-1.5">
+                          {(
+                            [
+                              { id: 'proceso', label: '1. En proceso (Activa)' },
+                              { id: 'terminada', label: '2. Terminada (Historial)' },
+                              { id: 'pendiente', label: '3. Pendiente (Inactiva)' },
+                            ] as const
+                          ).map((tab) => (
+                            <button
+                              key={tab.id}
+                              type="button"
+                              onClick={() => setDemoConsultaRowState(tab.id)}
+                              className={`px-3 py-1 text-[12px] font-bold uppercase rounded-[6px] transition-colors cursor-pointer ${
+                                demoConsultaRowState === tab.id
+                                  ? 'bg-[#d50475] text-white shadow-xs'
+                                  : 'bg-white border border-[#cbd5e1] text-black hover:bg-[#f1f5f9]'
+                              }`}
+                            >
+                              {tab.label}
+                            </button>
+                          ))}
                         </div>
                       </div>
-                      <div className="flex items-center justify-end gap-4 shrink-0">
-                        <Badge variant="limitada" tooltipText="De recomendación: Pendiente">Pendiente</Badge>
-                        <button
-                          type="button"
-                          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer focus:outline-none focus:ring-0"
-                        >
-                          <ChevronUp className="w-5 h-5 text-black" />
-                        </button>
-                      </div>
+                      <span className="text-[11px] text-[#64748b]">
+                        ✓ Altura 40px · Texto 13px bold mayúsculas · Iconos 16px
+                      </span>
                     </div>
-                    <div className="px-4 sm:px-6 pb-5 pt-2 flex flex-col gap-4 border-t border-[#f1f5f9] bg-white">
-                      <div className="flex flex-col gap-1">
-                        <span className="text-[12px] font-normal text-[#64748b]">Motivo de la consulta:</span>
-                        <p className="text-[14px] text-black font-normal">Consulta sobre dudas de medicación y evolución de síntomas leves.</p>
-                      </div>
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#f8fafc]">
-                        <div className="flex flex-wrap items-center gap-2.5">
-                          <Button variant="consulta-primary">Acceder a la videoconsulta</Button>
-                          <Button variant="consulta-outline">
-                            <MessageSquare className="w-4 h-4 text-[#64748b]" />
-                            <span>Ver conversación</span>
-                          </Button>
-                          <Button variant="consulta-outline">
-                            <FileText className="w-4 h-4 text-[#64748b]" />
-                            <span>Ver informe médico</span>
-                          </Button>
+
+                    {/* Contenedor de la fila */}
+                    <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-hidden flex flex-col">
+                      <div className="w-full py-4 px-4 sm:px-6 flex flex-col lg:flex-row lg:items-center justify-between gap-3 bg-white">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 flex-1 items-center gap-4 lg:gap-6 divide-y sm:divide-y-0 sm:divide-x divide-[#e2e8f0]">
+                          <div className="flex flex-col pr-2">
+                            <span className="text-[16px] font-bold text-black leading-tight">10:40</span>
+                            <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b] mt-0.5">27 OCT</span>
+                          </div>
+                          <div className="flex flex-col sm:pl-4">
+                            <span className="text-[15px] font-bold text-black leading-tight">Videoconsulta</span>
+                            <span className="text-[12px] text-[#64748b] mt-0.5">Medicina General · Ever Health</span>
+                          </div>
+                          <div className="flex flex-col sm:pl-4">
+                            <span className="text-[15px] font-bold text-black leading-tight">Alejandro Navarro</span>
+                            <span className="text-[12px] text-[#64748b] mt-0.5">Titular · contact@carlosdamian.com</span>
+                          </div>
+                          <div className="flex flex-col sm:pl-4">
+                            <span className="text-[15px] font-bold text-black leading-tight">Dr. Bruno Peñas</span>
+                            <span className="text-[12px] text-[#64748b] mt-0.5">Medicina General · Ever Health Doctor</span>
+                          </div>
                         </div>
-                        <Button variant="consulta-outline">Cancelar consulta</Button>
+                        <div className="flex items-center justify-end gap-4 shrink-0">
+                          {demoConsultaRowState === 'proceso' && (
+                            <Badge variant="activa" tooltipText="Consulta en curso">En proceso</Badge>
+                          )}
+                          {demoConsultaRowState === 'terminada' && (
+                            <Badge variant="disponible">Terminada</Badge>
+                          )}
+                          {demoConsultaRowState === 'pendiente' && (
+                            <Badge variant="limitada" tooltipText="De recomendación: Pendiente">Pendiente</Badge>
+                          )}
+                          <button
+                            type="button"
+                            className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer focus:outline-none focus:ring-0"
+                          >
+                            <ChevronUp className="w-5 h-5 text-black" />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Desplegable de acciones homologadas */}
+                      <div className="px-4 sm:px-6 pb-5 pt-2 flex flex-col gap-4 border-t border-[#f1f5f9] bg-white">
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[12px] font-normal text-[#64748b]">Motivo de la consulta:</span>
+                          <p className="text-[14px] text-black font-normal">Consulta sobre dudas de medicación y evolución de síntomas leves.</p>
+                        </div>
+
+                        {/* Botones de acción homologados según estado */}
+                        <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#f8fafc]">
+                          <div className="flex flex-wrap items-center gap-2.5">
+                            {demoConsultaRowState === 'proceso' && (
+                              <Button variant="consulta-primary">
+                                <Video className="w-4 h-4 text-white" />
+                                <span>ACCEDER A LA CONSULTA</span>
+                              </Button>
+                            )}
+
+                            {demoConsultaRowState === 'terminada' && (
+                              <>
+                                <Button variant="consulta-outline">
+                                  <MessageSquare className="w-4 h-4 text-[#64748b]" />
+                                  <span>VER CONVERSACIÓN</span>
+                                </Button>
+                                <Button variant="consulta-outline">
+                                  <FileText className="w-4 h-4 text-[#64748b]" />
+                                  <span>VER INFORME MÉDICO</span>
+                                </Button>
+                              </>
+                            )}
+
+                            {demoConsultaRowState === 'pendiente' && (
+                              <Button
+                                variant="consulta-inactive"
+                                tooltipText="Activo 15 minutos antes de la cita"
+                              >
+                                <Video className="w-4 h-4 text-[#94a3b8]" />
+                                <span>ACCEDER A LA SALA</span>
+                              </Button>
+                            )}
+                          </div>
+
+                          {(demoConsultaRowState === 'proceso' || demoConsultaRowState === 'pendiente') && (
+                            <Button variant="consulta-outline">
+                              <X className="w-4 h-4 text-[#64748b]" />
+                              <span>CANCELAR CONSULTA</span>
+                            </Button>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>

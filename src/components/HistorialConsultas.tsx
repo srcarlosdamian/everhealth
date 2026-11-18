@@ -7,6 +7,7 @@ import {
   Video,
   MessageSquare,
   FileText,
+  X,
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { Badge, BadgeVariant } from '../design-system/atoms/Badge';
@@ -321,10 +322,9 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
           <Button
             variant="primary"
             onClick={() => setCrearMenuOpen(!crearMenuOpen)}
-            className="h-[42px] px-5 shadow-xs"
           >
-            <Plus className="w-[18px] h-[18px] text-white stroke-[2.5]" />
-            <span>Crea nueva consulta</span>
+            <Plus className="w-4 h-4 text-white" />
+            <span>CREAR NUEVA CONSULTA</span>
           </Button>
 
           {crearMenuOpen && (
@@ -511,16 +511,21 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                       </p>
                     </div>
 
-                    {/* Botones de acción según el estado */}
+                    {/* Botones de acción homologados según el estado */}
                     <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#f8fafc]">
                       <div className="flex flex-wrap items-center gap-2.5">
                         {/* 1. CASO PENDIENTE (No ha sucedido): Inactivo hasta 15 min antes con tooltip en hover */}
                         {c.status.startsWith('Pendiente') && (
                           <Button
-                            variant="inactive"
+                            variant="consulta-inactive"
                             tooltipText="Activo 15 minutos antes de la cita"
                           >
-                            {c.type === 'video' ? 'Acceder a la videoconsulta' : 'Acceder al chat'}
+                            {c.type === 'video' ? (
+                              <Video className="w-4 h-4 text-[#94a3b8] shrink-0" />
+                            ) : (
+                              <MessageSquare className="w-4 h-4 text-[#94a3b8] shrink-0" />
+                            )}
+                            <span>{c.type === 'video' ? 'ACCEDER A LA SALA' : 'ACCEDER AL CHAT'}</span>
                           </Button>
                         )}
 
@@ -533,7 +538,12 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                               else onOpenChatModal?.();
                             }}
                           >
-                            {c.type === 'video' ? 'Acceder a la videoconsulta' : 'Acceder al chat'}
+                            {c.type === 'video' ? (
+                              <Video className="w-4 h-4 text-white shrink-0" />
+                            ) : (
+                              <MessageSquare className="w-4 h-4 text-white shrink-0" />
+                            )}
+                            <span>{c.type === 'video' ? 'ACCEDER A LA VIDEOCONSULTA' : 'ACCEDER AL CHAT'}</span>
                           </Button>
                         )}
 
@@ -544,8 +554,8 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                               variant="consulta-outline"
                               onClick={() => setSelectedChatConsulta(c)}
                             >
-                              <MessageSquare className="w-4 h-4 text-[#64748b]" />
-                              <span>Ver conversación</span>
+                              <MessageSquare className="w-4 h-4 text-[#64748b] shrink-0" />
+                              <span>VER CONVERSACIÓN</span>
                             </Button>
 
                             {c.hasInforme && (
@@ -553,8 +563,8 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                                 variant="consulta-outline"
                                 onClick={() => onOpenDocumentsModal?.()}
                               >
-                                <FileText className="w-4 h-4 text-[#64748b]" />
-                                <span>Ver informe médico</span>
+                                <FileText className="w-4 h-4 text-[#64748b] shrink-0" />
+                                <span>VER INFORME MÉDICO</span>
                               </Button>
                             )}
                           </>
@@ -567,7 +577,8 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                           variant="consulta-outline"
                           onClick={() => setCancellingConsultaId(c.id)}
                         >
-                          Cancelar consulta
+                          <X className="w-4 h-4 text-[#64748b] shrink-0" />
+                          <span>CANCELAR CONSULTA</span>
                         </Button>
                       )}
                     </div>

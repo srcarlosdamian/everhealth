@@ -294,12 +294,14 @@ export const EVR100Home: React.FC<EVR100HomeProps> = ({
               </div>
 
               {item.isActive ? (
-                <Button variant="outline" onClick={onOpenVideoModal}>
-                  {item.actionText}
+                <Button variant="consulta-primary" onClick={onOpenVideoModal}>
+                  <Video className="w-4 h-4 text-white shrink-0" />
+                  <span>ENTRAR A LA SALA</span>
                 </Button>
               ) : (
-                <Button variant="inactive" tooltipText="Activo 15 minutos antes">
-                  {item.actionText}
+                <Button variant="consulta-inactive" tooltipText="Activo 15 minutos antes de la cita">
+                  <Video className="w-4 h-4 text-[#94a3b8] shrink-0" />
+                  <span>{item.actionText}</span>
                 </Button>
               )}
             </div>
