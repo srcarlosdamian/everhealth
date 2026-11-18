@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { X, Info, Check } from 'lucide-react';
+import { X, Info } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { TextInput } from '../design-system/atoms/TextInput';
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { Checkbox } from '../design-system/atoms/Checkbox';
+import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 
 interface ModalEditarHistoriaClinicaProps {
   isOpen: boolean;
@@ -117,29 +118,6 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
     onClose();
   };
 
-  const renderSegmentedToggle = (value: 'si' | 'no', onChange: (val: 'si' | 'no') => void) => (
-    <div className="inline-flex rounded-[8px] border border-[#cbd5e1] p-0.5 bg-white">
-      <button
-        type="button"
-        onClick={() => onChange('si')}
-        className={`px-6 py-1.5 rounded-[6px] text-[13px] font-bold transition-all cursor-pointer ${
-          value === 'si' ? 'bg-[#d50475] text-white shadow-xs' : 'text-[#64748b] hover:text-black'
-        }`}
-      >
-        Sí
-      </button>
-      <button
-        type="button"
-        onClick={() => onChange('no')}
-        className={`px-6 py-1.5 rounded-[6px] text-[13px] font-bold transition-all cursor-pointer ${
-          value === 'no' ? 'bg-[#d50475] text-white shadow-xs' : 'text-[#64748b] hover:text-black'
-        }`}
-      >
-        No
-      </button>
-    </div>
-  );
-
   return (
     <div
       onClick={onClose}
@@ -147,7 +125,7 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[700px] max-h-[90vh] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
+        className="w-full max-w-[700px] min-h-[520px] max-h-[90vh] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
       >
         {/* ================= HEADER DEL MODAL EDITABLE ================= */}
         <div className="px-6 py-4 border-b border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
@@ -204,12 +182,12 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
                   placeholder="175"
                 />
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[13px] font-normal text-black">IMC (Calculado)</label>
+                  <label className="text-[14px] font-normal text-black leading-tight">IMC (Calculado)</label>
                   <input
                     type="text"
                     readOnly
                     value={`${calculateIMC()} (Normopeso)`}
-                    className="h-[40px] px-3.5 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] text-[13px] text-black font-bold"
+                    className="w-full h-[44px] px-4 rounded-[8px] border border-[#cbd5e1] bg-[#f8fafc] text-[15px] text-black font-bold focus:outline-none"
                   />
                 </div>
               </div>
@@ -253,43 +231,70 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
           {/* SECCIÓN 2: ALERGIAS */}
           {sectionId === 'alergias' && (
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 <label className="text-[14px] font-bold text-black">
                   ¿Tienes alergia a algún medicamento o alimento?
                 </label>
-                {renderSegmentedToggle(hasAlergias, setHasAlergias)}
+                <div>
+                  <SegmentedToggle
+                    value={hasAlergias}
+                    onChange={(val) => setHasAlergias(val as 'si' | 'no')}
+                  />
+                </div>
               </div>
 
-              {hasAlergias === 'si' && (
+              {hasAlergias === 'si' ? (
                 <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[13px] font-medium text-black">Alergias a medicamentos</label>
+                    <label className="text-[14px] font-normal text-black leading-tight">
+                      Alergias a medicamentos
+                    </label>
                     <textarea
                       rows={2}
                       value={alergiasMedicamentos}
                       onChange={(e) => setAlergiasMedicamentos(e.target.value)}
-                      className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-black"
+                      placeholder="Indica medicamentos que te causen reacción..."
+                      className="w-full p-3.5 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black placeholder:text-[#94a3b8] focus:outline-none focus:border-black transition-colors font-normal leading-relaxed"
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[13px] font-medium text-black">Alergias alimentarias</label>
+                    <label className="text-[14px] font-normal text-black leading-tight">
+                      Alergias alimentarias
+                    </label>
                     <textarea
                       rows={2}
                       value={alergiasAlimentarias}
                       onChange={(e) => setAlergiasAlimentarias(e.target.value)}
-                      className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-black"
+                      placeholder="Indica alimentos que te causen reacción..."
+                      className="w-full p-3.5 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black placeholder:text-[#94a3b8] focus:outline-none focus:border-black transition-colors font-normal leading-relaxed"
                     />
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[13px] font-medium text-black">Otras alergias (polen, ácaros, etc.)</label>
+                    <label className="text-[14px] font-normal text-black leading-tight">
+                      Otras alergias (polen, ácaros, etc.)
+                    </label>
                     <textarea
                       rows={2}
                       value={otrasAlergias}
                       onChange={(e) => setOtrasAlergias(e.target.value)}
-                      className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-black"
+                      placeholder="Indica otras sustancias o agentes ambientales..."
+                      className="w-full p-3.5 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black placeholder:text-[#94a3b8] focus:outline-none focus:border-black transition-colors font-normal leading-relaxed"
                     />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
+                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
+                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
+                    <div className="flex flex-col gap-1">
+                      <p className="font-bold text-black text-[14px]">Sin alergias conocidas</p>
+                      <p className="text-[13px] text-[#64748b] leading-relaxed">
+                        Has indicado que no presentas alergias a medicamentos, alimentos ni a otros agentes ambientales.
+                        Al guardar cambios, tu historial clínico reflejará que no tienes alergias conocidas.
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}
@@ -299,71 +304,111 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
           {/* SECCIÓN 3: ENFERMEDADES */}
           {sectionId === 'enfermedades' && (
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 <label className="text-[14px] font-bold text-black">
                   ¿Tienes o has tenido alguna enfermedad importante?
                 </label>
-                {renderSegmentedToggle(hasEnfermedades, setHasEnfermedades)}
+                <div>
+                  <SegmentedToggle
+                    value={hasEnfermedades}
+                    onChange={(val) => setHasEnfermedades(val as 'si' | 'no')}
+                  />
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-[#f1f5f9]">
-                {[
-                  { title: 'Enfermedades cardíacas, pulmonares o vasculares', desc: 'Indica el diagnóstico y el tratamiento' },
-                  { title: 'Enfermedades metabólicas o digestivas', desc: 'Indica el diagnóstico y el tratamiento' },
-                  { title: 'Enfermedades reumatológicas, óseas o musculares', desc: 'Zonas afectadas y evolución' },
-                  { title: 'Enfermedades del sistema nervioso, los ojos o el oído', desc: 'Síntomas principales' },
-                  { title: 'Enfermedades hematológicas', desc: 'Tratamiento recibido de la sangre' },
-                  { title: 'Enfermedades renales o urológicas', desc: 'Riñones o vías urinarias' },
-                  { title: 'Salud mental', desc: 'Tratamiento psicológico o psiquiátrico' },
-                  { title: 'Enfermedades infecciosas', desc: 'Infección relevante pasada o actual' },
-                  { title: 'Enfermedades dermatológicas', desc: 'Enfermedad de la piel' },
-                  { title: 'Cáncer', desc: 'Tipo y fecha aproximada del diagnóstico' },
-                ].map((item, idx) => {
-                  const isChecked = enfermedadesSeleccionadas.includes(item.title);
-                  return (
-                    <div
-                      key={idx}
-                      onClick={() => {
-                        setEnfermedadesSeleccionadas((prev) =>
-                          prev.includes(item.title) ? prev.filter((i) => i !== item.title) : [...prev, item.title]
-                        );
-                      }}
-                      className={`p-3 rounded-none border flex items-start gap-3 cursor-pointer select-none transition-colors ${
-                        isChecked ? 'border-black bg-[#f8fafc]' : 'border-[#e2e8f0] bg-white hover:bg-[#fafafa]'
-                      }`}
-                    >
-                      <Checkbox checked={isChecked} size="sm" className="mt-0.5" />
-                      <div className="flex flex-col">
-                        <span className="text-[13px] font-bold text-black leading-snug">{item.title}</span>
-                        <span className="text-[11px] text-[#64748b] leading-tight mt-0.5">{item.desc}</span>
+              {hasEnfermedades === 'si' ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-[#f1f5f9]">
+                  {[
+                    { title: 'Enfermedades cardíacas, pulmonares o vasculares', desc: 'Indica el diagnóstico y el tratamiento' },
+                    { title: 'Enfermedades metabólicas o digestivas', desc: 'Indica el diagnóstico y el tratamiento' },
+                    { title: 'Enfermedades reumatológicas, óseas o musculares', desc: 'Zonas afectadas y evolución' },
+                    { title: 'Enfermedades del sistema nervioso, los ojos o el oído', desc: 'Síntomas principales' },
+                    { title: 'Enfermedades hematológicas', desc: 'Tratamiento recibido de la sangre' },
+                    { title: 'Enfermedades renales o urológicas', desc: 'Riñones o vías urinarias' },
+                    { title: 'Salud mental', desc: 'Tratamiento psicológico o psiquiátrico' },
+                    { title: 'Enfermedades infecciosas', desc: 'Infección relevante pasada o actual' },
+                    { title: 'Enfermedades dermatológicas', desc: 'Enfermedad de la piel' },
+                    { title: 'Cáncer', desc: 'Tipo y fecha aproximada del diagnóstico' },
+                  ].map((item, idx) => {
+                    const isChecked = enfermedadesSeleccionadas.includes(item.title);
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => {
+                          setEnfermedadesSeleccionadas((prev) =>
+                            prev.includes(item.title) ? prev.filter((i) => i !== item.title) : [...prev, item.title]
+                          );
+                        }}
+                        className={`p-3.5 rounded-none border flex items-start gap-3 cursor-pointer select-none transition-all ${
+                          isChecked
+                            ? 'border-[#cbd5e1] bg-[#f8fafc] shadow-xs'
+                            : 'border-[#e2e8f0] bg-white hover:border-[#cbd5e1] hover:bg-[#f8fafc]'
+                        }`}
+                      >
+                        <Checkbox checked={isChecked} size="sm" className="mt-0.5" />
+                        <div className="flex flex-col">
+                          <span className="text-[13px] font-bold text-black leading-snug">{item.title}</span>
+                          <span className="text-[11px] text-[#64748b] leading-tight mt-0.5">{item.desc}</span>
+                        </div>
                       </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
+                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
+                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
+                    <div className="flex flex-col gap-1">
+                      <p className="font-bold text-black text-[14px]">Sin enfermedades crónicas conocidas</p>
+                      <p className="text-[13px] text-[#64748b] leading-relaxed">
+                        Has indicado que no presentas antecedentes patológicos relevantes. Tu historial clínico se mantendrá actualizado sin antecedentes médicos personales significativos.
+                      </p>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
           {/* SECCIÓN 4: QUIRÚRGICAS */}
           {sectionId === 'quirurgicas' && (
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 <label className="text-[14px] font-bold text-black">
                   ¿Te han realizado alguna intervención quirúrgica?
                 </label>
-                {renderSegmentedToggle(hasCirugias, setHasCirugias)}
+                <div>
+                  <SegmentedToggle
+                    value={hasCirugias}
+                    onChange={(val) => setHasCirugias(val as 'si' | 'no')}
+                  />
+                </div>
               </div>
 
-              {hasCirugias === 'si' && (
+              {hasCirugias === 'si' ? (
                 <div className="flex flex-col gap-1.5 pt-2 border-t border-[#f1f5f9]">
-                  <label className="text-[13px] font-medium text-black">¿Qué intervenciones quirúrgicas te han realizado?</label>
+                  <label className="text-[14px] font-normal text-black leading-tight">
+                    ¿Qué intervenciones quirúrgicas te han realizado?
+                  </label>
                   <textarea
                     rows={4}
                     value={cirugiasTexto}
                     onChange={(e) => setCirugiasTexto(e.target.value)}
                     placeholder="Indica el tipo de intervención y la fecha aproximada."
-                    className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-black"
+                    className="w-full p-3.5 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black placeholder:text-[#94a3b8] focus:outline-none focus:border-black transition-colors font-normal leading-relaxed"
                   />
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
+                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
+                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
+                    <div className="flex flex-col gap-1">
+                      <p className="font-bold text-black text-[14px]">Sin antecedentes quirúrgicos</p>
+                      <p className="text-[13px] text-[#64748b] leading-relaxed">
+                        Has indicado que no te han realizado cirugías previas relevantes.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -372,23 +417,42 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
           {/* SECCIÓN 5: MEDICAMENTOS */}
           {sectionId === 'medicamentos' && (
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 <label className="text-[14px] font-bold text-black">
                   ¿Tomas algún medicamento de forma habitual?
                 </label>
-                {renderSegmentedToggle(hasMedicamentos, setHasMedicamentos)}
+                <div>
+                  <SegmentedToggle
+                    value={hasMedicamentos}
+                    onChange={(val) => setHasMedicamentos(val as 'si' | 'no')}
+                  />
+                </div>
               </div>
 
-              {hasMedicamentos === 'si' && (
+              {hasMedicamentos === 'si' ? (
                 <div className="flex flex-col gap-1.5 pt-2 border-t border-[#f1f5f9]">
-                  <label className="text-[13px] font-medium text-black">¿Qué medicamentos tomas?</label>
+                  <label className="text-[14px] font-normal text-black leading-tight">
+                    ¿Qué medicamentos tomas?
+                  </label>
                   <textarea
                     rows={4}
                     value={medicamentosTexto}
                     onChange={(e) => setMedicamentosTexto(e.target.value)}
                     placeholder="Indica el nombre de cada medicamento, la dosis y la frecuencia."
-                    className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-black"
+                    className="w-full p-3.5 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black placeholder:text-[#94a3b8] focus:outline-none focus:border-black transition-colors font-normal leading-relaxed"
                   />
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
+                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
+                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
+                    <div className="flex flex-col gap-1">
+                      <p className="font-bold text-black text-[14px]">Sin tratamiento farmacológico habitual</p>
+                      <p className="text-[13px] text-[#64748b] leading-relaxed">
+                        Has indicado que actualmente no tomas medicamentos crónicos ni tratamientos continuados.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -397,46 +461,67 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
           {/* SECCIÓN 6: SUSTANCIAS TÓXICAS */}
           {sectionId === 'sustancias' && (
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 <label className="text-[14px] font-bold text-black">
                   ¿Consumes alcohol, tabaco u otras drogas?
                 </label>
-                {renderSegmentedToggle(hasSustancias, setHasSustancias)}
+                <div>
+                  <SegmentedToggle
+                    value={hasSustancias}
+                    onChange={(val) => setHasSustancias(val as 'si' | 'no')}
+                  />
+                </div>
               </div>
 
-              {hasSustancias === 'si' && (
+              {hasSustancias === 'si' ? (
                 <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {['Alcohol', 'Tabaco', 'Otras drogas'].map((item) => {
                       const isChecked = selectedSustancias.includes(item);
                       return (
-                        <label
+                        <div
                           key={item}
                           onClick={() => {
                             setSelectedSustancias((prev) =>
                               prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
                             );
                           }}
-                          className={`p-3 rounded-none border flex items-center gap-2.5 cursor-pointer text-[13px] text-black font-medium transition-colors select-none ${
-                            isChecked ? 'border-black bg-[#f8fafc]' : 'border-[#e2e8f0] bg-white'
+                          className={`p-3.5 rounded-none border flex items-center gap-2.5 cursor-pointer text-[13px] text-black font-medium transition-all select-none ${
+                            isChecked
+                              ? 'border-[#cbd5e1] bg-[#f8fafc] shadow-xs'
+                              : 'border-[#e2e8f0] bg-white hover:border-[#cbd5e1] hover:bg-[#f8fafc]'
                           }`}
                         >
                           <Checkbox checked={isChecked} size="sm" />
                           <span>{item}</span>
-                        </label>
+                        </div>
                       );
                     })}
                   </div>
 
                   <div className="flex flex-col gap-1.5">
-                    <label className="text-[13px] font-medium text-black">¿Qué cantidad consumes y con qué frecuencia?</label>
+                    <label className="text-[14px] font-normal text-black leading-tight">
+                      ¿Qué cantidad consumes y con qué frecuencia?
+                    </label>
                     <textarea
                       rows={3}
                       value={sustanciasTexto}
                       onChange={(e) => setSustanciasTexto(e.target.value)}
                       placeholder="Indica la cantidad y la frecuencia de consumo."
-                      className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-black"
+                      className="w-full p-3.5 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black placeholder:text-[#94a3b8] focus:outline-none focus:border-black transition-colors font-normal leading-relaxed"
                     />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
+                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
+                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
+                    <div className="flex flex-col gap-1">
+                      <p className="font-bold text-black text-[14px]">Sin consumo de sustancias tóxicas</p>
+                      <p className="text-[13px] text-[#64748b] leading-relaxed">
+                        Has indicado que no consumes tabaco, alcohol ni otras sustancias tóxicas.
+                      </p>
+                    </div>
                   </div>
                 </div>
               )}
@@ -446,14 +531,19 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
           {/* SECCIÓN 7: ALIMENTACIÓN */}
           {sectionId === 'alimentacion' && (
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 <label className="text-[14px] font-bold text-black">
                   ¿Consideras que tienes alguna dificultad relacionada con tu alimentación?
                 </label>
-                {renderSegmentedToggle(hasAlimentacion, setHasAlimentacion)}
+                <div>
+                  <SegmentedToggle
+                    value={hasAlimentacion}
+                    onChange={(val) => setHasAlimentacion(val as 'si' | 'no')}
+                  />
+                </div>
               </div>
 
-              <div className="max-w-[480px]">
+              <div className="max-w-[480px] pt-2 border-t border-[#f1f5f9]">
                 <Dropdown
                   label="¿Cuál es tu situación habitual?"
                   value={situacionAlimentacion}
@@ -472,23 +562,44 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
           {/* SECCIÓN 8: PSICOLOGÍA / BIENESTAR EMOCIONAL */}
           {sectionId === 'psicologia' && (
             <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2.5">
                 <label className="text-[14px] font-bold text-black">
                   ¿Has vivido alguna situación difícil de superar en los últimos dos años?
                 </label>
-                {renderSegmentedToggle(hasEmocional, setHasEmocional)}
+                <div>
+                  <SegmentedToggle
+                    value={hasEmocional}
+                    onChange={(val) => setHasEmocional(val as 'si' | 'no')}
+                  />
+                </div>
               </div>
 
-              <div className="flex flex-col gap-1.5 pt-2 border-t border-[#f1f5f9]">
-                <label className="text-[13px] font-medium text-black">Detalles de bienestar emocional y descanso</label>
-                <textarea
-                  rows={4}
-                  value={psicologiaTexto}
-                  onChange={(e) => setPsicologiaTexto(e.target.value)}
-                  placeholder="Describe cómo te has sentido a nivel anímico o de estrés."
-                  className="w-full p-3 rounded-[8px] border border-[#cbd5e1] text-[13px] text-black focus:outline-none focus:border-black"
-                />
-              </div>
+              {hasEmocional === 'si' ? (
+                <div className="flex flex-col gap-1.5 pt-2 border-t border-[#f1f5f9]">
+                  <label className="text-[14px] font-normal text-black leading-tight">
+                    Detalles de bienestar emocional y descanso
+                  </label>
+                  <textarea
+                    rows={4}
+                    value={psicologiaTexto}
+                    onChange={(e) => setPsicologiaTexto(e.target.value)}
+                    placeholder="Describe cómo te has sentido a nivel anímico o de estrés."
+                    className="w-full p-3.5 rounded-[8px] border border-[#cbd5e1] bg-white text-[14px] text-black placeholder:text-[#94a3b8] focus:outline-none focus:border-black transition-colors font-normal leading-relaxed"
+                  />
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
+                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
+                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
+                    <div className="flex flex-col gap-1">
+                      <p className="font-bold text-black text-[14px]">Bienestar emocional estable</p>
+                      <p className="text-[13px] text-[#64748b] leading-relaxed">
+                        Has indicado que no has vivido situaciones recientes que afecten significativamente tu bienestar o nivel de descanso.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
@@ -525,14 +636,14 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
           <Button
             variant="outline"
             onClick={onClose}
-            className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
+            className="h-[42px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
           >
             CANCELAR
           </Button>
           <Button
             variant="primary"
             onClick={handleSave}
-            className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
+            className="h-[42px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
           >
             GUARDAR CAMBIOS
           </Button>
