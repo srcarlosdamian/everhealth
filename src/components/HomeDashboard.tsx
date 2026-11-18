@@ -76,6 +76,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isBiometriaIntroModalOpen, setIsBiometriaIntroModalOpen] = useState(false);
   const [isCalificacionModalOpen, setIsCalificacionModalOpen] = useState(false);
+  const [isLiveConsultationBannerActive, setIsLiveConsultationBannerActive] = useState(false);
   const [isDesignSystemHover, setIsDesignSystemHover] = useState(false);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const [chatModalTab, setChatModalTab] = useState<'agendar' | 'ahora'>('agendar');
@@ -519,7 +520,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                 {/* Dropdown al mantener el cursor encima según la solicitud */}
                 {isDesignSystemHover && (
                   <div
-                    className="absolute right-0 top-[calc(100%+6px)] z-50 w-[295px] bg-white rounded-[10px] shadow-[0_16px_40px_rgba(0,0,0,0.16)] p-2.5 border border-[#e2e8f0] flex flex-col gap-2 animate-fadeIn font-[family-name:Helvetica]"
+                    className="absolute right-0 top-[calc(100%+6px)] z-50 w-[310px] bg-white rounded-[10px] shadow-[0_16px_40px_rgba(0,0,0,0.16)] p-2.5 border border-[#e2e8f0] flex flex-col gap-2 animate-fadeIn font-[family-name:Helvetica]"
                     onMouseEnter={() => setIsDesignSystemHover(true)}
                     onMouseLeave={() => setIsDesignSystemHover(false)}
                   >
@@ -555,7 +556,42 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                       </p>
                     </button>
 
-                    {/* Opción 2: Ir directamente al Sistema de Diseño */}
+                    {/* Opción 2: Ver cuando hay un chat en vivo (Toggle) */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsDesignSystemHover(false);
+                        setIsLiveConsultationBannerActive(!isLiveConsultationBannerActive);
+                      }}
+                      className={`w-full p-2.5 rounded-[8px] border flex flex-col gap-1 text-left transition-colors cursor-pointer group ${
+                        isLiveConsultationBannerActive
+                          ? 'bg-[#fdf2f8] border-[#fbcfe8] hover:bg-[#fce7f3]'
+                          : 'bg-[#f8fafc] border-[#e2e8f0] hover:bg-[#f1f5f9]'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center gap-2">
+                          <MessageSquare className={`w-4 h-4 ${isLiveConsultationBannerActive ? 'text-[#d50475]' : 'text-[#64748b]'}`} />
+                          <span className="text-[13px] font-bold text-black group-hover:text-[#d50475] transition-colors">
+                            {isLiveConsultationBannerActive ? 'Ocultar consulta en vivo' : 'Ver cuando hay un chat en vivo'}
+                          </span>
+                        </div>
+                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                          isLiveConsultationBannerActive
+                            ? 'bg-[#d50475] text-white'
+                            : 'bg-[#e2e8f0] text-[#475569]'
+                        }`}>
+                          {isLiveConsultationBannerActive ? 'Activo' : 'Simular'}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-[#64748b] leading-tight">
+                        {isLiveConsultationBannerActive
+                          ? 'Cinta rosa activa bajo la barra de navegación'
+                          : 'Muestra la cinta rosa de consulta en curso'}
+                      </p>
+                    </button>
+
+                    {/* Opción 3: Ir directamente al Sistema de Diseño */}
                     <button
                       type="button"
                       onClick={() => {
@@ -582,6 +618,51 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
             </div>
           </div>
         </header>
+
+        {/* Cinta Rosa Global de Consulta en Vivo Activa (Toggleable desde el icono del Sistema de Diseño) */}
+        {isLiveConsultationBannerActive && (
+          <aside
+            aria-label="Aviso de consulta médica en curso"
+            className="w-full bg-[#d50475] text-white px-3 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-3 text-[13px] z-30 animate-fadeIn font-[family-name:Helvetica] shadow-sm sticky top-[56px]"
+          >
+            <div className="flex items-center gap-2.5 sm:gap-3 min-w-0">
+              <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-80" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white" />
+              </span>
+              <MessageSquare className="w-4 h-4 shrink-0 text-white" />
+              <p className="text-[12px] sm:text-[13px] text-white leading-tight">
+                <strong className="font-bold">Tienes una consulta en este mismo momento</strong>
+                <span className="hidden xl:inline"> · Dr. Bruno Peñas (Medicina General)</span>
+                <span className="opacity-95"> · Iniciada a las 10:30 h (hace 8 min)</span>
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedChatDoctor('Dr. Bruno Peñas');
+                  setChatDoctorSpecialty('Medicina General · Ever Health');
+                  setChatConsultationReason('Consulta médica en vivo');
+                  setIsChatActivoOpen(true);
+                }}
+                className="text-white font-semibold text-[11px] sm:text-[13px] uppercase tracking-wide hover:underline cursor-pointer select-none bg-transparent border-0 p-0"
+              >
+                ENTRAR A LA CONSULTA →
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsLiveConsultationBannerActive(false)}
+                className="p-1 hover:bg-white/20 rounded-full transition-colors cursor-pointer text-white"
+                title="Ocultar aviso de consulta"
+                aria-label="Cerrar aviso de consulta"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </aside>
+        )}
 
         {/* Drawer Mobile de Navegación Lateral (cuando se pulsa la hamburguesa) */}
         {mobileDrawerOpen && (
@@ -772,6 +853,25 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                   >
                     <Star className="w-[18px] h-[18px] text-[#d50475]" />
                     <span>Calificar servicio (NPS)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileDrawerOpen(false);
+                      setIsLiveConsultationBannerActive(!isLiveConsultationBannerActive);
+                    }}
+                    className="w-full h-[40px] px-3 rounded-[6px] flex items-center justify-between text-[14px] text-black hover:bg-[#f8fafc] transition-colors cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <MessageSquare className="w-[18px] h-[18px] text-[#d50475]" />
+                      <span>{isLiveConsultationBannerActive ? 'Ocultar chat en vivo' : 'Ver cuando hay un chat en vivo'}</span>
+                    </div>
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded uppercase ${
+                      isLiveConsultationBannerActive ? 'bg-[#d50475] text-white' : 'bg-[#e2e8f0] text-[#475569]'
+                    }`}>
+                      {isLiveConsultationBannerActive ? 'Activo' : 'Simular'}
+                    </span>
                   </button>
 
                   <button

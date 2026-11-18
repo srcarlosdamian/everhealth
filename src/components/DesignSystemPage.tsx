@@ -1521,6 +1521,41 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     </div>
                   </div>
                 </StageBlock>
+
+                {/* 10. Cinta Global de Consulta en Vivo */}
+                <StageBlock
+                  title="Cinta Global de Consulta en Vivo"
+                  componentTag="<LiveConsultationRibbon />"
+                  usedIn={['Cabecera Global (Home, Historial, Historia Clínica, Familiares, Mascotas)']}
+                  description="Cinta rosa (#d50475) persistente bajo la navegación superior con dot pulsante, doctor asignado, tiempo transcurrido y CTA directo en texto semibold uppercase."
+                >
+                  <div className="w-full flex flex-col gap-3">
+                    <div className="w-full bg-[#d50475] text-white px-4 py-2.5 rounded-[8px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[13px] shadow-sm">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <span className="relative flex h-2.5 w-2.5 shrink-0" aria-hidden="true">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-80" />
+                          <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-white" />
+                        </span>
+                        <MessageSquare className="w-4 h-4 shrink-0 text-white" />
+                        <p className="text-[12px] sm:text-[13px] text-white leading-tight">
+                          <strong className="font-bold">Tienes una consulta en este mismo momento</strong> · Dr. Bruno Peñas (Medicina General) · <span className="opacity-90">Iniciada a las 10:30 h (hace 8 min)</span>
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-4 shrink-0 self-end sm:self-auto">
+                        <span className="text-white font-semibold text-[12px] sm:text-[13px] uppercase tracking-wide hover:underline cursor-pointer select-none">
+                          ENTRAR A LA CONSULTA →
+                        </span>
+                        <button
+                          type="button"
+                          className="p-1 hover:bg-white/20 rounded-full transition-colors cursor-pointer text-white"
+                          title="Cerrar aviso"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </StageBlock>
               </div>
             )}
 
