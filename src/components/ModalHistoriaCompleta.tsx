@@ -150,7 +150,7 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
         </div>
 
         {/* ================= TARJETA BLANCA SUPERPUESTA ("CUADRADO ENCIMA") SEGÚN BOCETO ================= */}
-        <div className="w-full bg-white rounded-[12px] shadow-lg flex-1 overflow-y-auto p-5 sm:p-7 flex flex-col gap-6 relative z-10 border border-[#e2e8f0]/40">
+        <div className="w-full bg-white rounded-[12px] shadow-lg flex-1 overflow-y-auto custom-scrollbar-minimal p-5 sm:p-7 flex flex-col gap-6 relative z-10 border border-[#e2e8f0]/40">
           
           {/* Header del Paciente: Avatar cuadrado a la izquierda + Nombre y nacimiento a la derecha */}
           <div className="flex items-center gap-4 pb-4 border-b border-[#f1f5f9] shrink-0">

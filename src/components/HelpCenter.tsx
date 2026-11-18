@@ -408,7 +408,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       </div>
 
       {/* Scrollable FAQ Accordion List */}
-      <div className="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-2.5">
+      <div className="flex-1 overflow-y-auto custom-scrollbar-minimal px-5 py-4 flex flex-col gap-2.5">
         {filteredFaqs.length === 0 ? (
           <div className="py-12 text-center flex flex-col items-center gap-2 text-[#64748b]">
             <HelpCircle className="w-8 h-8 text-[#cbd5e1]" />

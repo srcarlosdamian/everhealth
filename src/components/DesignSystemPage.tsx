@@ -366,6 +366,68 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     </div>
                   </div>
                 </StageBlock>
+
+                <StageBlock
+                  title="Scrollbar Minimalista Homologado"
+                  componentTag=".custom-scrollbar-minimal"
+                  usedIn={[
+                    'ModalSolicitarChat',
+                    'ModalDocumentos',
+                    'HelpCenter',
+                    'Dropdown',
+                    'ModalConversacionChat',
+                    'ModalEditarHistoriaClinica',
+                    'Tabs',
+                    'Tablas de Familiares y Mascotas',
+                  ]}
+                  description="Barra de desplazamiento ultra-delgada (5px) con carril transparente y pulgar cilíndrico redondeado en gris suave (#cbd5e1 con hover #94a3b8), eliminando el scrollbar nativo tosco de los navegadores."
+                >
+                  <div className="flex flex-col gap-3">
+                    <div className="flex flex-wrap gap-2 text-[12px]">
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Grosor: <strong>5px</strong> (width & height)
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Carril: <strong>transparent</strong> (sin fondo gris pesado)
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Pulgar: <strong>#cbd5e1</strong> (hover #94a3b8) con <strong>border-radius: 9999px</strong>
+                      </span>
+                      <span className="px-2.5 py-1 rounded bg-[#f1f5f9] border border-[#e2e8f0] text-[#0f172a] font-medium">
+                        Cross-browser: <strong>scrollbar-width: thin</strong> + <strong>::-webkit-scrollbar</strong>
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
+                      {/* Demo Vertical */}
+                      <div className="flex flex-col gap-1.5">
+                        <span className="text-[12px] font-bold text-black uppercase tracking-wider">Demo Scroll Vertical</span>
+                        <div className="h-[140px] p-3 rounded-[8px] border border-[#e2e8f0] bg-white overflow-y-auto custom-scrollbar-minimal flex flex-col gap-2 text-[13px] text-[#475569]">
+                          <p className="font-semibold text-black">1. Modalidad de atención seleccionada</p>
+                          <p>Elige si deseas agendar tu cita médica con anticipación o ser atendido en este momento.</p>
+                          <p className="font-semibold text-black">2. Especialista disponible</p>
+                          <p>Dra. María Fernández · Medicina General y Nutrición clínica.</p>
+                          <p className="font-semibold text-black">3. Canal prioritario</p>
+                          <p>Conexión inmediata con médicos listos y espera estimada menor a 5 minutos.</p>
+                          <p className="font-semibold text-black">4. Confirmación de consulta</p>
+                          <p>Tus datos clínicos y motivos se envían de forma cifrada de extremo a extremo.</p>
+                        </div>
+                      </div>
+
+                      {/* Demo Horizontal */}
+                      <div className="flex flex-col gap-1.5">
+                        <span className="text-[12px] font-bold text-black uppercase tracking-wider">Demo Scroll Horizontal</span>
+                        <div className="p-3 rounded-[8px] border border-[#e2e8f0] bg-white overflow-x-auto custom-scrollbar-minimal flex items-center gap-2 text-[13px] text-black">
+                          {['Medicina General', 'Pediatría', 'Nutrición', 'Psicología', 'Ginecología', 'Oftalmología', 'Dermatología', 'Endocrinología'].map((item) => (
+                            <span key={item} className="px-3 py-1.5 rounded-[6px] bg-[#f8fafc] border border-[#cbd5e1] whitespace-nowrap text-[12px] font-medium">
+                              {item}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </StageBlock>
               </div>
             )}
 

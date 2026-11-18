@@ -29,15 +29,45 @@
   --font-sans: 'Helvetica';
 }
 
-/* Minimalist scrollbar without background track (matching Help Center) */
+/* ================= SCROLLBAR MINIMALISTA HOMOLOGADO =================
+   Scrollbar estandarizado para toda la aplicación (Ever Health Design System):
+   - Grosor ultra-delgado: 5px (width & height)
+   - Carril/track 100% transparente sin fondos grises toscos
+   - Pulgar/thumb cilíndrico redondeado (border-radius 9999px) en gris suave (#cbd5e1)
+   - Estado hover en gris medio (#94a3b8)
+   - Compatibilidad completa: Firefox (scrollbar-width/color) y navegadores WebKit/Blink
+*/
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+
 .custom-scrollbar-minimal {
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 transparent;
 }
 
 .custom-scrollbar-minimal::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
 }
 
 .custom-scrollbar-minimal::-webkit-scrollbar-track {

@@ -937,12 +937,12 @@ export const Biometria: React.FC<BiometriaProps> = ({
   if (isModal) {
     return (
       <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto animate-fadeIn font-[family-name:Helvetica]"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal animate-fadeIn font-[family-name:Helvetica]"
         onClick={handleExit}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-[840px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 my-8 flex flex-col gap-6 max-h-[92vh] overflow-y-auto animate-scaleUp cursor-default"
+          className="relative w-full max-w-[840px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 my-8 flex flex-col gap-6 max-h-[92vh] overflow-y-auto custom-scrollbar-minimal animate-scaleUp cursor-default"
         >
           {/* Modal Header */}
           <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">

@@ -162,7 +162,7 @@ export const ModalChatMedicoActivo: React.FC<ModalChatMedicoActivoProps> = ({
         </div>
 
         {/* Feed de mensajes */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#f8fafc] flex flex-col gap-3.5">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-[#f8fafc] flex flex-col gap-3.5 custom-scrollbar-minimal">
           {messages.map((msg) => {
             const isDoctor = msg.sender === 'doctor';
             return (

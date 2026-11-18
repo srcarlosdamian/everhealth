@@ -320,7 +320,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                   </div>
 
                   {/* Lista de notificaciones o estado vacío */}
-                  <div className="flex flex-col divide-y divide-[#f1f5f9] max-h-[260px] overflow-y-auto">
+                  <div className="flex flex-col divide-y divide-[#f1f5f9] max-h-[260px] overflow-y-auto custom-scrollbar-minimal">
                     {notifications.length === 0 ? (
                       <div className="py-8 flex flex-col items-center justify-center text-center gap-2">
                         <div className="w-8 h-8 rounded-full border border-[#cbd5e1] flex items-center justify-center text-[#64748b]">
@@ -477,7 +477,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
             />
 
             {/* Drawer Content */}
-            <div className="relative w-[280px] max-w-[85vw] h-full bg-white shadow-2xl p-4 flex flex-col justify-between z-10 animate-slideInLeft overflow-y-auto">
+            <div className="relative w-[280px] max-w-[85vw] h-full bg-white shadow-2xl p-4 flex flex-col justify-between z-10 animate-slideInLeft overflow-y-auto custom-scrollbar-minimal">
               <div className="flex flex-col gap-4">
                 {/* Header Logo + Close */}
                 <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">

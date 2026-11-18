@@ -288,7 +288,7 @@ export const Familiares: React.FC<FamiliaresProps> = ({ autoOpenAddModal = false
       {/* Contenedor de datos (Tabla en Desktop / Cards tipo tabla en Mobile) */}
       <div className="w-full bg-white border border-[#e2e8f0] rounded-none shadow-none overflow-visible">
         {/* VISTA DESKTOP: TABLA COMPLETA */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto custom-scrollbar-minimal">
           <table className="w-full text-left border-collapse bg-white">
           <thead>
             <tr className="bg-white border-b border-[#e2e8f0] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider text-black">
@@ -559,7 +559,7 @@ export const Familiares: React.FC<FamiliaresProps> = ({ autoOpenAddModal = false
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[800px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 animate-scaleUp max-h-[90vh] overflow-y-auto cursor-default"
+            className="w-full max-w-[800px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 animate-scaleUp max-h-[90vh] overflow-y-auto custom-scrollbar-minimal cursor-default"
           >
             <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
               <h2 className="text-[20px] font-bold text-black tracking-tight leading-snug">
