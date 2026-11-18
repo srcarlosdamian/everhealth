@@ -418,19 +418,14 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                     {/* Botones de acción según el estado */}
                     <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#f8fafc]">
                       <div className="flex flex-wrap items-center gap-2.5">
-                        {/* 1. CASO PENDIENTE (No ha sucedido): Inactivo hasta 15 min antes (como en Home) */}
+                        {/* 1. CASO PENDIENTE (No ha sucedido): Inactivo hasta 15 min antes con tooltip en hover */}
                         {c.status === 'Pendiente' && (
-                          <div className="flex items-center gap-2">
-                            <Button
-                              variant="inactive"
-                              tooltipText="Activo 15 minutos antes de la cita"
-                            >
-                              {c.type === 'video' ? 'Acceder a la videoconsulta' : 'Acceder al chat'}
-                            </Button>
-                            <span className="text-[12px] text-[#64748b] hidden sm:inline">
-                              La sala se activará 15 minutos antes de la cita.
-                            </span>
-                          </div>
+                          <Button
+                            variant="inactive"
+                            tooltipText="Activo 15 minutos antes de la cita"
+                          >
+                            {c.type === 'video' ? 'Acceder a la videoconsulta' : 'Acceder al chat'}
+                          </Button>
                         )}
 
                         {/* 2. CASO EN PROCESO (En curso ahora): Acceso inmediato */}
