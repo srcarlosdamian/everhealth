@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, ChevronDown, Calendar } from 'lucide-react';
+import { Button } from '../design-system/atoms/Button';
 
 interface ModalHistoriaCompletaProps {
   isOpen: boolean;
@@ -102,7 +103,7 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
     }
   }, [initialSectionId]);
 
-  // Close on Escape
+  // Cerrar con Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -123,55 +124,66 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/60 backdrop-blur-xs animate-fadeIn font-[family-name:Helvetica]"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/50 backdrop-blur-xs animate-fadeIn font-[family-name:Helvetica]"
       onClick={onClose}
     >
-      {/* ================= CONTENEDOR EXTERNO CON FONDO ROSA (#d50475) SEGÚN BOCETO ================= */}
       <div
-        className="w-full max-w-[800px] max-h-[92vh] bg-[#d50475] rounded-[16px] p-4 sm:p-6 shadow-2xl flex flex-col relative animate-scaleUp overflow-hidden"
+        className="w-full max-w-[760px] max-h-[90vh] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Cabecera Rosa superior con Botón Cerrar Circular Blanco en la esquina superior derecha */}
-        <div className="w-full flex items-center justify-between pb-3 sm:pb-4 text-white shrink-0">
-          <div className="flex items-center gap-2">
-            <span className="text-[13px] font-bold uppercase tracking-wider text-white/90">
-              Historia Clínica Oficial
+        {/* ================= HEADER HOMOLOGADO DEL MODAL ================= */}
+        <div className="px-6 py-4 border-b border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
+          <div className="flex flex-col">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#d50475]">
+              Historia clínica oficial
             </span>
+            <h2 className="text-[20px] font-bold text-black tracking-tight leading-snug">
+              Historia clínica completa
+            </h2>
           </div>
 
           <button
             type="button"
             onClick={onClose}
-            className="w-9 h-9 rounded-full border border-white text-white hover:bg-white/20 active:bg-white/30 flex items-center justify-center transition-colors cursor-pointer shrink-0"
-            title="Cerrar historia clínica"
+            className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors shrink-0"
+            title="Cerrar"
           >
-            <X className="w-5 h-5 text-white" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* ================= TARJETA BLANCA SUPERPUESTA ("CUADRADO ENCIMA") SEGÚN BOCETO ================= */}
-        <div className="w-full bg-white rounded-[12px] shadow-lg flex-1 overflow-y-auto custom-scrollbar-minimal p-5 sm:p-7 flex flex-col gap-6 relative z-10 border border-[#e2e8f0]/40">
-          
+        {/* ================= IMAGEN DECORATIVA SUPERIOR: 100% ANCHO Y POCA ALTURA ================= */}
+        <div className="w-full h-[115px] sm:h-[130px] shrink-0 bg-[#f8fafc] border-b border-[#f1f5f9] overflow-hidden relative select-none">
+          <img
+            src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80"
+            alt="Cabecera decorativa historia clínica"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
+        </div>
+
+        {/* ================= CONTENIDO SCROLLEABLE CON SCROLLBAR MINIMALISTA ================= */}
+        <div className="flex-1 overflow-y-auto custom-scrollbar-minimal p-5 sm:p-7 flex flex-col gap-6 bg-white">
           {/* Header del Paciente: Avatar cuadrado a la izquierda + Nombre y nacimiento a la derecha */}
           <div className="flex items-center gap-4 pb-4 border-b border-[#f1f5f9] shrink-0">
-            <div className="w-[60px] h-[60px] rounded-[8px] bg-[#f1f5f9] border border-[#cbd5e1] text-[#0f172a] font-bold text-[20px] flex items-center justify-center shrink-0 select-none shadow-2xs">
+            <div className="w-[56px] h-[56px] rounded-[8px] bg-[#f8fafc] border border-[#cbd5e1] text-[#0f172a] font-bold text-[18px] flex items-center justify-center shrink-0 select-none shadow-2xs">
               {initials}
             </div>
 
             <div className="flex flex-col min-w-0">
-              <h2 className="text-[20px] sm:text-[22px] font-bold text-black tracking-tight leading-snug truncate">
+              <h3 className="text-[19px] sm:text-[20px] font-bold text-black tracking-tight leading-snug truncate">
                 {patientName}
-              </h2>
-              <p className="text-[14px] text-[#475569] font-normal mt-0.5 truncate">
+              </h3>
+              <p className="text-[13.5px] text-[#475569] font-normal mt-0.5 truncate">
                 {patientGenderBirth}
               </p>
             </div>
           </div>
 
-          {/* 4 Métricas lineales según boceto: Cajas cuadradas limpias */}
+          {/* 4 Métricas lineales: Cajas cuadradas limpias */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 shrink-0">
-            <div className="p-3 border border-[#cbd5e1] rounded-[8px] bg-white text-center flex flex-col items-center justify-center">
-              <span className="text-[24px] sm:text-[26px] font-bold text-black leading-tight">
+            <div className="p-3.5 border border-[#cbd5e1] rounded-[8px] bg-[#fafafa] text-center flex flex-col items-center justify-center">
+              <span className="text-[22px] sm:text-[24px] font-bold text-black leading-tight">
                 35
               </span>
               <span className="text-[12px] text-[#64748b] font-medium mt-0.5">
@@ -179,8 +191,8 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
               </span>
             </div>
 
-            <div className="p-3 border border-[#cbd5e1] rounded-[8px] bg-white text-center flex flex-col items-center justify-center">
-              <span className="text-[24px] sm:text-[26px] font-bold text-black leading-tight">
+            <div className="p-3.5 border border-[#cbd5e1] rounded-[8px] bg-[#fafafa] text-center flex flex-col items-center justify-center">
+              <span className="text-[22px] sm:text-[24px] font-bold text-black leading-tight">
                 70
               </span>
               <span className="text-[12px] text-[#64748b] font-medium mt-0.5">
@@ -188,8 +200,8 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
               </span>
             </div>
 
-            <div className="p-3 border border-[#cbd5e1] rounded-[8px] bg-white text-center flex flex-col items-center justify-center">
-              <span className="text-[24px] sm:text-[26px] font-bold text-black leading-tight">
+            <div className="p-3.5 border border-[#cbd5e1] rounded-[8px] bg-[#fafafa] text-center flex flex-col items-center justify-center">
+              <span className="text-[22px] sm:text-[24px] font-bold text-black leading-tight">
                 175
               </span>
               <span className="text-[12px] text-[#64748b] font-medium mt-0.5">
@@ -197,8 +209,8 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
               </span>
             </div>
 
-            <div className="p-3 border border-[#cbd5e1] rounded-[8px] bg-white text-center flex flex-col items-center justify-center">
-              <span className="text-[24px] sm:text-[26px] font-bold text-black leading-tight">
+            <div className="p-3.5 border border-[#cbd5e1] rounded-[8px] bg-[#fafafa] text-center flex flex-col items-center justify-center">
+              <span className="text-[22px] sm:text-[24px] font-bold text-black leading-tight">
                 22.9
               </span>
               <span className="text-[12px] text-[#64748b] font-medium mt-0.5">
@@ -210,7 +222,7 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
           {/* Acordeones clínicos lineales con líneas divisorias y flechas en 'v' */}
           <div className="flex flex-col divide-y divide-[#e2e8f0] border-t border-[#e2e8f0]">
             {CLINICAL_SECTIONS.map((section) => {
-              const isOpen = openSectionIds.includes(section.id);
+              const isSectionOpen = openSectionIds.includes(section.id);
               return (
                 <div key={section.id} className="py-3.5 flex flex-col gap-2 transition-colors">
                   <button
@@ -223,12 +235,12 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
                     </span>
                     <ChevronDown
                       className={`w-5 h-5 text-[#64748b] group-hover:text-black transition-transform duration-200 shrink-0 ${
-                        isOpen ? 'rotate-180' : ''
+                        isSectionOpen ? 'rotate-180' : ''
                       }`}
                     />
                   </button>
 
-                  {isOpen && (
+                  {isSectionOpen && (
                     <div className="flex flex-col gap-2 pt-1 pb-2 text-[14px] leading-[22px] text-black animate-fadeIn px-2">
                       <p className="font-normal">{section.content}</p>
                       {section.extra && (
@@ -248,11 +260,21 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
               );
             })}
           </div>
+        </div>
 
-          {/* Footer de la tarjeta con última actualización oficial */}
-          <div className="pt-3 border-t border-[#f1f5f9] flex items-center justify-between text-[12px] text-[#64748b]">
-            <span>Historial verificado por Ever Health Medical Services</span>
-            <span className="font-medium text-black">Última actualización general: 13/10/2026</span>
+        {/* ================= FOOTER HOMOLOGADO CON LÍNEA DIVISORIA SUPERIOR ================= */}
+        <div className="px-6 py-4 border-t border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
+          <span className="text-[12px] text-[#64748b] hidden sm:inline">
+            Historial verificado por <strong className="text-black font-bold">Ever Health Medical Services</strong>
+          </span>
+          <div className="flex items-center justify-end w-full sm:w-auto">
+            <Button
+              variant="primary"
+              onClick={onClose}
+              className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
+            >
+              CERRAR
+            </Button>
           </div>
         </div>
       </div>
