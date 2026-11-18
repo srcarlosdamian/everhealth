@@ -69,6 +69,7 @@ import { TablePagination, TablePaginationCompact } from '../design-system/molecu
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
 import { LogoutConfirmModal } from '../design-system/molecules/LogoutConfirmModal';
 import { ModalActionGroup } from '../design-system/molecules/ModalActionGroup';
+import { ModalBiometria } from './ModalBiometria';
 import { Tabs } from '../design-system/molecules/Tabs';
 import { Toast, ToastVariant } from '../design-system/atoms/Toast';
 
@@ -174,6 +175,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [demoPaginationExpanded, setDemoPaginationExpanded] = useState(false);
   const [demoConfirmModalOpen, setDemoConfirmModalOpen] = useState(false);
   const [demoLogoutModalOpen, setDemoLogoutModalOpen] = useState(false);
+  const [demoBiometriaModalOpen, setDemoBiometriaModalOpen] = useState(false);
   const [demoActiveTab, setDemoActiveTab] = useState('datos-personales');
   const [demoMinimalTab, setDemoMinimalTab] = useState('soporte');
   const [demoFormModalOpen, setDemoFormModalOpen] = useState(false);
@@ -2402,6 +2404,18 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </StageBlock>
 
                 <StageBlock
+                  title="Modal Explicativo de Biometría Facial"
+                  componentTag="<ModalBiometria />"
+                  usedIn={['Sidebar', 'HomeDashboard (Acciones Rápidas)', 'Inicio (EVR100Home)']}
+                  description="Paso previo pedagógico y de seguridad antes del escaneo biométrico. Explica la verificación de identidad, estimación de constantes fisiológicas y cifrado hospitalario RGPD con botón primario 'INICIAR PROCESO'."
+                >
+                  <Button variant="primary" onClick={() => setDemoBiometriaModalOpen(true)}>
+                    <ScanFace className="w-4 h-4 text-white" />
+                    <span>Abrir modal explicativo en vivo</span>
+                  </Button>
+                </StageBlock>
+
+                <StageBlock
                   title="Footers de Modales (Composiciones)"
                   componentTag="<ModalActionGroup />"
                   usedIn={['Videoconsulta', 'Solicitar Chat', 'Familiares', 'Mascotas', 'Documentos']}
@@ -2642,6 +2656,19 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
           </div>
         </div>
       )}
+
+      {/* Modal Explicativo de Biometría Facial Demo */}
+      <ModalBiometria
+        isOpen={demoBiometriaModalOpen}
+        onClose={() => setDemoBiometriaModalOpen(false)}
+        onStartProcess={() => {
+          setDemoBiometriaModalOpen(false);
+          setDemoActiveToast({
+            variant: 'success',
+            message: 'Iniciando proceso de biometría facial en pantalla completa...',
+          });
+        }}
+      />
 
       {/* Help Center Demo */}
       <HelpCenter

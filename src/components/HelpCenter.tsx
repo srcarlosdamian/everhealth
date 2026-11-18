@@ -489,8 +489,8 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       <div className="flex-1 overflow-y-auto custom-scrollbar-minimal px-5 py-4 flex flex-col gap-2.5">
         {activeCategory === 'soporte' ? (
           soporteMatchesSearch ? (
-            /* Cuadro estático sin acordeón según especificación */
-            <div className="border border-[#e2e8f0] bg-white p-4.5 flex flex-col gap-4 text-[14px]">
+            /* Contenedor limpio sin borde exterior según especificación */
+            <div className="bg-white p-2 flex flex-col gap-4 text-[14px]">
               {/* Título y descripción */}
               <div className="flex flex-col gap-1">
                 <h3 className="text-[15px] font-bold text-black leading-tight">

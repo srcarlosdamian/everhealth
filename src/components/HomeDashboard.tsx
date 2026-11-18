@@ -12,6 +12,7 @@ import { ChatMedicoActivo } from './ChatMedicoActivo';
 import { Toast } from '../design-system/atoms/Toast';
 import { HelpCenter } from './HelpCenter';
 import { Biometria } from './Biometria';
+import { ModalBiometria } from './ModalBiometria';
 import { HistorialConsultas } from './HistorialConsultas';
 import { HistoriaClinica } from './HistoriaClinica';
 import { Familiares } from './Familiares';
@@ -70,6 +71,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
     }
   };
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
+  const [isBiometriaIntroModalOpen, setIsBiometriaIntroModalOpen] = useState(false);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const [chatModalTab, setChatModalTab] = useState<'agendar' | 'ahora'>('agendar');
   const [isDocsModalOpen, setIsDocsModalOpen] = useState(false);
@@ -169,7 +171,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
         currentView={currentView}
         onNavigate={(view) => setCurrentView(view)}
         onOpenVideoModal={() => setIsVideoModalOpen(true)}
-        onOpenBiometriaModal={() => setCurrentView('biometria')}
+        onOpenBiometriaModal={() => setIsBiometriaIntroModalOpen(true)}
         userName={userName}
         onLogout={() => setIsLogoutModalOpen(true)}
       />
@@ -257,7 +259,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                     type="button"
                     onClick={() => {
                       setIsQuickActionsOpen(false);
-                      setCurrentView('biometria');
+                      setIsBiometriaIntroModalOpen(true);
                     }}
                     className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[15px] font-normal transition-colors cursor-pointer text-left whitespace-nowrap group"
                   >
@@ -588,7 +590,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                       type="button"
                       onClick={() => {
                         setMobileDrawerOpen(false);
-                        setCurrentView('biometria');
+                        setIsBiometriaIntroModalOpen(true);
                       }}
                       className="w-full h-[38px] px-2.5 rounded-[6px] bg-white border border-[#cbd5e1] hover:border-black flex items-center gap-2.5 text-[13px] font-medium text-black cursor-pointer shadow-2xs transition-colors"
                     >
@@ -744,7 +746,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
               <EVR100Home
                 userName={userName}
                 onStartQuestionnaire={() => setCurrentView('cuestionario')}
-                onStartBiometria={() => setCurrentView('biometria')}
+                onStartBiometria={() => setIsBiometriaIntroModalOpen(true)}
                 onOpenVideoModal={() => setIsVideoModalOpen(true)}
                 onOpenChat={() => setCurrentView('solicitar-chat')}
               />
@@ -818,6 +820,15 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
       </div>
 
       {/* Modals */}
+      <ModalBiometria
+        isOpen={isBiometriaIntroModalOpen}
+        onClose={() => setIsBiometriaIntroModalOpen(false)}
+        onStartProcess={() => {
+          setIsBiometriaIntroModalOpen(false);
+          setCurrentView('biometria');
+        }}
+      />
+
       <ModalVideoConsulta
         isOpen={isVideoModalOpen}
         onClose={() => setIsVideoModalOpen(false)}
