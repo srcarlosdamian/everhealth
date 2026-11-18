@@ -871,7 +871,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                         {/* Secundario Neutro Cancelar */}
                         <Button variant="consulta-outline">
-                          {demoButtonsWithIcons && <X className="w-4 h-4 text-[#64748b]" />}
                           <span>CANCELAR CONSULTA</span>
                         </Button>
 
@@ -2393,7 +2392,6 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
 
                           {(demoConsultaRowState === 'proceso' || demoConsultaRowState === 'pendiente') && (
                             <Button variant="consulta-outline">
-                              <X className="w-4 h-4 text-[#64748b]" />
                               <span>CANCELAR CONSULTA</span>
                             </Button>
                           )}

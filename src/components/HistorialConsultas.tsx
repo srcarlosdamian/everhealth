@@ -577,7 +577,6 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                           variant="consulta-outline"
                           onClick={() => setCancellingConsultaId(c.id)}
                         >
-                          <X className="w-4 h-4 text-[#64748b] shrink-0" />
                           <span>CANCELAR CONSULTA</span>
                         </Button>
                       )}
