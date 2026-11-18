@@ -755,29 +755,62 @@ export const VideoconsultaActiva: React.FC<VideoconsultaActivaProps> = ({
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4"
+          aria-labelledby="confirm-end-call-title"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 font-[family-name:Helvetica]"
+          onClick={() => setIsConfirmEndOpen(false)}
         >
-          <div className="bg-white rounded-[12px] p-6 max-w-[420px] w-full text-black shadow-2xl flex flex-col gap-4 animate-scaleUp">
-            <h3 className="text-[18px] font-bold text-black">
-              ¿Deseas finalizar la videoconsulta?
-            </h3>
-            <p className="text-[13px] text-[#64748b] leading-relaxed">
-              La sesión con el {doctorName} concluirá. Tu informe médico y las recetas emitidas quedarán guardadas en tu Historia Clínica.
-            </p>
-            <div className="flex items-center justify-end gap-3 pt-2">
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white rounded-[14px] p-6 sm:p-7 max-w-[480px] w-full text-black shadow-2xl flex flex-col gap-4 animate-scaleUp border border-[#e2e8f0]"
+          >
+            {/* Header con icono neutral, título y botón X alineado */}
+            <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[#64748b] flex items-center justify-center shrink-0">
+                  <PhoneOff className="w-5 h-5 text-[#64748b]" />
+                </div>
+                <h3
+                  id="confirm-end-call-title"
+                  className="text-[18px] sm:text-[19px] font-bold text-black tracking-tight leading-snug"
+                >
+                  ¿Deseas finalizar la videoconsulta?
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsConfirmEndOpen(false)}
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors shrink-0 -mr-1"
+                title="Cerrar modal"
+                aria-label="Cerrar modal"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Descripción en color negro homologado */}
+            <div className="flex flex-col gap-2 pt-1 text-[14px] leading-[22px] text-black font-normal">
+              <p>
+                Atención con <strong className="font-bold text-black">{doctorName}</strong>.
+              </p>
+              <p>
+                La sesión con el facultativo concluirá. Tu informe médico y las recetas emitidas quedarán guardadas en tu Historia Clínica.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#f1f5f9]">
               <Button
                 variant="outline"
                 onClick={() => setIsConfirmEndOpen(false)}
-                className="h-[38px] text-[13px]"
+                className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
               >
                 SEGUIR EN LA LLAMADA
               </Button>
               <Button
                 variant="destructive"
                 onClick={onEndCall}
-                className="h-[38px] text-[13px] uppercase font-bold"
+                className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white shadow-xs"
               >
-                FINALIZAR
+                FINALIZAR CONSULTA
               </Button>
             </div>
           </div>

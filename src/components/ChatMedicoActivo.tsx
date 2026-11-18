@@ -8,6 +8,7 @@ import {
   AlertCircle,
   FileText,
   ShieldCheck,
+  X,
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { Badge } from '../design-system/atoms/Badge';
@@ -338,39 +339,57 @@ export const ChatMedicoActivo: React.FC<ChatMedicoActivoProps> = ({
       {/* Modal Minimalista de Confirmación de Salida (Única vía de salida: Finalizar) */}
       {isConfirmEndOpen && (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="confirm-end-chat-title"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn font-[family-name:Helvetica]"
           onClick={() => setIsConfirmEndOpen(false)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[480px] bg-white rounded-[14px] shadow-2xl p-6 flex flex-col gap-4 animate-scaleUp cursor-default"
+            className="w-full max-w-[480px] bg-white rounded-[14px] shadow-2xl p-6 sm:p-7 flex flex-col gap-4 animate-scaleUp cursor-default border border-[#e2e8f0]"
           >
-            {/* Header del Diálogo */}
-            <div className="flex items-center gap-3 pb-3 border-b border-[#f1f5f9]">
-              <div className="w-10 h-10 rounded-full bg-[#fef2f2] text-[#ef4444] flex items-center justify-center shrink-0">
-                <AlertCircle className="w-5 h-5" />
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-[17px] font-bold text-black leading-snug">
+            {/* Header del Diálogo: Icono oficial PhoneOff neutro según el sistema de diseño, título y botón X alineado */}
+            <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[#64748b] flex items-center justify-center shrink-0">
+                  <PhoneOff className="w-5 h-5 text-[#64748b]" />
+                </div>
+                <h3
+                  id="confirm-end-chat-title"
+                  className="text-[18px] sm:text-[19px] font-bold text-black tracking-tight leading-snug"
+                >
                   ¿Deseas finalizar la consulta de chat?
                 </h3>
-                <span className="text-[12px] text-[#64748b]">
-                  Atención con {doctorName}
-                </span>
               </div>
+              <button
+                type="button"
+                onClick={() => setIsConfirmEndOpen(false)}
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors shrink-0 -mr-1"
+                title="Cerrar modal"
+                aria-label="Cerrar modal"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
 
-            {/* Explicación médica homologada */}
-            <p className="text-[14px] text-[#475569] font-normal leading-relaxed">
-              Al finalizar la sesión, el especialista registrará las conclusiones médicas y las recomendaciones en tu historia clínica. Esta conversación quedará guardada de forma segura para tus futuras consultas.
-            </p>
+            {/* Explicación médica homologada en color negro (text-black), con la atención médica a la doctora abajo */}
+            <div className="flex flex-col gap-2.5 pt-1 text-[14px] leading-[22px] text-black font-normal">
+              <p>
+                Atención con <strong className="font-bold text-black">{doctorName}</strong>.
+              </p>
+              <p>
+                Al finalizar la sesión, el especialista registrará las conclusiones médicas y las recomendaciones en tu historia clínica. Esta conversación quedará guardada de forma segura para tus futuras consultas.
+              </p>
+            </div>
 
             {/* Botones de acción homologados: Outline + Destructive */}
-            <div className="flex justify-end items-center gap-3 pt-2 border-t border-[#f1f5f9]">
+            <div className="flex justify-end items-center gap-3 pt-3 border-t border-[#f1f5f9]">
               <Button
                 variant="outline"
                 type="button"
                 onClick={() => setIsConfirmEndOpen(false)}
+                className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px]"
               >
                 CONTINUAR EN EL CHAT
               </Button>
@@ -381,6 +400,7 @@ export const ChatMedicoActivo: React.FC<ChatMedicoActivoProps> = ({
                   setIsConfirmEndOpen(false);
                   onEndChat();
                 }}
+                className="h-[40px] px-5 text-[13px] font-bold uppercase rounded-[8px] bg-[#ef4444] hover:bg-[#dc2626] text-white shadow-xs"
               >
                 FINALIZAR CONSULTA
               </Button>
