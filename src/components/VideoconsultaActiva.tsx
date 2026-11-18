@@ -18,7 +18,7 @@ import {
   Paperclip,
   Check,
   Sparkles,
-  SlidersHorizontal,
+  ChevronDown,
   Volume2,
   ShieldCheck,
   AlertCircle,
@@ -40,6 +40,8 @@ interface VideoconsultaActivaProps {
   onBackToHome: () => void;
   onEndCall: () => void;
 }
+
+const CAMERA_OPTIONS = ['Cámara FaceTime HD', 'Cámara externa USB', 'Cámara virtual'];
 
 export const VideoconsultaActiva: React.FC<VideoconsultaActivaProps> = ({
   doctorName = 'Dr. Bruno Peñas',
@@ -66,6 +68,7 @@ export const VideoconsultaActiva: React.FC<VideoconsultaActivaProps> = ({
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isConfirmEndOpen, setIsConfirmEndOpen] = useState(false);
+  const [selectedCamera, setSelectedCamera] = useState('Cámara FaceTime HD');
 
   // Chat en la videoconsulta
   const [messages, setMessages] = useState<Message[]>([
@@ -309,30 +312,6 @@ export const VideoconsultaActiva: React.FC<VideoconsultaActivaProps> = ({
                   >
                     {isCameraOn ? <Video className="w-5 h-5" /> : <VideoOff className="w-5 h-5" />}
                   </button>
-
-                  {/* Botón Desenfoque de fondo / Efectos */}
-                  <button
-                    type="button"
-                    onClick={() => setIsBackgroundBlur(!isBackgroundBlur)}
-                    className={`w-11 h-11 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-md ${
-                      isBackgroundBlur
-                        ? 'bg-[#d50475] text-white'
-                        : 'bg-black/60 hover:bg-black/80 text-white'
-                    }`}
-                    title="Aplicar efectos de fondo"
-                  >
-                    <Sparkles className="w-5 h-5" />
-                  </button>
-
-                  {/* Botón Ajustes */}
-                  <button
-                    type="button"
-                    onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                    className="w-11 h-11 rounded-full bg-black/60 hover:bg-black/80 text-white flex items-center justify-center transition-all cursor-pointer shadow-md"
-                    title="Configuración de audio y video"
-                  >
-                    <SlidersHorizontal className="w-5 h-5" />
-                  </button>
                 </div>
               </div>
 
@@ -342,7 +321,36 @@ export const VideoconsultaActiva: React.FC<VideoconsultaActivaProps> = ({
                   <ShieldCheck className="w-4 h-4 text-[#16a34a]" />
                   <span>Conexión cifrada de extremo a extremo · Calidad HD</span>
                 </div>
-                <span>Cámara FaceTime HD · Micrófono integrado</span>
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setIsSettingsOpen(!isSettingsOpen)}
+                    className="flex items-center gap-1.5 text-[12px] text-[#64748b] hover:text-black transition-colors cursor-pointer"
+                    aria-haspopup="listbox"
+                    aria-expanded={isSettingsOpen}
+                  >
+                    <span>{selectedCamera}</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform ${isSettingsOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  {isSettingsOpen && (
+                    <div className="absolute right-0 top-full mt-1.5 w-[240px] bg-white border border-[#e2e8f0] rounded-[8px] shadow-lg py-1 z-20">
+                      {CAMERA_OPTIONS.map((opt) => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => {
+                            setSelectedCamera(opt);
+                            setIsSettingsOpen(false);
+                          }}
+                          className="w-full flex items-center justify-between px-3 py-2 text-[13px] text-black hover:bg-[#f8fafc] cursor-pointer text-left"
+                        >
+                          <span>{opt}</span>
+                          {selectedCamera === opt && <Check className="w-4 h-4 text-[#d50475]" />}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -356,7 +364,7 @@ export const VideoconsultaActiva: React.FC<VideoconsultaActivaProps> = ({
                   {consultationReason}
                 </h1>
                 <p className="text-[14px] text-[#64748b] mt-1 leading-relaxed">
-                  Comprueba tu audio y video antes de ingresar. El especialista revisará tu historia clínica durante la llamada.
+                  Ya puedes acceder a la consulta pinchando en el siguiente botón.
                 </p>
               </div>
 
@@ -377,14 +385,6 @@ export const VideoconsultaActiva: React.FC<VideoconsultaActivaProps> = ({
                     En la sala listo para atenderte
                   </span>
                 </div>
-              </div>
-
-              {/* Aviso rosa de acceso como en la captura original pero minimalista */}
-              <div className="p-3.5 rounded-[8px] bg-[#fdf2f8] border border-[#fbcfe8] text-[13px] text-[#831843] flex items-start gap-2.5">
-                <AlertCircle className="w-4 h-4 text-[#d50475] shrink-0 mt-0.5" />
-                <span>
-                  Ya puedes acceder a la consulta pinchando en el siguiente botón.
-                </span>
               </div>
 
               {/* Botón Principal Operativo Homologado (40px, mayúsculas, negrita) */}
