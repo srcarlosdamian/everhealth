@@ -2596,7 +2596,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   title="Pantalla Completa: Chat Médico Activo (Estilo Onboarding)"
                   componentTag="<ChatMedicoActivo />"
                   usedIn={['Hablar ahora', 'Solicitar chat prioritario']}
-                  description="Experiencia de chat médico en pantalla completa dedicada (estilo Onboarding), contenida en max-w-[760px] con fondo blanco, header separado con línea, subtítulos en peso regular, burbujas gris 300 (paciente) y gris 50 (médico) sin bordes, y salida exclusiva mediante el botón FINALIZAR CHAT."
+                  description="Experiencia de chat médico en pantalla completa dedicada (estilo Onboarding), contenida en max-w-[800px] con fondo blanco, header separado con línea, subtítulos en peso regular, burbujas gris 300 (paciente) y gris 50 (médico) sin bordes, y salida exclusiva mediante el botón FINALIZAR CHAT."
                 >
                   <div className="flex flex-col items-start gap-3">
                     <Button variant="primary" onClick={() => setDemoChatActivoOpen(true)}>

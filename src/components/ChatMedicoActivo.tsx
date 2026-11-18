@@ -7,8 +7,11 @@ import {
   Clock,
   AlertCircle,
   FileText,
+  ShieldCheck,
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
+import { Badge } from '../design-system/atoms/Badge';
+import { LanguageSelector } from './LanguageSelector';
 
 export interface Message {
   id: string;
@@ -38,6 +41,8 @@ export const ChatMedicoActivo: React.FC<ChatMedicoActivoProps> = ({
     .slice(0, 2)
     .map((p) => p[0]?.toUpperCase())
     .join('') || 'MF';
+
+  const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
@@ -148,18 +153,31 @@ export const ChatMedicoActivo: React.FC<ChatMedicoActivoProps> = ({
         accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
       />
 
-      {/* 1. Header Superior: Información de especialista + Botón FINALIZAR CHAT (Sin botón de X) */}
-      <header className="w-full bg-white border-b border-[#f1f5f9] shrink-0">
-        <div className="w-full max-w-[760px] mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between gap-3">
+      {/* 1. Header Superior Homologado a Onboarding / Cuestionario Médico (56px, max-w-[800px], logo + LanguageSelector) */}
+      <header className="w-full h-[56px] border-b border-[#f1f5f9] flex items-center justify-center px-4 bg-white shrink-0 sticky top-0 z-40">
+        <div className="w-full max-w-[800px] flex items-center justify-between">
+          <img
+            src={logoSrc}
+            alt="EVER HEALTH"
+            className="h-[36px] sm:h-[40px] w-auto object-contain object-left"
+          />
+          <LanguageSelector />
+        </div>
+      </header>
+
+      {/* 2. Barra del especialista médico asignado + Botón FINALIZAR CHAT */}
+      <div className="w-full bg-white border-b border-[#f1f5f9] shrink-0">
+        <div className="w-full max-w-[800px] mx-auto px-4 sm:px-6 h-[64px] flex items-center justify-between gap-3">
           {/* Identidad del médico asignado */}
           <div className="flex items-center gap-3 min-w-0">
             <div className="relative shrink-0">
-              <div className="w-10 h-10 rounded-full bg-[#f1f5f9] text-black font-bold text-[13px] flex items-center justify-center border border-[#e2e8f0]">
+              {/* Cuadrado como lo hemos venido manejando */}
+              <div className="w-10 h-10 rounded-[6px] bg-[#f1f5f9] text-black font-bold text-[13px] flex items-center justify-center border border-[#e2e8f0]">
                 {doctorInitials}
               </div>
               <span
-                className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full"
-                title="Especialista en directo"
+                className="absolute -bottom-1 -right-1 w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-[2px]"
+                title="Especialista disponible"
               />
             </div>
             <div className="flex flex-col min-w-0">
@@ -167,9 +185,8 @@ export const ChatMedicoActivo: React.FC<ChatMedicoActivoProps> = ({
                 <span className="text-[15px] font-bold text-black truncate leading-tight">
                   {doctorName}
                 </span>
-                <span className="hidden sm:inline-flex px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 text-[11px] font-medium leading-none">
-                  En directo
-                </span>
+                {/* Estatus homologado al Sistema de Diseño (Átomo Badge) */}
+                <Badge variant="success">En proceso</Badge>
               </div>
               <span className="text-[12px] text-[#64748b] font-normal truncate leading-tight mt-0.5">
                 {doctorSpecialty}
@@ -177,7 +194,7 @@ export const ChatMedicoActivo: React.FC<ChatMedicoActivoProps> = ({
             </div>
           </div>
 
-          {/* ÚNICA vía de salida: Botón FINALIZAR CHAT (Sin ningún botón de 'X') */}
+          {/* ÚNICA vía de salida: Botón FINALIZAR CHAT */}
           <button
             type="button"
             onClick={() => setIsConfirmEndOpen(true)}
@@ -188,34 +205,35 @@ export const ChatMedicoActivo: React.FC<ChatMedicoActivoProps> = ({
             <span>FINALIZAR CHAT</span>
           </button>
         </div>
-      </header>
+      </div>
 
-      {/* 2. Sub-información de consulta y tiempo de atención en REGULAR */}
+      {/* 3. Sub-información de consulta y tiempo de atención */}
       <div className="w-full bg-white border-b border-[#f1f5f9] shrink-0">
-        <div className="w-full max-w-[760px] mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-1 text-[13px] text-[#64748b] font-normal">
+        <div className="w-full max-w-[800px] mx-auto px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 text-[13px] text-[#64748b] font-normal">
           <div className="flex items-center gap-1.5 min-w-0 truncate">
-            <span className="font-normal text-[#64748b]">Consulta:</span>
             <span className="font-normal text-black truncate">
               {initialReason || 'Consulta médica inmediata'}
             </span>
           </div>
 
-          <div className="flex items-center gap-2 font-normal text-[#64748b] shrink-0">
-            <div className="flex items-center gap-1">
+          <div className="flex items-center gap-3 font-normal text-[#64748b] shrink-0">
+            <div className="flex items-center gap-1.5 text-[#64748b]">
               <Clock className="w-3.5 h-3.5 text-[#94a3b8]" />
-              <span className="font-normal">Tiempo de atención estimado: 15 min</span>
+              <span className="font-normal">Tiempo de atención: 15 min</span>
             </div>
-            <span className="hidden md:inline text-[#cbd5e1]">·</span>
-            <span className="hidden md:inline text-[#059669] font-normal">
-              Conexión cifrada
+
+            {/* Elemento con borde redondeado para Conexión cifrada */}
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-[#cbd5e1] text-[#15803d] text-[11px] font-medium bg-white">
+              <ShieldCheck className="w-3 h-3 text-[#15803d]" />
+              <span>Conexión cifrada</span>
             </span>
           </div>
         </div>
       </div>
 
-      {/* 3. Feed de Mensajes Minimalista: Fondo blanco, burbuja usuario gris 300, doctor gris 50, SIN BORDES */}
+      {/* 4. Feed de Mensajes Minimalista: Fondo blanco, burbuja usuario gris 300, doctor gris 50, SIN BORDES */}
       <main className="flex-1 w-full bg-white overflow-y-auto custom-scrollbar-minimal px-4 sm:px-6 py-6">
-        <div className="w-full max-w-[760px] mx-auto flex flex-col gap-4">
+        <div className="w-full max-w-[800px] mx-auto flex flex-col gap-4">
           {/* Mensaje de bienvenida del sistema */}
           <div className="text-center my-2">
             <span className="inline-block px-3 py-1 rounded-[4px] bg-[#f8fafc] text-[#64748b] text-[12px] font-normal">
@@ -281,9 +299,9 @@ export const ChatMedicoActivo: React.FC<ChatMedicoActivoProps> = ({
         </div>
       </main>
 
-      {/* 4. Barra Inferior de Entrada: Minimalista y contenida en max-w-[760px] */}
+      {/* 5. Barra Inferior de Entrada: Minimalista y contenida en max-w-[800px] */}
       <footer className="w-full bg-white border-t border-[#f1f5f9] shrink-0 p-3 sm:p-4">
-        <div className="w-full max-w-[760px] mx-auto flex items-center gap-2">
+        <div className="w-full max-w-[800px] mx-auto flex items-center gap-2">
           {/* Botón adjuntar archivo */}
           <button
             type="button"
