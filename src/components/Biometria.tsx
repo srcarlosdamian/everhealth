@@ -13,7 +13,6 @@ import { HelpCenter } from './HelpCenter';
 interface BiometriaProps {
   onBackToHome: () => void;
   userName?: string;
-  isModal?: boolean;
   onClose?: () => void;
   onOpenHelpCenter?: () => void;
 }
@@ -21,7 +20,6 @@ interface BiometriaProps {
 export const Biometria: React.FC<BiometriaProps> = ({
   onBackToHome,
   userName = 'Alejandro Navarro',
-  isModal = false,
   onClose,
   onOpenHelpCenter,
 }) => {
@@ -933,65 +931,6 @@ export const Biometria: React.FC<BiometriaProps> = ({
 
     </div>
   );
-
-  if (isModal) {
-    return (
-      <div
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal animate-fadeIn font-[family-name:Helvetica]"
-        onClick={handleExit}
-      >
-        <div
-          onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-[840px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 my-8 flex flex-col gap-6 max-h-[92vh] overflow-y-auto custom-scrollbar-minimal animate-scaleUp cursor-default"
-        >
-          {/* Modal Header */}
-          <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
-            <div className="flex flex-col">
-              <h2 className="text-[20px] font-bold text-black tracking-tight leading-snug">Biometría facial</h2>
-              <span className="text-[13px] text-[#64748b] mt-0.5">
-                {stage === 1
-                  ? 'Paso 1: Completa los datos de salud y cuestionario previo'
-                  : stage === 'loading'
-                  ? 'Iniciando escaneo facial y calibración del sensor'
-                  : 'Paso 2: Medición biométrica en tiempo real'}
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 shrink-0">
-              <button
-                type="button"
-                onClick={() => {
-                  if (onOpenHelpCenter) onOpenHelpCenter();
-                  else setIsHelpCenterOpen(true);
-                }}
-                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black transition-colors cursor-pointer"
-                title="Help Center y Soporte"
-              >
-                <Info className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={handleExit}
-                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black transition-colors cursor-pointer"
-                title="Cerrar modal"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Modal Content */}
-          {biometriaContent}
-
-          {/* Help Center Panel / Modal */}
-          <HelpCenter
-            isOpen={isHelpCenterOpen}
-            onClose={() => setIsHelpCenterOpen(false)}
-            defaultCategory="biometria"
-          />
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen w-full bg-white flex flex-col font-[family-name:Helvetica]">

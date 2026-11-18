@@ -18,9 +18,8 @@ export const ModalBiometria: React.FC<ModalBiometriaProps> = ({
 
   return (
     <Biometria
-      isModal
-      onClose={onClose}
       onBackToHome={onClose}
+      onClose={onClose}
       userName={userName}
       onOpenHelpCenter={onOpenHelpCenter}
     />
