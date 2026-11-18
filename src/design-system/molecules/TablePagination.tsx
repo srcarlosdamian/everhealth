@@ -1,12 +1,15 @@
 import React from 'react';
 import { ChevronsLeft, ChevronLeft, ChevronRight, ChevronsRight } from 'lucide-react';
 
-interface TablePaginationProps {
+export type TablePaginationVariant = 'full' | 'compact';
+
+export interface TablePaginationProps {
   currentPage?: number;
   totalPages?: number;
   visibleCount: number;
   totalCount: number;
   entityLabel?: string;
+  variant?: TablePaginationVariant;
   onPageChange?: (page: number) => void;
   className?: string;
 }
@@ -17,9 +20,50 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
   visibleCount,
   totalCount,
   entityLabel = 'entradas',
+  variant = 'full',
   onPageChange,
   className = '',
 }) => {
+  if (variant === 'compact') {
+    return (
+      <div
+        className={`flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-[#64748b] font-[family-name:Helvetica] ${className}`}
+      >
+        <span>
+          Mostrando {visibleCount} de {totalCount} {entityLabel}
+        </span>
+
+        <div className="inline-flex items-center rounded-[6px] border border-[#e2e8f0] overflow-hidden bg-white select-none">
+          <button
+            type="button"
+            disabled={currentPage <= 1}
+            onClick={() => onPageChange?.(currentPage - 1)}
+            className="w-8 h-8 flex items-center justify-center hover:bg-[#f8fafc] border-r border-[#e2e8f0] text-[#64748b] disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
+            title="Página anterior"
+          >
+            <ChevronLeft className="w-4 h-4" />
+          </button>
+          <button
+            type="button"
+            className="w-8 h-8 flex items-center justify-center font-bold text-black bg-[#f1f5f9] border-r border-[#e2e8f0] text-[12px]"
+          >
+            {currentPage}
+          </button>
+          <button
+            type="button"
+            disabled={currentPage >= totalPages}
+            onClick={() => onPageChange?.(currentPage + 1)}
+            className="w-8 h-8 flex items-center justify-center hover:bg-[#f8fafc] text-[#64748b] disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
+            title="Página siguiente"
+          >
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Variante 'full' (estándar para tablas de gestión maestras)
   return (
     <div
       className={`p-4 bg-white border-t border-[#e2e8f0] flex flex-col sm:flex-row items-center justify-between gap-3 text-[13px] text-[#64748b] font-[family-name:Helvetica] ${className}`}
@@ -89,3 +133,7 @@ export const TablePagination: React.FC<TablePaginationProps> = ({
     </div>
   );
 };
+
+export const TablePaginationCompact: React.FC<Omit<TablePaginationProps, 'variant'>> = (props) => (
+  <TablePagination {...props} variant="compact" />
+);

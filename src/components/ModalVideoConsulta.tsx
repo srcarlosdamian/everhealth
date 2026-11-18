@@ -221,13 +221,22 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
 
         {/* Footer de confirmación: NO es un paso del stepper */}
         <div className="flex items-center justify-end pt-3 border-t border-[#f1f5f9]">
-          <Button
-            variant="primary"
+          <button
+            type="button"
             onClick={() => setIsSuccessModalOpen(true)}
-            className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px] shadow-xs"
+            title={
+              !isFullyComplete
+                ? 'Campos obligatorios pendientes (prototipo: clic habilitado)'
+                : undefined
+            }
+            className={`h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px] transition-all cursor-pointer select-none inline-flex items-center justify-center ${
+              isFullyComplete
+                ? 'bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white shadow-xs'
+                : 'bg-[#cbd5e1] hover:bg-[#94a3b8] text-[#475569] shadow-none'
+            }`}
           >
             CONFIRMAR CITA
-          </Button>
+          </button>
         </div>
 
         {/* Modal de Cita Confirmada */}

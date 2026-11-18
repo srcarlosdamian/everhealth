@@ -64,7 +64,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }, [isOpen]);
 
   return (
-    <div className={`flex flex-col gap-1.5 w-full relative font-[family-name:Helvetica] ${className}`} ref={containerRef}>
+    <div className={`flex flex-col gap-1.5 w-full relative font-[family-name:Helvetica] ${isOpen ? 'z-[90]' : 'z-auto'} ${className}`} ref={containerRef}>
       {/* Título: Regular negro (como especificado por el usuario) */}
       {label && (
         <label className="text-[14px] font-normal text-black leading-tight flex items-center gap-1">

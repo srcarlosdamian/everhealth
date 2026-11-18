@@ -63,7 +63,7 @@ import { AssignedDoctorCard } from '../design-system/molecules/AssignedDoctorCar
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 import { HelpCenter } from './HelpCenter';
 import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
-import { TablePagination } from '../design-system/molecules/TablePagination';
+import { TablePagination, TablePaginationCompact } from '../design-system/molecules/TablePagination';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
 import { LogoutConfirmModal } from '../design-system/molecules/LogoutConfirmModal';
 import { ModalActionGroup } from '../design-system/molecules/ModalActionGroup';
@@ -1527,12 +1527,12 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   />
                 </StageBlock>
 
-                {/* 5. PaginationEvents */}
+                {/* 5. PaginationEvents (Paginación de Carga Progresiva) */}
                 <StageBlock
-                  title="Paginador de Eventos"
+                  title="1. Paginador de Eventos Progresivo"
                   componentTag="<PaginationEvents />"
-                  usedIn={['Inicio (Próximas consultas)']}
-                  description="Pie interactivo para expandir o contraer citas programadas."
+                  usedIn={['Inicio (Próximas consultas)', 'EVR-18']}
+                  description="Control interactivo de carga progresiva para expandir o contraer listados temporales de citas y eventos."
                 >
                   <PaginationEvents
                     visibleCount={demoPaginationExpanded ? 5 : 1}
@@ -1542,18 +1542,38 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                   />
                 </StageBlock>
 
-                {/* 6. TablePagination */}
+                {/* 6. TablePagination (Paginación Maestra de Gestión) */}
                 <StageBlock
-                  title="Paginación de Tablas"
+                  title="2. Paginación Maestra de Tablas (Estándar 5 Controles)"
                   componentTag="<TablePagination />"
-                  usedIn={['Historial de Consultas', 'Familiares', 'Mascotas']}
-                  description="Controles numéricos de paginación y contador de registros."
+                  usedIn={['Historial de Consultas', 'Familiares', 'Mascotas', 'Gestión Médica']}
+                  description="Controles numéricos completos de paginación para tablas maestras: salto a primera página, anterior, páginas activas (1, 2), siguiente y última página, con contador dinámico de entradas."
                 >
                   <TablePagination
+                    currentPage={1}
+                    totalPages={3}
                     visibleCount={5}
                     totalCount={20}
                     entityLabel="registros"
                   />
+                </StageBlock>
+
+                {/* 6b. TablePaginationCompact (Paginación Compacta de Modales) */}
+                <StageBlock
+                  title="3. Paginación Compacta de Modales (3 Controles: Anterior, Página, Siguiente)"
+                  componentTag="<TablePaginationCompact />"
+                  usedIn={['ModalDocumentos (Informes médicos)', 'Modales con tablas auxiliares']}
+                  description="Variante ultra-compacta diseñada para el espacio reducido de modales y diálogos. Consta de 3 botones (< 1 >) y contador de registros simplificado."
+                >
+                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0]">
+                    <TablePaginationCompact
+                      currentPage={1}
+                      totalPages={2}
+                      visibleCount={5}
+                      totalCount={10}
+                      entityLabel="documentos"
+                    />
+                  </div>
                 </StageBlock>
 
                 {/* 7. CompletionMedalIllustration */}
@@ -1685,6 +1705,28 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                           Usado en <code>ModalGinecologia</code> y <code>ModalDocumentos</code>.
                         </span>
                       </div>
+                    </div>
+
+                    {/* Reglas de Arquitectura y Estándar Homologado */}
+                    <div className="p-4 rounded-[8px] bg-[#fff1f2] border border-[#fecdd3] flex flex-col gap-2.5 text-[12px] text-[#881337]">
+                      <div className="flex items-center gap-2 font-bold uppercase tracking-wider text-[#9f1239]">
+                        <AlertCircle className="w-4 h-4 shrink-0 text-[#e11d48]" />
+                        <span>Reglas Homologadas de Modales y Notificaciones</span>
+                      </div>
+                      <ul className="list-disc list-inside space-y-1 leading-relaxed pl-1">
+                        <li>
+                          <strong>Un Solo Botón Primario por Modal:</strong> Prohibido doble botón primario rosa en cualquier ventana emergente. Las acciones complementarias (ej. "SUBIR DOCUMENTO") deben ser estrictamente <code>variant="secondary"</code>.
+                        </li>
+                        <li>
+                          <strong>Toasts Flotantes en Bottom-Right:</strong> Todo check o confirmación de éxito ("Archivo subido", "Categoría guardada") debe emitirse como <code>&lt;Toast /&gt;</code> flotante en <code>fixed bottom-6 right-6 z-[9999]</code> exterior al modal, nunca como banner dentro del diálogo.
+                        </li>
+                        <li>
+                          <strong>Formularios de Prototipo:</strong> Si faltan campos obligatorios, el CTA se muestra en gris (<code>bg-[#cbd5e1] text-[#475569]</code>), pero al tratarse de un prototipo interactivo, el clic se mantiene siempre operativo sin bloquear la navegación.
+                        </li>
+                        <li>
+                          <strong>Dropdowns en Tablas de Modal:</strong> Las tablas contenedoras deben usar <code>overflow-visible</code> con dropdowns de alto z-index (<code>z-[90]</code> y <code>z-[100]</code>) y <code>dropUp</code> en filas inferiores para evitar cualquier barra de scroll indeseada.
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </StageBlock>

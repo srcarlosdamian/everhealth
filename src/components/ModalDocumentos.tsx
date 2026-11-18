@@ -15,6 +15,8 @@ import {
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { Dropdown } from '../design-system/atoms/Dropdown';
+import { Toast } from '../design-system/atoms/Toast';
+import { TablePaginationCompact } from '../design-system/molecules/TablePagination';
 
 interface ModalDocumentosProps {
   isOpen: boolean;
@@ -181,15 +183,7 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
           </button>
         </div>
 
-        {/* Feedback Banner */}
-        {feedbackMsg && (
-          <div className="p-3 rounded-[8px] bg-[#f0fdf4] border border-[#bbf7d0] text-[#166534] text-[13px] font-medium flex items-center gap-2 animate-fadeIn">
-            <Check className="w-4 h-4 text-[#166534]" />
-            <span>{feedbackMsg}</span>
-          </div>
-        )}
-
-        {/* Toolbar: Buscador a la izquierda + Único botón de SUBIR DOCUMENTO a la derecha */}
+        {/* Toolbar: Buscador a la izquierda + Botón secundario de SUBIR DOCUMENTO a la derecha */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div className="relative flex-1 max-w-[420px]">
             <Search className="w-4 h-4 text-[#94a3b8] absolute left-3 top-1/2 -translate-y-1/2" />
@@ -203,18 +197,18 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
           </div>
 
           <Button
-            variant="primary"
+            variant="secondary"
             type="button"
             onClick={() => fileInputRef.current?.click()}
             className="h-[40px] px-5 text-[13px] font-bold uppercase shrink-0"
           >
-            <Upload className="w-4 h-4 text-white" />
+            <Upload className="w-4 h-4 text-[#d50475]" />
             <span>SUBIR DOCUMENTO</span>
           </Button>
         </div>
 
-        {/* TABLA OFICIAL HOMOLOGADA DE DOCUMENTOS (más compacta y limpia) */}
-        <div className="w-full border border-[#e2e8f0] rounded-none overflow-x-auto">
+        {/* TABLA OFICIAL HOMOLOGADA DE DOCUMENTOS (overflow-visible para que el dropdown flote libremente sin scroll) */}
+        <div className="w-full border border-[#e2e8f0] rounded-none overflow-visible">
           <table className="w-full text-left border-collapse bg-white">
             <thead>
               <tr className="bg-white border-b border-[#e2e8f0] text-[11px] font-bold uppercase tracking-wider text-black">
@@ -234,7 +228,7 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
                 </tr>
               ) : (
                 filteredDocs.map((doc, idx) => {
-                  const isLastRow = idx >= filteredDocs.length - 2;
+                  const isLastRow = idx >= 2;
                   return (
                     <tr key={doc.id} className="hover:bg-[#f8fafc] transition-colors">
                       {/* Archivo adjunto */}
@@ -248,7 +242,7 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
                       </td>
 
                       {/* Dropdown de Categoría oficial de 7 tipos */}
-                      <td className="py-1.5 px-2.5 border-r border-[#e2e8f0]">
+                      <td className="py-1.5 px-2.5 border-r border-[#e2e8f0] relative overflow-visible">
                         <Dropdown
                           size="sm"
                           options={CATEGORY_OPTIONS}
@@ -314,32 +308,15 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
           </table>
         </div>
 
-        {/* Paginación */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-[#64748b] pt-1">
-          <span>
-            Mostrando {filteredDocs.length} de {docs.length} documentos
-          </span>
-          <div className="inline-flex items-center rounded-[6px] border border-[#e2e8f0] overflow-hidden">
-            <button
-              type="button"
-              className="w-8 h-8 flex items-center justify-center hover:bg-[#f8fafc] border-r border-[#e2e8f0] text-[#64748b]"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              className="w-8 h-8 flex items-center justify-center font-bold text-black bg-[#f1f5f9] border-r border-[#e2e8f0]"
-            >
-              1
-            </button>
-            <button
-              type="button"
-              className="w-8 h-8 flex items-center justify-center hover:bg-[#f8fafc] text-[#64748b]"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
+        {/* Paginación Compacta Homologada del Sistema de Diseño */}
+        <TablePaginationCompact
+          visibleCount={filteredDocs.length}
+          totalCount={docs.length}
+          entityLabel="documentos"
+          currentPage={1}
+          totalPages={1}
+          className="pt-1"
+        />
 
         {/* Footer Actions */}
         <div className="flex justify-end items-center gap-3 pt-3 border-t border-[#e2e8f0]">
@@ -359,6 +336,20 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
           </Button>
         </div>
       </div>
+
+      {/* Notificación Toast flotante obligatoria en la esquina inferior derecha exterior al modal */}
+      {feedbackMsg && (
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="fixed bottom-6 right-6 z-[9999] w-[360px] max-w-[calc(100vw-32px)] animate-fadeIn shadow-xl"
+        >
+          <Toast
+            variant="success"
+            message={feedbackMsg}
+            onClose={() => setFeedbackMsg(null)}
+          />
+        </div>
+      )}
     </div>
   );
 };

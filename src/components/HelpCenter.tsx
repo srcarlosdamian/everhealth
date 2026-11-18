@@ -223,7 +223,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       category: 'biometria',
       question: '¿Qué es la biometría facial y cómo mide mis constantes vitales?',
       answer: (
-        <div className="flex flex-col gap-2 text-[16px] text-[#475569] leading-relaxed">
+        <div className="flex flex-col gap-2 text-[14px] text-[#475569] leading-relaxed">
           <p>
             Nuestra tecnología utiliza <strong>fotopletismografía remota (rPPG)</strong> a través de la cámara frontal de tu ordenador o teléfono. Detecta variaciones imperceptibles de color en la microcirculación cutánea del rostro causadas por cada latido sanguíneo.
           </p>
@@ -241,7 +241,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       category: 'biometria',
       question: '¿Cuáles son las recomendaciones para que el escaneo sea óptimo?',
       answer: (
-        <div className="flex flex-col gap-2.5 text-[16px] text-[#475569] leading-relaxed">
+        <div className="flex flex-col gap-2.5 text-[14px] text-[#475569] leading-relaxed">
           <p>Para asegurar una medición biométrica precisa de 30 segundos:</p>
           <ul className="list-disc list-inside space-y-1.5 pl-1">
             <li><strong>Encuadre facial:</strong> Mire a la cámara y sitúe su cara dentro del círculo durante toda la medición.</li>
@@ -256,7 +256,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       category: 'biometria',
       question: '¿Se graban o almacenan mis imágenes o videos faciales?',
       answer: (
-        <div className="flex items-start gap-3 p-3.5 bg-white border border-[#e2e8f0] text-[16px] text-[#475569]">
+        <div className="flex items-start gap-3 p-3.5 bg-white border border-[#e2e8f0] text-[14px] text-[#475569]">
           <ShieldCheck className="w-5 h-5 text-[#15803d] shrink-0 mt-0.5" />
           <p className="leading-relaxed">
             <strong>No, nunca.</strong> El procesamiento óptico se ejecuta en tiempo real en la memoria del navegador. Ninguna imagen, fotografía o flujo de video se graba ni se sube a servidores, cumpliendo los más altos estándares del RGPD y secreto médico.
@@ -269,7 +269,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       category: 'videoconsulta',
       question: '¿Cómo accedo a mi videoconsulta médica programada?',
       answer: (
-        <div className="flex flex-col gap-2 text-[16px] text-[#475569] leading-relaxed">
+        <div className="flex flex-col gap-2 text-[14px] text-[#475569] leading-relaxed">
           <p>
             Diez minutos antes de la hora fijada, en tu pantalla de <strong>Inicio</strong> se activará el botón <strong className="text-black">"Entrar a la sala"</strong> en la tarjeta de próxima cita. Al pulsar entrarás a la sala de espera virtual privada con tu médico asignado.
           </p>
@@ -284,7 +284,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       category: 'videoconsulta',
       question: '¿Qué hago si tengo problemas con la cámara o el micrófono?',
       answer: (
-        <div className="flex flex-col gap-2 text-[16px] text-[#475569] leading-relaxed">
+        <div className="flex flex-col gap-2 text-[14px] text-[#475569] leading-relaxed">
           <p>
             Comprueba en la barra de direcciones de tu navegador que los permisos de cámara y micrófono figuren como <strong>"Permitir"</strong>. Si usas cascos o auriculares bluetooth, verifica que estén seleccionados como dispositivo predeterminado del sistema.
           </p>
@@ -296,7 +296,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       category: 'chat',
       question: '¿Para qué casos es recomendable usar el Chat Médico?',
       answer: (
-        <div className="flex flex-col gap-2 text-[16px] text-[#475569] leading-relaxed">
+        <div className="flex flex-col gap-2 text-[14px] text-[#475569] leading-relaxed">
           <p>
             El chat médico ofrece respuesta rápida con médicos colegiados (tiempo medio estimado: 10 a 12 minutos). Es idóneo para:
           </p>
@@ -313,7 +313,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       category: 'historial',
       question: '¿Dónde puedo consultar y descargar mis informes y recetas?',
       answer: (
-        <div className="flex flex-col gap-2 text-[16px] text-[#475569] leading-relaxed">
+        <div className="flex flex-col gap-2 text-[14px] text-[#475569] leading-relaxed">
           <p>
             En la barra lateral haz clic en <strong>"Historia clínica"</strong> o <strong>"Historial consultas"</strong>. Desde allí puedes ver el resumen de cada consulta, consultar recomendaciones médicas y descargar recetas en formato PDF oficial.
           </p>
@@ -325,7 +325,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
       category: 'historial',
       question: '¿Cómo añado perfiles de familiares o mascotas?',
       answer: (
-        <div className="flex flex-col gap-2 text-[16px] text-[#475569] leading-relaxed">
+        <div className="flex flex-col gap-2 text-[14px] text-[#475569] leading-relaxed">
           <p>
             Ever Health permite gestionar a tus dependientes desde una única cuenta. Accede a las secciones <strong>"Familiares"</strong> o <strong>"Mascotas"</strong> en la navegación para añadir nuevos perfiles y agendar consultas individualizadas.
           </p>

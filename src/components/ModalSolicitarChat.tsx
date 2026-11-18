@@ -84,6 +84,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
   const isSpecialtyDone = Boolean(selectedSpecialty);
   const isMotivoDone = motivoChat.trim().length > 0;
   const isDayDone = modalidad === 'ahora' ? true : Boolean(selectedDay && selectedTime);
+  const isAllRequiredDone = isSpecialtyDone && isMotivoDone && isDayDone;
 
   const specialties = ['Medicina General', 'Psicología', 'Nutrición', 'Pediatría'];
 
@@ -319,8 +320,7 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
             <span className="text-[#d50475] font-bold">*</span> Campos obligatorios
           </span>
 
-          <Button
-            variant="primary"
+          <button
             type="button"
             onClick={() => {
               if (modalidad === 'ahora') {
@@ -334,10 +334,19 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
                 setIsSuccessModalOpen(true);
               }
             }}
-            className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
+            title={
+              !isAllRequiredDone
+                ? 'Campos obligatorios pendientes (prototipo: clic habilitado)'
+                : undefined
+            }
+            className={`h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px] transition-all cursor-pointer select-none inline-flex items-center justify-center ${
+              isAllRequiredDone
+                ? 'bg-[#d50475] hover:bg-[#b80364] active:bg-[#9d174d] text-white shadow-xs'
+                : 'bg-[#cbd5e1] hover:bg-[#94a3b8] text-[#475569] shadow-none'
+            }`}
           >
             {modalidad === 'ahora' ? 'INICIAR CHAT AHORA' : 'CONFIRMAR CITA'}
-          </Button>
+          </button>
         </div>
 
         {/* Modal de Cita Confirmada con ilustración y opciones de navegación */}
