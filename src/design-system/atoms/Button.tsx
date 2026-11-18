@@ -40,6 +40,10 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const isInactive = isLocked || disabled || variant === 'inactive' || variant === 'consulta-inactive' || variant === 'primary-blocked';
   const isSmall = size === 'sm';
+  // El mensaje de "15 minutos antes" solo aplica a botones de cita (variantes inactive)
+  const isScheduleLocked = variant === 'inactive' || variant === 'consulta-inactive';
+  const defaultTooltip = isScheduleLocked ? 'Activo 15 minutos antes' : undefined;
+  const label = tooltipText || defaultTooltip;
 
   const getStyles = () => {
     // Si es primario bloqueado (ej. formulario con campos obligatorios vacíos)
@@ -100,15 +104,13 @@ export const Button: React.FC<ButtonProps> = ({
       type="button"
       {...props}
       disabled={disabled || isInactive}
-      title={tooltipText || (isInactive ? 'Activo 15 minutos antes' : undefined)}
-      className={`inline-flex items-center justify-center gap-[8px] transition-colors cursor-pointer select-none whitespace-nowrap ${getStyles()} ${className}`}
+            className={`inline-flex items-center justify-center gap-[8px] transition-colors cursor-pointer select-none whitespace-nowrap ${getStyles()} ${className}`}
     >
       {children}
     </button>
   );
 
-  if (isInactive || tooltipText) {
-    const label = tooltipText || 'Activo 15 minutos antes';
+  if (label) {
     return (
       <div className="relative group inline-flex shrink-0">
         {buttonElement}
