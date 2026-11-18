@@ -105,9 +105,9 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
       >
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-[16px] border-b border-[#e2e8f0]">
+        <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
           <div>
-            <h2 className="text-[22px] leading-[28px] font-bold text-black">
+            <h2 className="text-[20px] sm:text-[22px] font-bold text-black tracking-tight leading-snug">
               Solicitar chat
             </h2>
             <p className="text-[13px] text-[var(--color-page-subtitle)] mt-0.5 font-normal">
@@ -117,11 +117,11 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-[32px] h-[32px] rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer shrink-0 -mr-1 -mt-1"
+            className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black transition-colors cursor-pointer shrink-0"
             title="Cerrar"
             aria-label="Cerrar modal"
           >
-            <X className="w-[20px] h-[20px]" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 

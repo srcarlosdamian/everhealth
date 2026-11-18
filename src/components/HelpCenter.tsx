@@ -352,7 +352,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
   const contentMarkup = (
     <div className="flex flex-col h-full bg-white select-none">
       {/* Header Panel minimalista: Sin icono, solo Help Center, y subtítulo conservado */}
-      <div className="px-5 py-4 border-b border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
+      <div className="px-5 py-3.5 border-b border-[#f1f5f9] flex items-center justify-between gap-3 shrink-0 bg-white">
         <div className="flex flex-col">
           <h2 className="text-[18px] sm:text-[20px] font-bold text-black leading-tight tracking-tight">
             Help Center
@@ -365,11 +365,11 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
         <button
           type="button"
           onClick={onClose}
-          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] text-black flex items-center justify-center transition-colors cursor-pointer shrink-0 -mr-1"
+          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] text-[#64748b] hover:text-black flex items-center justify-center transition-colors cursor-pointer shrink-0"
           title="Cerrar Help Center"
           aria-label="Cerrar"
         >
-          <X className="w-5 h-5 text-black" />
+          <X className="w-4 h-4" />
         </button>
       </div>
 

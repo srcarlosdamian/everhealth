@@ -1931,14 +1931,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 {/* Banner de Reglas Oficiales de Modales */}
                 <div className="bg-[#f8fafc] border border-[#e2e8f0] rounded-[10px] p-5 flex flex-col gap-2.5">
                   <span className="text-[14px] font-bold text-black">
-                    Reglas Generales de Modales
+                    Reglas Generales de Modales Homologados
                   </span>
-                  <ul className="text-[13px] text-[#475569] space-y-1.5 list-disc list-inside">
+                  <ul className="text-[13px] text-[#475569] space-y-2 list-disc list-inside">
                     <li>
-                      <strong className="text-black font-semibold">Sin iconos en el título:</strong> Ningún modal lleva icono antes del título en su encabezado. El título debe ser tipografía limpia y directa acompañada únicamente del botón circular de cierre (&times;).
+                      <strong className="text-black font-semibold">1. Encabezado homologado y alineación con la X:</strong> Ningún modal lleva iconos decorativos antes del título. El encabezado se alinea perfectamente con el botón circular de cierre (&times;) de 32px y cuenta siempre con su línea divisoria inferior (`flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]`).
                     </li>
                     <li>
-                      <strong className="text-black font-semibold">Descripción de contexto obligatoria:</strong> Todos los modales deben incluir un texto breve debajo del título o línea divisoria explicando el contexto o la acción que realizará el usuario.
+                      <strong className="text-black font-semibold">2. Descripción de contexto y pie de acciones:</strong> Todos los modales incluyen un texto descriptivo breve debajo de la cabecera explicando el contexto o la acción a realizar. Las acciones inferiores van separadas con línea divisoria (`pt-3 border-t border-[#f1f5f9]`) con botones de 40px en mayúsculas (CANCELAR y botón de acción principal o destructiva).
                     </li>
                     <li>
                       <strong className="text-black font-semibold">Cierre por clic exterior:</strong> Todo modal debe cerrarse al hacer clic en el backdrop/overlay exterior.
@@ -2176,14 +2176,14 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-[640px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-7 flex flex-col gap-5 animate-scaleUp cursor-default"
           >
-            <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
-              <h2 className="text-[20px] font-bold text-black">Añadir familiar</h2>
+            <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
+              <h2 className="text-[20px] font-bold text-black tracking-tight leading-snug">Añadir familiar</h2>
               <button
                 type="button"
                 onClick={() => setDemoFormModalOpen(false)}
-                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black cursor-pointer transition-colors"
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors shrink-0"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
             <p className="text-[13.5px] leading-[20px] text-[#64748b] -mt-2">

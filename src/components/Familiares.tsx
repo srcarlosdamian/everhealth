@@ -561,8 +561,8 @@ export const Familiares: React.FC<FamiliaresProps> = ({ autoOpenAddModal = false
             onClick={(e) => e.stopPropagation()}
             className="w-full max-w-[800px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 flex flex-col gap-6 animate-scaleUp max-h-[90vh] overflow-y-auto cursor-default"
           >
-            <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9]">
-              <h2 className="text-[20px] font-bold text-black">
+            <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
+              <h2 className="text-[20px] font-bold text-black tracking-tight leading-snug">
                 {editingFamiliar ? 'Editar familiar' : 'Añadir familiar'}
               </h2>
               <button
@@ -571,13 +571,14 @@ export const Familiares: React.FC<FamiliaresProps> = ({ autoOpenAddModal = false
                   setIsModalOpen(false);
                   setEditingFamiliar(null);
                 }}
-                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black cursor-pointer transition-colors"
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors shrink-0"
+                title="Cerrar"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="text-[13.5px] leading-[20px] text-[var(--color-text-description)] font-normal -mt-2">
+            <p className="text-[13.5px] leading-[20px] text-[var(--color-text-description)] font-normal -mt-3">
               Si vas a añadir familiares adultos y menores, es recomendable empezar por <strong className="font-semibold text-black">los adultos</strong>. Así luego, si es el caso, es más fácil seleccionarlos como tutores de los menores.
             </p>
 

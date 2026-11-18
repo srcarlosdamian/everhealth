@@ -42,34 +42,34 @@ export const LogoutConfirmModal: React.FC<LogoutConfirmModalProps> = ({
   const dialogContent = (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="w-full max-w-[440px] bg-white rounded-[16px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6 sm:p-7 border border-[#e2e8f0] flex flex-col gap-4 cursor-default font-[family-name:Helvetica] animate-fadeIn"
+      className="w-full max-w-[480px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6 sm:p-7 border border-[#e2e8f0] flex flex-col gap-4 cursor-default font-[family-name:Helvetica] animate-fadeIn"
       role="dialog"
       aria-modal="true"
       aria-labelledby="logout-modal-title"
     >
-      {/* Encabezado minimalista: título y botón cerrar circular */}
-      <div className="flex items-start justify-between gap-3">
+      {/* Header alineado con la X y con línea divisoria abajo */}
+      <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
         <h3
           id="logout-modal-title"
-          className="text-[19px] sm:text-[20px] font-bold text-black tracking-tight leading-snug"
+          className="text-[18px] sm:text-[19px] font-bold text-black tracking-tight leading-snug"
         >
           {title}
         </h3>
         <button
           type="button"
           onClick={onCancel}
-          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors shrink-0 -mr-1 -mt-1"
+          className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors shrink-0"
           title="Cerrar"
           aria-label="Cerrar modal"
         >
-          <X className="w-4 h-4 text-black" />
+          <X className="w-4 h-4" />
         </button>
       </div>
 
       {/* Descripción clara y directa en color negro homologado */}
-      <p className="text-[14px] leading-[22px] text-[var(--color-page-subtitle)] font-normal">
-        {description}
-      </p>
+      <div className="flex flex-col gap-2 pt-1 text-[14px] leading-[22px] text-black font-normal">
+        <p>{description}</p>
+      </div>
 
       {/* Acciones de pie: Cancelar y Cerrar Sesión homologados a 40px y mayúsculas */}
       <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#f1f5f9]">

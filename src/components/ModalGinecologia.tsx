@@ -49,16 +49,17 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
       >
         
         {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#e2e8f0]">
-          <h2 className="text-[22px] leading-[28px] font-bold text-black">
+        <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-black tracking-tight leading-snug">
             Ginecología
           </h2>
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black transition-colors cursor-pointer shrink-0"
+            title="Cerrar"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 

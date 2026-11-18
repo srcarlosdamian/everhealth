@@ -174,7 +174,7 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
             className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black cursor-pointer transition-colors shrink-0"
             title="Cerrar"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 

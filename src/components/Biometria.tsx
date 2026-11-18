@@ -945,9 +945,9 @@ export const Biometria: React.FC<BiometriaProps> = ({
           className="relative w-full max-w-[840px] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] p-6 sm:p-8 my-8 flex flex-col gap-6 max-h-[92vh] overflow-y-auto animate-scaleUp cursor-default"
         >
           {/* Modal Header */}
-          <div className="flex items-center justify-between pb-3 border-b border-[#f1f5f9]">
+          <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
             <div className="flex flex-col">
-              <h2 className="text-[20px] font-bold text-black leading-tight">Biometría facial</h2>
+              <h2 className="text-[20px] font-bold text-black tracking-tight leading-snug">Biometría facial</h2>
               <span className="text-[13px] text-[#64748b] mt-0.5">
                 {stage === 1
                   ? 'Paso 1: Completa los datos de salud y cuestionario previo'
@@ -956,25 +956,25 @@ export const Biometria: React.FC<BiometriaProps> = ({
                   : 'Paso 2: Medición biométrica en tiempo real'}
               </span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5 shrink-0">
               <button
                 type="button"
                 onClick={() => {
                   if (onOpenHelpCenter) onOpenHelpCenter();
                   else setIsHelpCenterOpen(true);
                 }}
-                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black transition-colors cursor-pointer"
                 title="Help Center y Soporte"
               >
-                <Info className="w-5 h-5 text-black" />
+                <Info className="w-4 h-4" />
               </button>
               <button
                 type="button"
                 onClick={handleExit}
-                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-black transition-colors cursor-pointer"
+                className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black transition-colors cursor-pointer"
                 title="Cerrar modal"
               >
-                <X className="w-5 h-5 text-black" />
+                <X className="w-4 h-4" />
               </button>
             </div>
           </div>
