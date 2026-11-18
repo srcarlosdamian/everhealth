@@ -197,7 +197,7 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
                   <button
                     type="button"
                     onClick={() => setIsStepsDropdownOpen(!isStepsDropdownOpen)}
-                    className="inline-flex items-center gap-2 px-3 py-1 rounded-[6px] border border-[#cbd5e1] hover:border-black active:border-black bg-white text-black text-[12px] font-bold uppercase transition-colors cursor-pointer select-none"
+                    className="inline-flex items-center gap-2 px-3 py-1 rounded-[6px] border border-[#cbd5e1] hover:border-black active:border-black bg-white text-black text-[12px] font-bold uppercase transition-colors cursor-pointer select-none outline-none focus-visible:border-black"
                   >
                     <span>{stepsInfo[step - 1]}</span>
                     <ChevronDown className={`w-3.5 h-3.5 text-black transition-transform duration-200 ${isStepsDropdownOpen ? 'rotate-180' : ''}`} />
@@ -206,37 +206,43 @@ export const CuestionarioMedico: React.FC<CuestionarioMedicoProps> = ({ onBackTo
 
                 {/* Menú desplegable con todas las 8 secciones para navegar libremente */}
                 {isStepsDropdownOpen && (
-                  <div className="absolute left-0 top-[calc(100%+8px)] z-50 w-[300px] sm:w-[350px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.14)] p-2 flex flex-col gap-1 border border-[#f1f5f9]">
-                    <div className="px-3 py-1.5 border-b border-[#f1f5f9] flex items-center justify-between">
-                      <span className="text-[11px] font-bold text-[#64748b] uppercase tracking-wider">Secciones del cuestionario</span>
-                      <span className="text-[11px] text-[#94a3b8]">Opcional</span>
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setIsStepsDropdownOpen(false)} aria-hidden="true" />
+                    <div
+                      role="listbox"
+                      aria-label="Secciones del cuestionario"
+                      className="absolute left-0 top-[calc(100%+8px)] z-50 w-[300px] sm:w-[340px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] border border-[#e2e8f0] py-1.5 flex flex-col animate-fadeIn"
+                    >
+                      {stepsList.map((item) => {
+                        const isActive = step === item.id;
+                        return (
+                          <button
+                            key={item.id}
+                            type="button"
+                            role="option"
+                            aria-selected={isActive}
+                            onClick={() => {
+                              setStep(item.id);
+                              setIsStepsDropdownOpen(false);
+                            }}
+                            className={`mx-1.5 px-3 h-[40px] rounded-[6px] flex items-center justify-between gap-3 text-left text-[14px] transition-colors cursor-pointer ${
+                              isActive ? 'bg-[#f1f5f9] text-black font-bold' : 'hover:bg-[#f8fafc] text-black font-normal'
+                            }`}
+                          >
+                            <span className="flex items-center gap-3 min-w-0">
+                              <span className="w-4 text-[12px] text-[#64748b] font-normal">{item.id}</span>
+                              <span className="truncate">{item.name}</span>
+                            </span>
+                            <ProgressCheckCircle
+                              progress={item.progress}
+                              isCompleted={item.isCompleted}
+                              size={18}
+                            />
+                          </button>
+                        );
+                      })}
                     </div>
-                    {stepsList.map((item) => (
-                      <button
-                        key={item.id}
-                        type="button"
-                        onClick={() => {
-                          setStep(item.id);
-                          setIsStepsDropdownOpen(false);
-                        }}
-                        className={`w-full px-3 py-2 rounded-[6px] flex items-center justify-between text-left text-[13px] transition-colors cursor-pointer ${
-                          step === item.id
-                            ? 'bg-[#fdf2f8] text-[#d50475] font-bold'
-                            : 'hover:bg-[#f8fafc] text-black font-medium'
-                        }`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="w-5 text-[11px] text-[#64748b]">#{item.id}</span>
-                          <span>{item.name}</span>
-                        </div>
-                        <ProgressCheckCircle
-                          progress={item.progress}
-                          isCompleted={item.isCompleted}
-                          size={18}
-                        />
-                      </button>
-                    ))}
-                  </div>
+                  </>
                 )}
               </div>
 
