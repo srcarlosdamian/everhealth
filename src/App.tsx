@@ -43,18 +43,18 @@ const resolveRoute = (input: string | null | undefined): string | null => {
 };
 
 const getInitialRoute = (): string => {
-  // 1. Soporte para enlaces con query params (?route=onboarding, ?p=onboarding, ?view=onboarding)
+  // 1. Soporte prioritario para enlaces con hash (#/onboarding, #/home, #/familiares, #/mascotas, etc.)
+  if (typeof window !== 'undefined' && window.location.hash) {
+    const resolvedFromHash = resolveRoute(window.location.hash);
+    if (resolvedFromHash) return resolvedFromHash;
+  }
+
+  // 2. Soporte para enlaces con query params (?route=onboarding, ?p=onboarding, ?view=onboarding)
   if (typeof window !== 'undefined' && window.location.search) {
     const params = new URLSearchParams(window.location.search);
     const queryRoute = params.get('route') || params.get('p') || params.get('view');
     const resolvedFromQuery = resolveRoute(queryRoute);
     if (resolvedFromQuery) return resolvedFromQuery;
-  }
-
-  // 2. Soporte para enlaces con hash (#/onboarding, #onboarding, #/home, #/consultas, etc.)
-  if (typeof window !== 'undefined' && window.location.hash) {
-    const resolvedFromHash = resolveRoute(window.location.hash);
-    if (resolvedFromHash) return resolvedFromHash;
   }
 
   // 3. Si se accede a la raíz pura sin ruta específica, arrancar en login

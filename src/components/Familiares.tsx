@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Plus,
   Search,
@@ -105,13 +105,9 @@ export const Familiares: React.FC<FamiliaresProps> = ({ autoOpenAddModal = false
       setEditingFamiliar(null);
       setFormNombre('');
       setFormApellidos('');
-      setFormDia('');
-      setFormMes('');
-      setFormAno('');
+      setFormFechaNac('');
       setFormSexo('');
       setFormParentesco('');
-      setFormEsTutor(false);
-      setFormTutorAsignado('Alejandro Navarro (Titular)');
       setIsModalOpen(true);
     }
   }, [autoOpenAddModal]);
