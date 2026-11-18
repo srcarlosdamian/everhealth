@@ -129,7 +129,7 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[700px] min-h-[380px] sm:min-h-[520px] max-h-[90vh] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
+        className="w-full max-w-[700px] min-h-[380px] sm:min-h-[520px] max-h-[90vh] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
       >
         {/* ================= HEADER DEL MODAL EDITABLE ================= */}
         <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">

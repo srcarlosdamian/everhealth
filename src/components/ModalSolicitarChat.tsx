@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useEscapeClose } from '../design-system/useEscapeClose';
 import { X, Calendar as CalendarIcon, MessageSquare } from 'lucide-react';
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
@@ -83,6 +84,8 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
     return { fullName, initials, specialty };
   }, [doctorName]);
 
+  useEscapeClose(isOpen, onClose);
+
   if (!isOpen) return null;
 
   // Validación de obligatoriedad: especialidad*, motivo* y día*
@@ -100,12 +103,12 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby="chat-confirmado-title"
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal font-[family-name:Helvetica]"
+        className="fixed inset-0 z-50 flex items-center justify-center animate-fadeIn bg-black/50 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal font-[family-name:Helvetica]"
         onClick={handleClose}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-[560px] bg-white rounded-[12px] shadow-2xl p-6 sm:p-7 flex flex-col gap-4 max-h-[90vh] overflow-y-auto custom-scrollbar-minimal cursor-default animate-scaleUp"
+          className="relative w-full max-w-[560px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] p-6 sm:p-7 flex flex-col gap-4 max-h-[90vh] overflow-y-auto custom-scrollbar-minimal cursor-default animate-scaleUp"
         >
           {/* Header */}
           <div className="flex items-start justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
@@ -210,12 +213,12 @@ export const ModalSolicitarChat: React.FC<ModalSolicitarChatProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal animate-fadeIn font-[family-name:Helvetica]"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal animate-fadeIn font-[family-name:Helvetica]"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-[660px] bg-white rounded-[14px] shadow-2xl p-6 sm:p-[28px] my-8 flex flex-col gap-[20px] max-h-[92vh] overflow-y-auto custom-scrollbar-minimal animate-scaleUp cursor-default"
+        className="relative w-full max-w-[660px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] p-6 sm:p-[28px] my-8 flex flex-col gap-[20px] max-h-[92vh] overflow-y-auto custom-scrollbar-minimal animate-scaleUp cursor-default"
       >
         
         {/* Header */}

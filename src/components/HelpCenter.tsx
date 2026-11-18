@@ -718,7 +718,7 @@ export const HelpCenter: React.FC<HelpCenterProps> = ({
           className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
           onClick={onClose}
         />
-        <div className="relative w-full max-w-[460px] max-h-[88vh] bg-white rounded-[14px] shadow-2xl flex flex-col overflow-hidden animate-scaleUp z-10 font-[family-name:Helvetica]">
+        <div className="relative w-full max-w-[460px] max-h-[88vh] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp z-10 font-[family-name:Helvetica]">
           {contentMarkup}
         </div>
       </div>

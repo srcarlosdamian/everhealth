@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useEscapeClose } from '../design-system/useEscapeClose';
 import {
   X,
   Search,
@@ -102,6 +103,8 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
     };
   }, [activeMenuId]);
 
+  useEscapeClose(isOpen, onClose);
+
   if (!isOpen) return null;
 
   const showToast = (msg: string) => {
@@ -147,12 +150,14 @@ export const ModalDocumentos: React.FC<ModalDocumentosProps> = ({ isOpen, onClos
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-3 sm:p-5 overflow-y-auto font-[family-name:Helvetica]"
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 z-50 flex items-center justify-center animate-fadeIn bg-black/50 backdrop-blur-xs p-3 sm:p-5 overflow-y-auto font-[family-name:Helvetica]"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-[880px] bg-white rounded-[14px] shadow-2xl p-6 sm:p-7 flex flex-col gap-5 max-h-[92vh] overflow-y-auto custom-scrollbar-minimal cursor-default animate-scaleUp"
+        className="relative w-full max-w-[880px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] p-6 sm:p-7 flex flex-col gap-5 max-h-[92vh] overflow-y-auto custom-scrollbar-minimal cursor-default animate-scaleUp"
       >
         {/* Input file invisible para el subidor unificado */}
         <input

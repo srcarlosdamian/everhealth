@@ -347,7 +347,7 @@ export const ChatMedicoActivo: React.FC<ChatMedicoActivoProps> = ({
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[480px] bg-white rounded-[14px] shadow-2xl p-6 sm:p-7 flex flex-col gap-4 animate-scaleUp cursor-default border border-[#e2e8f0]"
+            className="w-full max-w-[480px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6 sm:p-7 flex flex-col gap-4 animate-scaleUp cursor-default border border-[#e2e8f0]"
           >
             {/* Header del Diálogo: Icono oficial PhoneOff neutro según el sistema de diseño, título y botón X alineado */}
             <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">

@@ -131,7 +131,7 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[760px] max-h-[90vh] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
+        className="w-full max-w-[760px] max-h-[90vh] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* ================= HEADER HOMOLOGADO DEL MODAL ================= */}

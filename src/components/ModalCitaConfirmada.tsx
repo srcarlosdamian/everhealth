@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEscapeClose } from '../design-system/useEscapeClose';
 import { X } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 
@@ -23,18 +24,22 @@ export const ModalCitaConfirmada: React.FC<ModalCitaConfirmadaProps> = ({
   fecha = 'Sábado 24 de Octubre',
   hora = '10:00 hrs',
 }) => {
+  useEscapeClose(isOpen, onClose);
+
   if (!isOpen) return null;
 
   const illustrationSrc = `${import.meta.env.BASE_URL}assets/welcome-illustration.png`;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-fadeIn font-[family-name:Helvetica]"
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-fadeIn font-[family-name:Helvetica]"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[460px] bg-white rounded-[14px] shadow-2xl p-6 border border-[#e2e8f0] flex flex-col gap-4 animate-scaleUp cursor-default"
+        className="w-full max-w-[460px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] p-6 border border-[#e2e8f0] flex flex-col gap-4 animate-scaleUp cursor-default"
       >
         {/* Header alineado con la X y con línea divisoria abajo */}
         <div className="flex items-center justify-between pb-3.5 border-b border-[#f1f5f9]">

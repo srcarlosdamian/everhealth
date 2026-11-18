@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEscapeClose } from '../design-system/useEscapeClose';
 import { X } from 'lucide-react';
 import { SegmentedToggle } from '../design-system/atoms/SegmentedToggle';
 import { Checkbox } from '../design-system/atoms/Checkbox';
@@ -20,6 +21,8 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
   const [aborto, setAborto] = useState<'si' | 'no'>('no');
   const [hijos, setHijos] = useState<'si' | 'no'>('si');
 
+  useEscapeClose(isOpen, onClose);
+
   if (!isOpen) return null;
 
   const patologias = [
@@ -40,12 +43,14 @@ export const ModalGinecologia: React.FC<ModalGinecologiaProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal"
+      role="dialog"
+      aria-modal="true"
+      className="fixed inset-0 z-50 flex items-center justify-center animate-fadeIn bg-black/50 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal font-[family-name:Helvetica]"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-[720px] bg-white rounded-[12px] shadow-2xl p-6 sm:p-[28px] my-8 flex flex-col gap-[24px] max-h-[90vh] overflow-y-auto custom-scrollbar-minimal cursor-default"
+        className="relative w-full max-w-[720px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] p-6 sm:p-[28px] my-8 flex flex-col gap-[24px] max-h-[90vh] overflow-y-auto custom-scrollbar-minimal cursor-default animate-scaleUp"
       >
         
         {/* Header */}

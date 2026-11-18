@@ -44,12 +44,12 @@ export const ModalCalificacion: React.FC<ModalCalificacionProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-calificacion-title"
-      className="fixed inset-0 z-50 bg-black/50 backdrop-blur-[2px] flex items-center justify-center p-4 animate-fadeIn font-[family-name:Helvetica]"
+      className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn font-[family-name:Helvetica]"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[480px] bg-white rounded-[12px] shadow-2xl border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
+        className="w-full max-w-[480px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
       >
         {/* ================= HEADER DEL MODAL ================= */}
         <div className="px-5 sm:px-6 py-4 border-b border-[#f1f5f9] flex items-center justify-between gap-4 shrink-0 bg-white">

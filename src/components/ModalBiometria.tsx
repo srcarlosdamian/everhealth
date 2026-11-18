@@ -27,12 +27,12 @@ export const ModalBiometria: React.FC<ModalBiometriaProps> = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-[2px] animate-fadeIn"
+      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-fadeIn font-[family-name:Helvetica]"
       role="dialog"
       aria-modal="true"
       aria-labelledby="biometria-modal-title"
     >
-      <div className="w-full max-w-[560px] bg-white rounded-[12px] shadow-2xl border border-[#e2e8f0] overflow-hidden flex flex-col max-h-[90vh] font-[family-name:Helvetica] animate-scaleUp">
+      <div className="w-full max-w-[560px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] overflow-hidden flex flex-col max-h-[90vh] font-[family-name:Helvetica] animate-scaleUp">
         
         {/* ================= HEADER DEL MODAL ================= */}
         <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#f1f5f9] flex items-center justify-between gap-4 shrink-0 bg-white">

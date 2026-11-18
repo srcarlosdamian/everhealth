@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useEscapeClose } from '../design-system/useEscapeClose';
 import { X, Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check, Video } from 'lucide-react';
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
@@ -23,6 +24,8 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
   const [tipoConsulta, setTipoConsulta] = useState<string>('Primera vez');
   const [zonaHoraria, setZonaHoraria] = useState<string>('GMT-6 (Ciudad de México)');
   const [isConfirmed, setIsConfirmed] = useState(false);
+
+  useEscapeClose(isOpen, onClose);
 
   if (!isOpen) return null;
 
@@ -55,12 +58,12 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
         role="dialog"
         aria-modal="true"
         aria-labelledby="videoconsulta-confirmada-title"
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal font-[family-name:Helvetica]"
+        className="fixed inset-0 z-50 flex items-center justify-center animate-fadeIn bg-black/50 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal font-[family-name:Helvetica]"
         onClick={handleClose}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-[560px] bg-white rounded-[12px] shadow-2xl p-6 sm:p-7 flex flex-col gap-4 max-h-[90vh] overflow-y-auto custom-scrollbar-minimal cursor-default animate-scaleUp"
+          className="relative w-full max-w-[560px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] p-6 sm:p-7 flex flex-col gap-4 max-h-[90vh] overflow-y-auto custom-scrollbar-minimal cursor-default animate-scaleUp"
         >
           {/* Header */}
           <div className="flex items-start justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
@@ -176,12 +179,12 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal"
+      className="fixed inset-0 z-50 flex items-center justify-center animate-fadeIn bg-black/50 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal font-[family-name:Helvetica]"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-[660px] bg-white rounded-[12px] shadow-2xl p-6 sm:p-[28px] my-8 flex flex-col gap-[20px] max-h-[90vh] overflow-y-auto custom-scrollbar-minimal cursor-default"
+        className="relative w-full max-w-[660px] bg-white rounded-[14px] shadow-[0_20px_50px_rgba(0,0,0,0.18)] border border-[#e2e8f0] p-6 sm:p-[28px] my-8 flex flex-col gap-[20px] max-h-[90vh] overflow-y-auto custom-scrollbar-minimal cursor-default animate-scaleUp"
       >
         {/* Header */}
         <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">

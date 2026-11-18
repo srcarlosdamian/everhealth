@@ -756,12 +756,12 @@ export const VideoconsultaActiva: React.FC<VideoconsultaActivaProps> = ({
           role="dialog"
           aria-modal="true"
           aria-labelledby="confirm-end-call-title"
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 font-[family-name:Helvetica]"
+          className="fixed inset-0 z-50 flex items-center justify-center animate-fadeIn bg-black/50 backdrop-blur-xs p-4 font-[family-name:Helvetica]"
           onClick={() => setIsConfirmEndOpen(false)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-[14px] p-6 sm:p-7 max-w-[480px] w-full text-black shadow-2xl flex flex-col gap-4 animate-scaleUp border border-[#e2e8f0]"
+            className="bg-white rounded-[14px] p-6 sm:p-7 max-w-[480px] w-full text-black shadow-[0_20px_50px_rgba(0,0,0,0.18)] flex flex-col gap-4 animate-scaleUp border border-[#e2e8f0]"
           >
             {/* Header con icono neutral, título y botón X alineado */}
             <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
