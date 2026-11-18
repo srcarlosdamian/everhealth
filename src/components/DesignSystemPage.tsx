@@ -40,6 +40,7 @@ import {
   Download,
   AlertCircle,
   Info,
+  Lock,
 } from 'lucide-react';
 import { Button } from '../design-system/atoms/Button';
 import { Badge } from '../design-system/atoms/Badge';
@@ -872,13 +873,219 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                       </span>
                     </div>
 
+                    <div className="h-[1px] bg-[#e2e8f0] w-full my-2" />
+
+                    {/* 3. Botones Bloqueados / Inactivos (Documentación Exhaustiva) */}
+                    <div className="flex flex-col gap-4">
+                      <div className="flex flex-col gap-1">
+                        <div className="flex items-center gap-2">
+                          <Lock className="w-4 h-4 text-[#d50475]" />
+                          <span className="text-[14px] font-bold text-black uppercase tracking-wide">
+                            3. Botones Bloqueados / Inactivos (Validación y Disponibilidad)
+                          </span>
+                        </div>
+                        <p className="text-[13px] text-[var(--color-page-subtitle)] leading-relaxed">
+                          <strong>Directriz de diseño obligatoria:</strong> Si todos los campos obligatorios de un formulario no están completos o una consulta aún no ha alcanzado su horario de atención, el botón de acción <strong>nunca debe ponerse rosa</strong> ni aparentar estar activo. Debe mostrarse en color gris neutro bloqueado con cursor <code className="bg-[#f1f5f9] px-1.5 py-0.5 rounded text-[12px] text-black">cursor-not-allowed</code> y mostrar un tooltip explicativo en modo hover indicando el motivo del bloqueo.
+                        </p>
+                      </div>
+
+                      {/* Sub-bloque A: Primarios Bloqueados (Formularios / Validación) */}
+                      <div className="flex flex-col gap-2 p-4 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px]">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                            A. Botón Primario Bloqueado (Formularios con campos pendientes)
+                          </span>
+                          <span className="text-[11px] text-[#64748b]">Fondo sólido #cbd5e1 · Texto #475569 · Sin rosa</span>
+                        </div>
+                        <p className="text-[12px] text-[#64748b]">
+                          Utilizado en "Solicitar Cita / Iniciar Chat", "Guardar Cambios" y "Continuar" cuando faltan requisitos obligatorios. Pasa el cursor por encima para ver el tooltip informativo.
+                        </p>
+                        <div className="flex flex-wrap items-center gap-3 pt-1">
+                          <Button
+                            variant="primary-blocked"
+                            tooltipText="Campos obligatorios pendientes (prototipo: clic habilitado)"
+                          >
+                            {demoButtonsWithIcons && <Lock className="w-4 h-4 text-[#475569]" />}
+                            <span>INICIAR CHAT AHORA</span>
+                          </Button>
+
+                          <Button
+                            variant="primary-blocked"
+                            tooltipText="Completa los campos obligatorios para activar"
+                          >
+                            {demoButtonsWithIcons && <Calendar className="w-4 h-4 text-[#475569]" />}
+                            <span>CONFIRMAR CITA</span>
+                          </Button>
+
+                          <Button
+                            variant="primary-blocked"
+                            tooltipText="No hay modificaciones pendientes por guardar"
+                          >
+                            {demoButtonsWithIcons && <Check className="w-4 h-4 text-[#475569]" />}
+                            <span>GUARDAR CAMBIOS</span>
+                          </Button>
+
+                          <Button
+                            variant="primary-blocked"
+                            tooltipText="Acepta la política de privacidad para continuar"
+                          >
+                            <span>CONTINUAR</span>
+                            {demoButtonsWithIcons && <ChevronRight className="w-4 h-4 text-[#475569]" />}
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Sub-bloque B: Operativos de Consulta Bloqueados (Horario / Disponibilidad) */}
+                      <div className="flex flex-col gap-2 p-4 bg-white border border-[#e2e8f0] rounded-[8px]">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                            B. Botón Operativo Bloqueado (Temporalidad / Sala Inactiva)
+                          </span>
+                          <span className="text-[11px] text-[#64748b]">Borde #cbd5e1 · Fondo transparente · Texto #94a3b8</span>
+                        </div>
+                        <p className="text-[12px] text-[#64748b]">
+                          Utilizado en tarjetas y tablas de Historial de Consultas cuando la sala aún no está abierta o la consulta fue cancelada. Pasa el cursor por encima para ver el tooltip explicativo.
+                        </p>
+                        <div className="flex flex-wrap items-center gap-3 pt-1">
+                          <Button
+                            variant="consulta-inactive"
+                            tooltipText="La sala se activará 15 minutos antes de la cita"
+                          >
+                            {demoButtonsWithIcons && <Video className="w-4 h-4 text-[#94a3b8]" />}
+                            <span>ACCEDER A LA SALA</span>
+                          </Button>
+
+                          <Button
+                            variant="consulta-inactive"
+                            tooltipText="Activo 15 minutos antes de la cita"
+                          >
+                            {demoButtonsWithIcons && <MessageSquare className="w-4 h-4 text-[#94a3b8]" />}
+                            <span>ACCEDER AL CHAT</span>
+                          </Button>
+
+                          <Button
+                            variant="consulta-inactive"
+                            tooltipText="Esta consulta ha sido cancelada"
+                          >
+                            {demoButtonsWithIcons && <X className="w-4 h-4 text-[#94a3b8]" />}
+                            <span>NO DISPONIBLE</span>
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Sub-bloque C: Secundarios y Destructivos Bloqueados */}
+                      <div className="flex flex-col gap-2 p-4 bg-[#f8fafc] border border-[#e2e8f0] rounded-[8px]">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                            C. Botones Secundarios y Destructivos Bloqueados
+                          </span>
+                          <span className="text-[11px] text-[#64748b]">Borde neutro atenuado · Texto desactivado</span>
+                        </div>
+                        <p className="text-[12px] text-[#64748b]">
+                          Para acciones condicionales que requieren selección previa de ítems, permisos o confirmación por parte del usuario.
+                        </p>
+                        <div className="flex flex-wrap items-center gap-3 pt-1">
+                          <Button
+                            variant="inactive"
+                            tooltipText="Selecciona un documento para habilitar la subida"
+                          >
+                            {demoButtonsWithIcons && <FileUp className="w-4 h-4 text-[#94a3b8]" />}
+                            <span>SUBIR DOCUMENTO</span>
+                          </Button>
+
+                          <Button
+                            variant="inactive"
+                            tooltipText="No hay citas previas disponibles para reagendar"
+                          >
+                            {demoButtonsWithIcons && <Calendar className="w-4 h-4 text-[#94a3b8]" />}
+                            <span>REAGENDAR CITA</span>
+                          </Button>
+
+                          <Button
+                            variant="inactive"
+                            tooltipText="Debes marcar la casilla de confirmación para dar de baja"
+                          >
+                            {demoButtonsWithIcons && <Trash2 className="w-4 h-4 text-[#94a3b8]" />}
+                            <span>DAR DE BAJA</span>
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Sub-bloque D: Tamaño Compacto (Small - 32px) Bloqueado */}
+                      <div className="flex flex-col gap-2 p-4 bg-white border border-[#e2e8f0] rounded-[8px]">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[12px] font-bold uppercase tracking-wider text-black">
+                            D. Botones Bloqueados en Tamaño Compacto (Small 32px - Tablas y Paginación)
+                          </span>
+                          <span className="text-[11px] text-[#64748b]">Altura 32px · Texto 12px</span>
+                        </div>
+                        <div className="flex flex-wrap items-center gap-3 pt-1">
+                          <Button
+                            variant="primary-blocked"
+                            size="sm"
+                            tooltipText="Faltan datos por ingresar"
+                          >
+                            <span>GUARDAR</span>
+                          </Button>
+
+                          <Button
+                            variant="inactive"
+                            size="sm"
+                            tooltipText="Primera página alcanzada"
+                          >
+                            <ChevronLeft className="w-3.5 h-3.5 text-[#94a3b8]" />
+                            <span>ANTERIOR</span>
+                          </Button>
+
+                          <Button
+                            variant="inactive"
+                            size="sm"
+                            tooltipText="Última página alcanzada"
+                          >
+                            <span>SIGUIENTE</span>
+                            <ChevronRight className="w-3.5 h-3.5 text-[#94a3b8]" />
+                          </Button>
+
+                          <Button
+                            variant="inactive"
+                            size="sm"
+                            tooltipText="Archivo no disponible para descarga"
+                          >
+                            <Download className="w-3.5 h-3.5 text-[#94a3b8]" />
+                            <span>DESCARGAR</span>
+                          </Button>
+                        </div>
+                      </div>
+
+                      {/* Tarjeta de Especificación Técnica de Diseño */}
+                      <div className="p-4 rounded-[8px] bg-white border-l-4 border-l-[#d50475] border border-[#e2e8f0] flex flex-col gap-2">
+                        <span className="text-[13px] font-bold text-black">
+                          Resumen de Reglas de Implementación para Estados Bloqueados
+                        </span>
+                        <ul className="text-[12px] text-[#475569] space-y-1.5 list-disc list-inside">
+                          <li>
+                            <strong>Nunca usar rosa en botones bloqueados:</strong> El color corporativo <code className="text-[#d50475] font-semibold">#d50475</code> está reservado exclusivamente para acciones activas ejecutables. Si faltan campos requeridos, el botón usa fondo <code className="text-black font-semibold">#cbd5e1</code> y texto <code className="text-black font-semibold">#475569</code>.
+                          </li>
+                          <li>
+                            <strong>Tooltip explicativo siempre presente:</strong> El usuario debe comprender inmediatamente por qué no puede hacer clic. El tooltip flotante oscuro aparece al hacer hover sobre el botón bloqueado.
+                          </li>
+                          <li>
+                            <strong>No duplicar texto explicativo fuera del botón:</strong> La aclaración va en el tooltip flotante con hover; no debe insertarse texto redundante adyacente que recargue la interfaz (como en Historial de consultas).
+                          </li>
+                          <li>
+                            <strong>Comportamiento en prototipos:</strong> Aunque el botón esté visualmente bloqueado, en prototipos de prueba se permite que al hacer clic se dirija al flujo demostrativo para evaluar la experiencia completa sin bloqueos rígidos de navegación.
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
                     <div className="h-[1px] bg-[#f1f5f9] w-full my-2" />
 
-                    {/* 3. Avatar de Usuario / Iniciales (Homologado) */}
+                    {/* 4. Avatar de Usuario / Iniciales (Homologado) */}
                     <div className="flex flex-col gap-2">
                       <div className="flex flex-col">
                         <span className="text-[13px] font-bold text-black">
-                          3. Avatar con Iniciales (Cuadrado / Homologado)
+                          4. Avatar con Iniciales (Cuadrado / Homologado)
                         </span>
                         <span className="text-[12px] text-[#64748b]">
                           Elemento estándar para identificar usuarios y dependientes en Sidebar, Perfil y Fichas. Alineación vertical centrada con fondo neutral #f1f5f9 y borde #cbd5e1.

@@ -2,6 +2,7 @@ import React from 'react';
 
 export type ButtonVariant =
   | 'primary'
+  | 'primary-blocked'
   | 'secondary'
   | 'outline'
   | 'inactive'
@@ -37,10 +38,17 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const isInactive = isLocked || variant === 'inactive';
+  const isInactive = isLocked || disabled || variant === 'inactive' || variant === 'consulta-inactive' || variant === 'primary-blocked';
   const isSmall = size === 'sm';
 
   const getStyles = () => {
+    // Si es primario bloqueado (ej. formulario con campos obligatorios vacíos)
+    if (variant === 'primary-blocked' || (isInactive && (variant === 'primary' || variant === 'modal-primary'))) {
+      return isSmall
+        ? 'h-[32px] px-3 rounded-[6px] bg-[#cbd5e1] text-[#475569] text-[11px] sm:text-[12px] font-bold uppercase cursor-not-allowed shadow-none select-none'
+        : 'h-[40px] px-5 rounded-[8px] bg-[#cbd5e1] text-[#475569] text-[13px] font-bold uppercase cursor-not-allowed shadow-none select-none';
+    }
+
     if (isInactive) {
       return isSmall
         ? 'h-[32px] px-3 rounded-[6px] border border-[#cbd5e1] bg-transparent text-[#94a3b8] text-[11px] sm:text-[12px] font-bold uppercase cursor-not-allowed'
