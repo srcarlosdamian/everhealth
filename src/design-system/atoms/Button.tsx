@@ -40,6 +40,10 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const isInactive = isLocked || disabled || variant === 'inactive' || variant === 'consulta-inactive' || variant === 'primary-blocked';
   const isSmall = size === 'sm';
+  // Prototipo: los botones primarios "bloqueados" informan (estilo + tooltip) pero siguen permitiendo avanzar
+  const isSoftBlocked =
+    variant === 'primary-blocked' ||
+    ((isLocked || disabled) && (variant === 'primary' || variant === 'modal-primary'));
   // El mensaje de "15 minutos antes" solo aplica a botones de cita (variantes inactive)
   const isScheduleLocked = variant === 'inactive' || variant === 'consulta-inactive';
   const defaultTooltip = isScheduleLocked ? 'Activo 15 minutos antes' : undefined;
@@ -49,8 +53,8 @@ export const Button: React.FC<ButtonProps> = ({
     // Si es primario bloqueado (ej. formulario con campos obligatorios vacíos)
     if (variant === 'primary-blocked' || (isInactive && (variant === 'primary' || variant === 'modal-primary'))) {
       return isSmall
-        ? 'h-[32px] px-3 rounded-[6px] bg-[#cbd5e1] text-[#475569] text-[11px] sm:text-[12px] font-bold uppercase cursor-not-allowed shadow-none select-none'
-        : 'h-[40px] px-5 rounded-[8px] bg-[#cbd5e1] text-[#475569] text-[13px] font-bold uppercase cursor-not-allowed shadow-none select-none';
+        ? 'h-[32px] px-3 rounded-[6px] bg-[#cbd5e1] text-[#475569] text-[11px] sm:text-[12px] font-bold uppercase cursor-pointer shadow-none select-none'
+        : 'h-[40px] px-5 rounded-[8px] bg-[#cbd5e1] text-[#475569] text-[13px] font-bold uppercase cursor-pointer shadow-none select-none';
     }
 
     if (isInactive) {
@@ -103,7 +107,8 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       type="button"
       {...props}
-      disabled={disabled || isInactive}
+      disabled={isInactive && !isSoftBlocked}
+      aria-disabled={isSoftBlocked || undefined}
             className={`inline-flex items-center justify-center gap-[8px] transition-colors cursor-pointer select-none whitespace-nowrap ${getStyles()} ${className}`}
     >
       {children}

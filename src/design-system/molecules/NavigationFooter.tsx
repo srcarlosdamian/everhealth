@@ -52,7 +52,7 @@ export const NavigationFooter: React.FC<NavigationFooterProps> = ({
             disabled={isNextDisabled}
             tooltipText={isNextDisabled ? 'Completa los campos obligatorios' : undefined}
             className={`h-[40px] px-6 text-[14px] font-medium rounded-[8px] ${
-              isNextDisabled ? 'opacity-50 cursor-not-allowed' : ''
+              isNextDisabled ? 'opacity-50' : ''
             }`}
           >
             {nextText}
