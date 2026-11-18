@@ -9,6 +9,7 @@ const VALID_ROUTES = [
   'home',
   'inicio',
   'solicitar-chat',
+  'chat-activo',
   'historial-consultas',
   'consultas',
   'historia-clinica',

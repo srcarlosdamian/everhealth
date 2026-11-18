@@ -62,6 +62,7 @@ import { AvailableDoctorsRow } from '../design-system/molecules/AvailableDoctors
 import { AssignedDoctorCard } from '../design-system/molecules/AssignedDoctorCard';
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 import { HelpCenter } from './HelpCenter';
+import { ChatMedicoActivo } from './ChatMedicoActivo';
 import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
 import { TablePagination, TablePaginationCompact } from '../design-system/molecules/TablePagination';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
@@ -187,8 +188,26 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   } | null>(null);
   const [demoButtonsWithIcons, setDemoButtonsWithIcons] = useState(true);
   const [demoForceTooltips, setDemoForceTooltips] = useState(false);
+  const [demoChatActivoOpen, setDemoChatActivoOpen] = useState(false);
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
+
+  if (demoChatActivoOpen) {
+    return (
+      <ChatMedicoActivo
+        doctorName="Dra. María Fernández"
+        doctorSpecialty="Medicina General · Ever Health"
+        initialReason="Consulta médica de demostración en Sistema de Diseño"
+        onEndChat={() => {
+          setDemoChatActivoOpen(false);
+          setDemoActiveToast({
+            variant: 'success',
+            message: 'Consulta finalizada con éxito. Informe médico guardado.',
+          });
+        }}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen w-full bg-white flex flex-col lg:flex-row font-[family-name:Helvetica]">
@@ -2201,6 +2220,22 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     </Button>
                     <span className="text-[12px] text-[#64748b]">
                       Prueba en escritorio (panel derecho sin modal) o reduce la ventana para ver el modo modal móvil.
+                    </span>
+                  </div>
+                </StageBlock>
+
+                <StageBlock
+                  title="Pantalla Completa: Chat Médico Activo (Estilo Onboarding)"
+                  componentTag="<ChatMedicoActivo />"
+                  usedIn={['Hablar ahora', 'Solicitar chat prioritario']}
+                  description="Experiencia de chat médico en pantalla completa dedicada (estilo Onboarding), contenida en max-w-[760px] con fondo blanco, header separado con línea, subtítulos en peso regular, burbujas gris 300 (paciente) y gris 50 (médico) sin bordes, y salida exclusiva mediante el botón FINALIZAR CHAT."
+                >
+                  <div className="flex flex-col items-start gap-3">
+                    <Button variant="primary" onClick={() => setDemoChatActivoOpen(true)}>
+                      Abrir Chat Médico en Pantalla Completa
+                    </Button>
+                    <span className="text-[12px] text-[#64748b]">
+                      Prueba la experiencia de conversación completa, el flujo de respuesta médica y el diálogo de finalización segura.
                     </span>
                   </div>
                 </StageBlock>

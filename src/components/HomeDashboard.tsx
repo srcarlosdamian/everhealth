@@ -9,7 +9,8 @@ import { ModalVideoConsulta } from './ModalVideoConsulta';
 import { ModalSolicitarChat } from './ModalSolicitarChat';
 import { ModalDocumentos } from './ModalDocumentos';
 import { ModalBiometria } from './ModalBiometria';
-import { ModalChatMedicoActivo } from './ModalChatMedicoActivo';
+import { ChatMedicoActivo } from './ChatMedicoActivo';
+import { Toast } from '../design-system/atoms/Toast';
 import { HelpCenter } from './HelpCenter';
 import { Biometria } from './Biometria';
 import { HistorialConsultas } from './HistorialConsultas';
@@ -74,10 +75,11 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   const [isBiometriaModalOpen, setIsBiometriaModalOpen] = useState(false);
   const [isHelpCenterOpen, setIsHelpCenterOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  const [isChatActivoOpen, setIsChatActivoOpen] = useState(false);
+  const [isChatActivoOpen, setIsChatActivoOpen] = useState(currentView === 'chat-activo');
   const [selectedChatDoctor, setSelectedChatDoctor] = useState('Dra. María Fernández');
   const [chatDoctorSpecialty, setChatDoctorSpecialty] = useState('');
   const [chatConsultationReason, setChatConsultationReason] = useState('');
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
   const [triggerAddFamiliar, setTriggerAddFamiliar] = useState(false);
   const [triggerAddMascota, setTriggerAddMascota] = useState(false);
 
@@ -141,6 +143,22 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   if (currentView === 'design-system') {
     return (
       <DesignSystemPage onBackToHome={() => setCurrentView('home')} />
+    );
+  }
+
+  // Vista de Chat Médico Activo: Página completa dedicada (estilo Onboarding), sin sidebar ni controles de salida distintos a finalizar
+  if (isChatActivoOpen || currentView === 'chat-activo') {
+    return (
+      <ChatMedicoActivo
+        doctorName={selectedChatDoctor}
+        doctorSpecialty={chatDoctorSpecialty || 'Medicina General · Ever Health'}
+        initialReason={chatConsultationReason || 'Consulta médica inmediata'}
+        onEndChat={() => {
+          setIsChatActivoOpen(false);
+          setToastMsg('Consulta finalizada con éxito. Informe médico guardado en tu historia clínica.');
+          setCurrentView('historial-consultas');
+        }}
+      />
     );
   }
 
@@ -802,19 +820,6 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
         }}
       />
 
-      {/* Modal de Chat Médico en Vivo (compacto y proporcionado con botón destructivo de Finalizar estilo Google Meet) */}
-      <ModalChatMedicoActivo
-        isOpen={isChatActivoOpen}
-        onClose={() => setIsChatActivoOpen(false)}
-        doctorName={selectedChatDoctor}
-        doctorSpecialty={chatDoctorSpecialty || 'Medicina General · Ever Health'}
-        initialReason={chatConsultationReason}
-        onEndChat={() => {
-          setIsChatActivoOpen(false);
-          setCurrentView('historial-consultas');
-        }}
-      />
-
       <ModalDocumentos
         isOpen={isDocsModalOpen}
         onClose={() => setIsDocsModalOpen(false)}
@@ -841,6 +846,17 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
           onLogout();
         }}
       />
+
+      {/* Notificación Toast flotante en esquina inferior derecha tras finalizar consulta */}
+      {toastMsg && (
+        <div className="fixed bottom-6 right-6 z-[9999] w-[360px] max-w-[calc(100vw-32px)] animate-fadeIn">
+          <Toast
+            variant="success"
+            message={toastMsg}
+            onClose={() => setToastMsg(null)}
+          />
+        </div>
+      )}
     </div>
   );
 };
