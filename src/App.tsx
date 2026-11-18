@@ -19,6 +19,7 @@ const VALID_ROUTES = [
   'biometria',
   'cuestionario',
   'design-system',
+  'videoconsulta',
 ];
 
 const ROUTE_ALIASES: Record<string, string> = {
@@ -31,6 +32,9 @@ const ROUTE_ALIASES: Record<string, string> = {
   chat: 'solicitar-chat',
   design: 'design-system',
   'sistema-de-diseno': 'design-system',
+  video: 'videoconsulta',
+  videollamada: 'videoconsulta',
+  'sala-video': 'videoconsulta',
 };
 
 const resolveRoute = (input: string | null | undefined): string | null => {

@@ -64,6 +64,7 @@ import { AssignedDoctorCard } from '../design-system/molecules/AssignedDoctorCar
 import { NavigationFooter } from '../design-system/molecules/NavigationFooter';
 import { HelpCenter } from './HelpCenter';
 import { ChatMedicoActivo } from './ChatMedicoActivo';
+import { VideoconsultaActiva } from './VideoconsultaActiva';
 import { PaginationEvents } from '../design-system/molecules/PaginationEvents';
 import { TablePagination, TablePaginationCompact } from '../design-system/molecules/TablePagination';
 import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeactivateModal';
@@ -194,9 +195,30 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [demoButtonsWithIcons, setDemoButtonsWithIcons] = useState(true);
   const [demoForceTooltips, setDemoForceTooltips] = useState(false);
   const [demoChatActivoOpen, setDemoChatActivoOpen] = useState(false);
+  const [demoVideoActivaOpen, setDemoVideoActivaOpen] = useState(false);
   const [demoConsultaRowState, setDemoConsultaRowState] = useState<'proceso' | 'terminada' | 'pendiente'>('proceso');
 
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
+
+  if (demoVideoActivaOpen) {
+    return (
+      <VideoconsultaActiva
+        doctorName="Dr. Bruno Peñas"
+        doctorSpecialty="Medicina General · Ever Health"
+        consultationReason="Primera consulta - Demostración en Sistema de Diseño"
+        userName="Alejandro Navarro"
+        onBackToHome={() => setDemoVideoActivaOpen(false)}
+        onEndCall={() => {
+          setDemoVideoActivaOpen(false);
+          setDemoActiveToast({
+            variant: 'success',
+            title: 'Videoconsulta finalizada',
+            message: 'Videoconsulta finalizada con éxito. Informe médico guardado.',
+          });
+        }}
+      />
+    );
+  }
 
   if (demoChatActivoOpen) {
     return (
@@ -2582,6 +2604,22 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                     </Button>
                     <span className="text-[12px] text-[#64748b]">
                       Prueba la experiencia de conversación completa, el flujo de respuesta médica y el diálogo de finalización segura.
+                    </span>
+                  </div>
+                </StageBlock>
+
+                <StageBlock
+                  title="Pantalla Completa: Videoconsulta Médica (Estilo Google Meet)"
+                  componentTag="<VideoconsultaActiva />"
+                  usedIn={['Videoconsulta', 'Historial Consultas (Acceder a sala)', 'Home (Entrar a la sala)']}
+                  description="Experiencia de videoconsulta médica en 2 fases: 1) Sala de espera / Lobby minimalista en fondo blanco con cámara 16:9 y controles flotantes; 2) Videoconsulta activa inspirada en Google Meet con 2 vistas lado a lado, controles circulares inferiores y chat lateral derecho completo desplegable abierto por defecto."
+                >
+                  <div className="flex flex-col items-start gap-3">
+                    <Button variant="primary" onClick={() => setDemoVideoActivaOpen(true)}>
+                      Abrir Videoconsulta Médica (Google Meet)
+                    </Button>
+                    <span className="text-[12px] text-[#64748b]">
+                      Prueba el lobby minimalista, la activación de cámara/micrófono, la transición a la llamada y el chat lateral interactivo.
                     </span>
                   </div>
                 </StageBlock>

@@ -9,6 +9,7 @@ import { ModalVideoConsulta } from './ModalVideoConsulta';
 import { ModalSolicitarChat } from './ModalSolicitarChat';
 import { ModalDocumentos } from './ModalDocumentos';
 import { ChatMedicoActivo } from './ChatMedicoActivo';
+import { VideoconsultaActiva } from './VideoconsultaActiva';
 import { Toast } from '../design-system/atoms/Toast';
 import { HelpCenter } from './HelpCenter';
 import { Biometria } from './Biometria';
@@ -84,6 +85,10 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   const [isHelpCenterOpen, setIsHelpCenterOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isChatActivoOpen, setIsChatActivoOpen] = useState(currentView === 'chat-activo');
+  const [isVideoConsultaActivaOpen, setIsVideoConsultaActivaOpen] = useState(currentView === 'videoconsulta');
+  const [videoDoctorName, setVideoDoctorName] = useState('Dr. Bruno Peñas');
+  const [videoSpecialty, setVideoSpecialty] = useState('Medicina General · Ever Health');
+  const [videoReason, setVideoReason] = useState('Primera consulta - Test');
   const [selectedChatDoctor, setSelectedChatDoctor] = useState('Dra. María Fernández');
   const [chatDoctorSpecialty, setChatDoctorSpecialty] = useState('');
   const [chatConsultationReason, setChatConsultationReason] = useState('');
@@ -164,6 +169,27 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
         onEndChat={() => {
           setIsChatActivoOpen(false);
           setToastMsg('Consulta finalizada con éxito. Informe médico guardado en tu historia clínica.');
+          setCurrentView('historial-consultas');
+        }}
+      />
+    );
+  }
+
+  // Vista de Videoconsulta Activa (Google Meet style): Pre-llamada (Lobby) y Consulta con 2 vistas + chat lateral
+  if (isVideoConsultaActivaOpen || currentView === 'videoconsulta') {
+    return (
+      <VideoconsultaActiva
+        doctorName={videoDoctorName}
+        doctorSpecialty={videoSpecialty}
+        consultationReason={videoReason}
+        userName={userName}
+        onBackToHome={() => {
+          setIsVideoConsultaActivaOpen(false);
+          setCurrentView('home');
+        }}
+        onEndCall={() => {
+          setIsVideoConsultaActivaOpen(false);
+          setToastMsg('Videoconsulta finalizada con éxito. Informe médico guardado en tu historia clínica.');
           setCurrentView('historial-consultas');
         }}
       />
@@ -591,7 +617,33 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                       </p>
                     </button>
 
-                    {/* Opción 3: Ir directamente al Sistema de Diseño */}
+                    {/* Opción 3: Simular Videoconsulta (Google Meet) */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsDesignSystemHover(false);
+                        setVideoDoctorName('Dr. Bruno Peñas');
+                        setVideoSpecialty('Medicina General · Ever Health');
+                        setVideoReason('Primera consulta - Test');
+                        setIsVideoConsultaActivaOpen(true);
+                      }}
+                      className="w-full p-2.5 rounded-[8px] bg-[#f8fafc] hover:bg-[#f1f5f9] border border-[#e2e8f0] flex flex-col gap-1 text-left transition-colors cursor-pointer group"
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center gap-2">
+                          <Video className="w-4 h-4 text-[#d50475]" />
+                          <span className="text-[13px] font-bold text-black group-hover:text-[#d50475] transition-colors">
+                            Videoconsulta (Google Meet)
+                          </span>
+                        </div>
+                        <ArrowRight className="w-3.5 h-3.5 text-[#d50475] group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                      <p className="text-[11px] text-[#64748b] leading-tight">
+                        Lobby minimalista blanco y consulta con 2 vistas + chat lateral
+                      </p>
+                    </button>
+
+                    {/* Opción 4: Ir directamente al Sistema de Diseño */}
                     <button
                       type="button"
                       onClick={() => {
@@ -878,6 +930,21 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                     type="button"
                     onClick={() => {
                       setMobileDrawerOpen(false);
+                      setVideoDoctorName('Dr. Bruno Peñas');
+                      setVideoSpecialty('Medicina General · Ever Health');
+                      setVideoReason('Primera consulta - Test');
+                      setIsVideoConsultaActivaOpen(true);
+                    }}
+                    className="w-full h-[40px] px-3 rounded-[6px] flex items-center gap-2.5 text-[14px] text-black hover:bg-[#f8fafc] transition-colors cursor-pointer"
+                  >
+                    <Video className="w-[18px] h-[18px] text-[#d50475]" />
+                    <span>Videoconsulta (Google Meet)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileDrawerOpen(false);
                       setIsHelpCenterOpen(true);
                     }}
                     className="w-full h-[40px] px-3 rounded-[6px] flex items-center gap-2.5 text-[14px] text-black hover:bg-[#f8fafc] transition-colors cursor-pointer"
@@ -958,7 +1025,12 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
 
             {currentView === 'historial-consultas' && (
               <HistorialConsultas
-                onOpenVideoModal={() => setIsVideoModalOpen(true)}
+                onOpenVideoModal={() => {
+                  setVideoDoctorName('Dr. Bruno Peñas');
+                  setVideoSpecialty('Medicina General · Ever Health');
+                  setVideoReason('Primera consulta - Test');
+                  setIsVideoConsultaActivaOpen(true);
+                }}
                 onOpenChatModal={() => {
                   setSelectedChatDoctor('Dr. Bruno Peñas');
                   setIsChatActivoOpen(true);
@@ -1030,6 +1102,13 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
       <ModalVideoConsulta
         isOpen={isVideoModalOpen}
         onClose={() => setIsVideoModalOpen(false)}
+        onEnterSala={(specialty, doctor) => {
+          setIsVideoModalOpen(false);
+          setVideoDoctorName(doctor || 'Dr. Bruno Peñas');
+          setVideoSpecialty(specialty ? `${specialty} · Ever Health` : 'Medicina General · Ever Health');
+          setVideoReason('Primera consulta - Cita programada');
+          setIsVideoConsultaActivaOpen(true);
+        }}
       />
 
       <ModalSolicitarChat

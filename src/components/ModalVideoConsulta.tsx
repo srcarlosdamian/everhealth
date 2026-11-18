@@ -12,9 +12,10 @@ import { SelectedAppointmentBanner } from '../design-system/molecules/SelectedAp
 interface ModalVideoConsultaProps {
   isOpen: boolean;
   onClose: () => void;
+  onEnterSala?: (specialty?: string, doctor?: string) => void;
 }
 
-export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, onClose }) => {
+export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, onClose, onEnterSala }) => {
   const [selectedSpecialty, setSelectedSpecialty] = useState<string>('Sexología');
   const [selectedDay, setSelectedDay] = useState<number>(17);
   const [selectedTime, setSelectedTime] = useState<string>('09:30');
@@ -143,16 +144,30 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
             >
               IR AL HISTORIAL
             </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                handleClose();
-                window.location.hash = '#/home';
-              }}
-              className="w-full sm:w-auto"
-            >
-              VOLVER AL INICIO
-            </Button>
+            {onEnterSala ? (
+              <Button
+                variant="primary"
+                onClick={() => {
+                  handleClose();
+                  onEnterSala(selectedSpecialty, 'Dr. Bruno Peñas');
+                }}
+                className="w-full sm:w-auto bg-[#d50475] hover:bg-[#b80364]"
+              >
+                <Video className="w-4 h-4 mr-2" />
+                <span>ENTRAR A LA SALA (EN VIVO)</span>
+              </Button>
+            ) : (
+              <Button
+                variant="primary"
+                onClick={() => {
+                  handleClose();
+                  window.location.hash = '#/home';
+                }}
+                className="w-full sm:w-auto"
+              >
+                VOLVER AL INICIO
+              </Button>
+            )}
           </div>
         </div>
       </div>
