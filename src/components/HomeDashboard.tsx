@@ -43,6 +43,8 @@ import {
   PawPrint,
   SlidersHorizontal,
   LogOut,
+  FileUp,
+  ArrowUpRight,
 } from 'lucide-react';
 
 interface HomeDashboardProps {
@@ -226,18 +228,19 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
               </button>
 
               {isQuickActionsOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[240px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-1 animate-fadeIn font-[family-name:Helvetica]">
+                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[295px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-0.5 animate-fadeIn font-[family-name:Helvetica]">
                   <button
                     type="button"
                     onClick={() => {
                       setIsQuickActionsOpen(false);
+                      setCurrentView('solicitar-chat');
                       setChatModalTab('agendar');
                       setIsChatModalOpen(true);
                     }}
-                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[15px] font-normal transition-colors cursor-pointer text-left whitespace-nowrap group"
                   >
-                    <Calendar className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span>Solicitar una cita</span>
+                    <Calendar className="w-5 h-5 text-[#64748b] group-hover:text-black transition-colors shrink-0" />
+                    <span className="whitespace-nowrap">Solicitar una cita</span>
                   </button>
 
                   <button
@@ -246,10 +249,10 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                       setIsQuickActionsOpen(false);
                       setIsVideoModalOpen(true);
                     }}
-                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[15px] font-normal transition-colors cursor-pointer text-left whitespace-nowrap group"
                   >
-                    <Video className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span>Solicitar una videoconsulta</span>
+                    <Video className="w-5 h-5 text-[#64748b] group-hover:text-black transition-colors shrink-0" />
+                    <span className="whitespace-nowrap">Solicitar una videoconsulta</span>
                   </button>
 
                   <button
@@ -258,13 +261,13 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                       setIsQuickActionsOpen(false);
                       setIsBiometriaModalOpen(true);
                     }}
-                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[15px] font-normal transition-colors cursor-pointer text-left whitespace-nowrap group"
                   >
-                    <ScanFace className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span>Biometría facial</span>
+                    <ScanFace className="w-5 h-5 text-[#64748b] group-hover:text-black transition-colors shrink-0" />
+                    <span className="whitespace-nowrap">Biometría facial</span>
                   </button>
 
-                  <div className="w-full h-[1px] bg-[#f1f5f9] my-0.5" />
+                  <div className="w-full h-[1px] bg-[#f1f5f9] my-1" />
 
                   <button
                     type="button"
@@ -274,10 +277,10 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                       setTriggerAddFamiliar(true);
                       setTimeout(() => setTriggerAddFamiliar(false), 300);
                     }}
-                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[15px] font-normal transition-colors cursor-pointer text-left whitespace-nowrap group"
                   >
-                    <Users className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span>Añadir familia</span>
+                    <Users className="w-5 h-5 text-[#64748b] group-hover:text-black transition-colors shrink-0" />
+                    <span className="whitespace-nowrap">Añadir familia</span>
                   </button>
 
                   <button
@@ -288,10 +291,28 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                       setTriggerAddMascota(true);
                       setTimeout(() => setTriggerAddMascota(false), 300);
                     }}
-                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[16px] font-normal transition-colors cursor-pointer text-left"
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center gap-3 text-[15px] font-normal transition-colors cursor-pointer text-left whitespace-nowrap group"
                   >
-                    <PawPrint className="w-5 h-5 text-[#64748b] shrink-0" />
-                    <span>Añadir mascota</span>
+                    <PawPrint className="w-5 h-5 text-[#64748b] group-hover:text-black transition-colors shrink-0" />
+                    <span className="whitespace-nowrap">Añadir mascota</span>
+                  </button>
+
+                  <div className="w-full h-[1px] bg-[#f1f5f9] my-1" />
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsQuickActionsOpen(false);
+                      setCurrentView('historia-clinica');
+                      setIsDocsModalOpen(true);
+                    }}
+                    className="w-full px-3.5 py-2.5 rounded-[6px] hover:bg-[#f1f5f9] text-black flex items-center justify-between gap-3 text-[15px] font-normal transition-colors cursor-pointer text-left whitespace-nowrap group"
+                  >
+                    <div className="flex items-center gap-3 min-w-0">
+                      <FileUp className="w-5 h-5 text-[#64748b] group-hover:text-black transition-colors shrink-0" />
+                      <span className="whitespace-nowrap">Subir documentos</span>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-[#94a3b8] group-hover:text-black transition-colors shrink-0 ml-auto" />
                   </button>
                 </div>
               )}
