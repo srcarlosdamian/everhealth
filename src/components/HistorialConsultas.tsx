@@ -29,7 +29,9 @@ export type ConsultaStatus =
   | 'Terminada'
   | 'Cancelada'
   | 'Pendiente de informe'
-  | 'Pendiente de recomendación';
+  | 'Pendiente de recomendación'
+  | 'Pendiente de triaje'
+  | 'Pendiente de inicio';
 
 export interface ConsultaCardItem {
   id: string;
@@ -41,6 +43,7 @@ export interface ConsultaCardItem {
   reason: string;
   doctor: string;
   hasInforme?: boolean;
+  cancelDetails?: string;
 }
 
 const INITIAL_CONSULTAS: ConsultaCardItem[] = [
@@ -48,7 +51,7 @@ const INITIAL_CONSULTAS: ConsultaCardItem[] = [
     id: 'c1',
     type: 'chat',
     specialty: 'Medicina General',
-    status: 'Pendiente',
+    status: 'Pendiente de recomendación',
     date: '27/10/2026',
     time: '10:40',
     reason: 'Consulta sobre dudas de medicación y evolución de síntomas leves.',
@@ -76,9 +79,43 @@ const INITIAL_CONSULTAS: ConsultaCardItem[] = [
     reason: 'Revisión periódica de resultados analíticos de laboratorio.',
     doctor: 'JOSE LUIS ROJANO TORRECILLA',
     hasInforme: false,
+    cancelDetails: 'Consulta cancelada el 30/09/2026 por el paciente',
   },
   {
     id: 'c4',
+    type: 'video',
+    specialty: 'Medicina General',
+    status: 'Pendiente de inicio',
+    date: '28/10/2026',
+    time: '12:00',
+    reason: 'Control preventivo anual y revisión de tensión arterial.',
+    doctor: 'Dra. María Fernández',
+    hasInforme: false,
+  },
+  {
+    id: 'c5',
+    type: 'chat',
+    specialty: 'Pediatría',
+    status: 'Pendiente de informe',
+    date: '26/10/2026',
+    time: '16:15',
+    reason: 'Consulta de control y dudas posvacunales en lactante.',
+    doctor: 'Dr. Alejandro Gómez',
+    hasInforme: false,
+  },
+  {
+    id: 'c6',
+    type: 'video',
+    specialty: 'Medicina General',
+    status: 'Pendiente de triaje',
+    date: '28/10/2026',
+    time: '17:30',
+    reason: 'Evaluación de cuadro respiratorio agudo y febrícula.',
+    doctor: 'Dra. Carmen Ortiz',
+    hasInforme: false,
+  },
+  {
+    id: 'c7',
     type: 'chat',
     specialty: 'Nutrición',
     status: 'Terminada',
@@ -89,7 +126,19 @@ const INITIAL_CONSULTAS: ConsultaCardItem[] = [
     hasInforme: true,
   },
   {
-    id: 'c5',
+    id: 'c8',
+    type: 'video',
+    specialty: 'Dermatología',
+    status: 'Cancelada',
+    date: '02/09/2026',
+    time: '14:20',
+    reason: 'Valoración dermatológica de lesión dérmica recurrente.',
+    doctor: 'Dr. Carlos Mendoza',
+    hasInforme: false,
+    cancelDetails: 'Consulta cancelada por incompatibilidad de horario',
+  },
+  {
+    id: 'c9',
     type: 'video',
     specialty: 'Pediatría',
     status: 'Terminada',
@@ -121,6 +170,8 @@ const mapStatusToBadgeVariant = (status: ConsultaStatus): BadgeVariant => {
     case 'Pendiente':
     case 'Pendiente de recomendación':
     case 'Pendiente de informe':
+    case 'Pendiente de triaje':
+    case 'Pendiente de inicio':
       return 'limitada';
     case 'Cancelada':
       return 'no-disponible';
@@ -142,21 +193,45 @@ const formatShortDate = (dateStr: string): string => {
   return dateStr;
 };
 
-const formatStatusBadge = (status: ConsultaStatus): { text: string; tooltip?: string } => {
-  if (status === 'Pendiente de recomendación') {
+const formatStatusBadge = (c: ConsultaCardItem): { text: string; tooltip?: string } => {
+  if (c.status === 'Cancelada') {
     return {
-      text: 'Pendiente',
-      tooltip: 'De recomendación: Pendiente',
+      text: 'Cancelada',
+      tooltip: c.cancelDetails || 'Esta consulta fue cancelada',
     };
   }
-  if (status === 'Pendiente de informe') {
+  if (c.status === 'Pendiente de recomendación') {
     return {
       text: 'Pendiente',
-      tooltip: 'De informe: Pendiente',
+      tooltip: 'Pendiente de recomendación médica',
+    };
+  }
+  if (c.status === 'Pendiente de informe') {
+    return {
+      text: 'Pendiente',
+      tooltip: 'Pendiente de emisión de informe médico oficial',
+    };
+  }
+  if (c.status === 'Pendiente de triaje') {
+    return {
+      text: 'Pendiente',
+      tooltip: 'Pendiente de valoración y triaje médico previo',
+    };
+  }
+  if (c.status === 'Pendiente de inicio') {
+    return {
+      text: 'Pendiente',
+      tooltip: 'Pendiente de inicio de sala (activo 15 minutos antes)',
+    };
+  }
+  if (c.status === 'Pendiente') {
+    return {
+      text: 'Pendiente',
+      tooltip: 'Pendiente de inicio de consulta médica',
     };
   }
   return {
-    text: status,
+    text: c.status,
     tooltip: undefined,
   };
 };
@@ -187,9 +262,20 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
 
   const handleConfirmCancel = () => {
     if (!cancellingConsultaId) return;
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const todayStr = `${day}/${month}/${year}`;
     setConsultas((prev) =>
       prev.map((c) =>
-        c.id === cancellingConsultaId ? { ...c, status: 'Cancelada' } : c
+        c.id === cancellingConsultaId
+          ? {
+              ...c,
+              status: 'Cancelada',
+              cancelDetails: `Consulta cancelada el ${todayStr} por el paciente`,
+            }
+          : c
       )
     );
     setCancellingConsultaId(null);
@@ -197,8 +283,12 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
 
   const filteredConsultas = useMemo(() => {
     return consultas.filter((c) => {
-      if (filterStatus !== 'todos' && c.status !== filterStatus) {
-        return false;
+      if (filterStatus !== 'todos') {
+        if (filterStatus === 'Pendiente') {
+          if (!c.status.startsWith('Pendiente')) return false;
+        } else if (c.status !== filterStatus) {
+          return false;
+        }
       }
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
@@ -299,7 +389,7 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
       </div>
 
       {/* ================= 3. TABLA / ACORDEÓN (FONDO 100% BLANCO, SIN FONDOS GRISES AL ABRIR) ================= */}
-      <div className="w-full bg-white border border-[#e2e8f0] rounded-none overflow-hidden flex flex-col divide-y divide-[#e2e8f0]">
+      <div className="w-full bg-white border border-[#e2e8f0] rounded-none flex flex-col divide-y divide-[#e2e8f0]">
         {filteredConsultas.length === 0 ? (
           <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2 bg-white">
             <p className="text-[15px] font-bold text-black">No se encontraron consultas</p>
@@ -366,7 +456,9 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                     {/* Columna 4: Profesional */}
                     <div className="flex flex-col sm:pl-4">
                       <span className="text-[15px] font-bold text-black leading-tight">
-                        Dr. {c.doctor}
+                        {c.doctor.startsWith('Dr.') || c.doctor.startsWith('Dra.')
+                          ? c.doctor
+                          : `Dr. ${c.doctor}`}
                       </span>
                       <span className="text-[12px] text-[#64748b] mt-0.5">
                         {c.specialty} · Ever Health Doctor
@@ -377,9 +469,13 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                   {/* Columna 5: Badge de Estado + Chevron del Acordeón */}
                   <div className="flex items-center justify-between lg:justify-end gap-4 shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 border-[#f1f5f9]">
                     {(() => {
-                      const badgeInfo = formatStatusBadge(c.status);
+                      const badgeInfo = formatStatusBadge(c);
                       return (
-                        <Badge variant={badgeVariant} tooltipText={badgeInfo.tooltip}>
+                        <Badge
+                          variant={badgeVariant}
+                          tooltipText={badgeInfo.tooltip}
+                          tooltipAlign="right"
+                        >
                           {badgeInfo.text}
                         </Badge>
                       );
@@ -419,7 +515,7 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                     <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[#f8fafc]">
                       <div className="flex flex-wrap items-center gap-2.5">
                         {/* 1. CASO PENDIENTE (No ha sucedido): Inactivo hasta 15 min antes con tooltip en hover */}
-                        {c.status === 'Pendiente' && (
+                        {c.status.startsWith('Pendiente') && (
                           <Button
                             variant="inactive"
                             tooltipText="Activo 15 minutos antes de la cita"
@@ -463,17 +559,10 @@ export const HistorialConsultas: React.FC<HistorialConsultasProps> = ({
                             )}
                           </>
                         )}
-
-                        {/* 4. CASO CANCELADA */}
-                        {c.status === 'Cancelada' && (
-                          <span className="text-[13px] text-[#94a3b8] italic">
-                            Esta consulta fue cancelada.
-                          </span>
-                        )}
                       </div>
 
                       {/* Botón de Cancelar consulta: SOLO para citas pendientes o en proceso */}
-                      {(c.status === 'En proceso' || c.status === 'Pendiente') && (
+                      {(c.status === 'En proceso' || c.status.startsWith('Pendiente')) && (
                         <Button
                           variant="consulta-outline"
                           onClick={() => setCancellingConsultaId(c.id)}

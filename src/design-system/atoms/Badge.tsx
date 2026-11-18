@@ -35,6 +35,7 @@ interface BadgeProps {
   className?: string;
   title?: string;
   tooltipText?: string;
+  tooltipAlign?: 'center' | 'left' | 'right';
 }
 
 export const Badge: React.FC<BadgeProps> = ({
@@ -43,6 +44,7 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
   title,
   tooltipText,
+  tooltipAlign = 'center',
 }) => {
   // Reglas homologadas del Átomo Badge en el Sistema de Diseño:
   // - Un solo componente visual reutilizable: sin fondo de relleno (bg-transparent por defecto).
@@ -101,7 +103,7 @@ export const Badge: React.FC<BadgeProps> = ({
 
   if (effectiveTooltip) {
     return (
-      <Tooltip text={effectiveTooltip}>
+      <Tooltip text={effectiveTooltip} align={tooltipAlign}>
         {badgeElement}
       </Tooltip>
     );
