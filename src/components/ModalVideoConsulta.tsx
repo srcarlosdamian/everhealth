@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { X, Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check } from 'lucide-react';
+import { X, Calendar as CalendarIcon, ChevronLeft, ChevronRight, Check, Video } from 'lucide-react';
 import { Dropdown } from '../design-system/atoms/Dropdown';
 import { StepperCheck } from '../design-system/atoms/StepperCheck';
 import { Checkbox } from '../design-system/atoms/Checkbox';
 import { Radio } from '../design-system/atoms/Radio';
 import { Button } from '../design-system/atoms/Button';
+import { Badge } from '../design-system/atoms/Badge';
 import { CalendarMonthGrid } from '../design-system/molecules/CalendarMonthGrid';
 import { SelectedAppointmentBanner } from '../design-system/molecules/SelectedAppointmentBanner';
-import { ModalCitaConfirmada } from './ModalCitaConfirmada';
 
 interface ModalVideoConsultaProps {
   isOpen: boolean;
@@ -21,9 +21,14 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
   const [motivo, setMotivo] = useState<string>('');
   const [tipoConsulta, setTipoConsulta] = useState<string>('Primera vez');
   const [zonaHoraria, setZonaHoraria] = useState<string>('GMT-6 (Ciudad de México)');
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   if (!isOpen) return null;
+
+  const handleClose = () => {
+    setIsConfirmed(false);
+    onClose();
+  };
 
   const isStep1Done = motivo.trim().length > 0;
   const isStep2Done = Boolean(selectedSpecialty);
@@ -41,6 +46,118 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
   ];
 
   const times = ['09:30', '11:00', '12:30', '1:30'];
+
+  // VISTA 2: CITA CONFIRMADA CON ÉXITO (En el mismo modal, sin doble modal, estilo resumen/ticket)
+  if (isConfirmed) {
+    return (
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="videoconsulta-confirmada-title"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 overflow-y-auto custom-scrollbar-minimal font-[family-name:Helvetica]"
+        onClick={handleClose}
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full max-w-[560px] bg-white rounded-[12px] shadow-2xl p-6 sm:p-7 flex flex-col gap-4 max-h-[90vh] overflow-y-auto custom-scrollbar-minimal cursor-default animate-scaleUp"
+        >
+          {/* Header */}
+          <div className="flex items-start justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
+            <div className="flex flex-col">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#16a34a]">
+                VIDEOCONSULTA · CITA CONFIRMADA
+              </span>
+              <h2
+                id="videoconsulta-confirmada-title"
+                className="text-[20px] sm:text-[22px] font-bold text-black tracking-tight leading-snug mt-1"
+              >
+                Cita confirmada con éxito
+              </h2>
+              <p className="text-[13px] text-[#64748b] mt-0.5">
+                Hemos programado tu cita médica. Recibirás un recordatorio antes del inicio de la sesión.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleClose}
+              className="w-8 h-8 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-black transition-colors cursor-pointer shrink-0 -mr-1"
+              title="Cerrar modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Listado en formato resumen / ticket */}
+          <div className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-[10px] p-4 sm:p-5 flex flex-col divide-y divide-[#e2e8f0]">
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b] font-normal">Especialidad</span>
+              <span className="font-bold text-black">{selectedSpecialty || 'Sexología'}</span>
+            </div>
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b] font-normal">Modalidad</span>
+              <span className="font-bold text-black">Videoconsulta</span>
+            </div>
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b] font-normal">Día</span>
+              <span className="font-bold text-black">{selectedDay} de octubre de 2026</span>
+            </div>
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b] font-normal">Hora</span>
+              <span className="font-bold text-black">{selectedTime} hrs</span>
+            </div>
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b] font-normal">Paciente</span>
+              <span className="font-bold text-black">Alejandro Navarro (Titular)</span>
+            </div>
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b] font-normal">Profesional asignado</span>
+              <span className="font-bold text-black">Dr. Bruno Peñas</span>
+            </div>
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b] font-normal">Zona horaria</span>
+              <span className="font-medium text-black">{zonaHoraria}</span>
+            </div>
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b] font-normal">Estado</span>
+              <Badge variant="activa">Confirmada</Badge>
+            </div>
+          </div>
+
+          {/* Aviso informativo de activación de sala */}
+          <div className="p-3.5 bg-white border border-[#e2e8f0] rounded-[8px] flex items-start gap-3">
+            <Video className="w-5 h-5 text-[#d50475] shrink-0 mt-0.5" />
+            <p className="text-[13px] text-[#475569] leading-relaxed">
+              La sala se activará <strong className="text-black font-semibold">15 minutos antes</strong> de la cita. Podrás acceder directamente desde la pantalla de Inicio o desde tu Historial de Consultas.
+            </p>
+          </div>
+
+          {/* Footer de navegación */}
+          <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-3.5 border-t border-[#f1f5f9]">
+            <Button
+              variant="outline"
+              onClick={() => {
+                handleClose();
+                window.location.hash = '#/historial-consultas';
+              }}
+              className="w-full sm:w-auto"
+            >
+              IR AL HISTORIAL
+            </Button>
+            <Button
+              variant="primary"
+              onClick={() => {
+                handleClose();
+                window.location.hash = '#/home';
+              }}
+              className="w-full sm:w-auto"
+            >
+              VOLVER AL INICIO
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -219,11 +336,11 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
 
         </div>
 
-        {/* Footer de confirmación: NO es un paso del stepper */}
+        {/* Footer de confirmación: Transición interna a resumen/ticket sin doble modal */}
         <div className="flex items-center justify-end pt-3 border-t border-[#f1f5f9]">
           <button
             type="button"
-            onClick={() => setIsSuccessModalOpen(true)}
+            onClick={() => setIsConfirmed(true)}
             title={
               !isFullyComplete
                 ? 'Campos obligatorios pendientes (prototipo: clic habilitado)'
@@ -238,29 +355,6 @@ export const ModalVideoConsulta: React.FC<ModalVideoConsultaProps> = ({ isOpen, 
             CONFIRMAR CITA
           </button>
         </div>
-
-        {/* Modal de Cita Confirmada */}
-        <ModalCitaConfirmada
-          isOpen={isSuccessModalOpen}
-          onClose={() => {
-            setIsSuccessModalOpen(false);
-            onClose();
-          }}
-          tipoCita="Videoconsulta"
-          profesional={`Especialista en ${selectedSpecialty}`}
-          fecha={`Sábado ${selectedDay} de Octubre`}
-          hora={`${selectedTime} hrs`}
-          onGoHome={() => {
-            setIsSuccessModalOpen(false);
-            onClose();
-            window.location.hash = '#/home';
-          }}
-          onGoHistory={() => {
-            setIsSuccessModalOpen(false);
-            onClose();
-            window.location.hash = '#/historial-consultas';
-          }}
-        />
 
       </div>
     </div>

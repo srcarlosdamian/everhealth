@@ -13,6 +13,7 @@ import { Toast } from '../design-system/atoms/Toast';
 import { HelpCenter } from './HelpCenter';
 import { Biometria } from './Biometria';
 import { ModalBiometria } from './ModalBiometria';
+import { ModalCalificacion } from './ModalCalificacion';
 import { HistorialConsultas } from './HistorialConsultas';
 import { HistoriaClinica } from './HistoriaClinica';
 import { Familiares } from './Familiares';
@@ -45,6 +46,8 @@ import {
   LogOut,
   FileUp,
   ArrowUpRight,
+  Star,
+  ArrowRight,
 } from 'lucide-react';
 
 interface HomeDashboardProps {
@@ -72,6 +75,8 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
   };
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [isBiometriaIntroModalOpen, setIsBiometriaIntroModalOpen] = useState(false);
+  const [isCalificacionModalOpen, setIsCalificacionModalOpen] = useState(false);
+  const [isDesignSystemHover, setIsDesignSystemHover] = useState(false);
   const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const [chatModalTab, setChatModalTab] = useState<'agendar' | 'ahora'>('agendar');
   const [isDocsModalOpen, setIsDocsModalOpen] = useState(false);
@@ -493,14 +498,86 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
 
             {/* Extras visibles en Desktop */}
             <div className="hidden lg:flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => setCurrentView('design-system')}
-                className="text-black hover:opacity-75 p-1 cursor-pointer transition-opacity"
-                title="Sistema de Diseño (Página completa)"
+              <div
+                className="relative"
+                onMouseEnter={() => setIsDesignSystemHover(true)}
+                onMouseLeave={() => setIsDesignSystemHover(false)}
               >
-                <Palette className="w-[20px] h-[20px]" />
-              </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsDesignSystemHover(false);
+                    setCurrentView('design-system');
+                  }}
+                  className="text-black hover:opacity-75 p-1.5 cursor-pointer transition-opacity flex items-center justify-center rounded-[6px] hover:bg-[#f1f5f9]"
+                  title="Sistema de Diseño (Página completa)"
+                  aria-label="Sistema de Diseño"
+                >
+                  <Palette className="w-[20px] h-[20px]" />
+                </button>
+
+                {/* Dropdown al mantener el cursor encima según la solicitud */}
+                {isDesignSystemHover && (
+                  <div
+                    className="absolute right-0 top-[calc(100%+6px)] z-50 w-[295px] bg-white rounded-[10px] shadow-[0_16px_40px_rgba(0,0,0,0.16)] p-2.5 border border-[#e2e8f0] flex flex-col gap-2 animate-fadeIn font-[family-name:Helvetica]"
+                    onMouseEnter={() => setIsDesignSystemHover(true)}
+                    onMouseLeave={() => setIsDesignSystemHover(false)}
+                  >
+                    <div className="flex items-center justify-between pb-2 border-b border-[#f1f5f9] px-1">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
+                        Sistema & Calidad
+                      </span>
+                      <span className="text-[10px] text-[#94a3b8] bg-[#f1f5f9] px-1.5 py-0.5 rounded">
+                        SSOT
+                      </span>
+                    </div>
+
+                    {/* Opción 1: Ver Modal de Calificación NPS */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsDesignSystemHover(false);
+                        setIsCalificacionModalOpen(true);
+                      }}
+                      className="w-full p-2.5 rounded-[8px] bg-[#fdf2f8] hover:bg-[#fce7f3] border border-[#fbcfe8] flex flex-col gap-1 text-left transition-colors cursor-pointer group"
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center gap-2">
+                          <Star className="w-4 h-4 text-[#d50475] fill-[#d50475]" />
+                          <span className="text-[13px] font-bold text-black group-hover:text-[#d50475] transition-colors">
+                            Modal de Calificación (NPS)
+                          </span>
+                        </div>
+                        <ArrowRight className="w-3.5 h-3.5 text-[#d50475] group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                      <p className="text-[11px] text-[#64748b] leading-tight">
+                        Del 1 al 10, ¿qué tanto recomendarías nuestro servicio?
+                      </p>
+                    </button>
+
+                    {/* Opción 2: Ir directamente al Sistema de Diseño */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsDesignSystemHover(false);
+                        setCurrentView('design-system');
+                      }}
+                      className="w-full px-2.5 py-2 rounded-[6px] hover:bg-[#f1f5f9] flex items-center justify-between text-left transition-colors cursor-pointer text-black"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <Palette className="w-4 h-4 text-[#64748b]" />
+                        <span className="text-[13px] font-medium text-black">
+                          Explorar Sistema de Diseño
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-bold text-[#d50475] uppercase">
+                        Abrir
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <LanguageSelector />
             </div>
           </div>
@@ -689,6 +766,18 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                     type="button"
                     onClick={() => {
                       setMobileDrawerOpen(false);
+                      setIsCalificacionModalOpen(true);
+                    }}
+                    className="w-full h-[40px] px-3 rounded-[6px] flex items-center gap-2.5 text-[14px] text-black hover:bg-[#f8fafc] transition-colors cursor-pointer"
+                  >
+                    <Star className="w-[18px] h-[18px] text-[#d50475]" />
+                    <span>Calificar servicio (NPS)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileDrawerOpen(false);
                       setIsHelpCenterOpen(true);
                     }}
                     className="w-full h-[40px] px-3 rounded-[6px] flex items-center gap-2.5 text-[14px] text-black hover:bg-[#f8fafc] transition-colors cursor-pointer"
@@ -826,6 +915,15 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
         onStartProcess={() => {
           setIsBiometriaIntroModalOpen(false);
           setCurrentView('biometria');
+        }}
+      />
+
+      {/* Modal de Calificación NPS */}
+      <ModalCalificacion
+        isOpen={isCalificacionModalOpen}
+        onClose={() => setIsCalificacionModalOpen(false)}
+        onSubmitRating={(rating) => {
+          setToastMsg(`¡Muchas gracias por tu valoración (${rating}/10)! Tu opinión nos ayuda a mejorar.`);
         }}
       />
 

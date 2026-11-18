@@ -70,6 +70,7 @@ import { ConfirmDeactivateModal } from '../design-system/molecules/ConfirmDeacti
 import { LogoutConfirmModal } from '../design-system/molecules/LogoutConfirmModal';
 import { ModalActionGroup } from '../design-system/molecules/ModalActionGroup';
 import { ModalBiometria } from './ModalBiometria';
+import { ModalCalificacion } from './ModalCalificacion';
 import { Tabs } from '../design-system/molecules/Tabs';
 import { Toast, ToastVariant } from '../design-system/atoms/Toast';
 
@@ -176,6 +177,7 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
   const [demoConfirmModalOpen, setDemoConfirmModalOpen] = useState(false);
   const [demoLogoutModalOpen, setDemoLogoutModalOpen] = useState(false);
   const [demoBiometriaModalOpen, setDemoBiometriaModalOpen] = useState(false);
+  const [demoCalificacionModalOpen, setDemoCalificacionModalOpen] = useState(false);
   const [demoActiveTab, setDemoActiveTab] = useState('datos-personales');
   const [demoMinimalTab, setDemoMinimalTab] = useState('soporte');
   const [demoFormModalOpen, setDemoFormModalOpen] = useState(false);
@@ -2416,6 +2418,18 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                 </StageBlock>
 
                 <StageBlock
+                  title="Modal de Calificación y Satisfacción (NPS)"
+                  componentTag="<ModalCalificacion />"
+                  usedIn={['Header (Hover en icono Sistema de Diseño)', 'Mobile Drawer']}
+                  description="Modal interactivo de satisfacción del paciente con escala 1 a 10 (NPS), banner ecológico de ahorro de CO2, chips de retroalimentación cualitativa, campo de texto expandible y botones estándar homologados."
+                >
+                  <Button variant="primary" onClick={() => setDemoCalificacionModalOpen(true)}>
+                    <Star className="w-4 h-4 text-white fill-white" />
+                    <span>Abrir modal de calificación en vivo</span>
+                  </Button>
+                </StageBlock>
+
+                <StageBlock
                   title="Footers de Modales (Composiciones)"
                   componentTag="<ModalActionGroup />"
                   usedIn={['Videoconsulta', 'Solicitar Chat', 'Familiares', 'Mascotas', 'Documentos']}
@@ -2666,6 +2680,19 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
           setDemoActiveToast({
             variant: 'success',
             message: 'Iniciando proceso de biometría facial en pantalla completa...',
+          });
+        }}
+      />
+
+      {/* Modal de Calificación NPS Demo */}
+      <ModalCalificacion
+        isOpen={demoCalificacionModalOpen}
+        onClose={() => setDemoCalificacionModalOpen(false)}
+        onSubmitRating={(r) => {
+          setDemoCalificacionModalOpen(false);
+          setDemoActiveToast({
+            variant: 'success',
+            message: `Valoración recibida (${r}/10). ¡Muchas gracias por tu feedback!`,
           });
         }}
       />
