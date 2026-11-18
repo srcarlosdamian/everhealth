@@ -121,18 +121,40 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
   const [filterEspecialidad, setFilterEspecialidad] = useState('todas');
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
+  // Médicos favoritos con persistencia local
+  const [favoriteDoctorIds, setFavoriteDoctorIds] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('everhealth_favorite_doctors');
+      return saved ? JSON.parse(saved) : ['2']; // Ana Gómez por defecto
+    } catch {
+      return ['2'];
+    }
+  });
+
+  const toggleFavorite = (doctorId: string) => {
+    setFavoriteDoctorIds((prev) => {
+      const isFav = prev.includes(doctorId);
+      const updated = isFav ? prev.filter((id) => id !== doctorId) : [...prev, doctorId];
+      try {
+        localStorage.setItem('everhealth_favorite_doctors', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
+  };
+
   const toggleExpand = (id: string) => {
     setExpandedId((prev) => (prev === id ? null : id));
   };
 
   const filteredDoctors = useMemo(() => {
     return DOCTORS.filter((doc) => {
-      if (filterTab === 'favoritos' && !doc.isFavorite) return false;
+      const isFav = favoriteDoctorIds.includes(doc.id);
+      if (filterTab === 'favoritos' && !isFav) return false;
       if (filterDisponibilidad !== 'todas' && doc.badgeType !== filterDisponibilidad) return false;
       if (filterEspecialidad !== 'todas' && !doc.specialties.includes(filterEspecialidad)) return false;
       return true;
     });
-  }, [filterTab, filterDisponibilidad, filterEspecialidad]);
+  }, [favoriteDoctorIds, filterTab, filterDisponibilidad, filterEspecialidad]);
 
   return (
     <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-[24px]">
@@ -161,11 +183,22 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
           <button
             type="button"
             onClick={() => setFilterTab('favoritos')}
-            className={`px-[16px] py-[6px] rounded-[6px] text-[13px] font-bold transition-all cursor-pointer ${
+            className={`px-[16px] py-[6px] rounded-[6px] text-[13px] font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
               filterTab === 'favoritos' ? 'bg-white text-black shadow-xs' : 'text-[#64748b] hover:text-black'
             }`}
           >
-            Favoritos
+            <span>Favoritos</span>
+            {favoriteDoctorIds.length > 0 && (
+              <span
+                className={`text-[11px] font-bold px-1.5 py-0.2 rounded-full ${
+                  filterTab === 'favoritos'
+                    ? 'bg-[#fdf2f8] text-[#d50475]'
+                    : 'bg-[#e2e8f0] text-[#64748b]'
+                }`}
+              >
+                {favoriteDoctorIds.length}
+              </span>
+            )}
           </button>
         </div>
 
@@ -195,9 +228,13 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
       {/* Doctor Cards Grid (2 columns matching EVR - 119) */}
       {filteredDoctors.length === 0 ? (
         <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2 bg-white rounded-[10px] border border-[#e2e8f0]">
-          <p className="text-[15px] font-bold text-black">No se encontraron especialistas</p>
-          <p className="text-[13px] text-[#64748b]">
-            Prueba a cambiar los filtros de disponibilidad o especialidad.
+          <p className="text-[15px] font-bold text-black">
+            {filterTab === 'favoritos' ? 'No tienes especialistas en favoritos' : 'No se encontraron especialistas'}
+          </p>
+          <p className="text-[13px] text-[#64748b] max-w-[420px]">
+            {filterTab === 'favoritos'
+              ? 'Haz clic en la estrella de cualquier médico en la pestaña "Todos" para añadirlo a tus favoritos y acceder rápidamente a él.'
+              : 'Prueba a cambiar los filtros de disponibilidad o especialidad.'}
           </p>
           <button
             type="button"
@@ -208,13 +245,14 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
             }}
             className="mt-2 text-[13px] font-bold text-[#d50475] hover:underline cursor-pointer"
           >
-            Restablecer filtros
+            {filterTab === 'favoritos' ? 'Ver todos los especialistas' : 'Restablecer filtros'}
           </button>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-[20px]">
           {filteredDoctors.map((doc) => {
             const isExpanded = expandedId === doc.id;
+            const isFav = favoriteDoctorIds.includes(doc.id);
             return (
               <div
                 key={doc.id}
@@ -241,18 +279,33 @@ export const SolicitarChat: React.FC<SolicitarChatProps> = ({
                           {doc.badge}
                         </Badge>
                       </div>
-                    <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[12px] text-[#475569] mt-0.5">
-                      {doc.specialties.map((s, i) => (
-                        <span key={i}>{s}{i < doc.specialties.length - 1 ? ' ·' : ''}</span>
-                      ))}
+                      <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[12px] text-[#475569] mt-0.5">
+                        {doc.specialties.map((s, i) => (
+                          <span key={i}>{s}{i < doc.specialties.length - 1 ? ' ·' : ''}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <button type="button" className="text-[#64748b] hover:text-[#d50475]">
-                  <Star className={`w-4 h-4 ${doc.isFavorite ? 'fill-[#d50475] text-[#d50475]' : ''}`} />
-                </button>
-              </div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(doc.id);
+                    }}
+                    className={`p-1.5 rounded-full hover:bg-[#f1f5f9] transition-all cursor-pointer ${
+                      isFav ? 'text-[#d50475]' : 'text-[#94a3b8] hover:text-[#d50475]'
+                    }`}
+                    title={isFav ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+                    aria-label={isFav ? 'Quitar de favoritos' : 'Añadir a favoritos'}
+                  >
+                    <Star
+                      className={`w-4 h-4 transition-transform hover:scale-110 ${
+                        isFav ? 'fill-[#d50475] text-[#d50475]' : 'text-[#94a3b8]'
+                      }`}
+                    />
+                  </button>
+                </div>
 
               {/* Collapsible toggle (collapsed by default) */}
               <div className="border-t border-[#f1f5f9] pt-3">
