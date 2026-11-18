@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Info } from 'lucide-react';
+import { InlineMessage } from '../design-system/atoms/InlineMessage';
 import { Button } from '../design-system/atoms/Button';
 import { TextInput } from '../design-system/atoms/TextInput';
 import { Dropdown } from '../design-system/atoms/Dropdown';
@@ -289,16 +290,9 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
                 </div>
               ) : (
                 <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
-                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
-                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
-                    <div className="flex flex-col gap-1">
-                      <p className="font-bold text-black text-[14px]">Sin alergias conocidas</p>
-                      <p className="text-[13px] text-[#64748b] leading-relaxed">
-                        Has indicado que no presentas alergias a medicamentos, alimentos ni a otros agentes ambientales.
-                        Al guardar cambios, tu historial clínico reflejará que no tienes alergias conocidas.
-                      </p>
-                    </div>
-                  </div>
+                  <InlineMessage className="mt-1" title="Sin alergias conocidas">
+                      Has indicado que no presentas alergias a medicamentos, alimentos ni a otros agentes ambientales. Al guardar cambios, tu historial clínico reflejará que no tienes alergias conocidas.
+                    </InlineMessage>
                 </div>
               )}
             </div>
@@ -359,15 +353,9 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
                 </div>
               ) : (
                 <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
-                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
-                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
-                    <div className="flex flex-col gap-1">
-                      <p className="font-bold text-black text-[14px]">Sin enfermedades crónicas conocidas</p>
-                      <p className="text-[13px] text-[#64748b] leading-relaxed">
-                        Has indicado que no presentas antecedentes patológicos relevantes. Tu historial clínico se mantendrá actualizado sin antecedentes médicos personales significativos.
-                      </p>
-                    </div>
-                  </div>
+                  <InlineMessage className="mt-1" title="Sin enfermedades crónicas conocidas">
+                      Has indicado que no presentas antecedentes patológicos relevantes. Tu historial clínico se mantendrá actualizado sin antecedentes médicos personales significativos.
+                    </InlineMessage>
                 </div>
               )}
             </div>
@@ -403,15 +391,9 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
                 </div>
               ) : (
                 <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
-                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
-                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
-                    <div className="flex flex-col gap-1">
-                      <p className="font-bold text-black text-[14px]">Sin antecedentes quirúrgicos</p>
-                      <p className="text-[13px] text-[#64748b] leading-relaxed">
-                        Has indicado que no te han realizado cirugías previas relevantes.
-                      </p>
-                    </div>
-                  </div>
+                  <InlineMessage className="mt-1" title="Sin antecedentes quirúrgicos">
+                      Has indicado que no te han realizado cirugías previas relevantes.
+                    </InlineMessage>
                 </div>
               )}
             </div>
@@ -447,15 +429,9 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
                 </div>
               ) : (
                 <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
-                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
-                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
-                    <div className="flex flex-col gap-1">
-                      <p className="font-bold text-black text-[14px]">Sin tratamiento farmacológico habitual</p>
-                      <p className="text-[13px] text-[#64748b] leading-relaxed">
-                        Has indicado que actualmente no tomas medicamentos crónicos ni tratamientos continuados.
-                      </p>
-                    </div>
-                  </div>
+                  <InlineMessage className="mt-1" title="Sin tratamiento farmacológico habitual">
+                      Has indicado que actualmente no tomas medicamentos crónicos ni tratamientos continuados.
+                    </InlineMessage>
                 </div>
               )}
             </div>
@@ -517,15 +493,9 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
                 </div>
               ) : (
                 <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
-                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
-                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
-                    <div className="flex flex-col gap-1">
-                      <p className="font-bold text-black text-[14px]">Sin consumo de sustancias tóxicas</p>
-                      <p className="text-[13px] text-[#64748b] leading-relaxed">
-                        Has indicado que no consumes tabaco, alcohol ni otras sustancias tóxicas.
-                      </p>
-                    </div>
-                  </div>
+                  <InlineMessage className="mt-1" title="Sin consumo de sustancias tóxicas">
+                      Has indicado que no consumes tabaco, alcohol ni otras sustancias tóxicas.
+                    </InlineMessage>
                 </div>
               )}
             </div>
@@ -592,15 +562,9 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
                 </div>
               ) : (
                 <div className="flex flex-col gap-4 pt-2 border-t border-[#f1f5f9]">
-                  <div className="p-4 rounded-[8px] bg-[#f8fafc] border border-[#e2e8f0] text-[14px] text-[#475569] leading-relaxed flex items-start gap-3 mt-1">
-                    <Info className="w-5 h-5 text-[#64748b] shrink-0 mt-0.5" />
-                    <div className="flex flex-col gap-1">
-                      <p className="font-bold text-black text-[14px]">Bienestar emocional estable</p>
-                      <p className="text-[13px] text-[#64748b] leading-relaxed">
-                        Has indicado que no has vivido situaciones recientes que afecten significativamente tu bienestar o nivel de descanso.
-                      </p>
-                    </div>
-                  </div>
+                  <InlineMessage className="mt-1" title="Bienestar emocional estable">
+                      Has indicado que no has vivido situaciones recientes que afecten significativamente tu bienestar o nivel de descanso.
+                    </InlineMessage>
                 </div>
               )}
             </div>

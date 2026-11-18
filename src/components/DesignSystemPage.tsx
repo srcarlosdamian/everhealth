@@ -73,6 +73,7 @@ import { ModalActionGroup } from '../design-system/molecules/ModalActionGroup';
 import { ModalBiometria } from './ModalBiometria';
 import { ModalCalificacion } from './ModalCalificacion';
 import { Tabs } from '../design-system/molecules/Tabs';
+import { InlineMessage } from '../design-system/atoms/InlineMessage';
 import { Toast, ToastVariant } from '../design-system/atoms/Toast';
 
 interface DesignSystemPageProps {
@@ -1539,6 +1540,113 @@ export const DesignSystemPage: React.FC<DesignSystemPageProps> = ({ onBackToHome
                             message="Se ha eliminado el informe de antecedentes médicos."
                           />
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </StageBlock>
+
+                {/* 9.1 Catálogo de Mensajes del Sistema */}
+                <StageBlock
+                  title="Catálogo de Mensajes del Sistema"
+                  componentTag="<InlineMessage /> · <Toast /> · <Tooltip />"
+                  usedIn={['Historia Clínica', 'Historial de Consultas', 'Onboarding', 'Help Center', 'Documentos', 'Home']}
+                  description="Todos los tipos de mensaje que existen en la plataforma: mensajes en línea (callouts dentro de formularios y modales), toasts flotantes de retroalimentación y tooltips contextuales. Títulos en negro semibold/bold; descripciones en gris #64748b. Nunca usar el tooltip de '15 minutos' fuera de botones de cita."
+                >
+                  <div className="flex flex-col gap-8">
+                    {/* 1. Mensajes en línea */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-col">
+                        <span className="text-[13px] font-bold text-black">1. Mensajes en línea (InlineMessage)</span>
+                        <span className="text-[12px] text-[#64748b]">
+                          Informan dentro del flujo. Icono Lucide 20px, título 14px bold, descripción 13px. La variante neutral se usa en las confirmaciones "Sin ..." de Historia Clínica.
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <InlineMessage title="Sin consumo de sustancias tóxicas">
+                          Has indicado que no consumes tabaco, alcohol ni otras sustancias tóxicas.
+                        </InlineMessage>
+                        <InlineMessage variant="info" title="Información">
+                          Mensaje informativo general sobre el paso actual.
+                        </InlineMessage>
+                        <InlineMessage variant="success" title="Datos verificados">
+                          Tu información se ha validado correctamente.
+                        </InlineMessage>
+                        <InlineMessage variant="warning" title="Revisa tus datos">
+                          Algunos campos podrían estar incompletos.
+                        </InlineMessage>
+                        <InlineMessage variant="error" title="No se pudo guardar">
+                          Inténtalo de nuevo en unos minutos.
+                        </InlineMessage>
+                      </div>
+                      <div className="border border-[#e2e8f0] rounded-[8px] divide-y divide-[#f1f5f9] bg-white">
+                        {[
+                          ['Sin alergias conocidas', 'Historia Clínica · Alergias'],
+                          ['Sin enfermedades crónicas conocidas', 'Historia Clínica · Enfermedades'],
+                          ['Sin antecedentes quirúrgicos', 'Historia Clínica · Quirúrgicas'],
+                          ['Sin tratamiento farmacológico habitual', 'Historia Clínica · Medicamentos'],
+                          ['Sin consumo de sustancias tóxicas', 'Historia Clínica · Sustancias'],
+                          ['Bienestar emocional estable', 'Historia Clínica · Psicología'],
+                        ].map(([msg, where]) => (
+                          <div key={msg} className="flex items-center justify-between gap-4 px-3.5 py-2.5 text-[13px]">
+                            <span className="text-black font-bold">{msg}</span>
+                            <span className="text-[#64748b]">{where}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 2. Toasts */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-col">
+                        <span className="text-[13px] font-bold text-black">2. Toasts (retroalimentación tras una acción)</span>
+                        <span className="text-[12px] text-[#64748b]">Variantes info, success, warning y error. Desaparecen solos a los 3,2 s.</span>
+                      </div>
+                      <div className="border border-[#e2e8f0] rounded-[8px] divide-y divide-[#f1f5f9] bg-white">
+                        {[
+                          ['info', 'Correo / teléfono copiado al portapapeles', 'Help Center'],
+                          ['info', 'Iniciando llamada al 911 23 12 14...', 'Help Center'],
+                          ['success', 'Archivo "{nombre}" subido correctamente.', 'Documentos'],
+                          ['success', '"{nombre}" ha sido eliminado.', 'Documentos'],
+                          ['info', 'Descargando "{nombre}"...', 'Documentos'],
+                          ['success', 'Categoría actualizada a "{categoría}"', 'Documentos'],
+                          ['success', 'Consulta finalizada con éxito. Informe médico guardado en tu historia clínica.', 'Home'],
+                          ['success', 'Videoconsulta finalizada con éxito. Informe médico guardado en tu historia clínica.', 'Home'],
+                          ['success', '¡Muchas gracias por tu valoración (n/10)! Tu opinión nos ayuda a mejorar.', 'Modal de calificación'],
+                        ].map(([v, msg, where], i) => (
+                          <div key={i} className="flex items-center justify-between gap-4 px-3.5 py-2.5 text-[13px]">
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <Badge variant={v === 'success' ? 'success' : 'neutral'}>{v}</Badge>
+                              <span className="text-black">{msg}</span>
+                            </div>
+                            <span className="text-[#64748b] shrink-0">{where}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* 3. Tooltips */}
+                    <div className="flex flex-col gap-3">
+                      <div className="flex flex-col">
+                        <span className="text-[13px] font-bold text-black">3. Tooltips contextuales</span>
+                        <span className="text-[12px] text-[#64748b]">Aparecen al pasar el cursor sobre botones bloqueados o badges de estado.</span>
+                      </div>
+                      <div className="border border-[#e2e8f0] rounded-[8px] divide-y divide-[#f1f5f9] bg-white">
+                        {[
+                          ['Activo 15 minutos antes de la cita', 'Botón de cita aún no disponible (solo variantes inactive)'],
+                          ['Completa los campos obligatorios', 'Botón CONTINUAR bloqueado en formularios y onboarding'],
+                          ['Selecciona una puntuación del 1 al 10', 'Botón ENVIAR bloqueado sin puntuación'],
+                          ['Pendiente de recomendación médica', 'Badge "Pendiente" en Historial'],
+                          ['Pendiente de emisión de informe médico oficial', 'Badge "Pendiente" en Historial'],
+                          ['Pendiente de valoración y triaje médico previo', 'Badge "Pendiente" en Historial'],
+                          ['Pendiente de inicio de sala (activo 15 minutos antes)', 'Badge "Pendiente" en Historial'],
+                          ['Pendiente de inicio de consulta médica', 'Badge "Pendiente" en Historial'],
+                          ['Esta consulta fue cancelada', 'Badge "Cancelada" en Historial'],
+                        ].map(([msg, where]) => (
+                          <div key={msg} className="flex items-center justify-between gap-4 px-3.5 py-2.5 text-[13px]">
+                            <span className="text-black font-bold">{msg}</span>
+                            <span className="text-[#64748b] text-right">{where}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
