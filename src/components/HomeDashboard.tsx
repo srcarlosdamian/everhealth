@@ -181,7 +181,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
         {/* Top Header - Adaptado con versión mobile idéntica al diseño solicitado */}
         <header className="w-full h-[56px] px-3 sm:px-6 lg:px-8 flex items-center justify-between border-b border-[#f1f5f9] lg:border-b-0 bg-white sticky top-0 z-40">
           {/* Mobile Left: Menú Hamburguesa + Logo Ever Health */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-1.5 sm:gap-2 lg:hidden min-w-0">
             <button
               type="button"
               onClick={() => {
@@ -190,18 +190,18 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
                 setIsHeaderInfoOpen(false);
                 setUserMenuOpen(false);
               }}
-              className="p-1.5 rounded-[6px] hover:bg-[#f1f5f9] text-black transition-colors cursor-pointer"
+              className="p-1.5 rounded-[6px] hover:bg-[#f1f5f9] text-black transition-colors cursor-pointer shrink-0"
               aria-label="Abrir menú"
               title="Menú"
             >
-              <Menu className="w-6 h-6 text-black" />
+              <Menu className="w-5 h-5 sm:w-6 sm:h-6 text-black" />
             </button>
             <img
               src={logoSrc}
               alt="EVER HEALTH"
               onClick={() => setCurrentView('home')}
               title="Ever Health"
-              className="h-[32px] w-auto object-contain cursor-pointer"
+              className="h-[24px] sm:h-[32px] w-auto max-w-[115px] sm:max-w-none object-contain cursor-pointer shrink-0"
             />
           </div>
 
@@ -209,7 +209,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
           <div className="hidden lg:block" />
 
           {/* Right: Acciones rápidas (+), Notificaciones, Información, Usuario */}
-          <div className="flex items-center gap-3 relative">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             
             {/* Botón de Acciones Rápidas (Icono PlusCircle en rosa #d50475 con dropdown oficial) */}
             <div className="relative">
@@ -228,7 +228,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
               </button>
 
               {isQuickActionsOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[295px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.12)] p-1.5 border border-[#e2e8f0] flex flex-col gap-0.5 animate-fadeIn font-[family-name:Helvetica]">
+                <div className="fixed left-3 right-3 top-[60px] sm:absolute sm:left-auto sm:right-0 sm:top-[calc(100%+8px)] z-50 sm:w-[295px] max-w-[360px] sm:max-w-none mx-auto sm:mx-0 bg-white rounded-[10px] shadow-[0_12px_32px_rgba(0,0,0,0.14)] p-1.5 border border-[#e2e8f0] flex flex-col gap-0.5 animate-fadeIn font-[family-name:Helvetica]">
                   <button
                     type="button"
                     onClick={() => {
@@ -339,7 +339,7 @@ export const HomeDashboard: React.FC<HomeDashboardProps> = ({
 
               {/* Dropdown de Notificaciones matching media_1793946759811_e5456969.png */}
               {isNotifOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[300px] sm:w-[320px] bg-white rounded-[14px] shadow-[0_16px_40px_rgba(0,0,0,0.14)] p-4 border border-[#e2e8f0] flex flex-col gap-3 animate-fadeIn">
+                <div className="fixed left-3 right-3 top-[60px] sm:absolute sm:left-auto sm:right-0 sm:top-[calc(100%+8px)] z-50 sm:w-[320px] max-w-[360px] sm:max-w-none mx-auto sm:mx-0 bg-white rounded-[14px] shadow-[0_16px_40px_rgba(0,0,0,0.14)] p-4 border border-[#e2e8f0] flex flex-col gap-3 animate-fadeIn">
                   <div className="flex flex-col gap-0.5">
                     <div className="flex items-center justify-between">
                       <h3 className="text-[16px] font-bold text-black">Notificaciones</h3>

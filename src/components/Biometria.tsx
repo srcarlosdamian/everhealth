@@ -583,10 +583,10 @@ export const Biometria: React.FC<BiometriaProps> = ({
               </div>
 
               {/* ================= VISOR FACIAL BIOMÉTRICO ================= */}
-              <div className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-[14px] p-6 sm:p-10 flex flex-col items-center justify-center relative overflow-hidden select-none">
+              <div className="w-full bg-[#f8fafc] border border-[#e2e8f0] rounded-[14px] p-3 sm:p-10 flex flex-col items-center justify-center relative overflow-hidden select-none">
                 
                 {/* Cuadrante de cámara con encuadre ovalado/circular limpio */}
-                <div className="relative w-[320px] h-[320px] sm:w-[380px] sm:h-[380px] flex items-center justify-center">
+                <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] max-w-full flex items-center justify-center">
                   
                   {/* Histogramas en las 4 esquinas */}
                   <div className="absolute -top-2 -left-4 flex flex-col items-start gap-1 pointer-events-none">

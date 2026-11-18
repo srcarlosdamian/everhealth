@@ -124,6 +124,9 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-historia-completa-title"
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/50 backdrop-blur-xs animate-fadeIn font-[family-name:Helvetica]"
       onClick={onClose}
     >
@@ -132,12 +135,12 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
         onClick={(e) => e.stopPropagation()}
       >
         {/* ================= HEADER HOMOLOGADO DEL MODAL ================= */}
-        <div className="px-6 py-4 border-b border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
           <div className="flex flex-col">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#d50475]">
               Historia clínica oficial
             </span>
-            <h2 className="text-[20px] font-bold text-black tracking-tight leading-snug">
+            <h2 id="modal-historia-completa-title" className="text-[20px] font-bold text-black tracking-tight leading-snug">
               Historia clínica completa
             </h2>
           </div>
@@ -263,7 +266,7 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
         </div>
 
         {/* ================= FOOTER HOMOLOGADO CON LÍNEA DIVISORIA SUPERIOR ================= */}
-        <div className="px-6 py-4 border-t border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-t border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
           <span className="text-[12px] text-[#64748b] hidden sm:inline">
             Historial verificado por <strong className="text-black font-bold">Ever Health Medical Services</strong>
           </span>
@@ -271,7 +274,7 @@ export const ModalHistoriaCompleta: React.FC<ModalHistoriaCompletaProps> = ({
             <Button
               variant="primary"
               onClick={onClose}
-              className="h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
+              className="w-full sm:w-auto h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
             >
               CERRAR
             </Button>

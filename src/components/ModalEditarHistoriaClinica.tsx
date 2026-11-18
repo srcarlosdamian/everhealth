@@ -120,20 +120,23 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-editar-historia-title"
       onClick={onClose}
       className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5 animate-fadeIn font-[family-name:Helvetica]"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[700px] min-h-[520px] max-h-[90vh] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
+        className="w-full max-w-[700px] min-h-[380px] sm:min-h-[520px] max-h-[90vh] bg-white rounded-[14px] shadow-[0_20px_60px_rgba(0,0,0,0.2)] border border-[#e2e8f0] flex flex-col overflow-hidden animate-scaleUp cursor-default"
       >
         {/* ================= HEADER DEL MODAL EDITABLE ================= */}
-        <div className="px-6 py-4 border-b border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-[#f1f5f9] flex items-center justify-between shrink-0 bg-white">
           <div className="flex flex-col">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#d50475]">
               Historia clínica · Completar perfil médico
             </span>
-            <h2 className="text-[20px] font-bold text-black tracking-tight leading-snug">
+            <h2 id="modal-editar-historia-title" className="text-[20px] font-bold text-black tracking-tight leading-snug">
               {sectionId === 'general' && 'Editar Datos generales'}
               {sectionId === 'alergias' && 'Editar Alergias'}
               {sectionId === 'enfermedades' && 'Editar Enfermedades'}
@@ -632,18 +635,18 @@ export const ModalEditarHistoriaClinica: React.FC<ModalEditarHistoriaClinicaProp
         </div>
 
         {/* ================= FOOTER DEL MODAL HOMOLOGADO ================= */}
-        <div className="px-6 py-4 border-t border-[#f1f5f9] flex items-center justify-end gap-3 shrink-0 bg-white">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-t border-[#f1f5f9] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5 shrink-0 bg-white">
           <Button
             variant="outline"
             onClick={onClose}
-            className="h-[42px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
+            className="w-full sm:w-auto h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
           >
             CANCELAR
           </Button>
           <Button
             variant="primary"
             onClick={handleSave}
-            className="h-[42px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
+            className="w-full sm:w-auto h-[40px] px-6 text-[13px] font-bold uppercase rounded-[8px]"
           >
             GUARDAR CAMBIOS
           </Button>

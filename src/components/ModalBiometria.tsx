@@ -35,15 +35,15 @@ export const ModalBiometria: React.FC<ModalBiometriaProps> = ({
       <div className="w-full max-w-[560px] bg-white rounded-[12px] shadow-2xl border border-[#e2e8f0] overflow-hidden flex flex-col max-h-[90vh] font-[family-name:Helvetica] animate-scaleUp">
         
         {/* ================= HEADER DEL MODAL ================= */}
-        <div className="px-6 py-5 border-b border-[#f1f5f9] flex items-start justify-between gap-4 shrink-0 bg-white">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-[#f1f5f9] flex items-start justify-between gap-4 shrink-0 bg-white">
           <div className="flex flex-col">
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#d50475]">
               SEGURIDAD & IDENTIFICACIÓN · BIOMETRÍA FACIAL
             </span>
-            <h2 id="biometria-modal-title" className="text-[20px] font-bold text-black leading-tight mt-1">
+            <h2 id="biometria-modal-title" className="text-[18px] sm:text-[20px] font-bold text-black leading-tight mt-1">
               ¿Qué es la biometría facial?
             </h2>
-            <p className="text-[13px] text-[#64748b] mt-0.5">
+            <p className="text-[12px] sm:text-[13px] text-[#64748b] mt-0.5">
               Conoce cómo protegemos tu salud y tus datos antes de comenzar.
             </p>
           </div>
@@ -59,7 +59,7 @@ export const ModalBiometria: React.FC<ModalBiometriaProps> = ({
         </div>
 
         {/* ================= BODY INFORMATIVO ================= */}
-        <div className="overflow-y-auto custom-scrollbar-minimal px-6 py-5 flex flex-col gap-4">
+        <div className="overflow-y-auto custom-scrollbar-minimal px-4 sm:px-6 py-4 sm:py-5 flex flex-col gap-4">
           
           {/* Banner explicativo con icono */}
           <div className="flex items-start gap-3.5 p-3.5 rounded-[8px] bg-[#fdf2f8] border border-[#fbcfe8]">
@@ -139,16 +139,18 @@ export const ModalBiometria: React.FC<ModalBiometriaProps> = ({
         </div>
 
         {/* ================= FOOTER DEL MODAL ================= */}
-        <div className="px-6 py-4 border-t border-[#f1f5f9] flex items-center justify-end gap-3 shrink-0 bg-white">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-t border-[#f1f5f9] flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-2.5 shrink-0 bg-white">
           <Button
             variant="outline"
             onClick={onClose}
+            className="w-full sm:w-auto"
           >
             CANCELAR
           </Button>
           <Button
             variant="primary"
             onClick={onStartProcess}
+            className="w-full sm:w-auto"
           >
             <ScanFace className="w-4 h-4 text-white" />
             <span>INICIAR PROCESO</span>
