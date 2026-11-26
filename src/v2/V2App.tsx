@@ -67,8 +67,8 @@ export const V2App: React.FC = () => {
 
   return (
     <div className="v2-root flex flex-col">
-      {/* Top Header (Misma arquitectura V1: logo izquierda, acciones + usuario derecha) */}
-      <header className="sticky top-0 z-40 w-full h-[68px] bg-white/95 backdrop-blur-md border-b border-[#e2e8f0]/70 px-4 sm:px-8 flex items-center justify-between">
+      {/* Top Header (sin línea divisoria) */}
+      <header className="sticky top-0 z-40 w-full h-[68px] bg-white/95 backdrop-blur-md px-4 sm:px-8 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -165,8 +165,8 @@ export const V2App: React.FC = () => {
 
       {/* Body: Sidebar Izquierda (V1) + Main Content */}
       <div className="flex-1 flex w-full">
-        {/* Desktop Sidebar */}
-        <aside className="hidden lg:flex w-[250px] shrink-0 bg-white/70 border-r border-[#e2e8f0]/60 flex-col justify-between p-4">
+        {/* Desktop Sidebar (sin línea divisoria) */}
+        <aside className="hidden lg:flex w-[250px] shrink-0 bg-white/70 flex-col justify-between p-4">
           <nav className="flex flex-col gap-1.5 pt-2">
             {sidebarItems.map((item) => {
               const active = activeView === item.id;
