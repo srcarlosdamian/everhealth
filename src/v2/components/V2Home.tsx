@@ -97,20 +97,23 @@ export const V2Home: React.FC<V2HomeProps> = ({
         Bienvenido {displayName}
       </h1>
 
-      {/* Card 1: Empieza tu historial médico (degradado vertical 100% rosa-500 a azul-500, texto blanco, barrita blanca con progreso negro) */}
-      <section className="w-full bg-gradient-to-b from-pink-500 to-blue-500 rounded-[14px] p-6 sm:p-[28px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      {/* Card 1: Empieza tu historial médico (degradado diagonal de esquina superior derecha a inferior izquierda) */}
+      <section className="w-full bg-gradient-to-bl from-pink-500 to-blue-500 rounded-[14px] p-6 sm:p-[28px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex flex-col gap-[4px] flex-1 min-w-0">
           <h2 className="v2-heading text-[20px] leading-[26px] font-bold text-white">
             Empieza tu historial médico
           </h2>
-          <p className="text-[15px] leading-[22px] text-white font-normal">
+          <p className="text-[15px] leading-[22px] text-white/95 font-normal">
             Completa el formulario para conocer tu historial.
           </p>
 
-          <div className="flex flex-col mt-[8px] max-w-[340px]">
-            <div className="w-full h-[7px] bg-white rounded-full overflow-hidden">
-              <div className="h-full bg-black rounded-full w-[15%]" />
+          <div className="flex items-center gap-3 mt-[10px] max-w-[360px]">
+            <div className="flex-1 h-[8px] bg-white/30 backdrop-blur-xs rounded-full overflow-hidden">
+              <div className="h-full bg-white rounded-full w-[15%]" />
             </div>
+            <span className="text-[12px] font-bold text-white whitespace-nowrap">
+              15%
+            </span>
           </div>
         </div>
 
@@ -246,9 +249,9 @@ export const V2Home: React.FC<V2HomeProps> = ({
         <button
           type="button"
           onClick={onStartBiometria}
-          className="h-[46px] px-5 rounded-[10px] bg-[#f8f8f7] hover:bg-[#0b1c34] hover:text-white text-[#0b1c34] text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+          className="h-[46px] px-5 rounded-[10px] bg-blue-500 hover:bg-blue-600 text-white text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shrink-0"
         >
-          <ScanFace className="w-4 h-4 text-[#d50475] shrink-0" />
+          <ScanFace className="w-4 h-4 text-white shrink-0" />
           <span>INICIAR ESCANEO</span>
         </button>
       </section>
@@ -289,9 +292,9 @@ export const V2Home: React.FC<V2HomeProps> = ({
                 <button
                   type="button"
                   onClick={onOpenVideoModal}
-                  className="h-[44px] px-5 rounded-[10px] bg-[#0b1c34] hover:bg-[#142c4f] text-white text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+                  className="h-[44px] px-5 rounded-[10px] bg-blue-500 hover:bg-blue-600 text-white text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shrink-0"
                 >
-                  <Video className="w-4 h-4 text-[#f472b6] shrink-0" />
+                  <Video className="w-4 h-4 text-white shrink-0" />
                   <span>ENTRAR A LA SALA</span>
                 </button>
               ) : (
