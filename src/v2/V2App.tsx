@@ -98,7 +98,7 @@ export const V2App: React.FC = () => {
             <button
               type="button"
               onClick={() => setQuickActionsOpen(!quickActionsOpen)}
-              className="w-10 h-10 rounded-[10px] hover:bg-[#f8f8f7] flex items-center justify-center text-[#0b1c34] cursor-pointer"
+              className="w-10 h-10 rounded-[10px] bg-[#d50475] hover:bg-[#b80364] flex items-center justify-center text-white transition-colors cursor-pointer"
               title="Acciones rápidas"
             >
               <PlusCircle className="w-5 h-5" />
