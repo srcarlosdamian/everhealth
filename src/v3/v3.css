@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap');
+
+.v3-root {
+  --v3-bg: #eeeeea;
+  --v3-surface: #ffffff;
+  --v3-surface-soft: #f7f7f5;
+  --v3-ink: #141514;
+  --v3-ink-muted: #52534f;
+  --v3-pink: #d50475;
+  --v3-pink-hover: #b80364;
+  --v3-line: #dadad3;
+
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--v3-bg);
+  color: var(--v3-ink);
+  min-height: 100vh;
+}
+
+.v3-serif {
+  font-family: 'Newsreader', Georgia, serif;
+  letter-spacing: -0.025em;
+}
+
+.v3-mono {
+  font-family: 'IBM Plex Mono', monospace;
+  letter-spacing: 0.08em;
+}
