@@ -263,9 +263,9 @@ export const V2Home: React.FC<V2HomeProps> = ({
         <button
           type="button"
           onClick={onStartBiometria}
-          className="h-[46px] px-5 rounded-[10px] bg-blue-500 hover:bg-blue-600 text-white text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+          className="h-[46px] px-5 rounded-[10px] bg-blue-50 hover:bg-blue-100 text-blue-600 text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shrink-0"
         >
-          <ScanFace className="w-4 h-4 text-white shrink-0" />
+          <ScanFace className="w-4 h-4 text-blue-600 shrink-0" />
           <span>INICIAR ESCANEO</span>
         </button>
       </section>
@@ -306,9 +306,9 @@ export const V2Home: React.FC<V2HomeProps> = ({
                 <button
                   type="button"
                   onClick={onOpenVideoModal}
-                  className="h-[44px] px-5 rounded-[10px] bg-blue-500 hover:bg-blue-600 text-white text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+                  className="h-[44px] px-5 rounded-[10px] bg-blue-50 hover:bg-blue-100 text-blue-600 text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shrink-0"
                 >
-                  <Video className="w-4 h-4 text-white shrink-0" />
+                  <Video className="w-4 h-4 text-blue-600 shrink-0" />
                   <span>ENTRAR A LA SALA</span>
                 </button>
               ) : (
