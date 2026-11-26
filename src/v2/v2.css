@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+.v2-root {
+  --v2-bg: #f8f8f7;
+  --v2-surface: #ffffff;
+  --v2-surface-muted: #f1f3f5;
+  --v2-navy: #0b1c34;
+  --v2-navy-hover: #142c4f;
+  --v2-pink: #d50475;
+  --v2-pink-hover: #b80364;
+  --v2-indigo: #4f6bff;
+  --v2-text: #0b1c34;
+  --v2-text-muted: #475569;
+  --v2-border: #e2e8f0;
+
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--v2-bg);
+  color: var(--v2-text);
+  min-height: 100vh;
+}
+
+.v2-serif {
+  font-family: 'Instrument Serif', Georgia, serif;
+}
+
+.v2-gradient-hero {
+  background: radial-gradient(circle at 12% 18%, #2563eb 0%, transparent 48%),
+              radial-gradient(circle at 86% 22%, #a855f7 0%, transparent 50%),
+              radial-gradient(circle at 78% 85%, #f472b6 0%, transparent 52%),
+              radial-gradient(circle at 18% 85%, #fed7aa 0%, transparent 55%),
+              linear-gradient(135deg, #1d4ed8 0%, #6366f1 42%, #d50475 82%, #fbcfe8 100%);
+}
+
+.v2-gradient-soft {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(168, 85, 247, 0.08) 50%, rgba(213, 4, 117, 0.09) 100%);
+}
+
+.v2-gradient-banner {
+  background: linear-gradient(125deg, #0b1c34 0%, #1e3a8a 48%, #9d174d 100%);
+}
