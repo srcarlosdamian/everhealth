@@ -97,19 +97,19 @@ export const V2Home: React.FC<V2HomeProps> = ({
         Bienvenido {displayName}
       </h1>
 
-      {/* Card 1: Empieza tu historial médico (sin bordes, fondo claro con acento sutil) */}
-      <section className="w-full v2-gradient-soft rounded-[14px] p-6 sm:p-[28px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      {/* Card 1: Empieza tu historial médico (degradado vertical 100% rosa-500 a azul-500, texto blanco, barrita blanca con progreso negro) */}
+      <section className="w-full bg-gradient-to-b from-pink-500 to-blue-500 rounded-[14px] p-6 sm:p-[28px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="flex flex-col gap-[4px] flex-1 min-w-0">
-          <h2 className="text-[20px] leading-[26px] font-extrabold text-[#0b1c34]">
+          <h2 className="v2-heading text-[20px] leading-[26px] font-bold text-white">
             Empieza tu historial médico
           </h2>
-          <p className="text-[15px] leading-[22px] text-[#475569] font-normal">
+          <p className="text-[15px] leading-[22px] text-white font-normal">
             Completa el formulario para conocer tu historial.
           </p>
 
           <div className="flex flex-col mt-[8px] max-w-[340px]">
             <div className="w-full h-[7px] bg-white rounded-full overflow-hidden">
-              <div className="h-full v2-gradient-bar rounded-full w-[15%]" />
+              <div className="h-full bg-black rounded-full w-[15%]" />
             </div>
           </div>
         </div>
@@ -118,10 +118,10 @@ export const V2Home: React.FC<V2HomeProps> = ({
           <button
             type="button"
             onClick={onStartQuestionnaire}
-            className="w-full md:w-auto h-[46px] px-5 rounded-[10px] bg-white hover:bg-[#0b1c34] hover:text-white text-[#0b1c34] text-[13px] font-bold uppercase tracking-wide flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            className="w-full md:w-auto h-[46px] px-5 rounded-[10px] bg-white hover:bg-white/90 text-black text-[13px] font-bold uppercase tracking-wide flex items-center justify-center gap-2 transition-colors cursor-pointer"
           >
             <span>COMPLETA TU PERFIL MÉDICO</span>
-            <ChevronRight className="w-4 h-4 shrink-0" />
+            <ChevronRight className="w-4 h-4 text-black shrink-0" />
           </button>
         </div>
       </section>
