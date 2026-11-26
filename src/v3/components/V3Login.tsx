@@ -10,7 +10,7 @@ export const V3Login: React.FC<V3LoginProps> = ({ onLogin }) => {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
-  const heroSrc = `${import.meta.env.BASE_URL}assets/login-hero.png`;
+  const heroSrc = `${import.meta.env.BASE_URL}assets/v3-login-hero.jpg`;
   const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
   const handleSubmit = (e: React.FormEvent) => {
