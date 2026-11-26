@@ -93,9 +93,8 @@ export const V2Home: React.FC<V2HomeProps> = ({
   return (
     <div className="w-full max-w-[800px] mx-auto flex flex-col gap-[20px]">
       {/* Title: misma arquitectura V1 */}
-      <h1 className="text-[32px] sm:text-[38px] leading-[1.15] font-extrabold text-[#0b1c34] tracking-tight">
-        Bienvenido{' '}
-        <span className="v2-serif italic font-normal text-[#d50475]">{displayName}</span>
+      <h1 className="v2-heading text-[32px] sm:text-[38px] leading-[1.15] font-bold text-[#0b1c34]">
+        Bienvenido {displayName}
       </h1>
 
       {/* Card 1: Empieza tu historial médico (sin bordes, fondo claro con acento sutil) */}

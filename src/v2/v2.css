@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..800;1,9..40,400..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 .v2-root {
   --v2-bg: #f8f8f7;
@@ -12,14 +12,15 @@
   --v2-text: #0b1c34;
   --v2-text-muted: #475569;
 
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'DM Sans', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   background-color: var(--v2-bg);
   color: var(--v2-text);
   min-height: 100vh;
 }
 
-.v2-serif {
-  font-family: 'Instrument Serif', Georgia, serif;
+.v2-heading {
+  font-family: 'Plus Jakarta Sans', 'DM Sans', sans-serif;
+  letter-spacing: -0.03em;
 }
 
 .v2-gradient-mesh {

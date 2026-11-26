@@ -18,7 +18,6 @@ import { V2Login } from './components/V2Login';
 import { V2Home } from './components/V2Home';
 import { V2Historial } from './components/V2Historial';
 import { V2Perfil } from './components/V2Perfil';
-import { V2Footer } from './components/V2Footer';
 import { V2ModalSolicitarChat } from './components/V2ModalSolicitarChat';
 import { V2ModalVideoConsulta } from './components/V2ModalVideoConsulta';
 
@@ -268,12 +267,6 @@ export const V2App: React.FC = () => {
               <V2Perfil userName={userName} userEmail={userEmail} />
             )}
           </main>
-
-          <V2Footer
-            onNavigate={navigate}
-            onOpenChatModal={() => setChatModalOpen(true)}
-            onOpenVideoModal={() => setVideoModalOpen(true)}
-          />
         </div>
       </div>
 
