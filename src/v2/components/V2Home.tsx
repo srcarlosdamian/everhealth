@@ -178,17 +178,24 @@ export const V2Home: React.FC<V2HomeProps> = ({
             </button>
 
             {solicitaDropdownOpen && (
-              <div className="absolute right-0 top-[calc(100%+8px)] z-50 min-w-[240px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(11,28,52,0.16)] p-2 flex flex-col gap-1">
+              <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[280px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(11,28,52,0.16)] px-4 py-1 flex flex-col divide-y divide-[#e2e8f0]">
                 <button
                   type="button"
                   onClick={() => {
                     setSolicitaDropdownOpen(false);
                     onOpenVideoModal();
                   }}
-                  className="w-full px-3.5 py-3 rounded-[8px] hover:bg-[#f8f8f7] text-[#0b1c34] text-[13px] font-bold flex items-center gap-3 cursor-pointer text-left"
+                  className="w-full py-3.5 flex items-start gap-3 cursor-pointer text-left group"
                 >
-                  <Video className="w-5 h-5 text-[#d50475]" />
-                  <span>VIDEOCONSULTA</span>
+                  <Video className="w-[18px] h-[18px] text-[#0b1c34] group-hover:text-[#d50475] mt-0.5 shrink-0 transition-colors" />
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-[14px] font-bold text-[#0b1c34] group-hover:text-[#d50475] transition-colors">
+                      Videoconsulta
+                    </span>
+                    <span className="text-[12px] text-[#64748b] leading-snug">
+                      Agenda cita por especialidad con recetas e informes.
+                    </span>
+                  </div>
                 </button>
                 <button
                   type="button"
@@ -196,10 +203,17 @@ export const V2Home: React.FC<V2HomeProps> = ({
                     setSolicitaDropdownOpen(false);
                     onOpenChatModal();
                   }}
-                  className="w-full px-3.5 py-3 rounded-[8px] hover:bg-[#f8f8f7] text-[#0b1c34] text-[13px] font-bold flex items-center gap-3 cursor-pointer text-left"
+                  className="w-full py-3.5 flex items-start gap-3 cursor-pointer text-left group"
                 >
-                  <MessageSquare className="w-5 h-5 text-[#4f6bff]" />
-                  <span>CHAT MÉDICO</span>
+                  <MessageSquare className="w-[18px] h-[18px] text-[#0b1c34] group-hover:text-blue-500 mt-0.5 shrink-0 transition-colors" />
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-[14px] font-bold text-[#0b1c34] group-hover:text-blue-500 transition-colors">
+                      Chat médico
+                    </span>
+                    <span className="text-[12px] text-[#64748b] leading-snug">
+                      Habla ahora o programa un chat para dudas rápidas.
+                    </span>
+                  </div>
                 </button>
               </div>
             )}

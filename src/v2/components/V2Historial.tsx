@@ -162,10 +162,13 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
         </div>
       )}
 
-      {/* 1. Header con título a la izquierda y dropdown SOLICITAR CONSULTA a la derecha (misma arquitectura V1) */}
+      {/* 1. Header con título a la izquierda y dropdown SOLICITAR CONSULTA en rosa primario */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <h1 className="text-[32px] sm:text-[36px] font-extrabold text-[#0b1c34] tracking-tight">
+          <span className="text-[11px] font-bold uppercase tracking-wider text-[#0b1c34]/70">
+            ATENCIÓN Y SEGUIMIENTO
+          </span>
+          <h1 className="v2-heading text-[32px] sm:text-[38px] font-bold text-[#0b1c34]">
             Historial de consultas
           </h1>
           <p className="text-[14px] text-[#475569]">
@@ -177,24 +180,31 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
           <button
             type="button"
             onClick={() => setCrearMenuOpen(!crearMenuOpen)}
-            className="h-[46px] px-5 rounded-[10px] bg-[#0b1c34] hover:bg-[#142c4f] text-white text-[13px] font-bold uppercase tracking-wide flex items-center gap-2 transition-colors cursor-pointer"
+            className="h-[46px] px-5 rounded-[10px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold uppercase tracking-wide flex items-center gap-2 transition-colors cursor-pointer"
           >
-            <Plus className="w-4 h-4 text-[#f472b6]" />
+            <Plus className="w-4 h-4 text-white" />
             <span>SOLICITAR CONSULTA</span>
           </button>
 
           {crearMenuOpen && (
-            <div className="absolute right-0 top-[calc(100%+8px)] z-50 min-w-[230px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(11,28,52,0.16)] p-2 flex flex-col gap-1">
+            <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-[280px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(11,28,52,0.16)] px-4 py-1 flex flex-col divide-y divide-[#e2e8f0]">
               <button
                 type="button"
                 onClick={() => {
                   setCrearMenuOpen(false);
                   onOpenVideoModal?.();
                 }}
-                className="w-full px-3.5 py-3 rounded-[8px] hover:bg-[#f8f8f7] text-[#0b1c34] text-[13px] font-bold flex items-center gap-3 cursor-pointer text-left"
+                className="w-full py-3.5 flex items-start gap-3 cursor-pointer text-left group"
               >
-                <Video className="w-5 h-5 text-[#d50475]" />
-                <span>VIDEOCONSULTA</span>
+                <Video className="w-[18px] h-[18px] text-[#0b1c34] group-hover:text-[#d50475] mt-0.5 shrink-0 transition-colors" />
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-[14px] font-bold text-[#0b1c34] group-hover:text-[#d50475] transition-colors">
+                    Videoconsulta
+                  </span>
+                  <span className="text-[12px] text-[#64748b] leading-snug">
+                    Agenda cita por especialidad con recetas e informes.
+                  </span>
+                </div>
               </button>
               <button
                 type="button"
@@ -202,10 +212,17 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
                   setCrearMenuOpen(false);
                   onOpenChatModal?.();
                 }}
-                className="w-full px-3.5 py-3 rounded-[8px] hover:bg-[#f8f8f7] text-[#0b1c34] text-[13px] font-bold flex items-center gap-3 cursor-pointer text-left"
+                className="w-full py-3.5 flex items-start gap-3 cursor-pointer text-left group"
               >
-                <MessageSquare className="w-5 h-5 text-[#4f6bff]" />
-                <span>CHAT MÉDICO</span>
+                <MessageSquare className="w-[18px] h-[18px] text-[#0b1c34] group-hover:text-blue-500 mt-0.5 shrink-0 transition-colors" />
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-[14px] font-bold text-[#0b1c34] group-hover:text-blue-500 transition-colors">
+                    Chat médico
+                  </span>
+                  <span className="text-[12px] text-[#64748b] leading-snug">
+                    Habla ahora o programa un chat para dudas rápidas.
+                  </span>
+                </div>
               </button>
             </div>
           )}
@@ -251,8 +268,8 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
         </div>
       </div>
 
-      {/* 3. Tabla / Acordeón (superficie blanca limpia sin bordes exteriores) */}
-      <div className="w-full bg-white rounded-[14px] flex flex-col divide-y divide-[#f1f5f9] overflow-hidden">
+      {/* 3. Tabla / Acordeón estilo editorial con líneas divisorias horizontales sutiles sobre el fondo */}
+      <div className="w-full border-t border-b border-[#cbd5e1]/70 flex flex-col divide-y divide-[#cbd5e1]/70">
         {filteredConsultas.length === 0 ? (
           <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2">
             <p className="text-[15px] font-bold text-[#0b1c34]">No se encontraron consultas</p>
@@ -265,7 +282,7 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
               <div key={c.id} className="w-full flex flex-col">
                 <div
                   onClick={() => setExpandedId(isExpanded ? null : c.id)}
-                  className="w-full py-4 px-5 sm:px-6 flex flex-col lg:flex-row lg:items-center justify-between gap-3 cursor-pointer select-none hover:bg-[#f8f8f7]/60 transition-colors"
+                  className="w-full py-5 px-2 sm:px-3 flex flex-col lg:flex-row lg:items-center justify-between gap-3 cursor-pointer select-none hover:bg-white/60 transition-colors"
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 flex-1 items-center gap-4 lg:gap-6">
                     <div className="flex flex-col">
@@ -320,7 +337,7 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
                 </div>
 
                 {isExpanded && (
-                  <div className="px-5 sm:px-6 pb-5 pt-3 bg-[#f8f8f7]/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="px-3 sm:px-4 pb-5 pt-4 bg-white/80 rounded-[10px] mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div className="flex flex-col gap-1">
                       <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
                         Motivo de la consulta
