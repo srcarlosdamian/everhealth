@@ -8,6 +8,7 @@ import {
   MessageSquare,
   FileText,
 } from 'lucide-react';
+import { V2Select } from './V2Select';
 
 interface V2HistorialProps {
   onOpenVideoModal?: () => void;
@@ -225,26 +226,28 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
         </div>
 
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-          <select
+          <V2Select
             value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            className="h-[48px] px-4 rounded-[10px] bg-white border-0 text-[14px] font-semibold text-[#0b1c34] outline-none sm:w-[210px] cursor-pointer"
-          >
-            <option value="todos">Todos los estados</option>
-            <option value="En proceso">En proceso</option>
-            <option value="pendiente">Pendientes</option>
-            <option value="Terminada">Terminadas</option>
-            <option value="Cancelada">Canceladas</option>
-          </select>
+            onChange={setFilterStatus}
+            className="w-full sm:w-[210px]"
+            options={[
+              { value: 'todos', label: 'Todos los estados' },
+              { value: 'En proceso', label: 'En proceso' },
+              { value: 'pendiente', label: 'Pendientes' },
+              { value: 'Terminada', label: 'Terminadas' },
+              { value: 'Cancelada', label: 'Canceladas' },
+            ]}
+          />
 
-          <select
+          <V2Select
             value={orderSort}
-            onChange={(e) => setOrderSort(e.target.value)}
-            className="h-[48px] px-4 rounded-[10px] bg-white border-0 text-[14px] font-semibold text-[#0b1c34] outline-none sm:w-[160px] cursor-pointer"
-          >
-            <option value="recientes">Más recientes</option>
-            <option value="antiguas">Más antiguas</option>
-          </select>
+            onChange={setOrderSort}
+            className="w-full sm:w-[170px]"
+            options={[
+              { value: 'recientes', label: 'Más recientes' },
+              { value: 'antiguas', label: 'Más antiguas' },
+            ]}
+          />
         </div>
       </div>
 
