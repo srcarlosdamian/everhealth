@@ -12,7 +12,6 @@ import {
   HelpCircle,
   Video,
   MessageSquare,
-  HeartPulse,
 } from 'lucide-react';
 import { V2Login } from './components/V2Login';
 import { V2Home } from './components/V2Home';
@@ -33,6 +32,8 @@ export const V2App: React.FC = () => {
   const [videoModalOpen, setVideoModalOpen] = useState(false);
   const [quickActionsOpen, setQuickActionsOpen] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+
+  const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
   const initials = userName
     .split(' ')
@@ -81,14 +82,13 @@ export const V2App: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('home')}
-            className="flex items-center gap-2.5 cursor-pointer"
+            className="flex items-center cursor-pointer"
           >
-            <div className="w-9 h-9 rounded-[10px] bg-[#d50475] flex items-center justify-center">
-              <HeartPulse className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-[19px] font-extrabold tracking-tight text-[#0b1c34]">
-              EVER HEALTH
-            </span>
+            <img
+              src={logoSrc}
+              alt="EVER HEALTH"
+              className="h-[36px] sm:h-[40px] w-auto object-contain object-left"
+            />
           </button>
         </div>
 

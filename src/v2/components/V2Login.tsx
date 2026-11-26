@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HeartPulse, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 interface V2LoginProps {
   onLogin: (email: string) => void;
@@ -11,6 +11,7 @@ export const V2Login: React.FC<V2LoginProps> = ({ onLogin }) => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const heroSrc = `${import.meta.env.BASE_URL}assets/login-hero.png`;
+  const logoSrc = `${import.meta.env.BASE_URL}assets/logo.png`;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,13 +20,13 @@ export const V2Login: React.FC<V2LoginProps> = ({ onLogin }) => {
 
   return (
     <div className="v2-root flex items-center justify-center">
-      {/* Misma arquitectura 2 columnas de V1 (max-w-[1550px]) */}
-      <div className="w-full max-w-[1550px] min-h-screen lg:min-h-[960px] flex flex-col lg:flex-row items-center justify-center lg:justify-between px-6 sm:px-12 lg:px-[100px] py-10 lg:py-[80px] gap-10 lg:gap-[72px]">
+      {/* Misma arquitectura 2 columnas de V1, con imagen redondeada más cerca del bloque Ever Health */}
+      <div className="w-full max-w-[1360px] min-h-screen lg:min-h-[900px] flex flex-col lg:flex-row items-center justify-center px-6 sm:px-12 lg:px-[64px] py-10 lg:py-[64px] gap-8 lg:gap-[40px]">
         
-        {/* Columna Izquierda: 100% imagen, sin degradado y sin borde */}
+        {/* Columna Izquierda: 100% imagen con borde redondeado, sin degradado y sin línea */}
         <div
           onClick={() => onLogin(email.trim() || 'alejandro.navarro@everhealth.es')}
-          className="w-full max-w-[722px] lg:w-[700px] h-[400px] sm:h-[540px] lg:h-[740px] shrink-0 overflow-hidden cursor-pointer select-none"
+          className="w-full max-w-[660px] lg:w-[640px] h-[380px] sm:h-[520px] lg:h-[700px] shrink-0 rounded-[20px] overflow-hidden cursor-pointer select-none"
         >
           <img
             src={heroSrc}
@@ -34,16 +35,15 @@ export const V2Login: React.FC<V2LoginProps> = ({ onLogin }) => {
           />
         </div>
 
-        {/* Columna Derecha: Formulario limpio con tipografía uniforme */}
+        {/* Columna Derecha: Formulario limpio con logo original de V1 */}
         <div className="w-full max-w-[500px] lg:w-[500px] bg-white rounded-[14px] p-6 sm:p-10 flex flex-col shrink-0">
-          {/* Logo */}
-          <div className="mb-[28px] flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-[10px] bg-[#d50475] flex items-center justify-center">
-              <HeartPulse className="w-5 h-5 text-white" />
-            </div>
-            <span className="v2-heading text-[22px] font-bold text-[#0b1c34]">
-              EVER HEALTH
-            </span>
+          {/* Logo original de V1 */}
+          <div className="mb-[28px]">
+            <img
+              src={logoSrc}
+              alt="EVER HEALTH"
+              className="w-[240px] sm:w-[270px] h-auto object-contain object-left"
+            />
           </div>
 
           {/* Heading Group: una sola tipografía, un solo peso y color */}
