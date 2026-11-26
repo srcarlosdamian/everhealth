@@ -108,6 +108,7 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
   const [filterStatus, setFilterStatus] = useState('todos');
   const [orderSort, setOrderSort] = useState('recientes');
   const [expandedId, setExpandedId] = useState<string | null>('c1');
+  const [tableMode, setTableMode] = useState<'nueva' | 'v1'>('nueva');
   const [crearMenuOpen, setCrearMenuOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -268,8 +269,151 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
         </div>
       </div>
 
-      {/* 3. Tabla / Acordeón estilo editorial con líneas divisorias horizontales sutiles sobre el fondo */}
-      <div className="w-full border-t border-b border-[#cbd5e1]/70 flex flex-col divide-y divide-[#cbd5e1]/70">
+      {/* Toggle temporal debajo de búsqueda para comparar Versión 1 vs Nueva tabla */}
+      <div className="flex items-center justify-between gap-3">
+        <div className="inline-flex items-center p-1 rounded-[10px] bg-white">
+          <button
+            type="button"
+            onClick={() => setTableMode('nueva')}
+            className={`px-3.5 py-1.5 rounded-[8px] text-[12px] font-bold transition-colors cursor-pointer ${
+              tableMode === 'nueva'
+                ? 'bg-[#0b1c34] text-white'
+                : 'text-[#64748b] hover:text-[#0b1c34]'
+            }`}
+          >
+            Nueva tabla
+          </button>
+          <button
+            type="button"
+            onClick={() => setTableMode('v1')}
+            className={`px-3.5 py-1.5 rounded-[8px] text-[12px] font-bold transition-colors cursor-pointer ${
+              tableMode === 'v1'
+                ? 'bg-[#0b1c34] text-white'
+                : 'text-[#64748b] hover:text-[#0b1c34]'
+            }`}
+          >
+            Versión 1
+          </button>
+        </div>
+        <span className="text-[12px] text-[#64748b]">
+          {filteredConsultas.length} {filteredConsultas.length === 1 ? 'consulta' : 'consultas'}
+        </span>
+      </div>
+
+      {/* 3A. NUEVA TABLA ESTILO MEETINGS (ligera, escaneable, sin columnas repetidas) */}
+      {tableMode === 'nueva' ? (
+        <div className="w-full bg-white rounded-[14px] flex flex-col divide-y divide-[#f1f5f9] overflow-hidden">
+          {filteredConsultas.length === 0 ? (
+            <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2">
+              <p className="text-[15px] font-bold text-[#0b1c34]">No se encontraron consultas</p>
+              <p className="text-[13px]">Prueba a cambiar el filtro de estado o la búsqueda.</p>
+            </div>
+          ) : (
+            filteredConsultas.map((c) => {
+              const isExpanded = expandedId === c.id;
+              const doctorName =
+                c.doctor.startsWith('Dr.') || c.doctor.startsWith('Dra.')
+                  ? c.doctor
+                  : `Dr. ${c.doctor}`;
+              return (
+                <div key={c.id} className="flex flex-col">
+                  <div
+                    onClick={() => setExpandedId(isExpanded ? null : c.id)}
+                    className="px-5 sm:px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#f8f8f7]/70 transition-colors cursor-pointer"
+                  >
+                    {/* Fecha + Hora */}
+                    <div className="flex items-center gap-4 min-w-0 flex-1">
+                      <div className="w-[96px] shrink-0 flex flex-col">
+                        <span className="text-[15px] font-bold text-[#0b1c34] leading-tight">
+                          {c.time} h
+                        </span>
+                        <span className="text-[12px] text-[#64748b] mt-0.5">{c.date}</span>
+                      </div>
+
+                      {/* Icono modalidad + Título humano + Motivo en 1 línea */}
+                      <div
+                        className={`w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 ${
+                          c.type === 'video'
+                            ? 'bg-[#fdf2f8] text-[#d50475]'
+                            : 'bg-blue-50 text-blue-600'
+                        }`}
+                      >
+                        {c.type === 'video' ? (
+                          <Video className="w-4 h-4" />
+                        ) : (
+                          <MessageSquare className="w-4 h-4" />
+                        )}
+                      </div>
+
+                      <div className="flex flex-col min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                          <span className="text-[15px] font-bold text-[#0b1c34]">
+                            {c.specialty}
+                          </span>
+                          <span className="text-[13px] text-[#64748b]">· {doctorName}</span>
+                        </div>
+                        <p className="text-[13px] text-[#64748b] truncate mt-0.5">{c.reason}</p>
+                      </div>
+                    </div>
+
+                    {/* Estado + Acciones directas */}
+                    <div
+                      className="flex flex-wrap items-center justify-between md:justify-end gap-3 shrink-0"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span
+                        className={`px-3 py-1 rounded-full text-[12px] font-bold ${getBadgeStyle(
+                          c.status
+                        )}`}
+                      >
+                        {c.status}
+                      </span>
+
+                      {c.status === 'En proceso' && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            c.type === 'video' ? onOpenVideoModal?.() : onOpenChatModal?.()
+                          }
+                          className="h-[36px] px-3.5 rounded-[8px] bg-blue-50 hover:bg-blue-100 text-blue-600 text-[12px] font-bold uppercase cursor-pointer transition-colors"
+                        >
+                          ENTRAR
+                        </button>
+                      )}
+
+                      {c.hasInforme && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setToast('Abriendo informe médico...');
+                            setTimeout(() => setToast(null), 2500);
+                          }}
+                          className="h-[36px] px-3.5 rounded-[8px] bg-[#f8f8f7] hover:bg-[#0b1c34] hover:text-white text-[#0b1c34] text-[12px] font-bold uppercase flex items-center gap-1.5 cursor-pointer transition-colors"
+                        >
+                          <FileText className="w-3.5 h-3.5 text-[#d50475]" />
+                          <span>INFORME</span>
+                        </button>
+                      )}
+
+                      {(c.status === 'En proceso' || c.status.startsWith('Pendiente')) && (
+                        <button
+                          type="button"
+                          onClick={() => handleCancel(c.id)}
+                          className="h-[36px] px-3 rounded-[8px] text-[#64748b] hover:text-[#e11d48] hover:bg-[#fef2f2] text-[12px] font-bold uppercase cursor-pointer transition-colors"
+                        >
+                          CANCELAR
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+      ) : (
+        /* 3B. VERSIÓN 1 (para comparar) */
+        <div className="w-full border-t border-b border-[#cbd5e1]/70 flex flex-col divide-y divide-[#cbd5e1]/70">
         {filteredConsultas.length === 0 ? (
           <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2">
             <p className="text-[15px] font-bold text-[#0b1c34]">No se encontraron consultas</p>
@@ -376,7 +520,8 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
             );
           })
         )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
