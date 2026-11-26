@@ -1,358 +1,326 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
+  ChevronRight,
   Video,
   MessageSquare,
-  CalendarClock,
-  ChevronDown,
-  ArrowRight,
-  Clock,
-  Sparkles,
-  FileText,
-  UserCheck,
-  ShieldCheck,
+  ScanFace,
   Plus,
 } from 'lucide-react';
-import { V2View } from './V2Header';
 
 interface V2HomeProps {
   userName: string;
-  onNavigate: (view: V2View) => void;
-  onOpenChatModal: () => void;
+  onStartQuestionnaire?: () => void;
+  onStartBiometria?: () => void;
   onOpenVideoModal: () => void;
+  onOpenChatModal: () => void;
 }
 
-const UPCOMING_CONSULTATIONS = [
+const CONSULTATIONS = [
   {
     id: '1',
-    time: 'Hoy · 16:00',
-    badge: 'En 10 min',
-    badgeType: 'active' as const,
-    title: 'Videoconsulta · En espera',
-    doctor: 'Dr. Bruno Peñas',
-    specialty: 'Medicina General',
-    type: 'video' as const,
+    timeStr: 'Hoy · 16:00',
+    timeSub: 'En 10 min',
+    title: 'Video consulta · En espera',
+    details: 'Dr. Pérez · Paciente · Medicina general',
+    actionText: 'ENTRAR A LA SALA',
+    isActive: true,
   },
   {
     id: '2',
-    time: 'Mañana · 11:30',
-    badge: 'Confirmada',
-    badgeType: 'scheduled' as const,
-    title: 'Consulta dermatológica',
-    doctor: 'Dra. Carmen Morales',
-    specialty: 'Dermatología',
-    type: 'video' as const,
+    timeStr: 'Mañana · 11:30',
+    timeSub: 'Confirmada',
+    title: 'Consulta dermatológica · Confirmada',
+    details: 'Dra. Carmen Morales · Dermatología',
+    actionText: 'NO DISPONIBLE',
+    isActive: false,
   },
   {
     id: '3',
-    time: 'Jue 17 · 18:00',
-    badge: 'Programada',
-    badgeType: 'scheduled' as const,
-    title: 'Seguimiento nutricional',
-    doctor: 'Dra. Elena Ruiz',
-    specialty: 'Nutrición',
-    type: 'chat' as const,
+    timeStr: 'Jue 17 · 18:00',
+    timeSub: 'Programada',
+    title: 'Consulta nutricional · Confirmada',
+    details: 'Dra. Carmen Morales · Nutrición',
+    actionText: 'NO DISPONIBLE',
+    isActive: false,
+  },
+  {
+    id: '4',
+    timeStr: 'Lun 21 · 10:00',
+    timeSub: 'Programada',
+    title: 'Consulta psicológica · Confirmada',
+    details: 'Lic. Roberto Silva · Psicología',
+    actionText: 'NO DISPONIBLE',
+    isActive: false,
+  },
+  {
+    id: '5',
+    timeStr: 'Mié 23 · 12:30',
+    timeSub: 'Programada',
+    title: 'Revisión médica · Confirmada',
+    details: 'Dr. Alejandro Fuentes · Medicina interna',
+    actionText: 'NO DISPONIBLE',
+    isActive: false,
   },
 ];
 
 export const V2Home: React.FC<V2HomeProps> = ({
   userName,
-  onNavigate,
-  onOpenChatModal,
+  onStartQuestionnaire,
+  onStartBiometria,
   onOpenVideoModal,
+  onOpenChatModal,
 }) => {
-  const [heroDropdownOpen, setHeroDropdownOpen] = useState(false);
-  const heroDropdownRef = useRef<HTMLDivElement>(null);
+  const [showAll, setShowAll] = useState(false);
+  const [solicitaDropdownOpen, setSolicitaDropdownOpen] = useState(false);
+  const solicitaDropdownRef = useRef<HTMLDivElement>(null);
+
+  const displayName = userName.trim() || 'Alejandro Navarro';
 
   useEffect(() => {
-    const handleOutside = (e: MouseEvent) => {
-      if (heroDropdownRef.current && !heroDropdownRef.current.contains(e.target as Node)) {
-        setHeroDropdownOpen(false);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (solicitaDropdownRef.current && !solicitaDropdownRef.current.contains(event.target as Node)) {
+        setSolicitaDropdownOpen(false);
       }
     };
-    if (heroDropdownOpen) {
-      document.addEventListener('mousedown', handleOutside);
+    if (solicitaDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
     }
-    return () => document.removeEventListener('mousedown', handleOutside);
-  }, [heroDropdownOpen]);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [solicitaDropdownOpen]);
 
-  const firstName = userName.split(' ')[0] || 'Alejandro';
+  const visibleConsultations = showAll ? CONSULTATIONS.slice(0, 5) : CONSULTATIONS.slice(0, 1);
 
   return (
-    <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 py-8 sm:py-10 flex flex-col gap-10">
-      {/* Hero Banner with Gradient */}
-      <section className="v2-gradient-hero rounded-[24px] p-6 sm:p-10 lg:p-12 text-white shadow-[0_20px_50px_rgba(11,28,52,0.14)] relative overflow-visible">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          <div className="lg:col-span-7 flex flex-col gap-4">
-            <span className="inline-flex w-fit items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md text-[12px] font-bold tracking-wide">
-              <Sparkles className="w-3.5 h-3.5" />
-              Tu espacio de salud personal
-            </span>
-            <h1 className="text-[32px] sm:text-[44px] font-extrabold leading-[1.1] tracking-tight">
-              Hola, {firstName}.{' '}
-              <span className="v2-serif italic font-normal text-white/95">
-                ¿Cómo te sientes hoy?
-              </span>
-            </h1>
-            <p className="text-[15px] sm:text-[16px] text-white/90 max-w-[540px] leading-relaxed">
-              Agenda una videoconsulta con especialistas o inicia un chat médico en segundos. Todo tu seguimiento queda guardado en tu historial.
-            </p>
+    <div className="w-full max-w-[800px] mx-auto flex flex-col gap-[20px]">
+      {/* Title: misma arquitectura V1 */}
+      <h1 className="text-[32px] sm:text-[38px] leading-[1.15] font-extrabold text-[#0b1c34] tracking-tight">
+        Bienvenido{' '}
+        <span className="v2-serif italic font-normal text-[#d50475]">{displayName}</span>
+      </h1>
 
-            {/* Primary CTA Row with Solicitar consulta Dropdown */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <div className="relative" ref={heroDropdownRef}>
-                <button
-                  type="button"
-                  onClick={() => setHeroDropdownOpen((v) => !v)}
-                  className="h-[48px] px-6 rounded-[12px] bg-[#0b1c34] hover:bg-[#142c4f] text-white text-[14px] font-bold flex items-center gap-2.5 shadow-lg transition-all cursor-pointer"
-                >
-                  <Plus className="w-4 h-4 text-[#f472b6]" />
-                  <span>Solicitar consulta</span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform ${heroDropdownOpen ? 'rotate-180' : ''}`}
-                  />
-                </button>
+      {/* Card 1: Empieza tu historial médico (sin bordes, fondo claro con acento sutil) */}
+      <section className="w-full v2-gradient-soft rounded-[14px] p-6 sm:p-[28px] flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="flex flex-col gap-[4px] flex-1 min-w-0">
+          <h2 className="text-[20px] leading-[26px] font-extrabold text-[#0b1c34]">
+            Empieza tu historial médico
+          </h2>
+          <p className="text-[15px] leading-[22px] text-[#475569] font-normal">
+            Completa el formulario para conocer tu historial.
+          </p>
 
-                {heroDropdownOpen && (
-                  <div className="absolute left-0 mt-2.5 w-[300px] bg-white text-[#0b1c34] rounded-[18px] shadow-[0_20px_50px_rgba(11,28,52,0.22)] border border-[#e2e8f0] p-2 z-30">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setHeroDropdownOpen(false);
-                        onOpenVideoModal();
-                      }}
-                      className="w-full flex items-center gap-3 p-3 rounded-[12px] hover:bg-[#f8f8f7] text-left cursor-pointer"
-                    >
-                      <div className="w-10 h-10 rounded-[10px] bg-[#fdf2f8] text-[#d50475] flex items-center justify-center shrink-0">
-                        <Video className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <div className="text-[14px] font-bold">Videoconsulta</div>
-                        <div className="text-[12px] text-[#64748b]">Cita programada por especialidad</div>
-                      </div>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setHeroDropdownOpen(false);
-                        onOpenChatModal();
-                      }}
-                      className="w-full flex items-center gap-3 p-3 rounded-[12px] hover:bg-[#f8f8f7] text-left cursor-pointer mt-1"
-                    >
-                      <div className="w-10 h-10 rounded-[10px] bg-[#eff6ff] text-[#2563eb] flex items-center justify-center shrink-0">
-                        <MessageSquare className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <div className="text-[14px] font-bold">Chat médico</div>
-                        <div className="text-[12px] text-[#64748b]">Atención inmediata o agendada</div>
-                      </div>
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              <button
-                type="button"
-                onClick={() => onNavigate('historial')}
-                className="h-[48px] px-6 rounded-[12px] bg-white/95 hover:bg-white text-[#0b1c34] text-[14px] font-bold flex items-center gap-2 transition-all cursor-pointer shadow-sm"
-              >
-                <span>Ver historial</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Right Highlight Card inside Hero */}
-          <div className="lg:col-span-5">
-            <div className="bg-white/95 backdrop-blur-md text-[#0b1c34] rounded-[20px] p-6 shadow-xl flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#fdf2f8] text-[#d50475] text-[12px] font-bold">
-                  <span className="w-2 h-2 rounded-full bg-[#d50475] animate-pulse" />
-                  Próxima cita
-                </span>
-                <span className="text-[12px] font-semibold text-[#64748b]">Hoy · 16:00 h</span>
-              </div>
-
-              <div>
-                <h3 className="text-[18px] font-extrabold text-[#0b1c34]">
-                  Videoconsulta · Medicina General
-                </h3>
-                <p className="text-[13px] text-[#475569] mt-0.5">
-                  Dr. Bruno Peñas · Sala lista en 10 minutos
-                </p>
-              </div>
-
-              <button
-                type="button"
-                onClick={onOpenVideoModal}
-                className="w-full h-[46px] rounded-[12px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer"
-              >
-                <Video className="w-4 h-4" />
-                <span>Gestionar videoconsulta</span>
-              </button>
+          <div className="flex flex-col mt-[8px] max-w-[340px]">
+            <div className="w-full h-[7px] bg-white rounded-full overflow-hidden">
+              <div className="h-full v2-gradient-bar rounded-full w-[15%]" />
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Quick Actions Grid */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        <button
-          type="button"
-          onClick={onOpenVideoModal}
-          className="bg-white rounded-[20px] p-6 border border-[#e2e8f0] hover:border-[#d50475] hover:shadow-[0_12px_32px_rgba(11,28,52,0.08)] transition-all text-left flex flex-col gap-4 cursor-pointer group"
-        >
-          <div className="w-12 h-12 rounded-[14px] bg-[#fdf2f8] text-[#d50475] flex items-center justify-center group-hover:bg-[#d50475] group-hover:text-white transition-colors">
-            <Video className="w-6 h-6" />
-          </div>
-          <div>
-            <h3 className="text-[18px] font-extrabold text-[#0b1c34]">Solicitar videoconsulta</h3>
-            <p className="text-[14px] text-[#475569] mt-1 leading-relaxed">
-              Elige especialidad, día y horario para recibir atención médica por video con recetas.
-            </p>
-          </div>
-          <span className="text-[13px] font-bold text-[#d50475] inline-flex items-center gap-1 mt-auto">
-            Agendar ahora <ArrowRight className="w-4 h-4" />
-          </span>
-        </button>
-
-        <button
-          type="button"
-          onClick={onOpenChatModal}
-          className="bg-white rounded-[20px] p-6 border border-[#e2e8f0] hover:border-[#2563eb] hover:shadow-[0_12px_32px_rgba(11,28,52,0.08)] transition-all text-left flex flex-col gap-4 cursor-pointer group"
-        >
-          <div className="w-12 h-12 rounded-[14px] bg-[#eff6ff] text-[#2563eb] flex items-center justify-center group-hover:bg-[#2563eb] group-hover:text-white transition-colors">
-            <MessageSquare className="w-6 h-6" />
-          </div>
-          <div>
-            <h3 className="text-[18px] font-extrabold text-[#0b1c34]">Solicitar chat médico</h3>
-            <p className="text-[14px] text-[#475569] mt-1 leading-relaxed">
-              Resuelve dudas médicas puntuales al instante o programa una conversación escrita.
-            </p>
-          </div>
-          <span className="text-[13px] font-bold text-[#2563eb] inline-flex items-center gap-1 mt-auto">
-            Iniciar chat <ArrowRight className="w-4 h-4" />
-          </span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => onNavigate('perfil')}
-          className="bg-white rounded-[20px] p-6 border border-[#e2e8f0] hover:border-[#0b1c34] hover:shadow-[0_12px_32px_rgba(11,28,52,0.08)] transition-all text-left flex flex-col gap-4 cursor-pointer group"
-        >
-          <div className="w-12 h-12 rounded-[14px] bg-[#f1f5f9] text-[#0b1c34] flex items-center justify-center group-hover:bg-[#0b1c34] group-hover:text-white transition-colors">
-            <UserCheck className="w-6 h-6" />
-          </div>
-          <div>
-            <h3 className="text-[18px] font-extrabold text-[#0b1c34]">Configuración y perfil</h3>
-            <p className="text-[14px] text-[#475569] mt-1 leading-relaxed">
-              Actualiza tus datos personales, seguridad de acceso y detalles de tu suscripción.
-            </p>
-          </div>
-          <span className="text-[13px] font-bold text-[#0b1c34] inline-flex items-center gap-1 mt-auto">
-            Ir a mi perfil <ArrowRight className="w-4 h-4" />
-          </span>
-        </button>
-      </section>
-
-      {/* Upcoming Consultations */}
-      <section className="flex flex-col gap-5">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <h2 className="text-[24px] font-extrabold text-[#0b1c34] tracking-tight">
-              Próximas consultas
-            </h2>
-            <p className="text-[14px] text-[#475569]">
-              Resumen de tus citas programadas y accesos disponibles
-            </p>
-          </div>
+        <div className="flex flex-col items-center gap-[10px] shrink-0 self-center md:self-auto w-full md:w-auto">
           <button
             type="button"
-            onClick={() => onNavigate('historial')}
-            className="h-[42px] px-4 rounded-[10px] bg-white border border-[#cbd5e1] hover:border-[#0b1c34] text-[13px] font-bold text-[#0b1c34] inline-flex items-center gap-2 transition-colors cursor-pointer w-fit"
+            onClick={onStartQuestionnaire}
+            className="w-full md:w-auto h-[46px] px-5 rounded-[10px] bg-white hover:bg-[#0b1c34] hover:text-white text-[#0b1c34] text-[13px] font-bold uppercase tracking-wide flex items-center justify-center gap-2 transition-colors cursor-pointer"
           >
-            <FileText className="w-4 h-4" />
-            <span>Historial completo</span>
+            <span>COMPLETA TU PERFIL MÉDICO</span>
+            <ChevronRight className="w-4 h-4 shrink-0" />
           </button>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          {UPCOMING_CONSULTATIONS.map((c) => (
-            <div
-              key={c.id}
-              className="bg-white rounded-[20px] p-6 border border-[#e2e8f0] flex flex-col justify-between gap-5 shadow-xs"
-            >
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-1.5 text-[12px] font-bold text-[#475569]">
-                    <Clock className="w-3.5 h-3.5 text-[#0b1c34]" />
-                    {c.time}
-                  </span>
-                  <span
-                    className={`px-2.5 py-1 rounded-full text-[11px] font-bold ${
-                      c.badgeType === 'active'
-                        ? 'bg-[#fdf2f8] text-[#d50475]'
-                        : 'bg-[#f1f5f9] text-[#475569]'
-                    }`}
-                  >
-                    {c.badge}
-                  </span>
-                </div>
-
-                <div>
-                  <h3 className="text-[17px] font-extrabold text-[#0b1c34]">{c.title}</h3>
-                  <p className="text-[13px] text-[#475569] mt-1">
-                    {c.doctor} · {c.specialty}
-                  </p>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                onClick={c.type === 'video' ? onOpenVideoModal : onOpenChatModal}
-                className={`w-full h-[44px] rounded-[12px] text-[13px] font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer ${
-                  c.badgeType === 'active'
-                    ? 'bg-[#d50475] hover:bg-[#b80364] text-white'
-                    : 'bg-[#f8f8f7] hover:bg-[#e2e8f0] text-[#0b1c34]'
-                }`}
-              >
-                <CalendarClock className="w-4 h-4" />
-                <span>{c.badgeType === 'active' ? 'Entrar a la sala' : 'Ver detalles'}</span>
-              </button>
-            </div>
-          ))}
         </div>
       </section>
 
-      {/* Editorial Feature Banner (Inspired by reference screenshot 1 & 4) */}
-      <section className="v2-gradient-soft rounded-[24px] p-6 sm:p-10 border border-[#e2e8f0] grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div className="lg:col-span-7 flex flex-col gap-3">
-          <span className="inline-flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-wider text-[#2563eb]">
-            <ShieldCheck className="w-4 h-4" />
-            Atención médica sin fricción
-          </span>
-          <h2 className="text-[28px] sm:text-[34px] font-extrabold text-[#0b1c34] leading-tight">
-            <span className="v2-serif italic font-normal text-[#d50475]">“</span>
-            Más tiempo contigo, menos trámites en tu día a día.
-            <span className="v2-serif italic font-normal text-[#d50475]">”</span>
+      {/* Card 2: Atención inmediata (sin líneas/bordes exteriores, fondo blanco sobre fondo gris #f8f8f7) */}
+      <section className="w-full bg-white rounded-[14px] p-5 sm:p-[28px] flex flex-col gap-[18px]">
+        <div className="flex flex-col gap-[4px]">
+          <h2 className="text-[20px] leading-[28px] font-extrabold text-[#0b1c34]">
+            Atención inmediata
           </h2>
-          <p className="text-[14px] sm:text-[15px] text-[#475569] leading-relaxed max-w-[540px]">
-            Todos nuestros especialistas están colegiados y tus informes médicos quedan disponibles de forma cifrada en tu perfil.
+          <p className="text-[15px] leading-[22px] text-[#475569] font-normal">
+            Nuestros doctores están en línea y listos para resolver tus dudas de salud en este momento.
           </p>
         </div>
 
-        <div className="lg:col-span-5 flex flex-wrap sm:flex-nowrap gap-4 justify-start lg:justify-end">
-          <div className="bg-white rounded-[18px] p-5 border border-[#e2e8f0] flex-1 min-w-[140px]">
-            <div className="text-[28px] font-extrabold text-[#0b1c34]">24/7</div>
-            <div className="text-[12px] font-semibold text-[#475569] mt-1">
-              Disponibilidad médica continua
+        <div className="w-full h-px bg-[#f1f5f9]" />
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          {/* Doctores disponibles */}
+          <div className="flex items-center gap-3">
+            <div className="flex -space-x-2">
+              {['BP', 'MF', 'CM'].map((ini, idx) => (
+                <div
+                  key={ini}
+                  className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold text-white ring-2 ring-white ${
+                    idx === 0 ? 'bg-[#0b1c34]' : idx === 1 ? 'bg-[#d50475]' : 'bg-[#4f6bff]'
+                  }`}
+                >
+                  {ini}
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[13px] font-bold text-[#0b1c34] flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                12 médicos en línea
+              </span>
+              <span className="text-[12px] text-[#64748b]">Tiempo de espera &lt; 5 min</span>
             </div>
           </div>
-          <div className="bg-white rounded-[18px] p-5 border border-[#e2e8f0] flex-1 min-w-[140px]">
-            <div className="text-[28px] font-extrabold text-[#d50475]">&lt; 15m</div>
-            <div className="text-[12px] font-semibold text-[#475569] mt-1">
-              Tiempo medio de atención
-            </div>
+
+          {/* Dropdown SOLICITA UNA CITA (Desktop) */}
+          <div className="hidden md:block relative shrink-0" ref={solicitaDropdownRef}>
+            <button
+              type="button"
+              onClick={() => setSolicitaDropdownOpen(!solicitaDropdownOpen)}
+              className="h-[46px] px-5 rounded-[10px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold uppercase tracking-wide flex items-center gap-2 transition-colors cursor-pointer"
+            >
+              <Plus className="w-4 h-4 text-white shrink-0" />
+              <span>SOLICITA UNA CITA</span>
+            </button>
+
+            {solicitaDropdownOpen && (
+              <div className="absolute right-0 top-[calc(100%+8px)] z-50 min-w-[240px] bg-white rounded-[12px] shadow-[0_16px_40px_rgba(11,28,52,0.16)] p-2 flex flex-col gap-1">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSolicitaDropdownOpen(false);
+                    onOpenVideoModal();
+                  }}
+                  className="w-full px-3.5 py-3 rounded-[8px] hover:bg-[#f8f8f7] text-[#0b1c34] text-[13px] font-bold flex items-center gap-3 cursor-pointer text-left"
+                >
+                  <Video className="w-5 h-5 text-[#d50475]" />
+                  <span>VIDEOCONSULTA</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSolicitaDropdownOpen(false);
+                    onOpenChatModal();
+                  }}
+                  className="w-full px-3.5 py-3 rounded-[8px] hover:bg-[#f8f8f7] text-[#0b1c34] text-[13px] font-bold flex items-center gap-3 cursor-pointer text-left"
+                >
+                  <MessageSquare className="w-5 h-5 text-[#4f6bff]" />
+                  <span>CHAT MÉDICO</span>
+                </button>
+              </div>
+            )}
           </div>
+        </div>
+
+        {/* Versión Mobile */}
+        <div className="flex md:hidden flex-col gap-2.5 w-full pt-1">
+          <button
+            type="button"
+            onClick={onOpenVideoModal}
+            className="w-full h-[46px] px-4 rounded-[10px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold uppercase flex items-center justify-center gap-2 transition-colors cursor-pointer"
+          >
+            <Video className="w-4 h-4 text-white shrink-0" />
+            <span>Solicitar videoconsulta</span>
+          </button>
+          <button
+            type="button"
+            onClick={onOpenChatModal}
+            className="w-full h-[46px] px-4 rounded-[10px] bg-[#0b1c34] text-white text-[13px] font-bold uppercase flex items-center justify-center gap-2 transition-colors cursor-pointer"
+          >
+            <MessageSquare className="w-4 h-4 text-white shrink-0" />
+            <span>Solicitar chat</span>
+          </button>
+          <button
+            type="button"
+            onClick={onStartBiometria}
+            className="w-full h-[46px] px-4 rounded-[10px] bg-[#f8f8f7] text-[#0b1c34] text-[13px] font-bold uppercase flex items-center justify-center gap-2 transition-colors cursor-pointer"
+          >
+            <ScanFace className="w-4 h-4 text-[#64748b] shrink-0" />
+            <span>Biometría facial</span>
+          </button>
+        </div>
+      </section>
+
+      {/* Card 3: Escaneo biométrico (Desktop, sin bordes) */}
+      <section className="hidden md:flex w-full bg-white rounded-[14px] p-5 sm:p-[28px] flex-row items-center justify-between gap-6">
+        <div className="flex flex-col gap-[4px] min-w-0 flex-1">
+          <h2 className="text-[20px] leading-[28px] font-extrabold text-[#0b1c34] tracking-tight">
+            Escaneo biométrico
+          </h2>
+          <p className="text-[15px] leading-[22px] text-[#475569] font-normal">
+            Mide tus signos vitales y pulso en segundos usando la cámara.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={onStartBiometria}
+          className="h-[46px] px-5 rounded-[10px] bg-[#f8f8f7] hover:bg-[#0b1c34] hover:text-white text-[#0b1c34] text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+        >
+          <ScanFace className="w-4 h-4 text-[#d50475] shrink-0" />
+          <span>INICIAR ESCANEO</span>
+        </button>
+      </section>
+
+      {/* Card 4: Próximas consultas (misma arquitectura V1, sin bordes exteriores) */}
+      <section className="w-full bg-white rounded-[14px] p-6 sm:p-[28px] flex flex-col">
+        <div className="w-full flex items-center justify-between pb-[14px]">
+          <h2 className="text-[20px] leading-[28px] font-extrabold text-[#0b1c34]">
+            Próximas consultas
+          </h2>
+        </div>
+
+        <div className="flex flex-col divide-y divide-[#f1f5f9]">
+          {visibleConsultations.map((item) => (
+            <div
+              key={item.id}
+              className="py-[16px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            >
+              <div className="flex flex-col sm:w-[140px] shrink-0">
+                <span className="text-[15px] leading-[22px] font-bold text-[#0b1c34]">
+                  {item.timeStr}
+                </span>
+                <span className="text-[13px] leading-[18px] text-[#64748b]">
+                  {item.timeSub}
+                </span>
+              </div>
+
+              <div className="flex flex-col flex-1">
+                <span className="text-[15px] leading-[22px] font-bold text-[#0b1c34]">
+                  {item.title}
+                </span>
+                <span className="text-[13px] leading-[18px] text-[#64748b]">
+                  {item.details}
+                </span>
+              </div>
+
+              {item.isActive ? (
+                <button
+                  type="button"
+                  onClick={onOpenVideoModal}
+                  className="h-[44px] px-5 rounded-[10px] bg-[#0b1c34] hover:bg-[#142c4f] text-white text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer shrink-0"
+                >
+                  <Video className="w-4 h-4 text-[#f472b6] shrink-0" />
+                  <span>ENTRAR A LA SALA</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  disabled
+                  title="Activo 15 minutos antes de la cita"
+                  className="h-[44px] px-5 rounded-[10px] bg-[#f8f8f7] text-[#94a3b8] text-[13px] font-bold uppercase flex items-center gap-2 cursor-not-allowed shrink-0"
+                >
+                  <Video className="w-4 h-4 text-[#94a3b8] shrink-0" />
+                  <span>{item.actionText}</span>
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="pt-4 mt-2 border-t border-[#f1f5f9] flex items-center justify-between text-[13px]">
+          <span className="text-[#64748b]">
+            Mostrando {visibleConsultations.length} de {CONSULTATIONS.length} eventos
+          </span>
+          <button
+            type="button"
+            onClick={() => setShowAll(!showAll)}
+            className="font-bold text-[#d50475] hover:underline cursor-pointer"
+          >
+            {showAll ? 'Mostrar menos' : 'Cargar más'}
+          </button>
         </div>
       </section>
     </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, MessageSquare, CheckCircle2, Clock } from 'lucide-react';
+import { X, Check } from 'lucide-react';
 
 interface V2ModalSolicitarChatProps {
   isOpen: boolean;
@@ -7,17 +7,18 @@ interface V2ModalSolicitarChatProps {
 }
 
 const DAYS = [
-  { day: 'Hoy', date: '22 Oct', slots: ['09:30', '11:00', '12:30'] },
-  { day: 'Mañana', date: '23 Oct', slots: ['09:30', '11:00', '13:30'] },
-  { day: 'Miércoles', date: '25 Oct', slots: ['10:00', '12:30', '16:00'] },
+  { day: 'HOY', date: '22 Oct', slots: ['09:30', '11:00', '12:30', '13:30'] },
+  { day: 'MAÑANA', date: '23 Oct', slots: ['09:30', '11:00', '12:30', '13:30'] },
+  { day: 'MIÉRCOLES', date: '25 Oct', slots: ['09:30', '11:00', '12:30', '13:30'] },
+  { day: 'VIERNES', date: '27 Oct', slots: ['09:30', '11:00', '', ''] },
 ];
 
 export const V2ModalSolicitarChat: React.FC<V2ModalSolicitarChatProps> = ({ isOpen, onClose }) => {
   const [modalidad, setModalidad] = useState<'agendar' | 'ahora'>('agendar');
   const [specialty, setSpecialty] = useState('Medicina General');
-  const [selectedSlot, setSelectedSlot] = useState('Hoy · 22 Oct · 11:00');
+  const [selectedSlot, setSelectedSlot] = useState('HOY · 22 Oct · 11:00');
   const [motivo, setMotivo] = useState('');
-  const [confirmed, setConfirmed] = useState(false);
+  const [isConfirmed, setIsConfirmed] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -31,215 +32,253 @@ export const V2ModalSolicitarChat: React.FC<V2ModalSolicitarChatProps> = ({ isOp
   if (!isOpen) return null;
 
   const handleClose = () => {
-    setConfirmed(false);
+    setIsConfirmed(false);
     onClose();
   };
+
+  const StepDot = ({ done }: { done: boolean }) => (
+    <div
+      className={`w-[26px] h-[26px] rounded-full flex items-center justify-center shrink-0 ${
+        done ? 'bg-[#0b1c34] text-white' : 'bg-[#e2e8f0] text-[#64748b]'
+      }`}
+    >
+      <Check className="w-3.5 h-3.5" />
+    </div>
+  );
+
+  if (isConfirmed) {
+    return (
+      <div
+        role="dialog"
+        aria-modal="true"
+        onClick={handleClose}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-[#0b1c34]/50 backdrop-blur-xs p-4 overflow-y-auto"
+      >
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full max-w-[560px] bg-white rounded-[16px] shadow-[0_24px_60px_rgba(11,28,52,0.2)] p-6 sm:p-7 flex flex-col gap-4 max-h-[90vh] overflow-y-auto"
+        >
+          <div className="flex items-start justify-between gap-3 pb-3 border-b border-[#f1f5f9]">
+            <div className="flex flex-col">
+              <span className="text-[11px] font-bold uppercase tracking-wider text-[#16a34a]">
+                CHAT MÉDICO · CITA CONFIRMADA
+              </span>
+              <h2 className="text-[22px] font-extrabold text-[#0b1c34] mt-1">
+                Cita confirmada con éxito
+              </h2>
+              <p className="text-[13px] text-[#64748b] mt-0.5">
+                Hemos programado tu consulta por chat. Recibirás un recordatorio antes del inicio.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={handleClose}
+              className="w-8 h-8 rounded-full hover:bg-[#f8f8f7] flex items-center justify-center text-[#64748b] hover:text-[#0b1c34] cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          <div className="w-full bg-[#f8f8f7] rounded-[12px] p-4 sm:p-5 flex flex-col divide-y divide-[#e2e8f0]">
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b]">Especialidad</span>
+              <span className="font-bold text-[#0b1c34]">{specialty}</span>
+            </div>
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b]">Modalidad</span>
+              <span className="font-bold text-[#0b1c34]">
+                {modalidad === 'ahora' ? 'Hablar ahora' : 'Cita agendada'}
+              </span>
+            </div>
+            <div className="py-2.5 flex items-center justify-between text-[14px]">
+              <span className="text-[#64748b]">Especialista</span>
+              <span className="font-bold text-[#0b1c34]">Dra. María Fernández</span>
+            </div>
+            {modalidad === 'agendar' && (
+              <div className="py-2.5 flex items-center justify-between text-[14px]">
+                <span className="text-[#64748b]">Horario</span>
+                <span className="font-bold text-[#0b1c34]">{selectedSlot}</span>
+              </div>
+            )}
+          </div>
+
+          <div className="flex justify-end pt-2">
+            <button
+              type="button"
+              onClick={handleClose}
+              className="h-[46px] px-6 rounded-[10px] bg-[#0b1c34] hover:bg-[#142c4f] text-white text-[13px] font-bold uppercase cursor-pointer"
+            >
+              VOLVER AL INICIO
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
       role="dialog"
       aria-modal="true"
       onClick={handleClose}
-      className="fixed inset-0 z-50 bg-[#0b1c34]/50 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#0b1c34]/50 backdrop-blur-xs p-4 overflow-y-auto"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-[620px] bg-white rounded-[24px] shadow-[0_24px_64px_rgba(11,28,52,0.22)] border border-[#e2e8f0] overflow-hidden flex flex-col max-h-[92vh]"
+        className="relative w-full max-w-[660px] bg-white rounded-[16px] shadow-[0_24px_60px_rgba(11,28,52,0.2)] p-6 sm:p-[28px] my-8 flex flex-col gap-[20px] max-h-[92vh] overflow-y-auto"
       >
         {/* Header */}
-        <div className="px-6 sm:px-8 py-5 border-b border-[#f1f5f9] flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-[12px] bg-[#eff6ff] text-[#2563eb] flex items-center justify-center">
-              <MessageSquare className="w-5 h-5" />
-            </div>
-            <div>
-              <h2 className="text-[20px] font-extrabold text-[#0b1c34]">
-                {confirmed ? 'Chat confirmado con éxito' : 'Solicitar chat médico'}
-              </h2>
-              <p className="text-[13px] text-[#64748b]">
-                {confirmed
-                  ? 'Tu consulta ha sido registrada correctamente.'
-                  : 'Elige modalidad, especialidad y motivo de tu consulta.'}
-              </p>
-            </div>
+        <div className="flex items-center justify-between gap-3 pb-3.5 border-b border-[#f1f5f9]">
+          <div>
+            <h2 className="text-[22px] font-extrabold text-[#0b1c34]">Solicitar chat</h2>
+            <p className="text-[13px] text-[#64748b] mt-0.5">
+              Completa los datos requeridos para conectar con el especialista médico
+            </p>
           </div>
-
           <button
             type="button"
             onClick={handleClose}
-            className="w-9 h-9 rounded-full hover:bg-[#f1f5f9] flex items-center justify-center text-[#64748b] hover:text-[#0b1c34] cursor-pointer"
-            aria-label="Cerrar"
+            className="w-8 h-8 rounded-full hover:bg-[#f8f8f7] flex items-center justify-center text-[#64748b] hover:text-[#0b1c34] cursor-pointer"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Body */}
-        {confirmed ? (
-          <div className="p-6 sm:p-8 flex flex-col gap-5 overflow-y-auto">
-            <div className="flex items-center gap-3 p-4 rounded-[16px] bg-[#ecfdf5] text-[#047857]">
-              <CheckCircle2 className="w-5 h-5 shrink-0" />
-              <span className="text-[14px] font-bold">
-                {modalidad === 'ahora'
-                  ? 'Conectando con el especialista de guardia...'
-                  : 'Te enviaremos un recordatorio 15 minutos antes.'}
-              </span>
+        {/* Stepper vertical V1 */}
+        <div className="flex flex-col">
+          {/* Paso 1 */}
+          <div className="flex gap-[16px]">
+            <div className="flex flex-col items-center shrink-0 w-[26px]">
+              <StepDot done={true} />
+              <div className="w-[2px] flex-1 my-1 bg-[#d50475]/30 min-h-[30px]" />
             </div>
-
-            <div className="bg-[#f8f8f7] rounded-[18px] p-5 border border-[#e2e8f0] divide-y divide-[#e2e8f0] text-[14px]">
-              <div className="py-2.5 flex justify-between gap-4">
-                <span className="text-[#64748b]">Modalidad</span>
-                <span className="font-bold text-[#0b1c34]">
-                  {modalidad === 'ahora' ? 'Hablar ahora' : 'Cita agendada'}
-                </span>
-              </div>
-              <div className="py-2.5 flex justify-between gap-4">
-                <span className="text-[#64748b]">Especialidad</span>
-                <span className="font-bold text-[#0b1c34]">{specialty}</span>
-              </div>
-              <div className="py-2.5 flex justify-between gap-4">
-                <span className="text-[#64748b]">Especialista</span>
-                <span className="font-bold text-[#0b1c34]">Dra. María Fernández</span>
-              </div>
-              {modalidad === 'agendar' && (
-                <div className="py-2.5 flex justify-between gap-4">
-                  <span className="text-[#64748b]">Horario</span>
-                  <span className="font-bold text-[#0b1c34]">{selectedSlot}</span>
-                </div>
-              )}
-            </div>
-
-            <div className="flex justify-end pt-2">
-              <button
-                type="button"
-                onClick={handleClose}
-                className="h-[48px] px-7 rounded-[12px] bg-[#0b1c34] hover:bg-[#142c4f] text-white text-[14px] font-bold cursor-pointer"
-              >
-                Volver al portal
-              </button>
-            </div>
-          </div>
-        ) : (
-          <div className="p-6 sm:p-8 flex flex-col gap-5 overflow-y-auto">
-            {/* Modality toggle */}
-            <div className="flex flex-col gap-2">
-              <label className="text-[13px] font-bold text-[#0b1c34]">Modalidad de atención</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setModalidad('agendar')}
-                  className={`p-3.5 rounded-[14px] border text-left transition-all cursor-pointer ${
-                    modalidad === 'agendar'
-                      ? 'border-[#0b1c34] bg-[#0b1c34] text-white'
-                      : 'border-[#e2e8f0] bg-[#f8f8f7] text-[#0b1c34]'
-                  }`}
-                >
-                  <div className="text-[14px] font-bold">Agendar cita</div>
-                  <div className={`text-[12px] ${modalidad === 'agendar' ? 'text-slate-300' : 'text-[#64748b]'}`}>
-                    Elegir día y horario
-                  </div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setModalidad('ahora')}
-                  className={`p-3.5 rounded-[14px] border text-left transition-all cursor-pointer ${
-                    modalidad === 'ahora'
-                      ? 'border-[#d50475] bg-[#d50475] text-white'
-                      : 'border-[#e2e8f0] bg-[#f8f8f7] text-[#0b1c34]'
-                  }`}
-                >
-                  <div className="text-[14px] font-bold">Hablar ahora</div>
-                  <div className={`text-[12px] ${modalidad === 'ahora' ? 'text-pink-100' : 'text-[#64748b]'}`}>
-                    Atención médica inmediata
-                  </div>
-                </button>
-              </div>
-            </div>
-
-            {/* Specialty */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[13px] font-bold text-[#0b1c34]">Especialidad</label>
+            <div className="flex-1 pb-6 flex flex-col gap-[8px]">
+              <label className="text-[14px] font-bold text-[#0b1c34]">
+                1. Modalidad de atención<span className="text-[#d50475]">*</span>
+              </label>
               <select
-                value={specialty}
-                onChange={(e) => setSpecialty(e.target.value)}
-                className="h-[48px] px-4 rounded-[12px] bg-[#f8f8f7] border border-[#e2e8f0] focus:bg-white focus:border-[#0b1c34] text-[14px] text-[#0b1c34] outline-none"
+                value={modalidad}
+                onChange={(e) => setModalidad(e.target.value as 'agendar' | 'ahora')}
+                className="w-full h-[48px] px-4 rounded-[10px] bg-[#f8f8f7] border-0 text-[14px] font-semibold text-[#0b1c34] outline-none"
               >
-                <option value="Medicina General">Medicina General</option>
-                <option value="Pediatría">Pediatría</option>
-                <option value="Dermatología">Dermatología</option>
-                <option value="Nutrición">Nutrición</option>
+                <option value="agendar">Agendar cita (Elegir fecha y horario)</option>
+                <option value="ahora">Hablar ahora (Atención médica inmediata)</option>
               </select>
             </div>
+          </div>
 
-            {/* Schedule grid if agendar */}
-            {modalidad === 'agendar' && (
-              <div className="flex flex-col gap-2.5">
-                <label className="text-[13px] font-bold text-[#0b1c34] flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-[#2563eb]" />
-                  <span>Selecciona fecha y horario</span>
+          {/* Paso 2 */}
+          <div className="flex gap-[16px]">
+            <div className="flex flex-col items-center shrink-0 w-[26px]">
+              <StepDot done={true} />
+              <div className="w-[2px] flex-1 my-1 bg-[#d50475]/30 min-h-[30px]" />
+            </div>
+            <div className="flex-1 pb-6 flex flex-col gap-[8px]">
+              <span className="text-[14px] font-bold text-[#0b1c34]">2. Médico y especialidad</span>
+              <div className="bg-[#f8f8f7] rounded-[12px] p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-[10px] bg-[#0b1c34] text-white font-bold text-[13px] flex items-center justify-center">
+                    MF
+                  </div>
+                  <div>
+                    <div className="text-[14px] font-bold text-[#0b1c34]">Dra. María Fernández</div>
+                    <div className="text-[12px] text-[#64748b]">{specialty} · Disponible</div>
+                  </div>
+                </div>
+                <select
+                  value={specialty}
+                  onChange={(e) => setSpecialty(e.target.value)}
+                  className="h-[42px] px-3 rounded-[8px] bg-white border-0 text-[13px] font-bold text-[#0b1c34] outline-none"
+                >
+                  <option value="Medicina General">Medicina General</option>
+                  <option value="Pediatría">Pediatría</option>
+                  <option value="Dermatología">Dermatología</option>
+                  <option value="Nutrición">Nutrición</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Paso 3 (si agendar) */}
+          {modalidad === 'agendar' && (
+            <div className="flex gap-[16px]">
+              <div className="flex flex-col items-center shrink-0 w-[26px]">
+                <StepDot done={true} />
+                <div className="w-[2px] flex-1 my-1 bg-[#d50475]/30 min-h-[30px]" />
+              </div>
+              <div className="flex-1 pb-6 flex flex-col gap-[8px]">
+                <label className="text-[14px] font-bold text-[#0b1c34]">
+                  3. Fecha y horario disponible<span className="text-[#d50475]">*</span>
                 </label>
-                <div className="grid grid-cols-3 gap-3 bg-[#f8f8f7] p-4 rounded-[16px] border border-[#e2e8f0]">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-[#f8f8f7] p-3.5 rounded-[12px]">
                   {DAYS.map((col) => (
-                    <div key={col.date} className="flex flex-col gap-2">
-                      <div className="text-center">
-                        <div className="text-[11px] font-bold uppercase text-[#64748b]">{col.day}</div>
-                        <div className="text-[13px] font-extrabold text-[#0b1c34]">{col.date}</div>
+                    <div key={col.date} className="flex flex-col gap-1.5">
+                      <div className="text-center pb-1">
+                        <div className="text-[10px] font-bold text-[#64748b]">{col.day}</div>
+                        <div className="text-[12px] font-extrabold text-[#0b1c34]">{col.date}</div>
                       </div>
-                      {col.slots.map((slot) => {
-                        const key = `${col.day} · ${col.date} · ${slot}`;
-                        const active = selectedSlot === key;
-                        return (
+                      {col.slots.map((s, idx) =>
+                        s ? (
                           <button
-                            key={key}
+                            key={s}
                             type="button"
-                            onClick={() => setSelectedSlot(key)}
-                            className={`h-[38px] rounded-[10px] text-[13px] font-bold transition-all cursor-pointer ${
-                              active
-                                ? 'bg-[#d50475] text-white shadow-xs'
-                                : 'bg-white border border-[#e2e8f0] text-[#0b1c34] hover:border-[#0b1c34]'
+                            onClick={() => setSelectedSlot(`${col.day} · ${col.date} · ${s}`)}
+                            className={`h-[36px] rounded-[8px] text-[12px] font-bold cursor-pointer transition-colors ${
+                              selectedSlot === `${col.day} · ${col.date} · ${s}`
+                                ? 'bg-[#d50475] text-white'
+                                : 'bg-white text-[#0b1c34] hover:bg-[#0b1c34] hover:text-white'
                             }`}
                           >
-                            {slot}
+                            {s}
                           </button>
-                        );
-                      })}
+                        ) : (
+                          <div key={idx} className="h-[36px]" />
+                        )
+                      )}
                     </div>
                   ))}
                 </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {/* Motivo */}
-            <div className="flex flex-col gap-1.5">
-              <label className="text-[13px] font-bold text-[#0b1c34]">Motivo de consulta</label>
+          {/* Paso final: Motivo */}
+          <div className="flex gap-[16px]">
+            <div className="flex flex-col items-center shrink-0 w-[26px]">
+              <StepDot done={motivo.trim().length > 0} />
+            </div>
+            <div className="flex-1 flex flex-col gap-[8px]">
+              <label className="text-[14px] font-bold text-[#0b1c34]">
+                {modalidad === 'agendar' ? '4.' : '3.'} Motivo de la consulta
+              </label>
               <textarea
                 rows={3}
                 value={motivo}
                 onChange={(e) => setMotivo(e.target.value)}
                 placeholder="Describe brevemente tus síntomas o dudas médicas..."
-                className="w-full p-3.5 rounded-[12px] bg-[#f8f8f7] border border-[#e2e8f0] focus:bg-white focus:border-[#0b1c34] text-[14px] text-[#0b1c34] placeholder:text-[#94a3b8] outline-none resize-none"
+                className="w-full p-3.5 rounded-[10px] bg-[#f8f8f7] border-0 text-[14px] text-[#0b1c34] placeholder:text-[#64748b] focus:outline-none focus:ring-2 focus:ring-[#d50475]/25 focus:bg-white resize-none"
               />
             </div>
-
-            {/* Footer */}
-            <div className="pt-4 border-t border-[#f1f5f9] flex items-center justify-end gap-3">
-              <button
-                type="button"
-                onClick={handleClose}
-                className="h-[48px] px-5 rounded-[12px] border border-[#cbd5e1] bg-white hover:border-[#0b1c34] text-[14px] font-bold text-[#0b1c34] cursor-pointer"
-              >
-                Cancelar
-              </button>
-              <button
-                type="button"
-                onClick={() => setConfirmed(true)}
-                className="h-[48px] px-6 rounded-[12px] bg-[#d50475] hover:bg-[#b80364] text-white text-[14px] font-bold cursor-pointer shadow-sm"
-              >
-                Confirmar chat
-              </button>
-            </div>
           </div>
-        )}
+        </div>
+
+        {/* Footer */}
+        <div className="pt-4 border-t border-[#f1f5f9] flex items-center justify-end gap-3">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="h-[46px] px-5 rounded-[10px] bg-[#f8f8f7] hover:bg-[#e2e8f0] text-[#0b1c34] text-[13px] font-bold uppercase cursor-pointer"
+          >
+            CANCELAR
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsConfirmed(true)}
+            className="h-[46px] px-6 rounded-[10px] bg-[#d50475] hover:bg-[#b80364] text-white text-[13px] font-bold uppercase cursor-pointer"
+          >
+            CONFIRMAR CHAT
+          </button>
+        </div>
       </div>
     </div>
   );
