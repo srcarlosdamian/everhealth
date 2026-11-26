@@ -1,12 +1,12 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import {
   Search,
-  ChevronDown,
-  ChevronUp,
   Plus,
   Video,
   MessageSquare,
   FileText,
+  MoreVertical,
+  X,
 } from 'lucide-react';
 import { V2Select } from './V2Select';
 
@@ -107,8 +107,8 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('todos');
   const [orderSort, setOrderSort] = useState('recientes');
-  const [expandedId, setExpandedId] = useState<string | null>('c1');
-  const [tableMode, setTableMode] = useState<'nueva' | 'v1'>('nueva');
+  const [openMoreId, setOpenMoreId] = useState<string | null>(null);
+  const [selectedConsulta, setSelectedConsulta] = useState<ConsultaItem | null>(null);
   const [crearMenuOpen, setCrearMenuOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -118,10 +118,22 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setCrearMenuOpen(false);
       }
+      setOpenMoreId(null);
     };
-    if (crearMenuOpen) document.addEventListener('mousedown', onOutside);
+    document.addEventListener('mousedown', onOutside);
     return () => document.removeEventListener('mousedown', onOutside);
-  }, [crearMenuOpen]);
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedConsulta(null);
+        setOpenMoreId(null);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   const filteredConsultas = useMemo(() => {
     const list = consultas.filter((c) => {
@@ -144,6 +156,8 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
     setConsultas((prev) =>
       prev.map((c) => (c.id === id ? { ...c, status: 'Cancelada' } : c))
     );
+    setSelectedConsulta((prev) => (prev && prev.id === id ? { ...prev, status: 'Cancelada' } : prev));
+    setOpenMoreId(null);
     setToast('Consulta cancelada correctamente.');
     setTimeout(() => setToast(null), 3000);
   };
@@ -155,6 +169,9 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
     return 'bg-[#fffbeb] text-[#b45309]';
   };
 
+  const formatDoctor = (doc: string) =>
+    doc.startsWith('Dr.') || doc.startsWith('Dra.') ? doc : `Dr. ${doc}`;
+
   return (
     <div className="w-full max-w-[1000px] mx-auto flex flex-col gap-6">
       {toast && (
@@ -163,7 +180,7 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
         </div>
       )}
 
-      {/* 1. Header con título a la izquierda y dropdown SOLICITAR CONSULTA en rosa primario */}
+      {/* 1. Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
           <span className="text-[11px] font-bold uppercase tracking-wider text-[#0b1c34]/70">
@@ -230,7 +247,7 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
         </div>
       </div>
 
-      {/* 2. Buscador & Filtros (sin bordes duros, inputs amplios de 48px) */}
+      {/* 2. Buscador & Filtros */}
       <div className="w-full flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
         <div className="relative flex-1 max-w-[540px]">
           <Search className="w-4 h-4 text-[#64748b] absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -269,151 +286,8 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
         </div>
       </div>
 
-      {/* Toggle temporal debajo de búsqueda para comparar Versión 1 vs Nueva tabla */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="inline-flex items-center p-1 rounded-[10px] bg-white">
-          <button
-            type="button"
-            onClick={() => setTableMode('nueva')}
-            className={`px-3.5 py-1.5 rounded-[8px] text-[12px] font-bold transition-colors cursor-pointer ${
-              tableMode === 'nueva'
-                ? 'bg-[#0b1c34] text-white'
-                : 'text-[#64748b] hover:text-[#0b1c34]'
-            }`}
-          >
-            Nueva tabla
-          </button>
-          <button
-            type="button"
-            onClick={() => setTableMode('v1')}
-            className={`px-3.5 py-1.5 rounded-[8px] text-[12px] font-bold transition-colors cursor-pointer ${
-              tableMode === 'v1'
-                ? 'bg-[#0b1c34] text-white'
-                : 'text-[#64748b] hover:text-[#0b1c34]'
-            }`}
-          >
-            Versión 1
-          </button>
-        </div>
-        <span className="text-[12px] text-[#64748b]">
-          {filteredConsultas.length} {filteredConsultas.length === 1 ? 'consulta' : 'consultas'}
-        </span>
-      </div>
-
-      {/* 3A. NUEVA TABLA ESTILO MEETINGS (ligera, escaneable, sin columnas repetidas) */}
-      {tableMode === 'nueva' ? (
-        <div className="w-full bg-white rounded-[14px] flex flex-col divide-y divide-[#f1f5f9] overflow-hidden">
-          {filteredConsultas.length === 0 ? (
-            <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2">
-              <p className="text-[15px] font-bold text-[#0b1c34]">No se encontraron consultas</p>
-              <p className="text-[13px]">Prueba a cambiar el filtro de estado o la búsqueda.</p>
-            </div>
-          ) : (
-            filteredConsultas.map((c) => {
-              const isExpanded = expandedId === c.id;
-              const doctorName =
-                c.doctor.startsWith('Dr.') || c.doctor.startsWith('Dra.')
-                  ? c.doctor
-                  : `Dr. ${c.doctor}`;
-              return (
-                <div key={c.id} className="flex flex-col">
-                  <div
-                    onClick={() => setExpandedId(isExpanded ? null : c.id)}
-                    className="px-5 sm:px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#f8f8f7]/70 transition-colors cursor-pointer"
-                  >
-                    {/* Fecha + Hora */}
-                    <div className="flex items-center gap-4 min-w-0 flex-1">
-                      <div className="w-[96px] shrink-0 flex flex-col">
-                        <span className="text-[15px] font-bold text-[#0b1c34] leading-tight">
-                          {c.time} h
-                        </span>
-                        <span className="text-[12px] text-[#64748b] mt-0.5">{c.date}</span>
-                      </div>
-
-                      {/* Icono modalidad + Título humano + Motivo en 1 línea */}
-                      <div
-                        className={`w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 ${
-                          c.type === 'video'
-                            ? 'bg-[#fdf2f8] text-[#d50475]'
-                            : 'bg-blue-50 text-blue-600'
-                        }`}
-                      >
-                        {c.type === 'video' ? (
-                          <Video className="w-4 h-4" />
-                        ) : (
-                          <MessageSquare className="w-4 h-4" />
-                        )}
-                      </div>
-
-                      <div className="flex flex-col min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                          <span className="text-[15px] font-bold text-[#0b1c34]">
-                            {c.specialty}
-                          </span>
-                          <span className="text-[13px] text-[#64748b]">· {doctorName}</span>
-                        </div>
-                        <p className="text-[13px] text-[#64748b] truncate mt-0.5">{c.reason}</p>
-                      </div>
-                    </div>
-
-                    {/* Estado + Acciones directas */}
-                    <div
-                      className="flex flex-wrap items-center justify-between md:justify-end gap-3 shrink-0"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <span
-                        className={`px-3 py-1 rounded-full text-[12px] font-bold ${getBadgeStyle(
-                          c.status
-                        )}`}
-                      >
-                        {c.status}
-                      </span>
-
-                      {c.status === 'En proceso' && (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            c.type === 'video' ? onOpenVideoModal?.() : onOpenChatModal?.()
-                          }
-                          className="h-[36px] px-3.5 rounded-[8px] bg-blue-50 hover:bg-blue-100 text-blue-600 text-[12px] font-bold uppercase cursor-pointer transition-colors"
-                        >
-                          ENTRAR
-                        </button>
-                      )}
-
-                      {c.hasInforme && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setToast('Abriendo informe médico...');
-                            setTimeout(() => setToast(null), 2500);
-                          }}
-                          className="h-[36px] px-3.5 rounded-[8px] bg-[#f8f8f7] hover:bg-[#0b1c34] hover:text-white text-[#0b1c34] text-[12px] font-bold uppercase flex items-center gap-1.5 cursor-pointer transition-colors"
-                        >
-                          <FileText className="w-3.5 h-3.5 text-[#d50475]" />
-                          <span>INFORME</span>
-                        </button>
-                      )}
-
-                      {(c.status === 'En proceso' || c.status.startsWith('Pendiente')) && (
-                        <button
-                          type="button"
-                          onClick={() => handleCancel(c.id)}
-                          className="h-[36px] px-3 rounded-[8px] text-[#64748b] hover:text-[#e11d48] hover:bg-[#fef2f2] text-[12px] font-bold uppercase cursor-pointer transition-colors"
-                        >
-                          CANCELAR
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            })
-          )}
-        </div>
-      ) : (
-        /* 3B. VERSIÓN 1 (para comparar) */
-        <div className="w-full border-t border-b border-[#cbd5e1]/70 flex flex-col divide-y divide-[#cbd5e1]/70">
+      {/* 3. Tabla estilo Meetings con badges alineados, descripción truncada y botón More en todas las filas */}
+      <div className="w-full bg-white rounded-[14px] flex flex-col divide-y divide-[#f1f5f9]">
         {filteredConsultas.length === 0 ? (
           <div className="py-16 text-center text-[#64748b] flex flex-col items-center justify-center gap-2">
             <p className="text-[15px] font-bold text-[#0b1c34]">No se encontraron consultas</p>
@@ -421,105 +295,261 @@ export const V2Historial: React.FC<V2HistorialProps> = ({
           </div>
         ) : (
           filteredConsultas.map((c) => {
-            const isExpanded = expandedId === c.id;
+            const canCancel = c.status === 'En proceso' || c.status.startsWith('Pendiente');
+            const isMoreOpen = openMoreId === c.id;
+
             return (
-              <div key={c.id} className="w-full flex flex-col">
-                <div
-                  onClick={() => setExpandedId(isExpanded ? null : c.id)}
-                  className="w-full py-5 px-2 sm:px-3 flex flex-col lg:flex-row lg:items-center justify-between gap-3 cursor-pointer select-none hover:bg-white/60 transition-colors"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 flex-1 items-center gap-4 lg:gap-6">
-                    <div className="flex flex-col">
-                      <span className="text-[16px] font-bold text-[#0b1c34] leading-tight">
-                        {c.time}
-                      </span>
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b] mt-0.5">
-                        {c.date}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-[15px] font-bold text-[#0b1c34] leading-tight">
-                        {c.type === 'video' ? 'Videoconsulta' : 'Chat médico'}
-                      </span>
-                      <span className="text-[12px] text-[#64748b] mt-0.5">
-                        {c.specialty} · Ever Health
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-[15px] font-bold text-[#0b1c34] leading-tight">
-                        Alejandro Navarro
-                      </span>
-                      <span className="text-[12px] text-[#64748b] mt-0.5">
-                        Titular
-                      </span>
-                    </div>
-
-                    <div className="flex flex-col">
-                      <span className="text-[15px] font-bold text-[#0b1c34] leading-tight">
-                        {c.doctor.startsWith('Dr.') || c.doctor.startsWith('Dra.')
-                          ? c.doctor
-                          : `Dr. ${c.doctor}`}
-                      </span>
-                      <span className="text-[12px] text-[#64748b] mt-0.5">
-                        {c.specialty}
-                      </span>
-                    </div>
+              <div
+                key={c.id}
+                onClick={() => setSelectedConsulta(c)}
+                className="px-5 sm:px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[#f8f8f7]/70 transition-colors cursor-pointer"
+              >
+                {/* Izquierda: Fecha/Hora + Icono + Info truncada */}
+                <div className="flex items-center gap-4 min-w-0 flex-1 overflow-hidden">
+                  <div className="w-[88px] shrink-0 flex flex-col">
+                    <span className="text-[15px] font-bold text-[#0b1c34] leading-tight">
+                      {c.time} h
+                    </span>
+                    <span className="text-[12px] text-[#64748b] mt-0.5">{c.date}</span>
                   </div>
 
-                  <div className="flex items-center justify-between lg:justify-end gap-4 shrink-0 pt-2 lg:pt-0">
-                    <span className={`px-3 py-1 rounded-full text-[12px] font-bold ${getBadgeStyle(c.status)}`}>
-                      {c.status}
-                    </span>
-                    {isExpanded ? (
-                      <ChevronUp className="w-4 h-4 text-[#64748b]" />
+                  <div
+                    className={`w-9 h-9 rounded-[10px] flex items-center justify-center shrink-0 ${
+                      c.type === 'video'
+                        ? 'bg-[#fdf2f8] text-[#d50475]'
+                        : 'bg-blue-50 text-blue-600'
+                    }`}
+                  >
+                    {c.type === 'video' ? (
+                      <Video className="w-4 h-4" />
                     ) : (
-                      <ChevronDown className="w-4 h-4 text-[#64748b]" />
+                      <MessageSquare className="w-4 h-4" />
                     )}
+                  </div>
+
+                  <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="text-[15px] font-bold text-[#0b1c34] shrink-0">
+                        {c.specialty}
+                      </span>
+                      <span className="text-[13px] text-[#64748b] truncate">
+                        · {formatDoctor(c.doctor)}
+                      </span>
+                    </div>
+                    <p className="text-[13px] text-[#64748b] truncate mt-0.5">{c.reason}</p>
                   </div>
                 </div>
 
-                {isExpanded && (
-                  <div className="px-3 sm:px-4 pb-5 pt-4 bg-white/80 rounded-[10px] mb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#64748b]">
-                        Motivo de la consulta
-                      </span>
-                      <p className="text-[14px] text-[#0b1c34]">{c.reason}</p>
-                    </div>
+                {/* Derecha: Columna fija de Badges alineados + Acción + Botón More */}
+                <div
+                  className="flex items-center justify-between md:justify-end gap-3 shrink-0"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* Badges alineados en la misma columna */}
+                  <div className="md:w-[210px] flex md:justify-start">
+                    <span
+                      className={`px-3 py-1 rounded-full text-[12px] font-bold whitespace-nowrap ${getBadgeStyle(
+                        c.status
+                      )}`}
+                    >
+                      {c.status}
+                    </span>
+                  </div>
 
-                    <div className="flex flex-wrap items-center gap-2.5 shrink-0">
-                      {c.hasInforme && (
+                  {/* Acción primaria/secundaria en ancho fijo */}
+                  <div className="w-[100px] flex justify-end shrink-0">
+                    {c.status === 'En proceso' && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          c.type === 'video' ? onOpenVideoModal?.() : onOpenChatModal?.()
+                        }
+                        className="h-[36px] px-3.5 rounded-[8px] bg-blue-50 hover:bg-blue-100 text-blue-600 text-[12px] font-bold uppercase cursor-pointer transition-colors"
+                      >
+                        ENTRAR
+                      </button>
+                    )}
+
+                    {c.hasInforme && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setToast('Abriendo informe médico...');
+                          setTimeout(() => setToast(null), 2500);
+                        }}
+                        className="h-[36px] px-3 rounded-[8px] bg-[#f8f8f7] hover:bg-[#0b1c34] hover:text-white text-[#0b1c34] text-[12px] font-bold uppercase flex items-center gap-1.5 cursor-pointer transition-colors"
+                      >
+                        <FileText className="w-3.5 h-3.5 text-[#d50475]" />
+                        <span>INFORME</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Botón More en todas las filas (bloqueado si Terminada o Cancelada) */}
+                  <div
+                    className="relative"
+                    onMouseDown={(e) => e.stopPropagation()}
+                  >
+                    <button
+                      type="button"
+                      disabled={!canCancel}
+                      onClick={() => setOpenMoreId(isMoreOpen ? null : c.id)}
+                      aria-label="Más opciones"
+                      title={canCancel ? 'Más opciones' : 'Sin acciones disponibles'}
+                      className={`w-9 h-9 rounded-[8px] flex items-center justify-center transition-colors ${
+                        canCancel
+                          ? 'hover:bg-[#f1f5f9] text-[#0b1c34] cursor-pointer'
+                          : 'text-[#cbd5e1] cursor-not-allowed'
+                      }`}
+                    >
+                      <MoreVertical className="w-4 h-4" />
+                    </button>
+
+                    {isMoreOpen && canCancel && (
+                      <div className="absolute right-0 top-[calc(100%+4px)] z-40 w-[190px] bg-white rounded-[10px] shadow-[0_12px_32px_rgba(11,28,52,0.16)] p-1.5 flex flex-col">
                         <button
                           type="button"
                           onClick={() => {
-                            setToast('Abriendo informe médico...');
-                            setTimeout(() => setToast(null), 2500);
+                            setOpenMoreId(null);
+                            setSelectedConsulta(c);
                           }}
-                          className="h-[44px] px-4 rounded-[10px] bg-white hover:bg-[#0b1c34] hover:text-white text-[#0b1c34] text-[13px] font-bold uppercase flex items-center gap-2 transition-colors cursor-pointer"
+                          className="w-full px-3 py-2 rounded-[7px] hover:bg-[#f8f8f7] text-[13px] font-semibold text-[#0b1c34] text-left cursor-pointer"
                         >
-                          <FileText className="w-4 h-4 text-[#d50475]" />
-                          <span>VER INFORME MÉDICO</span>
+                          Ver detalles
                         </button>
-                      )}
-
-                      {(c.status === 'En proceso' || c.status.startsWith('Pendiente')) && (
                         <button
                           type="button"
                           onClick={() => handleCancel(c.id)}
-                          className="h-[44px] px-4 rounded-[10px] bg-white hover:text-[#e11d48] text-[#475569] text-[13px] font-bold uppercase transition-colors cursor-pointer"
+                          className="w-full px-3 py-2 rounded-[7px] hover:bg-[#fef2f2] text-[13px] font-semibold text-[#b91c1c] text-left cursor-pointer"
                         >
-                          CANCELAR CONSULTA
+                          Cancelar consulta
                         </button>
-                      )}
-                    </div>
+                      </div>
+                    )}
                   </div>
-                )}
+                </div>
               </div>
             );
           })
         )}
+      </div>
+
+      {/* Modal con toda la información del evento al hacer clic en cualquier fila */}
+      {selectedConsulta && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setSelectedConsulta(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0b1c34]/50 backdrop-blur-xs p-4 overflow-y-auto"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="w-full max-w-[540px] bg-white rounded-[16px] shadow-[0_24px_60px_rgba(11,28,52,0.2)] p-6 sm:p-7 flex flex-col gap-5"
+          >
+            <div className="flex items-start justify-between gap-3 pb-3 border-b border-[#f1f5f9]">
+              <div className="flex flex-col gap-1">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-[#d50475]">
+                  {selectedConsulta.type === 'video' ? 'VIDEOCONSULTA' : 'CHAT MÉDICO'}
+                </span>
+                <h2 className="v2-heading text-[22px] font-bold text-[#0b1c34]">
+                  {selectedConsulta.specialty}
+                </h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedConsulta(null)}
+                className="w-8 h-8 rounded-full hover:bg-[#f8f8f7] flex items-center justify-center text-[#64748b] hover:text-[#0b1c34] cursor-pointer"
+                aria-label="Cerrar"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="bg-[#f8f8f7] rounded-[12px] p-4 sm:p-5 flex flex-col divide-y divide-[#e2e8f0] text-[14px]">
+              <div className="py-2.5 flex items-center justify-between gap-4">
+                <span className="text-[#64748b]">Estado</span>
+                <span
+                  className={`px-3 py-0.5 rounded-full text-[12px] font-bold ${getBadgeStyle(
+                    selectedConsulta.status
+                  )}`}
+                >
+                  {selectedConsulta.status}
+                </span>
+              </div>
+              <div className="py-2.5 flex items-center justify-between gap-4">
+                <span className="text-[#64748b]">Especialista</span>
+                <span className="font-bold text-[#0b1c34]">
+                  {formatDoctor(selectedConsulta.doctor)}
+                </span>
+              </div>
+              <div className="py-2.5 flex items-center justify-between gap-4">
+                <span className="text-[#64748b]">Fecha y hora</span>
+                <span className="font-bold text-[#0b1c34]">
+                  {selectedConsulta.date} · {selectedConsulta.time} h
+                </span>
+              </div>
+              <div className="py-2.5 flex items-center justify-between gap-4">
+                <span className="text-[#64748b]">Paciente</span>
+                <span className="font-bold text-[#0b1c34]">Alejandro Navarro (Titular)</span>
+              </div>
+              <div className="pt-3 flex flex-col gap-1">
+                <span className="text-[#64748b] text-[12px] font-bold uppercase tracking-wider">
+                  Motivo de la consulta
+                </span>
+                <p className="text-[#0b1c34] leading-relaxed">{selectedConsulta.reason}</p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-end gap-2.5 pt-1">
+              {(selectedConsulta.status === 'En proceso' ||
+                selectedConsulta.status.startsWith('Pendiente')) && (
+                <button
+                  type="button"
+                  onClick={() => handleCancel(selectedConsulta.id)}
+                  className="h-[44px] px-4 rounded-[10px] bg-[#fef2f2] hover:bg-[#fee2e2] text-[#b91c1c] text-[13px] font-bold uppercase cursor-pointer"
+                >
+                  Cancelar consulta
+                </button>
+              )}
+
+              {selectedConsulta.hasInforme && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedConsulta(null);
+                    setToast('Abriendo informe médico...');
+                    setTimeout(() => setToast(null), 2500);
+                  }}
+                  className="h-[44px] px-5 rounded-[10px] bg-[#0b1c34] hover:bg-[#142c4f] text-white text-[13px] font-bold uppercase cursor-pointer"
+                >
+                  Ver informe
+                </button>
+              )}
+
+              {selectedConsulta.status === 'En proceso' && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    const type = selectedConsulta.type;
+                    setSelectedConsulta(null);
+                    if (type === 'video') onOpenVideoModal?.();
+                    else onOpenChatModal?.();
+                  }}
+                  className="h-[44px] px-5 rounded-[10px] bg-blue-50 hover:bg-blue-100 text-blue-600 text-[13px] font-bold uppercase cursor-pointer"
+                >
+                  Entrar a la sala
+                </button>
+              )}
+
+              <button
+                type="button"
+                onClick={() => setSelectedConsulta(null)}
+                className="h-[44px] px-5 rounded-[10px] bg-[#f8f8f7] hover:bg-[#e2e8f0] text-[#0b1c34] text-[13px] font-bold uppercase cursor-pointer"
+              >
+                Cerrar
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
